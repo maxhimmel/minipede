@@ -1,6 +1,6 @@
 {
-    "name": "Sandbox",
-    "rootNamespace": "Sandbox",
+    "name": "Minipede",
+    "rootNamespace": "Minipede",
     "references": [
         "Cinemachine",
         "Rewired",

@@ -15,7 +15,7 @@ namespace Minipede.Installers
 		}
 
 		[System.Serializable]
-        public class Player
+        public struct Player
 		{
 			public CharacterMotor.Settings Movement;
 		}

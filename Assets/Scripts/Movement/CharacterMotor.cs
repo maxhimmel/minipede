@@ -4,8 +4,10 @@ namespace Minipede.Gameplay.Movement
 {
     public class CharacterMotor
     {
+		public ref Settings MutableSettings => ref _settings;
+
 		private readonly Rigidbody2D _body;
-		private readonly Settings _settings;
+		private Settings _settings;
 
 		private Vector2 _velocity;
 		private Vector2 _desiredVelocity;
@@ -33,10 +35,10 @@ namespace Minipede.Gameplay.Movement
 		}
 
 		[System.Serializable]
-		public class Settings
+		public struct Settings
 		{
-			public float MaxSpeed = 10;
-			public float Acceleration = 15;
+			public float MaxSpeed;
+			public float Acceleration;
 		}
 	}
 }

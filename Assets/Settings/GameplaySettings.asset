@@ -15,4 +15,4 @@ MonoBehaviour:
   _playerSettings:
     Movement:
       MaxSpeed: 10
-      Acceleration: 15
+      Acceleration: 70

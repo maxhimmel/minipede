@@ -52,7 +52,7 @@ namespace Minipede.Gameplay.Weapons
 			Projectile newProjectile = _factory.Create( _shotSpot.Position, _shotSpot.Rotation );
 
 			Vector2 projectileImpulse = _shotSpot.Facing * _settings.ProjectileSpeed;
-			newProjectile.Launch( projectileImpulse );
+			newProjectile.Launch( projectileImpulse, _settings.ProjectileTorque );
 		}
 
 		[System.Serializable]
@@ -62,6 +62,7 @@ namespace Minipede.Gameplay.Weapons
 
 			[Space]
 			public float ProjectileSpeed;
+			public float ProjectileTorque;
 			public float FireRate;
 		}
 	}

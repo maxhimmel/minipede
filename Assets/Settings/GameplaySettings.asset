@@ -16,3 +16,8 @@ MonoBehaviour:
     Movement:
       MaxSpeed: 10
       Acceleration: 70
+    Health:
+      Health: 1
+  _blockSettings:
+    Health:
+      Health: 3

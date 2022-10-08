@@ -6,10 +6,12 @@ using Zenject;
 
 namespace Minipede.Gameplay.Player
 {
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour,
+		IDamageable
 	{
 		private Rewired.Player _input;
 		private CharacterMotor _motor;
+		private HealthController _health;
 		private Gun _gun;
 
 		[Inject]
@@ -19,8 +21,20 @@ namespace Minipede.Gameplay.Player
 			Gun gun )
 		{
 			_input = input;
+			
 			_motor = new CharacterMotor( body, settings.Movement );
+			_health = new HealthController( settings.Health );
+			
 			_gun = gun;
+		}
+
+		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
+		{
+			int dmgDealt = _health.TakeDamage( data );
+
+			Debug.LogFormat( data.LogFormat(), name, dmgDealt, instigator?.name, causer?.name );
+
+			return dmgDealt;
 		}
 
 		private void Update()

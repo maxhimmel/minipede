@@ -5,16 +5,16 @@ namespace Minipede.Gameplay.Weapons
 {
     public class DamageTrigger : MonoBehaviour
     {
-		[SerializeField]
-		private DamageDatum _damage = new DamageDatum();
-
+		private DamageDatum _damage;
 		private Transform _owner;
 		private Rigidbody2D _body;
 
 		[Inject]
-		public void Construct( Transform owner,
+		public void Construct( DamageDatum damage,
+			Transform owner,
 			Rigidbody2D body )
 		{
+			_damage = damage;
 			_owner = owner;
 			_body = body;
 		}

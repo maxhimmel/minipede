@@ -11,9 +11,9 @@ namespace Minipede.Gameplay
     }
 
     [System.Serializable]
-    public class DamageDatum
+    public struct DamageDatum
 	{
-        public int Damage = 1;
+        public int Damage;
 
         /// <returns>'<b>{victim}</b>' has taken <b>{value}</b> dmg from '<b>{instigator}</b>' using '<b>{causer}</b>'.</returns>
         public string LogFormat()

@@ -1,3 +1,4 @@
+using Minipede.Gameplay;
 using Minipede.Gameplay.Weapons;
 using UnityEngine;
 using Zenject;
@@ -11,10 +12,11 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			Container.BindInstance( _settings.Gun )
-				.AsSingle();
-			Container.BindInstance( _settings.Projectile )
-				.AsSingle();
+			Container.BindInstances( 
+				_settings.Gun, 
+				_settings.Projectile,
+				_settings.Damage
+			);
 
 			Container.Bind<IProjectileProvider>()
 				.To<ProjectileProvider>()
@@ -35,6 +37,7 @@ namespace Minipede.Installers
 		{
 			public Gun.Settings Gun;
 			public ProjectileProvider.Settings Projectile;
+			public DamageDatum Damage;
 		}
 
 #if UNITY_EDITOR

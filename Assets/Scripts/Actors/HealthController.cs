@@ -4,20 +4,24 @@ namespace Minipede.Gameplay
 {
     public class HealthController
     {
-		public bool IsAlive => _settings.Health > 0;
+		public bool IsAlive => _health > 0;
+		public float Percentage => _health / (float)_settings.Health;
 
-		private Settings _settings;
+		private readonly Settings _settings;
+
+		private int _health;
 
 		public HealthController( Settings settings )
 		{
 			_settings = settings;
+			_health = settings.Health;
 		}
 
 		/// <returns>The amount of damage taken.</returns>
 		public int TakeDamage( DamageDatum data )
 		{
-			int dmgTaken = Mathf.Min( data.Damage, _settings.Health );
-			_settings.Health -= dmgTaken;
+			int dmgTaken = Mathf.Min( data.Damage, _health );
+			_health -= dmgTaken;
 
 			return dmgTaken;
 		}

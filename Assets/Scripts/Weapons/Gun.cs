@@ -1,6 +1,5 @@
-using Minipede.Utility;
+using System.Collections.Generic;
 using UnityEngine;
-using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
@@ -12,6 +11,7 @@ namespace Minipede.Gameplay.Weapons
 
 		private bool _isFiringRequested;
 		private float _nextFireTime;
+		private HashSet<GameObject> _liveProjectiles;
 
 		public Gun( Settings settings, 
 			Projectile.Factory factory,
@@ -20,6 +20,8 @@ namespace Minipede.Gameplay.Weapons
 			_settings = settings;
 			_factory = factory;
 			_shotSpot = shotSpot;
+
+			_liveProjectiles = new HashSet<GameObject>();
 		}
 
 		public void StartFiring()
@@ -39,20 +41,48 @@ namespace Minipede.Gameplay.Weapons
 				return;
 			}
 
+			if ( !CanFire() )
+			{
+				return;
+			}
+
 			if ( _nextFireTime <= Time.timeSinceLevelLoad )
 			{
 				_nextFireTime = _settings.FireRate + Time.timeSinceLevelLoad;
 
-				Fire();
+				var newProjectile = Fire();
+				TrackProjectile( newProjectile );
 			}
 		}
 
-		private void Fire()
+		private bool CanFire()
+		{
+			return _liveProjectiles.Count <= 0;
+		}
+
+		private Projectile Fire()
 		{
 			Projectile newProjectile = _factory.Create( _shotSpot.Position, _shotSpot.Rotation );
 
 			Vector2 projectileImpulse = _shotSpot.Facing * _settings.ProjectileSpeed;
 			newProjectile.Launch( projectileImpulse, _settings.ProjectileTorque );
+
+			return newProjectile;
+		}
+
+		private void TrackProjectile( Projectile projectile )
+		{
+			projectile.DestroyedNotify.Destroyed += OnProjectileDestroyed;
+			_liveProjectiles.Add( projectile.gameObject );
+		}
+
+		private void OnProjectileDestroyed( object sender, System.EventArgs e )
+		{
+			var projectile = sender as GameObject;
+			if ( !_liveProjectiles.Remove( projectile ) )
+			{
+				throw new System.DataMisalignedException();
+			}
 		}
 
 		[System.Serializable]
@@ -63,7 +93,7 @@ namespace Minipede.Gameplay.Weapons
 			[Space]
 			public float ProjectileSpeed;
 			public float ProjectileTorque;
-			public float FireRate;
+			[Min( 0 )] public float FireRate;
 		}
 	}
 }

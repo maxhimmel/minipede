@@ -5,12 +5,16 @@ namespace Minipede.Gameplay.Weapons
 {
 	public class Projectile : MonoBehaviour
 	{
+		public IOnDestroyedNotify DestroyedNotify { get; private set; }
+
 		private Rigidbody2D _body;
 
 		[Inject]
-		public void Construct( Rigidbody2D body )
+		public void Construct( Rigidbody2D body,
+			IOnDestroyedNotify destroyedNotify )
 		{
 			_body = body;
+			DestroyedNotify = destroyedNotify;
 		}
 
 		public void Launch( Vector2 impulse )

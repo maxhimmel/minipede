@@ -18,11 +18,11 @@ namespace Minipede.Installers
 				_settings.Damage
 			);
 
-			Container.Bind<IProjectileProvider>()
-				.To<ProjectileProvider>()
+			Container.Bind<ShotSpot>()
 				.AsSingle();
 
-			Container.Bind<ShotSpot>()
+			Container.Bind<IProjectileProvider>()
+				.To<ProjectileProvider>()
 				.AsSingle();
 
 			Container.BindFactory<Vector2, Quaternion, Projectile, Projectile.Factory>()

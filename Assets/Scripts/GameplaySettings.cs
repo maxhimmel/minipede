@@ -80,6 +80,8 @@ namespace Minipede.Installers
 
 			[TabGroup( "Spawning" )]
 			public BlockPiece BlockPrefab;
+			[TabGroup( "Spawning" ), Min( 0 )]
+			public float SpawnRate;
 			[Space, TabGroup( "Spawning" )]
 			public WeightedListInt RowGeneration;
 		}

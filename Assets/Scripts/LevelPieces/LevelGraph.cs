@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Minipede.Installers;
@@ -22,16 +23,19 @@ namespace Minipede.Gameplay.LevelPieces
 			_settings = settings;
 			_blockFactory = blockFactory;
 
-			_centerOffset = 0.5f * new Vector2(
-				settings.Graph.Dimensions.Col() * settings.Graph.Size.x,
-				settings.Graph.Dimensions.Row() * settings.Graph.Size.y
-			);
-			_centerOffset -= settings.Graph.Size * 0.5f;
-			_centerOffset -= settings.Graph.Offset;
+			CacheCenterOffset();
 
 			_graph = new Graph<LevelCell>( settings.Graph.Dimensions.Row(), settings.Graph.Dimensions.Col(), CreateCellData );
+		}
 
-			GenerateLevel();
+		private void CacheCenterOffset()
+		{
+			_centerOffset = 0.5f * new Vector2(
+				_settings.Graph.Dimensions.Col() * _settings.Graph.Size.x,
+				_settings.Graph.Dimensions.Row() * _settings.Graph.Size.y
+			);
+			_centerOffset -= _settings.Graph.Size * 0.5f;
+			_centerOffset -= _settings.Graph.Offset;
 		}
 
 		private LevelCell CreateCellData( int row, int col )
@@ -48,12 +52,12 @@ namespace Minipede.Gameplay.LevelPieces
 			return center - _centerOffset;
 		}
 
-		private void GenerateLevel()
+		public async Task GenerateLevel()
 		{
 			_settings.RowGeneration.Init();
 
-			// Go thru each row ...
-			for ( int row = 0; row < _settings.Graph.Dimensions.Row(); ++row )
+			// Go thru each row from top to bottom ...
+			for ( int row = _settings.Graph.Dimensions.Row() - 1; row >= 0; --row )
 			{
 				// Randomize the column indices ...
 				int[] columnIndices = Enumerable.Range( 0, _settings.Graph.Dimensions.Col() ).ToArray();
@@ -67,6 +71,11 @@ namespace Minipede.Gameplay.LevelPieces
 					var cell = _graph.GetCell( row, randIdx );
 
 					CreateBlock( cell.Item );
+
+					if ( _settings.SpawnRate > 0 )
+					{
+						await Task.Delay( TimeSpan.FromSeconds( _settings.SpawnRate ) );
+					}
 				}
 			}
 		}

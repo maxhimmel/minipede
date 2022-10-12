@@ -40,5 +40,7 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			Destroy( gameObject );
 		}
+
+		public class Factory : PlaceholderFactory<Block> { }
 	}
 }

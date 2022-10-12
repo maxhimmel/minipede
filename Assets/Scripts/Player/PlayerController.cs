@@ -31,7 +31,6 @@ namespace Minipede.Gameplay.Player
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
 			int dmgDealt = _health.TakeDamage( data );
-
 			Debug.LogFormat( data.LogFormat(), name, dmgDealt, instigator?.name, causer?.name );
 
 			return dmgDealt;
@@ -68,5 +67,7 @@ namespace Minipede.Gameplay.Player
 			_motor.FixedTick();
 			_gun.FixedTick();
 		}
+
+		public class Factory : PlaceholderFactory<PlayerController> { }
 	}
 }

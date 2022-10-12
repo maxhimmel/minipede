@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: GameplaySettings
   m_EditorClassIdentifier: 
   _playerSettings:
+    Prefab: {fileID: 6378720964115801289, guid: 6e94192d214948143a4ff9f4f50c4fcb, type: 3}
+    SpawnPointId: PlayerSpawn
     Movement:
       MaxSpeed: 10
       Acceleration: 70
@@ -24,11 +26,11 @@ MonoBehaviour:
   _levelSettings:
     BlockPrefab: {fileID: 6093263636819055870, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
     Graph:
-      Dimensions: {x: 16, y: 25}
-      Offset: {x: 0, y: -8}
+      Dimensions: {x: 20, y: 25}
+      Offset: {x: 0, y: -10}
       Size: {x: 1, y: 1}
     RowGeneration:
-      _allowEmptyRolls: 1
+      _allowEmptyRolls: 0
       _items:
       - _normalizedWeight: 18
         Weight: 0

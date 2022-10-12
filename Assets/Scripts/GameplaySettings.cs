@@ -20,6 +20,9 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
+			Container.BindInterfacesAndSelfTo<GameController>()
+				.AsSingle();
+
 			BindPlayer();
 			BindLevelGeneration();
 		}

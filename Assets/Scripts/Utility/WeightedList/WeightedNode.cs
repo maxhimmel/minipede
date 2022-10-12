@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Minipede.Utility
@@ -16,6 +17,6 @@ namespace Minipede.Utility
 		[Range( WeightedList.MinWeight, WeightedList.MaxWeight )]
 		[SerializeField] private int _normalizedWeight = 0;
 
-		[HideInInspector] public int Weight = 0;
+		[NonSerialized] public int Weight = 0;
 	}
 }

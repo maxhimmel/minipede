@@ -17,7 +17,7 @@ MonoBehaviour:
     SpawnPointId: PlayerSpawn
     Movement:
       MaxSpeed: 10
-      Acceleration: 70
+      Acceleration: 90
     Health:
       Health: 1
   _blockSettings:

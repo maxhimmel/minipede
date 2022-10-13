@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb394d7e951b89147b11312b5cf05dc7, type: 3}
   m_Name: GameplaySettings
   m_EditorClassIdentifier: 
+  _gameplaySettings:
+    PlayerRespawnRate: 1
   _playerSettings:
     Prefab: {fileID: 6378720964115801289, guid: 6e94192d214948143a4ff9f4f50c4fcb, type: 3}
     SpawnPointId: PlayerSpawn

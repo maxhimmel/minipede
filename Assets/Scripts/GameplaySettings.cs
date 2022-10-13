@@ -13,18 +13,24 @@ namespace Minipede.Installers
 {
 	[CreateAssetMenu]
     public class GameplaySettings : ScriptableObjectInstaller
-    {
+	{
+		[SerializeField] private GameController.Settings _gameplaySettings;
 		[SerializeField] private Player _playerSettings;
 		[SerializeField] private Block _blockSettings;
 		[SerializeField] private Level _levelSettings;
 
 		public override void InstallBindings()
 		{
-			Container.BindInterfacesAndSelfTo<GameController>()
-				.AsSingle();
-
+			BindGameplay();
 			BindPlayer();
 			BindLevelGeneration();
+		}
+
+		private void BindGameplay()
+		{
+			Container.BindInterfacesAndSelfTo<GameController>()
+				.AsSingle()
+				.WithArguments( _gameplaySettings );
 		}
 
 		private void BindPlayer()

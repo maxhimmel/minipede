@@ -2,15 +2,14 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.Movement
 {
-    public class CharacterMotor : IMotor
+    public class SimpleMotor : IMotor
     {
 		private readonly Settings _settings;
 		private readonly Rigidbody2D _body;
 
-		private Vector2 _velocity;
 		private Vector2 _desiredVelocity;
 
-		public CharacterMotor( Settings settings,
+		public SimpleMotor( Settings settings,
 			Rigidbody2D body )
 		{
 			_settings = settings;
@@ -24,19 +23,13 @@ namespace Minipede.Gameplay.Movement
 
 		public void FixedTick()
 		{
-			_velocity = _body.velocity;
-
-			float moveDelta = Time.fixedDeltaTime * _settings.Acceleration;
-			_velocity = Vector2.MoveTowards( _velocity, _desiredVelocity, moveDelta );
-
-			_body.velocity = _velocity;
+			_body.velocity = _desiredVelocity;
 		}
 
-		[System.Serializable]
+        [System.Serializable]
 		public struct Settings
 		{
 			public float MaxSpeed;
-			public float Acceleration;
 		}
 	}
 }

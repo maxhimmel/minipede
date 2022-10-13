@@ -7,6 +7,11 @@ namespace Minipede.Utility
     {
         public static Task DelaySeconds( float seconds )
 		{
+            if ( seconds <= 0 )
+			{
+                return Task.CompletedTask;
+			}
+
             return Task.Delay( TimeSpan.FromSeconds( seconds ) );
 		}
     }

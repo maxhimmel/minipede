@@ -72,10 +72,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 					CreateBlock( cell.Item );
 
-					if ( _settings.SpawnRate > 0 )
-					{
-						await TaskHelpers.DelaySeconds( _settings.SpawnRate );
-					}
+					await TaskHelpers.DelaySeconds( _settings.SpawnRate );
 				}
 			}
 		}

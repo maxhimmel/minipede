@@ -56,6 +56,7 @@ namespace Minipede.Gameplay
 		[System.Serializable]
 		public struct Settings
 		{
+			[Min( 0 )]
 			public float PlayerRespawnRate;
 		}
 	}

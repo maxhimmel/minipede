@@ -15,6 +15,11 @@ namespace Minipede.Gameplay
 	{
         public int Damage;
 
+        public DamageDatum( int damage )
+		{
+            Damage = damage;
+		}
+
         /// <returns>'<b>{victim}</b>' has taken <b>{value}</b> dmg from '<b>{instigator}</b>' using '<b>{causer}</b>'.</returns>
         public string LogFormat()
         {

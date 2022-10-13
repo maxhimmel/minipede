@@ -250,7 +250,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 34
-    OrthographicSize: 12
+    OrthographicSize: 16
     NearClipPlane: 0.1
     FarClipPlane: 100
     Dutch: 0
@@ -371,7 +371,7 @@ Camera:
   far clip plane: 100
   field of view: 34
   orthographic: 1
-  orthographic size: 12
+  orthographic size: 16
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -675,8 +675,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 640213061}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -12, z: 0}
-  m_LocalScale: {x: 25, y: 8, z: 1}
+  m_LocalPosition: {x: 0, y: -16, z: 0}
+  m_LocalScale: {x: 30, y: 8, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1241482560}
@@ -705,20 +705,20 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1783980354}
     m_ColliderPaths:
-    - - X: 125000000
+    - - X: 150000000
         Y: 80000000
-      - X: -125000000
+      - X: -150000000
         Y: 80000000
-      - X: -125000000
+      - X: -150000000
         Y: 0
-      - X: 125000000
+      - X: 150000000
         Y: 0
   m_CompositePaths:
     m_Paths:
-    - - {x: 12.49997, y: 0}
-      - {x: 12.49997, y: 8}
-      - {x: -12.5, y: 7.9999704}
-      - {x: -12.49997, y: 0}
+    - - {x: 14.999971, y: 0}
+      - {x: 14.999971, y: 8}
+      - {x: -15, y: 7.9999704}
+      - {x: -14.999971, y: 0}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!50 &640213064
@@ -930,8 +930,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1294579489}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -12, z: 0}
-  m_LocalScale: {x: 25, y: 26, z: 1}
+  m_LocalPosition: {x: 0, y: -16, z: 0}
+  m_LocalScale: {x: 30, y: 33, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1760671061}
@@ -958,20 +958,20 @@ CompositeCollider2D:
   m_ColliderPaths:
   - m_Collider: {fileID: 1760671062}
     m_ColliderPaths:
-    - - X: 125000000
-        Y: 260000000
-      - X: -125000000
-        Y: 260000000
-      - X: -125000000
+    - - X: 150000000
+        Y: 330000000
+      - X: -150000000
+        Y: 330000000
+      - X: -150000000
         Y: 0
-      - X: 125000000
+      - X: 150000000
         Y: 0
   m_CompositePaths:
     m_Paths:
-    - - {x: 12.49997, y: 0}
-      - {x: 12.49997, y: 26}
-      - {x: -12.5, y: 25.999971}
-      - {x: -12.49997, y: 0}
+    - - {x: 14.999971, y: 0}
+      - {x: 14.999971, y: 33}
+      - {x: -15, y: 32.999973}
+      - {x: -14.999971, y: 0}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
 --- !u!50 &1294579492
@@ -1137,8 +1137,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1904797342}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 12, z: 0}
-  m_LocalScale: {x: 25, y: 16, z: 1}
+  m_LocalPosition: {x: 0, y: 16, z: 0}
+  m_LocalScale: {x: 30, y: 24, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 635170238}
@@ -1159,8 +1159,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridColor: {r: 1, g: 0, b: 0, a: 1}
   _editorSettings:
-    Dimensions: {x: 20, y: 25}
-    Offset: {x: 0, y: -10}
+    Dimensions: {x: 28, y: 30}
+    Offset: {x: 0, y: -14}
     Size: {x: 1, y: 1}
 --- !u!114 &1904797347
 MonoBehaviour:

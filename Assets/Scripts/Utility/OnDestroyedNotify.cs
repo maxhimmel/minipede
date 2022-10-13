@@ -15,6 +15,11 @@ namespace Minipede
 
 		private void OnDestroy()
 		{
+			if ( AppHelper.IsQuitting )
+			{
+				return;
+			}
+
 			Destroyed?.Invoke( gameObject, EventArgs.Empty );
 		}
 	}

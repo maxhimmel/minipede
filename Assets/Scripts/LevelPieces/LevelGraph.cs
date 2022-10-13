@@ -74,7 +74,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 					if ( _settings.SpawnRate > 0 )
 					{
-						await Task.Delay( TimeSpan.FromSeconds( _settings.SpawnRate ) );
+						await TaskHelpers.DelaySeconds( _settings.SpawnRate );
 					}
 				}
 			}

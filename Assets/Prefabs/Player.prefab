@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 6378720964115801289}
   - component: {fileID: 6378720964115801302}
   - component: {fileID: 6378720964115801303}
-  - component: {fileID: 6378720964115801300}
+  - component: {fileID: 8111629679736748909}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -219,11 +219,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers:
   - {fileID: 11400000, guid: e40c8bb4f209747438e164f6bf77d9b4, type: 2}
+  - {fileID: 11400000, guid: 87ab4a8d7995b484aa963d8a24987086, type: 2}
   _monoInstallers: []
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &6378720964115801300
+--- !u!114 &8111629679736748909
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

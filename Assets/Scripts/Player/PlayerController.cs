@@ -9,16 +9,20 @@ namespace Minipede.Gameplay.Player
     public class PlayerController : MonoBehaviour,
 		IDamageable
 	{
+		public IOnDestroyedNotify DestroyNotify => _destroyedNotify;
+
 		private Rewired.Player _input;
 		private CharacterMotor _motor;
 		private HealthController _health;
 		private Gun _gun;
+		private IOnDestroyedNotify _destroyedNotify;
 
 		[Inject]
         public void Construct( Rigidbody2D body,
             GameplaySettings.Player settings,
 			Rewired.Player input,
-			Gun gun )
+			Gun gun,
+			IOnDestroyedNotify destroyedNotify )
 		{
 			_input = input;
 			
@@ -26,12 +30,18 @@ namespace Minipede.Gameplay.Player
 			_health = new HealthController( settings.Health );
 			
 			_gun = gun;
+			_destroyedNotify = destroyedNotify;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
 			int dmgDealt = _health.TakeDamage( data );
 			Debug.LogFormat( data.LogFormat(), name, dmgDealt, instigator?.name, causer?.name );
+
+			if ( !_health.IsAlive )
+			{
+				Destroy( gameObject );
+			}
 
 			return dmgDealt;
 		}

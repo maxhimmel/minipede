@@ -80,6 +80,11 @@ namespace Minipede.Gameplay.LevelPieces
 		private Block CreateBlock( LevelCell data )
 		{
 			var newBlock = _blockFactory.Create();
+
+			Vector3 blockScale = _settings.Graph.Size;
+			blockScale.z = 1;
+			newBlock.transform.localScale = blockScale;
+
 			newBlock.transform.SetParent( transform );
 			newBlock.transform.position = data.Center;
 

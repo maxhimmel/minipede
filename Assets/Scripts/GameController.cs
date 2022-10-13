@@ -42,6 +42,11 @@ namespace Minipede.Gameplay
 			_player = null;
 			await TaskHelpers.DelaySeconds( _settings.PlayerRespawnRate );
 
+			if ( AppHelper.IsQuitting )
+			{
+				return;
+			}
+
 			CreatePlayer();
 		}
 

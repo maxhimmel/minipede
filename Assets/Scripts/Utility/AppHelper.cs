@@ -4,14 +4,16 @@ namespace Minipede
 {
 	public static class AppHelper
 	{
-		public static bool IsQuitting { get; private set; }
+		public static bool IsQuitting => _isQuitting || !Application.isPlaying;
+
+		private static bool _isQuitting = false;
 
 		[RuntimeInitializeOnLoadMethod]
 		public static void ListenForQuitRequest()
 		{
 			Debug.Log( $"Listening for quit request." );
 
-			IsQuitting = false;
+			_isQuitting = false;
 			Application.quitting += OnAppQuitting;
 		}
 
@@ -19,7 +21,7 @@ namespace Minipede
 		{
 			Debug.Log( $"App is quitting." );
 
-			IsQuitting = true;
+			_isQuitting = true;
 			Application.quitting -= OnAppQuitting;
 		}
 	}

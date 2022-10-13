@@ -12,23 +12,21 @@ namespace Minipede.Gameplay.Player
 		public IOnDestroyedNotify DestroyNotify => _destroyedNotify;
 
 		private Rewired.Player _input;
-		private CharacterMotor _motor;
 		private HealthController _health;
+		private IMotor _motor;
 		private Gun _gun;
 		private IOnDestroyedNotify _destroyedNotify;
 
 		[Inject]
-        public void Construct( Rigidbody2D body,
-            GameplaySettings.Player settings,
-			Rewired.Player input,
+        public void Construct( Rewired.Player input,
+			HealthController health,
+            IMotor motor,
 			Gun gun,
 			IOnDestroyedNotify destroyedNotify )
 		{
 			_input = input;
-			
-			_motor = new CharacterMotor( body, settings.Movement );
-			_health = new HealthController( settings.Health );
-			
+			_health = health;
+			_motor = motor;
 			_gun = gun;
 			_destroyedNotify = destroyedNotify;
 		}

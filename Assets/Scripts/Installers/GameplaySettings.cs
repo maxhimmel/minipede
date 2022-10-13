@@ -37,6 +37,10 @@ namespace Minipede.Installers
 		{
 			Container.BindInstance( _playerSettings );
 
+			Container.Bind<HealthController>()
+				.WithArguments( _playerSettings.Health )
+				.WhenInjectedInto<PlayerController>();
+
 			Container.BindFactory<PlayerController, PlayerController.Factory>()
 				.FromComponentInNewPrefab( _playerSettings.Prefab )
 				.WithGameObjectName( _playerSettings.Prefab.name );
@@ -66,8 +70,6 @@ namespace Minipede.Installers
 			[FoldoutGroup( "Initialization" )]
 			public string SpawnPointId;
 
-			[FoldoutGroup( "Gameplay" )]
-			public CharacterMotor.Settings Movement;
 			[FoldoutGroup( "Gameplay" )]
 			public HealthController.Settings Health;
 		}

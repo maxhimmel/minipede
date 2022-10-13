@@ -14,7 +14,6 @@ namespace Minipede.Gameplay.LevelPieces
 		private GameplaySettings.Level _settings;
 		private Block.Factory _blockFactory;
 		private Graph<LevelCell> _graph;
-		private Vector2 _centerOffset;
 
 		[Inject]
 		public void Construct( GameplaySettings.Level settings,
@@ -23,19 +22,7 @@ namespace Minipede.Gameplay.LevelPieces
 			_settings = settings;
 			_blockFactory = blockFactory;
 
-			CacheCenterOffset();
-
 			_graph = new Graph<LevelCell>( settings.Graph.Dimensions.Row(), settings.Graph.Dimensions.Col(), CreateCellData );
-		}
-
-		private void CacheCenterOffset()
-		{
-			_centerOffset = 0.5f * new Vector2(
-				_settings.Graph.Dimensions.Col() * _settings.Graph.Size.x,
-				_settings.Graph.Dimensions.Row() * _settings.Graph.Size.y
-			);
-			_centerOffset -= _settings.Graph.Size * 0.5f;
-			_centerOffset -= _settings.Graph.Offset;
 		}
 
 		private LevelCell CreateCellData( int row, int col )
@@ -45,11 +32,13 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private Vector2 GetCellCenter( int row, int col )
 		{
-			Vector2 center = transform.position
+			Vector2 position = transform.position
 				+ Vector3.up * row * _settings.Graph.Size.y
 				+ Vector3.right * col * _settings.Graph.Size.x;
 
-			return center - _centerOffset;
+			return position 
+				+ _settings.Graph.Size * 0.5f 
+				+ _settings.Graph.Offset;
 		}
 
 		public async Task GenerateLevel()
@@ -104,18 +93,14 @@ namespace Minipede.Gameplay.LevelPieces
 
 			Vector2 center = transform.position;
 
-			Vector2 centerOffset = 0.5f * new Vector2(
-				_editorSettings.Dimensions.Col() * _editorSettings.Size.x,
-				_editorSettings.Dimensions.Row() * _editorSettings.Size.y
-			);
-			centerOffset -= _editorSettings.Size * 0.5f;
-			centerOffset -= _editorSettings.Offset;
+			Vector2 centerOffset = _editorSettings.Size * 0.5f;
+			centerOffset += _editorSettings.Offset;
 
 			for ( int row = 0; row < _editorSettings.Dimensions.Row(); ++row )
 			{
 				for ( int col = 0; col < _editorSettings.Dimensions.Col(); ++col )
 				{
-					Vector2 pos = center - centerOffset
+					Vector2 pos = center + centerOffset
 						+ Vector2.up * row * _editorSettings.Size.y
 						+ Vector2.right * col * _editorSettings.Size.x;
 
@@ -130,8 +115,8 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			[InfoBox( "X: Row | Y: Column" )]
 			public Vector2Int Dimensions;
-			public Vector2 Offset;
 			public Vector2 Size;
+			public Vector2 Offset;
 		}
 	}
 }

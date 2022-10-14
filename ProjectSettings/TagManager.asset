@@ -11,7 +11,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - Actor
+  - 
   - Projectile
   - Enemy
   - 
@@ -43,4 +43,7 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Character
+    uniqueID: 1063208465
     locked: 0

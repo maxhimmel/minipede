@@ -103,8 +103,8 @@ namespace Minipede.Gameplay.LevelPieces
 			Vector2 localPos = worldPosition - _localOrigin;
 			Vector2Int cellCoord = new Vector2Int()
 			{
-				x = Mathf.RoundToInt( localPos.x ),
-				y = Mathf.RoundToInt( localPos.y )
+				x = Mathf.RoundToInt( localPos.y ), // rows
+				y = Mathf.RoundToInt( localPos.x )	// columns
 			};
 
 			cellData = null;

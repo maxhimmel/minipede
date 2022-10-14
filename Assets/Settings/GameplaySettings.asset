@@ -17,9 +17,6 @@ MonoBehaviour:
   _playerSettings:
     Prefab: {fileID: 6378720964115801289, guid: 6e94192d214948143a4ff9f4f50c4fcb, type: 3}
     SpawnPointId: PlayerSpawn
-    Movement:
-      MaxSpeed: 10
-      Acceleration: 90
     Health:
       Health: 1
   _blockSettings:

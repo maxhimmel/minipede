@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
+using Minipede.Installers;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
@@ -10,17 +11,17 @@ namespace Minipede.Gameplay
 {
 	public class GameController : IInitializable, IDisposable
 	{
-		private readonly Settings _settings;
+		private readonly GameplaySettings.Player _playerSettings;
 		private readonly PlayerSpawner _playerSpawner;
 		private readonly LevelGraph _levelGraph;
 
 		private PlayerController _player;
 
-		public GameController( Settings settings,
+		public GameController( GameplaySettings.Player playerSettings,
 			PlayerSpawner playerSpawner,
 			LevelGraph levelGraph )
 		{
-			_settings = settings;
+			_playerSettings = playerSettings;
 			_playerSpawner = playerSpawner;
 			_levelGraph = levelGraph;
 		}
@@ -31,6 +32,7 @@ namespace Minipede.Gameplay
 			CreatePlayer();
 		}
 
+
 		private void CreatePlayer()
 		{
 			_player = _playerSpawner.Spawn();
@@ -40,7 +42,7 @@ namespace Minipede.Gameplay
 		private async void OnPlayerDead( object sender, EventArgs e )
 		{
 			_player = null;
-			await TaskHelpers.DelaySeconds( _settings.PlayerRespawnRate );
+			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay );
 
 			if ( AppHelper.IsQuitting )
 			{
@@ -56,13 +58,6 @@ namespace Minipede.Gameplay
 			{
 				_player.DestroyNotify.Destroyed -= OnPlayerDead;
 			}
-		}
-
-		[System.Serializable]
-		public struct Settings
-		{
-			[Min( 0 )]
-			public float PlayerRespawnRate;
 		}
 	}
 }

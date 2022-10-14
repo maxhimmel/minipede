@@ -14,23 +14,17 @@ namespace Minipede.Installers
 	[CreateAssetMenu]
     public class GameplaySettings : ScriptableObjectInstaller
 	{
-		[SerializeField] private GameController.Settings _gameplaySettings;
 		[SerializeField] private Player _playerSettings;
 		[SerializeField] private Block _blockSettings;
 		[SerializeField] private Level _levelSettings;
 
 		public override void InstallBindings()
 		{
-			BindGameplay();
+			Container.BindInterfacesAndSelfTo<GameController>()
+				.AsSingle();
+
 			BindPlayer();
 			BindLevelGeneration();
-		}
-
-		private void BindGameplay()
-		{
-			Container.BindInterfacesAndSelfTo<GameController>()
-				.AsSingle()
-				.WithArguments( _gameplaySettings );
 		}
 
 		private void BindPlayer()
@@ -70,6 +64,8 @@ namespace Minipede.Installers
 			[FoldoutGroup( "Initialization" )]
 			public string SpawnPointId;
 
+			[FoldoutGroup( "Gameplay" )]
+			public float RespawnDelay;
 			[FoldoutGroup( "Gameplay" )]
 			public HealthController.Settings Health;
 		}

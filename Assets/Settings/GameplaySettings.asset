@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb394d7e951b89147b11312b5cf05dc7, type: 3}
   m_Name: GameplaySettings
   m_EditorClassIdentifier: 
-  _gameplaySettings:
-    PlayerRespawnRate: 1
   _playerSettings:
     Prefab: {fileID: 6378720964115801289, guid: 6e94192d214948143a4ff9f4f50c4fcb, type: 3}
     SpawnPointId: PlayerSpawn
+    RespawnDelay: 1
     Health:
       Health: 1
   _blockSettings:
@@ -28,7 +27,7 @@ MonoBehaviour:
       Size: {x: 1, y: 1}
       Offset: {x: 0, y: 0}
     BlockPrefab: {fileID: 6093263636819055870, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
-    SpawnRate: 0.05
+    SpawnRate: 0.5
     RowGeneration:
       _allowEmptyRolls: 0
       _items:

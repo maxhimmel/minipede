@@ -11,6 +11,8 @@ namespace Minipede.Gameplay
 {
 	public class GameController : IInitializable, IDisposable
 	{
+		public bool IsReady { get; private set; }
+
 		private readonly GameplaySettings.Player _playerSettings;
 		private readonly PlayerSpawner _playerSpawner;
 		private readonly LevelGraph _levelGraph;
@@ -30,6 +32,8 @@ namespace Minipede.Gameplay
 		{
 			await _levelGraph.GenerateLevel();
 			CreatePlayer();
+
+			IsReady = true;
 		}
 
 

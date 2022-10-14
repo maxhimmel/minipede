@@ -58,7 +58,9 @@ namespace Minipede.Gameplay.Weapons
 					null
 				);
 
+				newProjectile.name = prefab.name;
 				newProjectile.transform.SetParent( null );
+
 				return newProjectile;
 			}
 		}

@@ -37,7 +37,7 @@ namespace Minipede.Installers
 		{
 			public Gun.Settings Gun;
 			public ProjectileProvider.Settings Projectile;
-			public DamageDatum Damage;
+			public DamageTrigger.Settings Damage;
 		}
 
 #if UNITY_EDITOR

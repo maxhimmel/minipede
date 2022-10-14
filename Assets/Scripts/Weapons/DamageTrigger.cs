@@ -5,16 +5,16 @@ namespace Minipede.Gameplay.Weapons
 {
     public class DamageTrigger : MonoBehaviour
     {
-		private DamageDatum _damage;
+		private Settings _settings;
 		private Transform _owner;
 		private Rigidbody2D _body;
 
 		[Inject]
-		public void Construct( DamageDatum damage,
+		public void Construct( Settings settings,
 			Transform owner,
 			Rigidbody2D body )
 		{
-			_damage = damage;
+			_settings = settings;
 			_owner = owner;
 			_body = body;
 		}
@@ -23,8 +23,22 @@ namespace Minipede.Gameplay.Weapons
 		{
 			var body = collision.attachedRigidbody;
 			var damageable = body?.GetComponent<IDamageable>();
+			if ( damageable == null )
+			{
+				return;
+			}
 
-			damageable?.TakeDamage( _owner, _body.transform, _damage );
+			if ( _body.IsTouchingLayers( _settings.HitMask ) )
+			{
+				damageable.TakeDamage( _owner, _body.transform, _settings.Damage );
+			}
+		}
+
+		[System.Serializable]
+		public struct Settings
+		{
+			public LayerMask HitMask;
+			public DamageDatum Damage;
 		}
 	}
 }

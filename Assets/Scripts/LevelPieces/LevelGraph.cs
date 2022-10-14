@@ -15,12 +15,17 @@ namespace Minipede.Gameplay.LevelPieces
 		private Block.Factory _blockFactory;
 		private Graph<LevelCell> _graph;
 
+		private Vector2 _initialOrigin;
+		private Vector2 _localOrigin;
+
 		[Inject]
 		public void Construct( GameplaySettings.Level settings,
 			Block.Factory blockFactory )
 		{
 			_settings = settings;
 			_blockFactory = blockFactory;
+
+			TryUpdateLocalOriginCache( forceUpdate: true );
 
 			_graph = new Graph<LevelCell>( settings.Graph.Dimensions.Row(), settings.Graph.Dimensions.Col(), CreateCellData );
 		}
@@ -80,15 +85,69 @@ namespace Minipede.Gameplay.LevelPieces
 			return newBlock;
 		}
 
+		public bool TryGetCellData( Vector2 worldPosition, out LevelCell cellData )
+		{
+			TryUpdateLocalOriginCache();
+
+			worldPosition.x /= _settings.Graph.Size.x;
+			worldPosition.y /= _settings.Graph.Size.y;
+
+			Vector2 localPos = worldPosition - _localOrigin;
+			Vector2Int cellCoord = new Vector2Int()
+			{
+				x = Mathf.RoundToInt( localPos.x ),
+				y = Mathf.RoundToInt( localPos.y )
+			};
+
+			cellData = null;
+			if ( cellCoord.Row() < 0 || cellCoord.Row() >= _settings.Graph.Dimensions.Row() )
+			{
+				return false;
+			}
+			if ( cellCoord.Col() < 0 || cellCoord.Col() >= _settings.Graph.Dimensions.Col() )
+			{
+				return false;
+			}
+
+			cellData = _graph.GetCell( cellCoord.Row(), cellCoord.Col() ).Item;
+			return true;
+		}
+
+		private bool TryUpdateLocalOriginCache( bool forceUpdate = false )
+		{
+			if ( !forceUpdate && _initialOrigin.Approximately( transform.position ) )
+			{
+				return false;
+			}
+
+			_initialOrigin = transform.position;
+			_localOrigin = transform.position;
+
+			_localOrigin += _settings.Graph.Size * 0.5f;
+			_localOrigin += _settings.Graph.Offset;
+
+			_localOrigin.x /= _settings.Graph.Size.x;
+			_localOrigin.y /= _settings.Graph.Size.y;
+
+			return true;
+		}
+
 #if UNITY_EDITOR
 		[BoxGroup( "Tools" )]
+		[SerializeField] private bool _drawGraph = true;
+		[BoxGroup( "Tools" ), ShowIf("_drawGraph")]
 		[SerializeField] private Color _gridColor = Color.red;
-		[BoxGroup( "Tools" )]
+		[BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
 		[Space, InfoBox( "These settings are not used at runtime. Please find the <b>GameplaySettings</b> asset.", InfoMessageType.Error )]
 		[SerializeField] private Settings _editorSettings;
 
-		private void OnDrawGizmosSelected()
+		private void OnDrawGizmos()
 		{
+			if ( !_drawGraph )
+			{
+				return;
+			}
+
 			Gizmos.color = _gridColor;
 
 			Vector2 center = transform.position;

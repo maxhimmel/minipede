@@ -6,6 +6,8 @@ namespace Minipede.Gameplay.LevelPieces
 	{
 		public Vector2 Center { get; }
 
+		public Block Block;
+
 		public LevelCell( Vector2 center )
 		{
 			Center = center;

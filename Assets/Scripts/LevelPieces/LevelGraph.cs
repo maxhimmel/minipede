@@ -90,6 +90,8 @@ namespace Minipede.Gameplay.LevelPieces
 			newBlock.transform.SetParent( transform );
 			newBlock.transform.position = data.Center;
 
+			data.Block = newBlock;
+
 			return newBlock;
 		}
 

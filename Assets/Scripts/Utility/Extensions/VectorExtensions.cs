@@ -45,5 +45,15 @@ namespace Minipede.Utility
 
             return true;
         }
+
+        public static float Random( this Vector2 self )
+		{
+            return UnityEngine.Random.Range( self.x, self.y );
+        }
+
+        public static int Random( this Vector2Int self )
+        {
+            return UnityEngine.Random.Range( self.x, self.y );
+        }
     }
 }

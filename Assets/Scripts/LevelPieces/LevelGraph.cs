@@ -51,6 +51,7 @@ namespace Minipede.Gameplay.LevelPieces
 			_settings.RowGeneration.Init();
 
 			// Go thru each row from top to bottom ...
+			float secondsPerRow = _settings.SpawnRate / _settings.Graph.Dimensions.Row();
 			for ( int row = _settings.Graph.Dimensions.Row() - 1; row >= 0; --row )
 			{
 				// Randomize the column indices ...
@@ -66,7 +67,14 @@ namespace Minipede.Gameplay.LevelPieces
 
 					CreateBlock( cell.Item );
 
-					await TaskHelpers.DelaySeconds( _settings.SpawnRate );
+					if ( idx + 1 >= blockCount && row <= 0 )
+					{
+						// No need to delay after the final block has been created ...
+						break;
+					}
+
+					float secondsPerBlock = secondsPerRow / blockCount;
+					await TaskHelpers.DelaySeconds( secondsPerBlock );
 				}
 			}
 		}
@@ -132,6 +140,15 @@ namespace Minipede.Gameplay.LevelPieces
 			return true;
 		}
 
+		[System.Serializable]
+		public struct Settings
+		{
+			[InfoBox( "X: Row | Y: Column" )]
+			public Vector2Int Dimensions;
+			public Vector2 Size;
+			public Vector2 Offset;
+		}
+
 #if UNITY_EDITOR
 		[BoxGroup( "Tools" )]
 		[SerializeField] private bool _drawGraph = true;
@@ -168,14 +185,5 @@ namespace Minipede.Gameplay.LevelPieces
 			}
 		}
 #endif
-
-		[System.Serializable]
-		public struct Settings
-		{
-			[InfoBox( "X: Row | Y: Column" )]
-			public Vector2Int Dimensions;
-			public Vector2 Size;
-			public Vector2 Offset;
-		}
 	}
 }

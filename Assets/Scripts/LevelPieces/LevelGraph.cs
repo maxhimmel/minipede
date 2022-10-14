@@ -79,7 +79,7 @@ namespace Minipede.Gameplay.LevelPieces
 			}
 		}
 
-		private Block CreateBlock( LevelCell data )
+		public Block CreateBlock( LevelCell data )
 		{
 			var newBlock = _blockFactory.Create();
 

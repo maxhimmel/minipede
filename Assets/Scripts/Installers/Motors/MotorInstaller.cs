@@ -5,7 +5,7 @@ using Zenject;
 namespace Minipede.Installers
 {
 	public class MotorInstaller<TMotor, TSettings> : ScriptableObjectInstaller
-		where TMotor : IMotor
+		where TMotor : IMotor, IRemoteMotor
 	{
 		[SerializeField] private TSettings _settings;
 

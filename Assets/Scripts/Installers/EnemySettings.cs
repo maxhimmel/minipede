@@ -15,14 +15,19 @@ namespace Minipede.Installers
 		[BoxGroup( "Shared" )]
 		[SerializeField] private DamageTrigger.Settings _damage;
 
-		[Space, BoxGroup( "Specialized" )]
+		[BoxGroup( "Specialized" )]
 		[SerializeField] private BeeController.Settings _bee;
+		[BoxGroup( "Specialized" )]
+		[SerializeField] private DragonflyController.Settings _dragonfly;
 
 		public override void InstallBindings()
 		{
 			BindSharedSettings();
 
-			Container.BindInstance( _bee );
+			Container.BindInstances( 
+				_bee,
+				_dragonfly
+			);
 		}
 
 		private void BindSharedSettings()

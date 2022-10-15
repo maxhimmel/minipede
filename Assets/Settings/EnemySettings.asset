@@ -22,3 +22,6 @@ MonoBehaviour:
       Damage: 1
   _bee:
     CreateBlockRange: {x: 0.1, y: 0.4}
+  _dragonfly:
+    CreateBlockRange: {x: 0.1, y: 0.4}
+    ZigZagRange: {x: 5, y: 9}

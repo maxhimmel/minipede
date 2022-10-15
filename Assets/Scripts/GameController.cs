@@ -9,7 +9,9 @@ using Zenject;
 
 namespace Minipede.Gameplay
 {
-	public class GameController : IInitializable, IDisposable
+	public class GameController : 
+		IInitializable, 
+		IDisposable
 	{
 		public bool IsReady { get; private set; }
 

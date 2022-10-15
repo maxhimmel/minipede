@@ -55,5 +55,19 @@ namespace Minipede.Utility
         {
             return UnityEngine.Random.Range( self.x, self.y );
         }
+
+        public static Vector2 Rotate( this Vector2 self, float degrees )
+        {
+            float radians = degrees * Mathf.Deg2Rad;
+            float sin = Mathf.Sin( radians );
+            float cos = Mathf.Cos( radians );
+
+            float x = self.x;
+            float y = self.y;
+            self.x = (cos * x) - (sin * y);
+            self.y = (sin * x) + (cos * y);
+
+            return self;
+        }
     }
 }

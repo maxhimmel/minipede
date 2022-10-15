@@ -2,7 +2,8 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.Movement
 {
-    public class CharacterMotor : IMotor
+    public class CharacterMotor : IMotor,
+		IRemoteMotor
     {
 		private readonly Settings _settings;
 		private readonly Rigidbody2D _body;
@@ -15,6 +16,16 @@ namespace Minipede.Gameplay.Movement
 		{
 			_settings = settings;
 			_body = body;
+		}
+
+		public void StartMoving( Vector2 direction )
+		{
+			SetDesiredVelocity( direction );
+		}
+
+		public void StopMoving()
+		{
+			SetDesiredVelocity( Vector2.zero );
 		}
 
 		public void SetDesiredVelocity( Vector2 direction )

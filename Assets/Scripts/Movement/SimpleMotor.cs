@@ -2,7 +2,8 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.Movement
 {
-    public class SimpleMotor : IMotor
+    public class SimpleMotor : IMotor,
+		IRemoteMotor
     {
 		private readonly Settings _settings;
 		private readonly Rigidbody2D _body;
@@ -16,6 +17,16 @@ namespace Minipede.Gameplay.Movement
 			_body = body;
 		}
 
+		public void StartMoving( Vector2 direction )
+		{
+			SetDesiredVelocity( direction );
+		}
+
+		public void StopMoving()
+		{
+			SetDesiredVelocity( Vector2.zero );
+		}
+
 		public void SetDesiredVelocity( Vector2 direction )
 		{
 			_desiredVelocity = direction * _settings.MaxSpeed;
@@ -26,7 +37,7 @@ namespace Minipede.Gameplay.Movement
 			_body.velocity = _desiredVelocity;
 		}
 
-        [System.Serializable]
+		[System.Serializable]
 		public struct Settings
 		{
 			public float MaxSpeed;

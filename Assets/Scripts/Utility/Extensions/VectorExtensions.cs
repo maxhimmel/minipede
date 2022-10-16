@@ -14,6 +14,27 @@ namespace Minipede.Utility
             return self.y;
         }
 
+        public static Vector2Int MoveRowUp( this Vector2Int self )
+		{
+            ++self.x;
+            return self;
+        }
+        public static Vector2Int MoveRowDown( this Vector2Int self )
+        {
+            --self.x;
+            return self;
+        }
+        public static Vector2Int MoveColumnRight( this Vector2Int self )
+        {
+            ++self.y;
+            return self;
+        }
+        public static Vector2Int MoveColumnLeft( this Vector2Int self )
+        {
+            --self.y;
+            return self;
+        }
+
         public static bool Approximately( this Vector3 self, Vector3 other )
 		{
             if ( !Mathf.Approximately( self.x, other.x ) )

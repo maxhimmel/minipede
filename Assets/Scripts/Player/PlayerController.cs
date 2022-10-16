@@ -11,36 +11,28 @@ namespace Minipede.Gameplay.Player
 		public IOnDestroyedNotify DestroyNotify => _destroyedNotify;
 
 		private Rewired.Player _input;
-		private HealthController _health;
 		private IMotor _motor;
 		private Gun _gun;
 		private IOnDestroyedNotify _destroyedNotify;
+		private Damageable _damageable;
 
 		[Inject]
         public void Construct( Rewired.Player input,
-			HealthController health,
             IMotor motor,
+			Damageable damageable,
 			Gun gun,
 			IOnDestroyedNotify destroyedNotify )
 		{
 			_input = input;
-			_health = health;
 			_motor = motor;
+			_damageable = damageable;
 			_gun = gun;
 			_destroyedNotify = destroyedNotify;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
-			int dmgDealt = _health.TakeDamage( data );
-			Debug.LogFormat( data.LogFormat(), name, dmgDealt, instigator?.name, causer?.name );
-
-			if ( !_health.IsAlive )
-			{
-				Destroy( gameObject );
-			}
-
-			return dmgDealt;
+			return _damageable.TakeDamage( instigator, causer, data );
 		}
 
 		private void Update()

@@ -15,7 +15,7 @@ namespace Minipede.Gameplay.Enemies
 		private GameController _gameController;
 		private LevelGraph _levelGraph;
 		private Rigidbody2D _body;
-		private HealthController _health;
+		private Damageable _damageable;
 
 		private LevelCell _prevCell;
 		private float _createBlockChance;
@@ -26,13 +26,13 @@ namespace Minipede.Gameplay.Enemies
 			GameController gameController,
 			LevelGraph levelGraph,
 			Rigidbody2D body,
-			HealthController health )
+			Damageable damageable )
 		{
 			_motor = motor;
 			_gameController = gameController;
 			_levelGraph = levelGraph;
 			_body = body;
-			_health = health;
+			_damageable = damageable;
 
 			_createBlockChance = settings.CreateBlockRange.Random();
 		}
@@ -44,7 +44,7 @@ namespace Minipede.Gameplay.Enemies
 				yield return null;
 			}
 
-			_motor.SetDesiredVelocity( Vector2.down );
+			_motor.SetDesiredVelocity( transform.up );
 		}
 
 		private void FixedUpdate()
@@ -57,7 +57,7 @@ namespace Minipede.Gameplay.Enemies
 
 				if ( CanCreateBlock( cellData ) )
 				{
-					_levelGraph.CreateBlock( cellData );
+					_levelGraph.CreateBlock( Block.Type.Regular, cellData );
 				}
 			}
 		}
@@ -78,15 +78,7 @@ namespace Minipede.Gameplay.Enemies
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
-			int dmgTaken = _health.TakeDamage( data );
-			Debug.LogFormat( data.LogFormat(), name, dmgTaken, instigator?.name, causer?.name );
-
-			if ( !_health.IsAlive )
-			{
-				Destroy( gameObject );
-			}
-
-			return dmgTaken;
+			return _damageable.TakeDamage( instigator, causer, data );
 		}
 
 		[System.Serializable]

@@ -55,6 +55,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Block_Flower
       objectReference: {fileID: 0}
+    - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 03938aab58ede5341b6d2ae87375f162, type: 2}
     - target: {fileID: 6093263637641906255, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: m_Color.b
       value: 0.5386388

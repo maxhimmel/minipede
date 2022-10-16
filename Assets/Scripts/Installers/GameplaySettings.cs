@@ -1,13 +1,10 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.LevelPieces;
-using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Player;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
-
-using BlockPiece = Minipede.Gameplay.LevelPieces.Block;
 
 namespace Minipede.Installers
 {
@@ -15,7 +12,6 @@ namespace Minipede.Installers
     public class GameplaySettings : ScriptableObjectInstaller
 	{
 		[SerializeField] private Player _playerSettings;
-		[SerializeField] private Block _blockSettings;
 		[SerializeField] private Level _levelSettings;
 
 		public override void InstallBindings()
@@ -31,10 +27,6 @@ namespace Minipede.Installers
 		{
 			Container.BindInstance( _playerSettings );
 
-			Container.Bind<HealthController>()
-				.WithArguments( _playerSettings.Health )
-				.WhenInjectedInto<PlayerController>();
-
 			Container.BindFactory<PlayerController, PlayerController.Factory>()
 				.FromComponentInNewPrefab( _playerSettings.Prefab )
 				.WithGameObjectName( _playerSettings.Prefab.name );
@@ -47,13 +39,13 @@ namespace Minipede.Installers
 		{
 			Container.BindInstance( _levelSettings );
 
-			Container.BindFactory<BlockPiece, BlockPiece.Factory>()
-				.FromComponentInNewPrefab( _levelSettings.BlockPrefab )
-				.WithGameObjectName( _levelSettings.BlockPrefab.name );
+			Container.Bind<IBlockProvider>()
+				.To<BlockProvider>()
+				.AsSingle()
+				.WithArguments( _levelSettings.BlockPrefabs );
 
-			Container.Bind<HealthController>()
-				.WithArguments( _blockSettings.Health )
-				.WhenInjectedInto<BlockPiece>();
+			Container.BindFactory<Block.Type, Vector2, Quaternion, Block, Block.Factory>()
+				.FromFactory<Block.CustomFactory>();
 		}
 
 		[System.Serializable]
@@ -66,14 +58,6 @@ namespace Minipede.Installers
 
 			[FoldoutGroup( "Gameplay" )]
 			public float RespawnDelay;
-			[FoldoutGroup( "Gameplay" )]
-			public HealthController.Settings Health;
-		}
-
-		[System.Serializable]
-		public struct Block
-		{
-			public HealthController.Settings Health;
 		}
 
 		[System.Serializable]
@@ -83,7 +67,7 @@ namespace Minipede.Installers
 			public LevelGraph.Settings Graph;
 
 			[TabGroup( "Spawning" )]
-			public BlockPiece BlockPrefab;
+			public BlockProvider.Settings BlockPrefabs;
 			[TabGroup( "Spawning" ), Min( 0 )]
 			public float SpawnRate;
 			[Space, TabGroup( "Spawning" )]

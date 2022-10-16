@@ -11,8 +11,6 @@ namespace Minipede.Installers
     public class EnemySettings : ScriptableObjectInstaller
     {
 		[BoxGroup( "Shared" )]
-		[SerializeField] private HealthController.Settings _health;
-		[BoxGroup( "Shared" )]
 		[SerializeField] private DamageTrigger.Settings _damage;
 
 		[BoxGroup( "Specialized" )]
@@ -33,10 +31,6 @@ namespace Minipede.Installers
 		private void BindSharedSettings()
 		{
 			Container.BindInstance( _damage );
-
-			Container.Bind<HealthController>()
-				.AsTransient()
-				.WithArguments( _health );
 		}
 	}
 }

@@ -17,7 +17,6 @@ namespace Minipede.Installers
 			var combinedSettings = _settings;
 			combinedSettings.Wave.Amplitude = _dragonfly.ZigZagRange.Random( false );
 
-			Debug.Log( combinedSettings.Wave.Amplitude );
 			return combinedSettings;
 		}
 	}

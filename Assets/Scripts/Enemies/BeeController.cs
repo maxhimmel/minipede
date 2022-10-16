@@ -15,7 +15,7 @@ namespace Minipede.Gameplay.Enemies
 		private GameController _gameController;
 		private LevelGraph _levelGraph;
 		private Rigidbody2D _body;
-		private Damageable _damageable;
+		private IDamageController _damageController;
 
 		private LevelCell _prevCell;
 		private float _createBlockChance;
@@ -26,13 +26,13 @@ namespace Minipede.Gameplay.Enemies
 			GameController gameController,
 			LevelGraph levelGraph,
 			Rigidbody2D body,
-			Damageable damageable )
+			IDamageController damageController )
 		{
 			_motor = motor;
 			_gameController = gameController;
 			_levelGraph = levelGraph;
 			_body = body;
-			_damageable = damageable;
+			_damageController = damageController;
 
 			_createBlockChance = settings.CreateBlockRange.Random();
 		}
@@ -78,7 +78,7 @@ namespace Minipede.Gameplay.Enemies
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
-			return _damageable.TakeDamage( instigator, causer, data );
+			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
 		[System.Serializable]

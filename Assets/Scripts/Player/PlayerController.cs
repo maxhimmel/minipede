@@ -14,25 +14,25 @@ namespace Minipede.Gameplay.Player
 		private IMotor _motor;
 		private Gun _gun;
 		private IOnDestroyedNotify _destroyedNotify;
-		private Damageable _damageable;
+		private IDamageController _damageController;
 
 		[Inject]
         public void Construct( Rewired.Player input,
             IMotor motor,
-			Damageable damageable,
+			IDamageController damageController,
 			Gun gun,
 			IOnDestroyedNotify destroyedNotify )
 		{
 			_input = input;
 			_motor = motor;
-			_damageable = damageable;
+			_damageController = damageController;
 			_gun = gun;
 			_destroyedNotify = destroyedNotify;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
-			return _damageable.TakeDamage( instigator, causer, data );
+			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
 		private void Update()

@@ -6,22 +6,22 @@ namespace Minipede.Gameplay.LevelPieces
 	public partial class Block : MonoBehaviour,
 		IDamageable
 	{
-		private Damageable _damageable;
+		private IDamageController _damageController;
 		private SpriteRenderer _renderer;
 
 		[Inject]
-		public void Construct( Damageable damageable,
+		public void Construct( IDamageController damageController,
 			SpriteRenderer renderer )
 		{
-			_damageable = damageable;
+			_damageController = damageController;
 			_renderer = renderer;
 
-			damageable.Damaged += HandleDamageAnim;
+			damageController.Damaged += HandleDamageAnim;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
-			return _damageable.TakeDamage( instigator, causer, data );
+			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
 		private void HandleDamageAnim( object sender, HealthController health )
@@ -31,7 +31,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private void OnDestroy()
 		{
-			_damageable.Damaged -= HandleDamageAnim;
+			_damageController.Damaged -= HandleDamageAnim;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Weapons;
+using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -31,6 +32,9 @@ namespace Minipede.Installers
 		private void BindSharedSettings()
 		{
 			Container.BindInstance( _damage );
+
+			Container.Bind<LevelBlockForeman>()
+				.AsTransient();
 		}
 	}
 }

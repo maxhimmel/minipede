@@ -13,24 +13,23 @@ namespace Minipede.Gameplay.Enemies
     {
 		private IMotor _motor;
 		private GameController _gameController;
-		private LevelGraph _levelGraph;
+		private LevelBlockForeman _levelForeman;
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
 
-		private LevelCell _prevCell;
 		private float _createBlockChance;
 
 		[Inject]
 		public void Construct( Settings settings,
 			IMotor motor,
 			GameController gameController,
-			LevelGraph levelGraph,
+			LevelBlockForeman levelForeman,
 			Rigidbody2D body,
 			IDamageController damageController )
 		{
 			_motor = motor;
 			_gameController = gameController;
-			_levelGraph = levelGraph;
+			_levelForeman = levelForeman;
 			_body = body;
 			_damageController = damageController;
 
@@ -51,29 +50,13 @@ namespace Minipede.Gameplay.Enemies
 		{
 			_motor.FixedTick();
 
-			if ( _levelGraph.TryGetCellData( _body.position, out var cellData ) && _prevCell != cellData )
+			if ( _levelForeman.TryQueryEmptyBlock( _body.position, out var instructions ) )
 			{
-				_prevCell = cellData;
-
-				if ( CanCreateBlock( cellData ) )
+				if ( _createBlockChance.DiceRoll() )
 				{
-					_levelGraph.CreateBlock( Block.Type.Regular, cellData );
+					instructions.Create( Block.Type.Regular );
 				}
 			}
-		}
-
-		private bool CanCreateBlock( LevelCell cellData )
-		{
-			if ( cellData.Block != null )
-			{
-				return false;
-			}
-			if ( _createBlockChance <= 0 )
-			{
-				return false;
-			}
-
-			return Random.value <= _createBlockChance;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )

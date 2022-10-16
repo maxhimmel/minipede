@@ -1,6 +1,7 @@
 using System.Collections;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
+using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
@@ -11,22 +12,20 @@ namespace Minipede.Gameplay.Enemies
 	{
 		private IMotor _motor;
 		private GameController _gameController;
-		private LevelGraph _levelGraph;
+		private LevelBlockForeman _levelForeman;
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
-
-		private LevelCell _prevCell;
 
 		[Inject]
 		public void Construct( IMotor motor,
 			GameController gameController,
-			LevelGraph levelGraph,
+			LevelBlockForeman levelForeman,
 			Rigidbody2D body,
 			IDamageController damageController )
 		{
 			_motor = motor;
 			_gameController = gameController;
-			_levelGraph = levelGraph;
+			_levelForeman = levelForeman;
 			_body = body;
 			_damageController = damageController;
 		}
@@ -45,23 +44,12 @@ namespace Minipede.Gameplay.Enemies
 		{
 			_motor.FixedTick();
 
-			if ( _levelGraph.TryGetCellData( _body.position, out var cellData ) && _prevCell != cellData )
+			if ( _levelForeman.TryQueryFilledBlock( _body.position, out var instructions ) )
 			{
-				_prevCell = cellData;
-
-				if ( CanConvertBlock( cellData ) )
-				{
-					Destroy( cellData.Block.gameObject );
-					cellData.Block = null;
-
-					_levelGraph.CreateBlock( Block.Type.Poison, cellData );
-				}
+				instructions
+					.Destroy()
+					.Create( Block.Type.Poison );
 			}
-		}
-
-		private bool CanConvertBlock( LevelCell cellData )
-		{
-			return cellData.Block != null;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )

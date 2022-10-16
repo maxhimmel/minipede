@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6093263636819055864}
-  - component: {fileID: 6093263636819055865}
   - component: {fileID: 6093263636819055870}
+  - component: {fileID: 6093263636819055865}
   - component: {fileID: 6093263636819055871}
   - component: {fileID: 2530257933576413001}
   m_Layer: 0
@@ -37,6 +37,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6093263636819055870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6093263636819055866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9a6e531a0c5c6c49ad76fcac672148c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &6093263636819055865
 Rigidbody2D:
   serializedVersion: 4
@@ -58,18 +70,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6093263636819055870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6093263636819055866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a6e531a0c5c6c49ad76fcac672148c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6093263636819055871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,7 +82,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectInstallers: []
+  _scriptableObjectInstallers:
+  - {fileID: 11400000, guid: bf11461d2c0ecca4fbe7cf465707a9b8, type: 2}
   _monoInstallers: []
   _installerPrefabs: []
   _autoRun: 1
@@ -100,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
+  - {fileID: 6093263636819055865}
   - {fileID: 6093263637641906255}
   _identifier: 
   _useSceneContext: 0

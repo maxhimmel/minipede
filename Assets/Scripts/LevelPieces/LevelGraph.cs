@@ -65,7 +65,7 @@ namespace Minipede.Gameplay.LevelPieces
 					int randIdx = columnIndices[idx];
 					var cell = _graph.GetCell( row, randIdx );
 
-					CreateBlock( cell.Item );
+					CreateBlock( Block.Type.Regular, cell.Item );
 
 					if ( idx + 1 >= blockCount && row <= 0 )
 					{
@@ -79,16 +79,10 @@ namespace Minipede.Gameplay.LevelPieces
 			}
 		}
 
-		public Block CreateBlock( LevelCell data )
+		public Block CreateBlock( Block.Type type, LevelCell data )
 		{
-			var newBlock = _blockFactory.Create();
-
-			Vector3 blockScale = _settings.Graph.Size;
-			blockScale.z = 1;
-			newBlock.transform.localScale = blockScale;
-
+			var newBlock = _blockFactory.Create( type, data.Center, Quaternion.identity );
 			newBlock.transform.SetParent( transform );
-			newBlock.transform.position = data.Center;
 
 			data.Block = newBlock;
 

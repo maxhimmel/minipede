@@ -1,6 +1,5 @@
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Weapons;
-using Minipede.Installers;
 using UnityEngine;
 using Zenject;
 

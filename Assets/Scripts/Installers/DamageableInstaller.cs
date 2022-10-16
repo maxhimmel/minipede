@@ -15,7 +15,8 @@ namespace Minipede.Installers
 				.AsTransient()
 				.WithArguments( _settings );
 
-			Container.Bind<Damageable>()
+			Container.Bind<IDamageController>()
+				.To<Damageable>()
 				.AsTransient();
 		}
 	}

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Gameplay
 {
-	public class Damageable : IDamageable
+	public class Damageable : IDamageController
 	{
 		public event EventHandler<HealthController> Damaged;
 		public event EventHandler<HealthController> Died;

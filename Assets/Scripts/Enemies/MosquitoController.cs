@@ -59,8 +59,9 @@ namespace Minipede.Gameplay.Enemies
 		private bool TryReflectOffWall( out Vector2 newPos, out Vector2 newFacingDir )
 		{
 			Vector2 moveDir = transform.up;
+			float moveDelta = _motor.Velocity.magnitude * Time.fixedDeltaTime;
 
-			var hitInfo = _arena.Raycast( _body.position, moveDir, _settings.WhiskerDistance );
+			var hitInfo = _arena.Raycast( _body.position, moveDir, _settings.WhiskerDistance + moveDelta );
 			if ( hitInfo.IsHit() && Vector2.Dot( hitInfo.normal, Vector2.right ) != 0 )
 			{
 				newPos = hitInfo.point - moveDir * _settings.WhiskerDistance;

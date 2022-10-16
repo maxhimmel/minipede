@@ -4,7 +4,9 @@ namespace Minipede.Gameplay.Movement
 {
     public class SimpleMotor : IMotor,
 		IRemoteMotor
-    {
+	{
+		public Vector2 Velocity => _body.velocity;
+
 		private readonly Settings _settings;
 		private readonly Rigidbody2D _body;
 

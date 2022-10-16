@@ -7,6 +7,8 @@ namespace Minipede.Gameplay.Movement
 	public class SineMotor : IMotor,
 		IRemoteMotor
 	{
+		public Vector2 Velocity => _desiredVelocity;
+
 		private readonly Settings _settings;
 		private readonly Rigidbody2D _body;
 

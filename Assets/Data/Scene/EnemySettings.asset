@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64222a241a1f1a440b2509a86331700e, type: 3}
   m_Name: EnemySettings
   m_EditorClassIdentifier: 
-  _health:
-    Health: 1
   _damage:
     HitMask:
       serializedVersion: 2

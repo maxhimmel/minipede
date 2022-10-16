@@ -51,9 +51,13 @@ namespace Minipede.Utility
             return UnityEngine.Random.Range( self.x, self.y );
         }
 
-        public static int Random( this Vector2Int self )
+        public static int Random( this Vector2Int self, bool isMaxExclusive = true )
         {
-            return UnityEngine.Random.Range( self.x, self.y );
+            int max = isMaxExclusive
+                ? self.y
+                : self.y + 1;
+
+            return UnityEngine.Random.Range( self.x, max );
         }
 
         public static Vector2 Rotate( this Vector2 self, float degrees )

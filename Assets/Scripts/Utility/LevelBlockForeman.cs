@@ -5,13 +5,13 @@ namespace Minipede.Utility
 {
     public partial class LevelBlockForeman
 	{
-		private readonly LevelGraph _level;
+		private readonly LevelGraphNavigator _levelNavigator;
 
 		private LevelCell _currentCell;
 
-		public LevelBlockForeman( LevelGraph level )
+		public LevelBlockForeman( LevelGraphNavigator levelNavigator )
 		{
-			_level = level;
+			_levelNavigator = levelNavigator;
 		}
 
 		public bool TryQueryFilledBlock( Vector2 worldPosition, out DemolishInstructions instructions )
@@ -22,7 +22,7 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new DemolishInstructions( _level, _currentCell );
+			instructions = new DemolishInstructions( _levelNavigator.Graph, _currentCell );
 			return true;
 		}
 
@@ -34,7 +34,7 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new RefurbishInstructions( _level, _currentCell );
+			instructions = new RefurbishInstructions( _levelNavigator.Graph, _currentCell );
 			return true;
 		}
 
@@ -46,13 +46,13 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new SiteInstructions( _level, _currentCell );
+			instructions = new SiteInstructions( _levelNavigator.Graph, _currentCell );
 			return true;
 		}
 
 		private bool TryQueryNewBlock( Vector2 worldPosition, out LevelCell data )
 		{
-			if ( _level.TryGetCellData( worldPosition, out data) && _currentCell != data )
+			if ( _levelNavigator.TryGetCellData( worldPosition, out data) && _currentCell != data )
 			{
 				_currentCell = data;
 				return true;

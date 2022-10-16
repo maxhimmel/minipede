@@ -46,6 +46,9 @@ namespace Minipede.Installers
 
 			Container.BindFactory<Block.Type, Vector2, Quaternion, Block, Block.Factory>()
 				.FromFactory<Block.CustomFactory>();
+
+			Container.Bind<LevelGraphNavigator>()
+				.AsSingle();
 		}
 
 		[System.Serializable]

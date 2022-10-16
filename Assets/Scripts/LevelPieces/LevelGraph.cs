@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Minipede.Installers;
@@ -11,12 +10,11 @@ namespace Minipede.Gameplay.LevelPieces
 {
     public class LevelGraph : MonoBehaviour
     {
+		public Settings GraphSettings => _settings.Graph;
+
 		private GameplaySettings.Level _settings;
 		private Block.Factory _blockFactory;
 		private Graph<LevelCell> _graph;
-
-		private Vector2 _initialOrigin;
-		private Vector2 _localOrigin;
 
 		[Inject]
 		public void Construct( GameplaySettings.Level settings,
@@ -24,8 +22,6 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			_settings = settings;
 			_blockFactory = blockFactory;
-
-			TryUpdateLocalOriginCache( forceUpdate: true );
 
 			_graph = new Graph<LevelCell>( settings.Graph.Dimensions.Row(), settings.Graph.Dimensions.Col(), CreateCellData );
 		}
@@ -63,7 +59,7 @@ namespace Minipede.Gameplay.LevelPieces
 				for ( int idx = 0; idx < blockCount; ++idx )
 				{
 					int randIdx = columnIndices[idx];
-					var cell = _graph.GetCell( row, randIdx );
+					var cell = GetCell( row, randIdx );
 
 					CreateBlock( Block.Type.Regular, cell.Item );
 
@@ -89,51 +85,14 @@ namespace Minipede.Gameplay.LevelPieces
 			return newBlock;
 		}
 
-		public bool TryGetCellData( Vector2 worldPosition, out LevelCell cellData )
+		public LevelCell GetCellData( int row, int col )
 		{
-			TryUpdateLocalOriginCache();
-
-			worldPosition.x /= _settings.Graph.Size.x;
-			worldPosition.y /= _settings.Graph.Size.y;
-
-			Vector2 localPos = worldPosition - _localOrigin;
-			Vector2Int cellCoord = new Vector2Int()
-			{
-				x = Mathf.RoundToInt( localPos.y ), // rows
-				y = Mathf.RoundToInt( localPos.x )	// columns
-			};
-
-			cellData = null;
-			if ( cellCoord.Row() < 0 || cellCoord.Row() >= _settings.Graph.Dimensions.Row() )
-			{
-				return false;
-			}
-			if ( cellCoord.Col() < 0 || cellCoord.Col() >= _settings.Graph.Dimensions.Col() )
-			{
-				return false;
-			}
-
-			cellData = _graph.GetCell( cellCoord.Row(), cellCoord.Col() ).Item;
-			return true;
+			return GetCell( row, col ).Item;
 		}
 
-		private bool TryUpdateLocalOriginCache( bool forceUpdate = false )
+		private Graph<LevelCell>.Cell GetCell( int row, int col )
 		{
-			if ( !forceUpdate && _initialOrigin.Approximately( transform.position ) )
-			{
-				return false;
-			}
-
-			_initialOrigin = transform.position;
-			_localOrigin = transform.position;
-
-			_localOrigin += _settings.Graph.Size * 0.5f;
-			_localOrigin += _settings.Graph.Offset;
-
-			_localOrigin.x /= _settings.Graph.Size.x;
-			_localOrigin.y /= _settings.Graph.Size.y;
-
-			return true;
+			return _graph.GetCell( row, col );
 		}
 
 		[System.Serializable]

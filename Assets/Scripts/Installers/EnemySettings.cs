@@ -37,9 +37,6 @@ namespace Minipede.Installers
 		private void BindSharedSettings()
 		{
 			Container.BindInstance( _damage );
-
-			Container.Bind<LevelBlockForeman>()
-				.AsTransient();
 		}
 	}
 }

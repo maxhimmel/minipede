@@ -17,8 +17,8 @@ namespace Minipede.Gameplay.Enemies
 		private GameController _gameController;
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
-		private LevelGraphNavigator _graphNavigator;
-		private LevelBlockForeman _levelForeman;
+		private LevelGraph _levelGraph;
+		private LevelForeman _levelForeman;
 
 		[Inject]
 		public void Construct( Settings settings,
@@ -26,15 +26,15 @@ namespace Minipede.Gameplay.Enemies
 			GameController gameController,
 			Rigidbody2D body,
 			IDamageController damageController,
-			LevelGraphNavigator graphNavigator,
-			LevelBlockForeman levelForeman )
+			LevelGraph levelGraph,
+			LevelForeman levelForeman )
 		{
 			_settings = settings;
 			_motor = motor;
 			_gameController = gameController;
 			_body = body;
 			_damageController = damageController;
-			_graphNavigator = graphNavigator;
+			_levelGraph = levelGraph;
 			_levelForeman = levelForeman;
 		}
 
@@ -51,8 +51,8 @@ namespace Minipede.Gameplay.Enemies
 		private async void UpdateNavigation()
 		{
 			// Move out of spawn area ...
-			LevelCell closestCell = _graphNavigator.GetClosestCell( _body.position, out var cellCoords );
-			Vector2 nextCellPos = closestCell.Center;
+			Vector2Int cellCoord = _levelGraph.WorldPosToClampedCellCoord( _body.position );
+			Vector2 nextCellPos = _levelGraph.CellCoordToWorldPos( cellCoord.Row(), cellCoord.Col() );
 			_motor.StartMoving( GetMoveDirection( nextCellPos ) );
 			while ( _motor.IsMoving )
 			{
@@ -61,8 +61,8 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			// Move down to bottom of player area ...
-			cellCoords.x = 0;
-			nextCellPos = _graphNavigator.GetCellWorldPosition( cellCoords );
+			cellCoord.x = 0;
+			nextCellPos = _levelGraph.CellCoordToWorldPos( cellCoord.Row(), cellCoord.Col() );
 			_motor.StartMoving( GetMoveDirection( nextCellPos ) );
 			while ( _motor.IsMoving )
 			{
@@ -72,8 +72,8 @@ namespace Minipede.Gameplay.Enemies
 
 			// Move towards center ...
 			int randColumn = _settings.ColumnMovementRange.Random( true );
-			cellCoords.y = randColumn;
-			nextCellPos = _graphNavigator.GetCellWorldPosition( cellCoords );
+			cellCoord.y = randColumn;
+			nextCellPos = _levelGraph.CellCoordToWorldPos( cellCoord.Row(), cellCoord.Col() );
 			_motor.StartMoving( GetMoveDirection( nextCellPos ) );
 			while ( _motor.IsMoving )
 			{
@@ -82,8 +82,8 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			// Move up towards exit row ...
-			cellCoords.x = _settings.ExitRow;
-			nextCellPos = _graphNavigator.GetCellWorldPosition( cellCoords );
+			cellCoord.x = _settings.ExitRow;
+			nextCellPos = _levelGraph.CellCoordToWorldPos( cellCoord.Row(), cellCoord.Col() );
 			_motor.StartMoving( GetMoveDirection( nextCellPos ) );
 			while ( _motor.IsMoving )
 			{
@@ -93,10 +93,10 @@ namespace Minipede.Gameplay.Enemies
 
 			// Exit off screen ...
 			int exitColumn = Vector2.Dot( transform.up, Vector2.right ) > 0 
-				? _graphNavigator.Settings.Dimensions.Col()
+				? _levelGraph.Data.Dimensions.Col()
 				: -1;
-			cellCoords.y = exitColumn;
-			nextCellPos = _graphNavigator.GetCellWorldPosition( cellCoords );
+			cellCoord.y = exitColumn;
+			nextCellPos = _levelGraph.CellCoordToWorldPos( cellCoord.Row(), cellCoord.Col() );
 			_motor.StartMoving( GetMoveDirection( nextCellPos ) );
 			while ( _motor.IsMoving )
 			{

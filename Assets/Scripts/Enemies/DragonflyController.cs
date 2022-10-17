@@ -13,7 +13,7 @@ namespace Minipede.Gameplay.Enemies
 	{
 		private IRemoteMotor _motor;
 		private GameController _gameController;
-		private LevelBlockForeman _levelForeman;
+		private LevelForeman _levelForeman;
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
 
@@ -23,7 +23,7 @@ namespace Minipede.Gameplay.Enemies
 		public void Construct( Settings settings,
 			IRemoteMotor motor,
 			GameController gameController,
-			LevelBlockForeman levelForeman,
+			LevelForeman levelForeman,
 			Rigidbody2D body,
 			IDamageController damageController )
 		{

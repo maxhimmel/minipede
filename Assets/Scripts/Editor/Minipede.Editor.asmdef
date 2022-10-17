@@ -2,7 +2,8 @@
     "name": "Minipede.Editor",
     "rootNamespace": "Minipede.Editor",
     "references": [
-        "Minipede"
+        "Minipede",
+        "Zenject"
     ],
     "includePlatforms": [
         "Editor"

@@ -25,3 +25,6 @@ MonoBehaviour:
     ZigZagRange: {x: 2, y: 4}
   _mosquito:
     WhiskerDistance: 1
+  _beetle:
+    ColumnMovementRange: {x: 5, y: 24}
+    ExitRow: 14

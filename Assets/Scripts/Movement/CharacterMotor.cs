@@ -5,6 +5,7 @@ namespace Minipede.Gameplay.Movement
     public class CharacterMotor : IMotor,
 		IRemoteMotor
     {
+		public bool IsMoving => _velocity.sqrMagnitude > 0.01f;
 		public Vector2 Velocity => _body.velocity;
 
 		private readonly Settings _settings;

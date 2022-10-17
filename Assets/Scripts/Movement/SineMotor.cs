@@ -7,14 +7,15 @@ namespace Minipede.Gameplay.Movement
 	public class SineMotor : IMotor,
 		IRemoteMotor
 	{
-		public Vector2 Velocity => _desiredVelocity;
+		public bool IsMoving => _sineDirection.sqrMagnitude > 0.01f || Velocity.sqrMagnitude > 0.01f;
+		public Vector2 Velocity => _velocity;
 
 		private readonly Settings _settings;
 		private readonly Rigidbody2D _body;
 
 		private Vector2 _origin;
 		private Vector2 _sineDirection;
-		private Vector2 _desiredVelocity;
+		private Vector2 _velocity;
 		private float _sineTimer;
 
 		public SineMotor( Settings settings,
@@ -42,7 +43,7 @@ namespace Minipede.Gameplay.Movement
 		public void SetDesiredVelocity( Vector2 direction )
 		{
 			_sineDirection = direction.Rotate( 90 );
-			_desiredVelocity = direction * _settings.MaxSpeed;
+			_velocity = direction * _settings.MaxSpeed;
 		}
 
 		public void FixedTick()
@@ -53,7 +54,7 @@ namespace Minipede.Gameplay.Movement
 
 		private Vector2 UpdatePosition()
 		{
-			Vector2 velocityDelta = _desiredVelocity * Time.fixedDeltaTime;
+			Vector2 velocityDelta = _velocity * Time.fixedDeltaTime;
 
 			Vector2 newPos = _origin
 				+ _sineDirection * UpdateSine()

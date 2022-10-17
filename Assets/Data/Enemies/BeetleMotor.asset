@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ebbbaeaaa2c9514291669f9069fc445, type: 3}
+  m_Script: {fileID: 11500000, guid: ef72063be02c45d45883d769c01b58f1, type: 3}
   m_Name: BeetleMotor
   m_EditorClassIdentifier: 
   _settings:

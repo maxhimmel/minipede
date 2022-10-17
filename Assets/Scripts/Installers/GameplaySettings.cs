@@ -67,12 +67,16 @@ namespace Minipede.Installers
 		public struct Level
 		{
 			[TabGroup( "Setup" )]
+			public int PlayerRows;
+			[TabGroup( "Setup" )]
 			public LevelGraph.Settings Graph;
 
-			[TabGroup( "Spawning" )]
-			public BlockProvider.Settings BlockPrefabs;
+			[TabGroup( "Spawning" ), Min( 0 )]
+			public int PlayerRowDepth;
 			[TabGroup( "Spawning" ), Min( 0 )]
 			public float SpawnRate;
+			[TabGroup( "Spawning" )]
+			public BlockProvider.Settings BlockPrefabs;
 			[Space, TabGroup( "Spawning" )]
 			public WeightedListInt RowGeneration;
 		}

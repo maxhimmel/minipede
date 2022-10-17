@@ -28,10 +28,10 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private LevelCell CreateCellData( int row, int col )
 		{
-			return new LevelCell( GetCellCenter( row, col ) );
+			return new LevelCell( CellCoordToWorldPosition( row, col ) );
 		}
 
-		private Vector2 GetCellCenter( int row, int col )
+		public Vector2 CellCoordToWorldPosition( int row, int col )
 		{
 			Vector2 position = transform.position
 				+ Vector3.up * row * _settings.Graph.Size.y
@@ -48,7 +48,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 			// Go thru each row from top to bottom ...
 			float secondsPerRow = _settings.SpawnRate / _settings.Graph.Dimensions.Row();
-			for ( int row = _settings.Graph.Dimensions.Row() - 1; row >= 0; --row )
+			for ( int row = _settings.Graph.Dimensions.Row() - 1; row >= _settings.PlayerRowDepth; --row )
 			{
 				// Randomize the column indices ...
 				int[] columnIndices = Enumerable.Range( 0, _settings.Graph.Dimensions.Col() ).ToArray();
@@ -105,12 +105,23 @@ namespace Minipede.Gameplay.LevelPieces
 		}
 
 #if UNITY_EDITOR
+		#region EDITOR
 		[BoxGroup( "Tools" )]
 		[SerializeField] private bool _drawGraph = true;
+		[InfoBox( "These settings are not used at runtime. Please find the <b>GameplaySettings</b> asset.", InfoMessageType.Error )]
 		[BoxGroup( "Tools" ), ShowIf("_drawGraph")]
 		[SerializeField] private Color _gridColor = Color.red;
 		[BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
-		[Space, InfoBox( "These settings are not used at runtime. Please find the <b>GameplaySettings</b> asset.", InfoMessageType.Error )]
+		[SerializeField] private Color _playerColor = Color.white;
+		[BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
+		[SerializeField] private Color _playerDepthColor = Color.yellow;
+		[BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
+
+		[Space, HorizontalGroup( "Tools/Rows" ), SerializeField] private int _playerRows = 8;
+		[BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
+		[Space, HorizontalGroup( "Tools/Rows" ), SerializeField] private int _spawnPlayerDepth = 4;
+
+		[Space, BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
 		[SerializeField] private Settings _editorSettings;
 
 		private void OnDrawGizmos()
@@ -120,14 +131,27 @@ namespace Minipede.Gameplay.LevelPieces
 				return;
 			}
 
-			Gizmos.color = _gridColor;
+			// Player area ...
+			Gizmos.color = _playerColor;
+			DrawRowsAndColumns( 0, _playerRows - _spawnPlayerDepth );
 
+			// Level area ...
+			Gizmos.color = _gridColor;
+			DrawRowsAndColumns( _playerRows, _editorSettings.Dimensions.Row() );
+
+			// Player depth area ...
+			Gizmos.color = _playerDepthColor;
+			DrawRowsAndColumns( _spawnPlayerDepth, _playerRows );
+		}
+
+		private void DrawRowsAndColumns( int startRow, int rowCount )
+		{
 			Vector2 center = transform.position;
 
 			Vector2 centerOffset = _editorSettings.Size * 0.5f;
 			centerOffset += _editorSettings.Offset;
 
-			for ( int row = 0; row < _editorSettings.Dimensions.Row(); ++row )
+			for ( int row = startRow; row < rowCount; ++row )
 			{
 				for ( int col = 0; col < _editorSettings.Dimensions.Col(); ++col )
 				{
@@ -139,6 +163,7 @@ namespace Minipede.Gameplay.LevelPieces
 				}
 			}
 		}
+		#endregion EDITOR
 #endif
 	}
 }

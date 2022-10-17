@@ -17,12 +17,13 @@ MonoBehaviour:
     SpawnPointId: PlayerSpawn
     RespawnDelay: 1
   _levelSettings:
-    PlayerRows: 8
     Graph:
       Dimensions: {x: 32, y: 30}
       Size: {x: 1, y: 1}
       Offset: {x: 0, y: 0}
-    PlayerRowDepth: 4
+    Builder:
+      PlayerRows: 8
+      PlayerRowDepth: 4
     SpawnRate: 0.5
     BlockPrefabs:
       Regular: {fileID: 6093263636819055870, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}

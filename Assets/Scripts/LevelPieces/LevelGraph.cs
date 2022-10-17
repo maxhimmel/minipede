@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Threading.Tasks;
 using Minipede.Installers;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -9,90 +7,91 @@ using Zenject;
 namespace Minipede.Gameplay.LevelPieces
 {
     public class LevelGraph : MonoBehaviour
-    {
-		public Settings GraphSettings => _settings.Graph;
+	{
+		public Settings Data { get; private set; }
 
-		private GameplaySettings.Level _settings;
-		private Block.Factory _blockFactory;
-		private Graph<LevelCell> _graph;
+		private Vector2 _initialOrigin;
+		private Vector2 _localOrigin;
 
 		[Inject]
-		public void Construct( GameplaySettings.Level settings,
-			Block.Factory blockFactory )
+		public void Construct( GameplaySettings.Level settings )
 		{
-			_settings = settings;
-			_blockFactory = blockFactory;
+			Data = settings.Graph;
 
-			_graph = new Graph<LevelCell>( settings.Graph.Dimensions.Row(), settings.Graph.Dimensions.Col(), CreateCellData );
+			TryUpdateLocalOriginCache( forceUpdate: true );
 		}
 
-		private LevelCell CreateCellData( int row, int col )
-		{
-			return new LevelCell( CellCoordToWorldPosition( row, col ) );
-		}
-
-		public Vector2 CellCoordToWorldPosition( int row, int col )
+		public Vector2 CellCoordToWorldPos( int row, int col )
 		{
 			Vector2 position = transform.position
-				+ Vector3.up * row * _settings.Graph.Size.y
-				+ Vector3.right * col * _settings.Graph.Size.x;
+				+ Vector3.up * row * Data.Size.y
+				+ Vector3.right * col * Data.Size.x;
 
-			return position 
-				+ _settings.Graph.Size * 0.5f 
-				+ _settings.Graph.Offset;
+			return position
+				+ Data.Size * 0.5f
+				+ Data.Offset;
 		}
 
-		public async Task GenerateLevel()
+		public Vector2Int WorldPosToClampedCellCoord( Vector2 worldPosition )
 		{
-			_settings.RowGeneration.Init();
+			Vector2Int cellCoord = WorldPosToCellCoord( worldPosition );
 
-			// Go thru each row from top to bottom ...
-			float secondsPerRow = _settings.SpawnRate / _settings.Graph.Dimensions.Row();
-			for ( int row = _settings.Graph.Dimensions.Row() - 1; row >= _settings.PlayerRowDepth; --row )
+			bool isRowValid = cellCoord.Row() >= 0 && cellCoord.Row() < Data.Dimensions.Row();
+			bool isColumnValid = cellCoord.Col() >= 0 && cellCoord.Col() < Data.Dimensions.Col();
+			if ( isRowValid && isColumnValid )
 			{
-				// Randomize the column indices ...
-				int[] columnIndices = Enumerable.Range( 0, _settings.Graph.Dimensions.Col() ).ToArray();
-				columnIndices.FisherYatesShuffle();
-
-				// Create a block at a random cell ...
-				int blockCount = _settings.RowGeneration.GetRandomItem();
-				for ( int idx = 0; idx < blockCount; ++idx )
-				{
-					int randIdx = columnIndices[idx];
-					var cell = GetCell( row, randIdx );
-
-					CreateBlock( Block.Type.Regular, cell.Item );
-
-					if ( idx + 1 >= blockCount && row <= 0 )
-					{
-						// No need to delay after the final block has been created ...
-						break;
-					}
-
-					float secondsPerBlock = secondsPerRow / blockCount;
-					await TaskHelpers.DelaySeconds( secondsPerBlock );
-				}
+				return cellCoord;
 			}
+
+			if ( !isRowValid )
+			{
+				cellCoord = cellCoord.Row() < 0
+					? cellCoord.MoveRowUp()
+					: cellCoord.MoveRowDown();
+			}
+			if ( !isColumnValid )
+			{
+				cellCoord = cellCoord.Col() < 0
+					? cellCoord.MoveColumnRight()
+					: cellCoord.MoveColumnLeft();
+			}
+
+			return cellCoord;
 		}
 
-		public Block CreateBlock( Block.Type type, LevelCell data )
+		public Vector2Int WorldPosToCellCoord( Vector2 worldPosition )
 		{
-			var newBlock = _blockFactory.Create( type, data.Center, Quaternion.identity );
-			newBlock.transform.SetParent( transform );
+			TryUpdateLocalOriginCache();
 
-			data.Block = newBlock;
+			worldPosition.x /= Data.Size.x;
+			worldPosition.y /= Data.Size.y;
 
-			return newBlock;
+			Vector2 localPos = worldPosition - _localOrigin;
+
+			return new Vector2Int()
+			{
+				x = Mathf.RoundToInt( localPos.y ), // rows
+				y = Mathf.RoundToInt( localPos.x )  // columns
+			};
 		}
 
-		public LevelCell GetCellData( int row, int col )
+		private bool TryUpdateLocalOriginCache( bool forceUpdate = false )
 		{
-			return GetCell( row, col ).Item;
-		}
+			if ( !forceUpdate && _initialOrigin.Approximately( transform.position ) )
+			{
+				return false;
+			}
 
-		private Graph<LevelCell>.Cell GetCell( int row, int col )
-		{
-			return _graph.GetCell( row, col );
+			_initialOrigin = transform.position;
+			_localOrigin = transform.position;
+
+			_localOrigin += Data.Size * 0.5f;
+			_localOrigin += Data.Offset;
+
+			_localOrigin.x /= Data.Size.x;
+			_localOrigin.y /= Data.Size.y;
+
+			return true;
 		}
 
 		[System.Serializable]
@@ -108,8 +107,7 @@ namespace Minipede.Gameplay.LevelPieces
 		#region EDITOR
 		[BoxGroup( "Tools" )]
 		[SerializeField] private bool _drawGraph = true;
-		[InfoBox( "These settings are not used at runtime. Please find the <b>GameplaySettings</b> asset.", InfoMessageType.Error )]
-		[BoxGroup( "Tools" ), ShowIf("_drawGraph")]
+		[BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
 		[SerializeField] private Color _gridColor = Color.red;
 		[BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
 		[SerializeField] private Color _playerColor = Color.white;
@@ -117,12 +115,11 @@ namespace Minipede.Gameplay.LevelPieces
 		[SerializeField] private Color _playerDepthColor = Color.yellow;
 		[BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
 
-		[Space, HorizontalGroup( "Tools/Rows" ), SerializeField] private int _playerRows = 8;
-		[BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
-		[Space, HorizontalGroup( "Tools/Rows" ), SerializeField] private int _spawnPlayerDepth = 4;
-
+		[InfoBox( "These settings are not used at runtime. Please find the <b>GameplaySettings</b> asset.", InfoMessageType.Error )]
 		[Space, BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
-		[SerializeField] private Settings _editorSettings;
+		[SerializeField] private LevelBuilder.Settings _editorBuilder;
+		[Space, BoxGroup( "Tools" ), ShowIf( "_drawGraph" )]
+		[SerializeField] private Settings _editorGraph;
 
 		private void OnDrawGizmos()
 		{
@@ -133,33 +130,33 @@ namespace Minipede.Gameplay.LevelPieces
 
 			// Player area ...
 			Gizmos.color = _playerColor;
-			DrawRowsAndColumns( 0, _playerRows - _spawnPlayerDepth );
+			DrawRowsAndColumns( 0, _editorBuilder.PlayerRows - _editorBuilder.PlayerRowDepth );
 
 			// Level area ...
 			Gizmos.color = _gridColor;
-			DrawRowsAndColumns( _playerRows, _editorSettings.Dimensions.Row() );
+			DrawRowsAndColumns( _editorBuilder.PlayerRows, _editorGraph.Dimensions.Row() );
 
 			// Player depth area ...
 			Gizmos.color = _playerDepthColor;
-			DrawRowsAndColumns( _spawnPlayerDepth, _playerRows );
+			DrawRowsAndColumns( _editorBuilder.PlayerRowDepth, _editorBuilder.PlayerRows );
 		}
 
 		private void DrawRowsAndColumns( int startRow, int rowCount )
 		{
 			Vector2 center = transform.position;
 
-			Vector2 centerOffset = _editorSettings.Size * 0.5f;
-			centerOffset += _editorSettings.Offset;
+			Vector2 centerOffset = _editorGraph.Size * 0.5f;
+			centerOffset += _editorGraph.Offset;
 
 			for ( int row = startRow; row < rowCount; ++row )
 			{
-				for ( int col = 0; col < _editorSettings.Dimensions.Col(); ++col )
+				for ( int col = 0; col < _editorGraph.Dimensions.Col(); ++col )
 				{
 					Vector2 pos = center + centerOffset
-						+ Vector2.up * row * _editorSettings.Size.y
-						+ Vector2.right * col * _editorSettings.Size.x;
+						+ Vector2.up * row * _editorGraph.Size.y
+						+ Vector2.right * col * _editorGraph.Size.x;
 
-					Gizmos.DrawWireCube( pos, _editorSettings.Size );
+					Gizmos.DrawWireCube( pos, _editorGraph.Size );
 				}
 			}
 		}

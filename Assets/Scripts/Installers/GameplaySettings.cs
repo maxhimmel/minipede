@@ -47,8 +47,11 @@ namespace Minipede.Installers
 			Container.BindFactory<Block.Type, Vector2, Quaternion, Block, Block.Factory>()
 				.FromFactory<Block.CustomFactory>();
 
-			Container.Bind<LevelGraphNavigator>()
+			Container.Bind<LevelBuilder>()
 				.AsSingle();
+
+			Container.Bind<LevelForeman>()
+				.AsTransient();
 		}
 
 		[System.Serializable]
@@ -67,12 +70,10 @@ namespace Minipede.Installers
 		public struct Level
 		{
 			[TabGroup( "Setup" )]
-			public int PlayerRows;
-			[TabGroup( "Setup" )]
 			public LevelGraph.Settings Graph;
+			[TabGroup( "Setup" )]
+			public LevelBuilder.Settings Builder;
 
-			[TabGroup( "Spawning" ), Min( 0 )]
-			public int PlayerRowDepth;
 			[TabGroup( "Spawning" ), Min( 0 )]
 			public float SpawnRate;
 			[TabGroup( "Spawning" )]

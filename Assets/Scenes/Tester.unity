@@ -2749,16 +2749,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1904797342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24e55e70bb0d31b4f8ee2fb23e3269e1, type: 3}
+  m_Script: {fileID: 11500000, guid: f78c0de34e11b3643a711d47732a52fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _drawGraph: 0
+  _drawGraph: 1
   _gridColor: {r: 1, g: 0, b: 0, a: 1}
   _playerColor: {r: 1, g: 1, b: 1, a: 1}
   _playerDepthColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
-  _playerRows: 8
-  _spawnPlayerDepth: 4
-  _editorSettings:
+  _editorBuilder:
+    PlayerRows: 8
+    PlayerRowDepth: 4
+  _editorGraph:
     Dimensions: {x: 32, y: 30}
     Size: {x: 1, y: 1}
     Offset: {x: 0, y: 0}

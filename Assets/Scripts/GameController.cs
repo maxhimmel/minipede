@@ -1,10 +1,8 @@
 using System;
-using System.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Installers;
 using Minipede.Utility;
-using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay
@@ -17,22 +15,22 @@ namespace Minipede.Gameplay
 
 		private readonly GameplaySettings.Player _playerSettings;
 		private readonly PlayerSpawner _playerSpawner;
-		private readonly LevelGraph _levelGraph;
+		private readonly LevelBuilder _levelBuilder;
 
 		private PlayerController _player;
 
 		public GameController( GameplaySettings.Player playerSettings,
 			PlayerSpawner playerSpawner,
-			LevelGraph levelGraph )
+			LevelBuilder levelBuilder )
 		{
 			_playerSettings = playerSettings;
 			_playerSpawner = playerSpawner;
-			_levelGraph = levelGraph;
+			_levelBuilder = levelBuilder;
 		}
 
 		public async void Initialize()
 		{
-			await _levelGraph.GenerateLevel();
+			await _levelBuilder.GenerateLevel();
 			CreatePlayer();
 
 			IsReady = true;

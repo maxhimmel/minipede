@@ -3,11 +3,24 @@ using UnityEngine;
 
 namespace Minipede.Utility
 {
-    public partial class LevelBlockForeman
+    public partial class LevelForeman
 	{
+		public abstract class InternalInstructions
+		{
+			protected readonly LevelBuilder _builder;
+			protected readonly LevelCell _currentCell;
+
+			public InternalInstructions( LevelBuilder builder,
+				LevelCell currentCell )
+			{
+				_builder = builder;
+				_currentCell = currentCell;
+			}
+		}
+
 		public class DemolishInstructions : InternalInstructions
 		{
-			public DemolishInstructions( LevelGraph level, LevelCell currentCell ) : base( level, currentCell )
+			public DemolishInstructions( LevelBuilder builder, LevelCell currentCell ) : base( builder, currentCell )
 			{
 			}
 
@@ -16,21 +29,21 @@ namespace Minipede.Utility
 				GameObject.Destroy( _currentCell.Block.gameObject );
 				_currentCell.Block = null;
 
-				return new RefurbishInstructions( _level, _currentCell );
+				return new RefurbishInstructions( _builder, _currentCell );
 			}
 		}
 
 		public class RefurbishInstructions : InternalInstructions
 		{
-			public RefurbishInstructions( LevelGraph level, LevelCell currentCell ) : base( level, currentCell )
+			public RefurbishInstructions( LevelBuilder builder, LevelCell currentCell ) : base( builder, currentCell )
 			{
 			}
 
 			public DemolishInstructions Create( Block.Type type )
 			{
-				_level.CreateBlock( type, _currentCell );
+				_builder.CreateBlock( type, _currentCell );
 
-				return new DemolishInstructions( _level, _currentCell );
+				return new DemolishInstructions( _builder, _currentCell );
 			}
 		}
 
@@ -38,21 +51,8 @@ namespace Minipede.Utility
 		{
 			public Vector2 Center => _currentCell.Center;
 
-			public SiteInstructions( LevelGraph level, LevelCell currentCell ) : base( level, currentCell )
+			public SiteInstructions( LevelBuilder builder, LevelCell currentCell ) : base( builder, currentCell )
 			{
-			}
-		}
-
-		public abstract class InternalInstructions
-		{
-			protected readonly LevelGraph _level;
-			protected readonly LevelCell _currentCell;
-
-			public InternalInstructions( LevelGraph level,
-				LevelCell currentCell )
-			{
-				_level = level;
-				_currentCell = currentCell;
 			}
 		}
 	}

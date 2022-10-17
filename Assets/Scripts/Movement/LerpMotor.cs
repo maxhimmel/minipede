@@ -34,8 +34,6 @@ namespace Minipede.Gameplay.Movement
 
 		public void StartMoving( Vector2 direction )
 		{
-			_lerpTimer = 0;
-
 			_startPos = _body.position;
 			_endPos = _startPos + direction;
 
@@ -46,6 +44,7 @@ namespace Minipede.Gameplay.Movement
 				_simluatedVelocity /= travelDistance * _settings.MaxSpeed;
 			}
 
+			_lerpTimer = 0;
 			_travelDuration = travelDistance / _settings.MaxSpeed;
 		}
 

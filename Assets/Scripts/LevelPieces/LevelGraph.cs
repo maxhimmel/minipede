@@ -21,11 +21,11 @@ namespace Minipede.Gameplay.LevelPieces
 			TryUpdateLocalOriginCache( forceUpdate: true );
 		}
 
-		public Vector2 CellCoordToWorldPos( int row, int col )
+		public Vector2 CellCoordToWorldPos( Vector2Int cellCoord )
 		{
 			Vector2 position = transform.position
-				+ Vector3.up * row * Data.Size.y
-				+ Vector3.right * col * Data.Size.x;
+				+ Vector3.up * cellCoord.Row() * Data.Size.y
+				+ Vector3.right * cellCoord.Col() * Data.Size.x;
 
 			return position
 				+ Data.Size * 0.5f

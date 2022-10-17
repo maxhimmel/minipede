@@ -27,7 +27,8 @@ namespace Minipede.Gameplay.LevelPieces
 				settings.Graph.Dimensions.Col(),
 				( row, col ) =>
 				{
-					Vector2 worldPos = _levelGraph.CellCoordToWorldPos( row, col );
+					Vector2Int rowCol = VectorExtensions.CreateRowCol( row, col );
+					Vector2 worldPos = _levelGraph.CellCoordToWorldPos( rowCol );
 					return new LevelCell( worldPos );
 				} );
 		}

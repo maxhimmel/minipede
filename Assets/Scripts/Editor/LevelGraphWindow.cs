@@ -51,28 +51,35 @@ namespace Minipede.Editor
 
 		private void CacheReferences()
 		{
-			if ( _levelGraph != null )
+			if ( _levelGraph == null )
 			{
-				return;
+				Debug.Log( $"[LevelGraphWindow] {nameof(_levelGraph)} ref is null. Reacquiring." );
+				_levelGraph = FindObjectOfType<LevelGraph>();
 			}
 
-			_levelGraph = FindObjectOfType<LevelGraph>();
+			if ( _gameplaySettings == null )
+			{
+				Debug.Log( $"[LevelGraphWindow] {nameof( _gameplaySettings )} ref is null. Reacquiring." );
+				string[] guids = AssetDatabase.FindAssets( "GameplaySettings" );
+				string path = AssetDatabase.GUIDToAssetPath( guids[0] );
+				_gameplaySettings = AssetDatabase.LoadAssetAtPath<GameplaySettings>( path );
+			}
 
-			string[] guids = AssetDatabase.FindAssets( "GameplaySettings" );
-			string path = AssetDatabase.GUIDToAssetPath( guids[0] );
-			_gameplaySettings = AssetDatabase.LoadAssetAtPath<GameplaySettings>( path );
+			if ( _gameplaySettingsObj == null )
+			{
+				Debug.Log( $"[LevelGraphWindow] {nameof( _gameplaySettingsObj )} ref is null. Reacquiring." );
+				_gameplaySettingsObj = new SerializedObject( _gameplaySettings );
+				_levelSettingsProperty = _gameplaySettingsObj.FindProperty( "_levelSettings" );
+				_builderSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Builder" );
+				_graphSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Graph" );
 
-			_gameplaySettingsObj = new SerializedObject( _gameplaySettings );
-			_levelSettingsProperty = _gameplaySettingsObj.FindProperty( "_levelSettings" );
-			_builderSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Builder" );
-			_graphSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Graph" );
+				_playerRowsProperty = _builderSettingsProperty.FindPropertyRelative( "PlayerRows" );
+				_playerRowDepthProperty = _builderSettingsProperty.FindPropertyRelative( "PlayerRowDepth" );
 
-			_playerRowsProperty = _builderSettingsProperty.FindPropertyRelative( "PlayerRows" );
-			_playerRowDepthProperty = _builderSettingsProperty.FindPropertyRelative( "PlayerRowDepth" );
-
-			_dimensionsProperty = _graphSettingsProperty.FindPropertyRelative( "Dimensions" );
-			_sizeProperty = _graphSettingsProperty.FindPropertyRelative( "Size" );
-			_offsetProperty = _graphSettingsProperty.FindPropertyRelative( "Offset" );
+				_dimensionsProperty = _graphSettingsProperty.FindPropertyRelative( "Dimensions" );
+				_sizeProperty = _graphSettingsProperty.FindPropertyRelative( "Size" );
+				_offsetProperty = _graphSettingsProperty.FindPropertyRelative( "Offset" );
+			}
 		}
 
 		protected override void OnEnable()

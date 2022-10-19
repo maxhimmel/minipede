@@ -21,6 +21,8 @@ namespace Minipede.Installers
 		[SerializeField] private MosquitoController.Settings _mosquito;
 		[Space, BoxGroup( "Specialized" )]
 		[SerializeField] private BeetleController.Settings _beetle;
+		[Space, BoxGroup( "Specialized" )]
+		[SerializeField] private MinipedeController.Settings _minipede;
 
 		public override void InstallBindings()
 		{
@@ -30,7 +32,8 @@ namespace Minipede.Installers
 				_bee,
 				_dragonfly,
 				_mosquito,
-				_beetle
+				_beetle,
+				_minipede
 			);
 		}
 

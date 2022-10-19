@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Installers;
@@ -30,7 +31,7 @@ namespace Minipede.Gameplay
 
 		public async void Initialize()
 		{
-			await _levelBuilder.GenerateLevel();
+			await _levelBuilder.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
 			CreatePlayer();
 
 			IsReady = true;

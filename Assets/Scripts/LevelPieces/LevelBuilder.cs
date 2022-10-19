@@ -1,8 +1,8 @@
+using Cysharp.Threading.Tasks;
 using Minipede.Installers;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Minipede.Gameplay.LevelPieces
@@ -33,7 +33,7 @@ namespace Minipede.Gameplay.LevelPieces
 				} );
 		}
 
-		public async Task GenerateLevel()
+		public async UniTask GenerateLevel()
 		{
 			_settings.RowGeneration.Init();
 

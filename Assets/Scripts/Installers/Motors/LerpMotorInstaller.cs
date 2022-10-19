@@ -3,9 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu( menuName = "Motors/" + nameof( LerpMotor ) )]
     public class LerpMotorInstaller : 
-        MotorInstaller<LerpMotor, LerpMotor.Settings>
-    {
-    }
+        ConfigurableInstaller<LerpMotor, LerpMotor.Settings>{ }
 }

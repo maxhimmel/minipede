@@ -6,13 +6,13 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu]
+	[CreateAssetMenu( menuName = "Motors/" + nameof( SineMotor ) )]
 	public class SineMotorInstaller :
-		MotorInstaller<SineMotor, SineMotor.Settings>
+		ConfigurableInstaller<SineMotor, SineMotor.Settings>
 	{
 		[Inject] private DragonflyController.Settings _dragonfly;
 
-		public override SineMotor.Settings GetMotorSettings()
+		public override SineMotor.Settings GetSettings()
 		{
 			var combinedSettings = _settings;
 			combinedSettings.Wave.Amplitude = _dragonfly.ZigZagRange.Random( false );

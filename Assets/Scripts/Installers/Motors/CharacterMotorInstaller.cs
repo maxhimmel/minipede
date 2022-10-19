@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu]
-    public class CharacterMotorInstaller : 
-        MotorInstaller<CharacterMotor, CharacterMotor.Settings> { }
+    [CreateAssetMenu( menuName = "Motors/" + nameof(CharacterMotor) )]
+    public class CharacterMotorInstaller :
+        ConfigurableInstaller<CharacterMotor, CharacterMotor.Settings> { }
 }

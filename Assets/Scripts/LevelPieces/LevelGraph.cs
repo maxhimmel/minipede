@@ -36,9 +36,7 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			Vector2Int cellCoord = WorldPosToCellCoord( worldPosition );
 
-			bool isRowValid = cellCoord.Row() >= 0 && cellCoord.Row() < Data.Dimensions.Row();
-			bool isColumnValid = cellCoord.Col() >= 0 && cellCoord.Col() < Data.Dimensions.Col();
-			if ( isRowValid && isColumnValid )
+			if ( IsWithinBounds( cellCoord, out bool isRowValid, out bool isColumnValid ) )
 			{
 				return cellCoord;
 			}
@@ -57,6 +55,19 @@ namespace Minipede.Gameplay.LevelPieces
 			}
 
 			return cellCoord;
+		}
+
+		public bool IsWithinBounds( Vector2Int cellCoord )
+		{
+			return IsWithinBounds( cellCoord, out _, out _ );
+		}
+
+		private bool IsWithinBounds( Vector2Int cellCoord, out bool isRowValid, out bool isColumnValid )
+		{
+			isRowValid = cellCoord.Row() >= 0 && cellCoord.Row() < Data.Dimensions.Row();
+			isColumnValid = cellCoord.Col() >= 0 && cellCoord.Col() < Data.Dimensions.Col();
+
+			return isRowValid && isColumnValid;
 		}
 
 		public Vector2Int WorldPosToCellCoord( Vector2 worldPosition )

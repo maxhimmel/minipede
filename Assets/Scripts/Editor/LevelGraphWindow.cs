@@ -42,46 +42,6 @@ namespace Minipede.Editor
 			GetWindow<LevelGraphWindow>( "Level Graph" ).Show();
 		}
 
-		protected override void Initialize()
-		{
-			base.Initialize();
-
-			CacheReferences();
-		}
-
-		private void CacheReferences()
-		{
-			if ( _levelGraph == null )
-			{
-				Debug.Log( $"[LevelGraphWindow] {nameof(_levelGraph)} ref is null. Reacquiring." );
-				_levelGraph = FindObjectOfType<LevelGraph>();
-			}
-
-			if ( _gameplaySettings == null )
-			{
-				Debug.Log( $"[LevelGraphWindow] {nameof( _gameplaySettings )} ref is null. Reacquiring." );
-				string[] guids = AssetDatabase.FindAssets( "GameplaySettings" );
-				string path = AssetDatabase.GUIDToAssetPath( guids[0] );
-				_gameplaySettings = AssetDatabase.LoadAssetAtPath<GameplaySettings>( path );
-			}
-
-			if ( _gameplaySettingsObj == null )
-			{
-				Debug.Log( $"[LevelGraphWindow] {nameof( _gameplaySettingsObj )} ref is null. Reacquiring." );
-				_gameplaySettingsObj = new SerializedObject( _gameplaySettings );
-				_levelSettingsProperty = _gameplaySettingsObj.FindProperty( "_levelSettings" );
-				_builderSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Builder" );
-				_graphSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Graph" );
-
-				_playerRowsProperty = _builderSettingsProperty.FindPropertyRelative( "PlayerRows" );
-				_playerRowDepthProperty = _builderSettingsProperty.FindPropertyRelative( "PlayerRowDepth" );
-
-				_dimensionsProperty = _graphSettingsProperty.FindPropertyRelative( "Dimensions" );
-				_sizeProperty = _graphSettingsProperty.FindPropertyRelative( "Size" );
-				_offsetProperty = _graphSettingsProperty.FindPropertyRelative( "Offset" );
-			}
-		}
-
 		protected override void OnEnable()
 		{
 			SceneView.duringSceneGui += OnSceneGui;
@@ -116,6 +76,39 @@ namespace Minipede.Editor
 			// Player depth area ...
 			Handles.color = _playerDepthColor;
 			DrawRowsAndColumns( _playerRowDepthProperty.intValue, _playerRowsProperty.intValue );
+		}
+
+		private void CacheReferences()
+		{
+			if ( _levelGraph == null )
+			{
+				//Debug.Log( $"[LevelGraphWindow] {nameof(_levelGraph)} ref is null. Reacquiring." );
+				_levelGraph = FindObjectOfType<LevelGraph>();
+			}
+
+			if ( _gameplaySettings == null )
+			{
+				//Debug.Log( $"[LevelGraphWindow] {nameof( _gameplaySettings )} ref is null. Reacquiring." );
+				string[] guids = AssetDatabase.FindAssets( "GameplaySettings" );
+				string path = AssetDatabase.GUIDToAssetPath( guids[0] );
+				_gameplaySettings = AssetDatabase.LoadAssetAtPath<GameplaySettings>( path );
+			}
+
+			if ( _gameplaySettingsObj == null )
+			{
+				//Debug.Log( $"[LevelGraphWindow] {nameof( _gameplaySettingsObj )} ref is null. Reacquiring." );
+				_gameplaySettingsObj = new SerializedObject( _gameplaySettings );
+				_levelSettingsProperty = _gameplaySettingsObj.FindProperty( "_levelSettings" );
+				_builderSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Builder" );
+				_graphSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Graph" );
+
+				_playerRowsProperty = _builderSettingsProperty.FindPropertyRelative( "PlayerRows" );
+				_playerRowDepthProperty = _builderSettingsProperty.FindPropertyRelative( "PlayerRowDepth" );
+
+				_dimensionsProperty = _graphSettingsProperty.FindPropertyRelative( "Dimensions" );
+				_sizeProperty = _graphSettingsProperty.FindPropertyRelative( "Size" );
+				_offsetProperty = _graphSettingsProperty.FindPropertyRelative( "Offset" );
+			}
 		}
 
 		private void DrawRowsAndColumns( int startRow, int rowCount )

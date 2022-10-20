@@ -56,5 +56,7 @@ namespace Minipede.Gameplay.Enemies
 		{
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
+
+		public class Factory : PlaceholderFactory<EarwigController> { }
 	}
 }

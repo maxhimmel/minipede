@@ -196,5 +196,7 @@ namespace Minipede.Gameplay.Enemies
 
 			public MinipedeSegmentController SegmentPrefab;
 		}
+
+		public class Factory : PlaceholderFactory<MinipedeController> { }
 	}
 }

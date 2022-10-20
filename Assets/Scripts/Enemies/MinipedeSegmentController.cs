@@ -63,5 +63,7 @@ namespace Minipede.Gameplay
 		{
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
+
+		public class Factory : PlaceholderFactory<MinipedeSegmentController> { }
 	}
 }

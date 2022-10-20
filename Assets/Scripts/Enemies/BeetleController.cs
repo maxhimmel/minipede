@@ -119,14 +119,6 @@ namespace Minipede.Gameplay.Enemies
 			public int ExitRow;
 		}
 
-		private class Qbin
-		{
-			public Vector2Int CellCoord { get; }
-
-			public Qbin( Vector2Int cellCoord )
-			{
-				CellCoord = cellCoord;
-			}
-		}
+		public class Factory : PlaceholderFactory<BeetleController> { }
 	}
 }

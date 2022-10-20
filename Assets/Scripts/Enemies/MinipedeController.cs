@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
 using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -18,9 +20,11 @@ namespace Minipede.Gameplay.Enemies
 		private GameController _gameController;
 		private LevelForeman _levelForeman;
 		private LevelGraph _levelGraph;
+		private IFollower.Factory _followerFactory;
 		private CancellationTokenSource _cts;
 		private CancellationToken _cancellationToken;
 
+		private List<IFollower> _followers;
 		private Vector2Int _rowDir;
 		private Vector2Int _columnDir;
 
@@ -31,7 +35,8 @@ namespace Minipede.Gameplay.Enemies
 			Rigidbody2D body,
 			GameController gameController,
 			LevelForeman levelForeman,
-			LevelGraph levelGraph )
+			LevelGraph levelGraph,
+			IFollower.Factory followerFactory )
 		{
 			_settings = settings;
 			_motor = motor;
@@ -40,6 +45,7 @@ namespace Minipede.Gameplay.Enemies
 			_gameController = gameController;
 			_levelForeman = levelForeman;
 			_levelGraph = levelGraph;
+			_followerFactory = followerFactory;
 
 			damageController.Died += OnDead;
 
@@ -62,12 +68,30 @@ namespace Minipede.Gameplay.Enemies
 				await UniTask.Yield();
 			}
 
+			CreateFollowers( _settings.SegmentRange.Random( true ) );
+
 			StartRowTransition()
 				.Cancellable( _cancellationToken )
 				.Forget();
+		}
 
-			var follower = FindObjectOfType<FollowController>();
-			follower.StartFollowing( _body );
+		private void CreateFollowers( int segmentCount )
+		{
+			Rigidbody2D followTarget = _body;
+
+			_followers = new List<IFollower>( segmentCount );
+			for ( int idx = 0; idx < segmentCount; ++idx )
+			{
+				IFollower newFollower = _followerFactory.Create();
+
+				newFollower.Body.transform.SetPositionAndRotation( 
+					_body.position, 
+					Quaternion.LookRotation( Vector3.forward, _body.transform.up ) 
+				);
+				newFollower.StartFollowing( followTarget );
+
+				followTarget = newFollower.Body;
+			}
 		}
 
 		private async UniTask StartRowTransition()
@@ -167,6 +191,10 @@ namespace Minipede.Gameplay.Enemies
 		[System.Serializable]
 		public struct Settings
 		{
+			[MinMaxSlider( 0, 10, ShowFields = true )]
+			public Vector2Int SegmentRange;
+
+			public MinipedeSegmentController SegmentPrefab;
 		}
 	}
 }

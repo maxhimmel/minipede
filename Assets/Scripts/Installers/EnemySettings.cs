@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Enemies;
+using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -35,6 +36,10 @@ namespace Minipede.Installers
 				_beetle,
 				_minipede
 			);
+
+			Container.BindFactory<IFollower, IFollower.Factory>()
+				.FromComponentInNewPrefab( _minipede.SegmentPrefab )
+				.WithGameObjectName( _minipede.SegmentPrefab.name );
 		}
 
 		private void BindSharedSettings()

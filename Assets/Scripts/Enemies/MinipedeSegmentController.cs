@@ -4,7 +4,7 @@ using Minipede.Gameplay.Movement;
 using UnityEngine;
 using Zenject;
 
-namespace Minipede.Gameplay
+namespace Minipede.Gameplay.Enemies
 {
 	public class MinipedeSegmentController : MonoBehaviour,
 		IFollower,

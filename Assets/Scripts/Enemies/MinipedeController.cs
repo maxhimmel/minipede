@@ -65,6 +65,9 @@ namespace Minipede.Gameplay.Enemies
 			StartRowTransition()
 				.Cancellable( _cancellationToken )
 				.Forget();
+
+			var follower = FindObjectOfType<FollowController>();
+			follower.StartFollowing( _body );
 		}
 
 		private async UniTask StartRowTransition()

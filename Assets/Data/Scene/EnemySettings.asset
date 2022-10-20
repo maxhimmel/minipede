@@ -39,7 +39,7 @@ MonoBehaviour:
       ColumnMovementRange: {x: 5, y: 24}
       ExitRow: 14
   _minipede:
-    Prefab: {fileID: 0}
+    Prefab: {fileID: 236338040139199297, guid: cccfaedb81881644fbeb3e858069e0a7, type: 3}
     Settings:
       SegmentRange: {x: 1, y: 1}
       SegmentPrefab: {fileID: 8754202664335845638, guid: b4e3ef860a2523d4480d166b5e447b42, type: 3}

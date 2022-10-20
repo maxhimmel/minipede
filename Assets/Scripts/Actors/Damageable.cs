@@ -5,8 +5,8 @@ namespace Minipede.Gameplay
 {
 	public class Damageable : IDamageController
 	{
-		public event EventHandler<HealthController> Damaged;
-		public event EventHandler<HealthController> Died;
+		public event IDamageController.OnHit Damaged;
+		public event IDamageController.OnHit Died;
 
 		private readonly HealthController _health;
 		private readonly Rigidbody2D _body;

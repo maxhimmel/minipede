@@ -9,8 +9,17 @@ namespace Minipede.Gameplay.Enemies
 {
 	public class MinipedeSegmentController : MonoBehaviour,
 		IFollower,
-		IDamageable
+		IDamageController
 	{
+		public event IDamageController.OnHit Damaged {
+			add => _damageController.Damaged += value;
+			remove => _damageController.Damaged -= value;
+		}
+		public event IDamageController.OnHit Died {
+			add => _damageController.Died += value;
+			remove => _damageController.Died -= value;
+		}
+
 		public Rigidbody2D Body => _body;
 
 		private Rigidbody2D _body;
@@ -69,13 +78,13 @@ namespace Minipede.Gameplay.Enemies
 			transform.rotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
 		}
 
-		private void OnDead( object sender, HealthController e )
+		private void OnDead( Rigidbody2D victimBody, HealthController e )
 		{
 			_damageController.Died -= OnDead;
 
 			if ( _levelForeman != null )
 			{
-				Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( _body.position );
+				Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( victimBody.position );
 				cellCoord += VectorExtensions.CreateRowCol( 0, _moveDir.Col() );
 				Vector2 nextPos = _levelGraph.CellCoordToWorldPos( cellCoord );
 

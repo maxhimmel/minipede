@@ -167,13 +167,13 @@ namespace Minipede.Gameplay.Enemies
 			transform.rotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
 		}
 
-		private void OnDead( object sender, HealthController e )
+		private void OnDead( Rigidbody2D victimBody, HealthController e )
 		{
 			_damageController.Died -= OnDead;
 
 			if ( _levelForeman != null )
 			{
-				Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( _body.position );
+				Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( victimBody.position );
 				cellCoord += _columnDir.ToRowCol();
 				Vector2 nextPos = _levelGraph.CellCoordToWorldPos( cellCoord );
 

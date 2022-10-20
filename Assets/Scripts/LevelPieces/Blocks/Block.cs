@@ -24,7 +24,7 @@ namespace Minipede.Gameplay.LevelPieces
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
-		private void HandleDamageAnim( object sender, HealthController health )
+		private void HandleDamageAnim( Rigidbody2D victimBody, HealthController health )
 		{
 			_renderer.transform.localScale = Vector3.one * health.Percentage;
 		}

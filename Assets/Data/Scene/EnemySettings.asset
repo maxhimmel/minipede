@@ -28,3 +28,6 @@ MonoBehaviour:
   _beetle:
     ColumnMovementRange: {x: 5, y: 24}
     ExitRow: 14
+  _minipede:
+    SegmentRange: {x: 7, y: 7}
+    SegmentPrefab: {fileID: 8754202664335845638, guid: b4e3ef860a2523d4480d166b5e447b42, type: 3}

@@ -14,8 +14,6 @@ namespace Minipede
 		[RuntimeInitializeOnLoadMethod]
 		public static void ListenForQuitRequest()
 		{
-			Debug.Log( $"Listening for quit request." );
-
 			_isQuitting = false;
 			_cancellationSource = new CancellationTokenSource();
 			AppQuittingToken = _cancellationSource.Token;
@@ -25,8 +23,6 @@ namespace Minipede
 
 		private static void OnAppQuitting()
 		{
-			Debug.Log( $"App is quitting." );
-
 			_isQuitting = true;
 			_cancellationSource.Cancel();
 

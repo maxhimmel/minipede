@@ -126,6 +126,18 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			_motor.FixedTick();
+			UpdateFacingRotation();
+		}
+
+		private void UpdateFacingRotation()
+		{
+			Vector3 velocity = _motor.Velocity;
+			float moveSpeed = velocity.magnitude;
+			float turnDegrees = 90f;
+			float rotationDelta = moveSpeed * turnDegrees * Time.fixedDeltaTime;
+			Quaternion targetRotation = Quaternion.LookRotation( Vector3.forward, velocity / moveSpeed );
+
+			transform.rotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
 		}
 
 		private void OnDead( object sender, HealthController e )
@@ -152,7 +164,6 @@ namespace Minipede.Gameplay.Enemies
 		[System.Serializable]
 		public struct Settings
 		{
-
 		}
 	}
 }

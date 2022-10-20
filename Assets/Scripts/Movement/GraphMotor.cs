@@ -11,6 +11,7 @@ namespace Minipede.Gameplay.Movement
 		public event EventHandler<Vector2Int> Arrived;
 
 		public bool IsMoving => _travelDuration > 0;
+		public Vector2 Velocity => (_endPos - _startPos).normalized * _settings.MaxSpeed;
 
 		private readonly Settings _settings;
 		private readonly Rigidbody2D _body;

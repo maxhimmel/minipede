@@ -171,12 +171,13 @@ namespace Minipede.Gameplay.Enemies
 		{
 			_damageController.Died -= OnDead;
 
-			// Don't spawn any blocks if moving vertically ...
-				// Maybe?!
-
 			if ( _levelForeman != null )
 			{
-				if ( _levelForeman.TryQueryEmptyBlock( _body.position, out var instructions ) )
+				Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( _body.position );
+				cellCoord += _columnDir.ToRowCol();
+				Vector2 nextPos = _levelGraph.CellCoordToWorldPos( cellCoord );
+
+				if ( _levelForeman.TryQueryEmptyBlock( nextPos, out var instructions ) )
 				{
 					instructions.Create( Block.Type.Regular );
 				}

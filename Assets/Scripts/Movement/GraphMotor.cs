@@ -74,7 +74,9 @@ namespace Minipede.Gameplay.Movement
 
 		public void StopMoving()
 		{
-			_startPos = _endPos = _body.position;
+			Vector2 stoppedPos = _body != null ? _body.position : _endPos;
+
+			_startPos = _endPos = stoppedPos;
 			_lerpTimer = _travelDuration = 0;
 
 			_cancelMoveLoop = true;

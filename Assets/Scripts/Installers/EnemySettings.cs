@@ -40,8 +40,6 @@ namespace Minipede.Installers
 			);
 
 			BindEnemyFactories();
-
-			BindMinipedeHelpers();
 		}
 
 		private void BindSharedSettings()
@@ -52,21 +50,7 @@ namespace Minipede.Installers
 		private void BindEnemyFactories()
 		{
 			Container.BindUnityFactory<MinipedeController, MinipedeController.Factory>( _minipede.Prefab );
-			//Container.BindFactory<MinipedeController, MinipedeController.Factory>()
-			//	.FromComponentInNewPrefab( _minipede.Prefab )
-			//	.WithGameObjectName( _minipede.Prefab.name );
-		}
-
-		private void BindMinipedeHelpers()
-		{
 			Container.BindUnityFactory<MinipedeSegmentController, MinipedeSegmentController.Factory>( _minipede.Settings.SegmentPrefab );
-			//Container.BindFactory<MinipedeSegmentController, MinipedeSegmentController.Factory>()
-			//	.FromComponentInNewPrefab( _minipede.Settings.SegmentPrefab )
-			//	.WithGameObjectName( _minipede.Settings.SegmentPrefab.name );
-
-				
-			//Container.BindFactory<IFollower, IFollower.Factory>()
-			//	.FromResolveGetter<MinipedeSegmentController.Factory>( factory => factory.Create() );
 		}
 	}
 }

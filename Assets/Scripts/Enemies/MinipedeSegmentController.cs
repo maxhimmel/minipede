@@ -100,6 +100,6 @@ namespace Minipede.Gameplay.Enemies
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
-		public class Factory : PlaceholderFactory<MinipedeSegmentController> { }
+		public class Factory : UnityFactory<MinipedeSegmentController> { }//UnityPlaceholderFactory<MinipedeSegmentController> { }
 	}
 }

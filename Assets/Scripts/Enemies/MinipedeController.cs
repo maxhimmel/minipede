@@ -20,11 +20,12 @@ namespace Minipede.Gameplay.Enemies
 		private GameController _gameController;
 		private LevelForeman _levelForeman;
 		private LevelGraph _levelGraph;
-		private IFollower.Factory _followerFactory;
+		private MinipedeSegmentController.Factory _followerFactory;
+		private Factory _minipedeFactory;
 		private CancellationTokenSource _cts;
 		private CancellationToken _cancellationToken;
 
-		private List<IFollower> _followers;
+		private List<MinipedeSegmentController> _followers;
 		private Vector2Int _rowDir;
 		private Vector2Int _columnDir;
 
@@ -36,7 +37,8 @@ namespace Minipede.Gameplay.Enemies
 			GameController gameController,
 			LevelForeman levelForeman,
 			LevelGraph levelGraph,
-			IFollower.Factory followerFactory )
+			MinipedeSegmentController.Factory followerFactory,
+			Factory minipedeFactory )
 		{
 			_settings = settings;
 			_motor = motor;
@@ -46,6 +48,7 @@ namespace Minipede.Gameplay.Enemies
 			_levelForeman = levelForeman;
 			_levelGraph = levelGraph;
 			_followerFactory = followerFactory;
+			_minipedeFactory = minipedeFactory;
 
 			damageController.Died += OnDead;
 
@@ -61,6 +64,8 @@ namespace Minipede.Gameplay.Enemies
 			_cts.Cancel();
 		}
 
+		public bool CanCreateFollowers = true;
+
 		private async void Start()
 		{
 			while ( !_gameController.IsReady )
@@ -68,7 +73,10 @@ namespace Minipede.Gameplay.Enemies
 				await UniTask.Yield();
 			}
 
-			CreateFollowers( _settings.SegmentRange.Random( true ) );
+			if ( CanCreateFollowers )
+			{
+				CreateFollowers( _settings.SegmentRange.Random( true ) );
+			}
 
 			StartRowTransition()
 				.Cancellable( _cancellationToken )
@@ -79,19 +87,89 @@ namespace Minipede.Gameplay.Enemies
 		{
 			Rigidbody2D followTarget = _body;
 
-			_followers = new List<IFollower>( segmentCount );
+			_followers = new List<MinipedeSegmentController>( segmentCount );
 			for ( int idx = 0; idx < segmentCount; ++idx )
 			{
-				IFollower newFollower = _followerFactory.Create();
-
-				newFollower.Body.transform.SetPositionAndRotation( 
-					_body.position, 
-					Quaternion.LookRotation( Vector3.forward, _body.transform.up ) 
-				);
-				newFollower.StartFollowing( followTarget );
-
+				MinipedeSegmentController newFollower = CreateFollower( followTarget, idx);
 				followTarget = newFollower.Body;
 			}
+
+			SetFollowers( _followers );
+		}
+
+		private MinipedeSegmentController CreateFollower( Rigidbody2D leader, int index )
+		{
+			Vector2 offsetDir = transform.right;
+			Vector2 spawnOffset = offsetDir * _levelGraph.Data.Size.x;// * (index + 1);
+			Vector2 spawnPos = leader.position + spawnOffset;
+			Quaternion spawnRot = Quaternion.LookRotation( Vector3.forward, -offsetDir );
+
+			MinipedeSegmentController newFollower = _followerFactory.Create( spawnPos, spawnRot, null );
+			newFollower.StartFollowing( leader );
+
+			_followers.Add( newFollower );
+			return newFollower;
+		}
+
+		public void SetFollowers( List<MinipedeSegmentController> followers )
+		{
+			_followers = followers;
+			for ( int idx = 0; idx < followers.Count; ++idx )
+			{
+				IFollower follower = followers[idx];
+				if ( follower is IDamageController dmgController )
+				{
+					dmgController.Died += OnSegmentDied;
+				}
+			}
+		}
+
+		private void OnSegmentDied( Rigidbody2D victimBody, HealthController health )
+		{
+			MinipedeSegmentController victim = victimBody.GetComponent<MinipedeSegmentController>();
+			if ( victim == null )
+			{
+				throw new System.NullReferenceException(
+					$"Segment '{victimBody.name}' must have a component implementing '{nameof( IFollower )}'."
+				);
+			}
+
+			int victimIndex = _followers.FindIndex( otherFollower => otherFollower == victim );
+			int nextFollowerIndex = victimIndex + 1;
+
+			if ( nextFollowerIndex < _followers.Count )
+			{
+				MinipedeSegmentController nextFollower = _followers[nextFollowerIndex];
+
+				MinipedeController leader = _minipedeFactory.Create(
+					nextFollower.Body.transform.position,
+					nextFollower.Body.transform.rotation,
+					null
+				);
+				leader.CanCreateFollowers = false;
+
+				Destroy( nextFollower.Body.gameObject );
+
+				++nextFollowerIndex;
+				if ( nextFollowerIndex < _followers.Count )
+				{
+					var newFollowers = _followers.GetRange( nextFollowerIndex, _followers.Count - nextFollowerIndex );
+					leader.SetFollowers( newFollowers );
+
+					var firstFollower = newFollowers[0];
+					firstFollower.StartFollowing( leader._body );
+				}
+			}
+
+			var splitFollowers = _followers.GetRange( victimIndex, _followers.Count - victimIndex );
+			foreach ( var otherFollower in splitFollowers )
+			{
+				if ( otherFollower is IDamageController dmgController )
+				{
+					dmgController.Died -= OnSegmentDied;
+				}
+			}
+			_followers.RemoveRange( victimIndex, _followers.Count - victimIndex );
 		}
 
 		private async UniTask StartRowTransition()
@@ -198,6 +276,6 @@ namespace Minipede.Gameplay.Enemies
 			public MinipedeSegmentController SegmentPrefab;
 		}
 
-		public class Factory : PlaceholderFactory<MinipedeController> { }
+		public class Factory : UnityFactory<MinipedeController> { }//UnityPlaceholderFactory<MinipedeController> { }
 	}
 }

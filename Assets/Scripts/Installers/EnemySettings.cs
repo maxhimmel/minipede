@@ -1,6 +1,7 @@
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Weapons;
+using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -50,19 +51,22 @@ namespace Minipede.Installers
 
 		private void BindEnemyFactories()
 		{
-			Container.BindFactory<MinipedeController, MinipedeController.Factory>()
-				.FromComponentInNewPrefab( _minipede.Prefab )
-				.WithGameObjectName( _minipede.Prefab.name );
+			Container.BindUnityFactory<MinipedeController, MinipedeController.Factory>( _minipede.Prefab );
+			//Container.BindFactory<MinipedeController, MinipedeController.Factory>()
+			//	.FromComponentInNewPrefab( _minipede.Prefab )
+			//	.WithGameObjectName( _minipede.Prefab.name );
 		}
 
 		private void BindMinipedeHelpers()
 		{
-			Container.BindFactory<MinipedeSegmentController, MinipedeSegmentController.Factory>()
-				.FromComponentInNewPrefab( _minipede.Settings.SegmentPrefab )
-				.WithGameObjectName( _minipede.Settings.SegmentPrefab.name );
+			Container.BindUnityFactory<MinipedeSegmentController, MinipedeSegmentController.Factory>( _minipede.Settings.SegmentPrefab );
+			//Container.BindFactory<MinipedeSegmentController, MinipedeSegmentController.Factory>()
+			//	.FromComponentInNewPrefab( _minipede.Settings.SegmentPrefab )
+			//	.WithGameObjectName( _minipede.Settings.SegmentPrefab.name );
 
-			Container.BindFactory<IFollower, IFollower.Factory>()
-				.FromResolveGetter<MinipedeSegmentController.Factory>( factory => factory.Create() );
+				
+			//Container.BindFactory<IFollower, IFollower.Factory>()
+			//	.FromResolveGetter<MinipedeSegmentController.Factory>( factory => factory.Create() );
 		}
 	}
 }

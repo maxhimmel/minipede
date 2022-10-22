@@ -16,9 +16,15 @@ namespace Minipede.Utility
             return UniTask.Delay( TimeSpan.FromSeconds( seconds ) );
 		}
 
-        public static UniTask Cancellable( this UniTask task, CancellationToken token)
+        public static UniTask Cancellable( this UniTask task, CancellationToken token, bool suppressCancellationThrow = true )
 		{
-			return task.AttachExternalCancellation( token );
+			var result = task.AttachExternalCancellation( token );
+			if ( suppressCancellationThrow )
+			{
+				result = result.SuppressCancellationThrow();
+			}
+
+			return result;
 		}
 	}
 }

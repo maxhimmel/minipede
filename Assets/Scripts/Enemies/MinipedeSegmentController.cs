@@ -7,44 +7,20 @@ using Zenject;
 
 namespace Minipede.Gameplay.Enemies
 {
-	public class MinipedeSegmentController : MonoBehaviour,
-		IFollower,
-		IDamageController
+	public class MinipedeSegmentController : EnemyController,
+		IFollower
 	{
-		public event IDamageController.OnHit Damaged {
-			add => _damageController.Damaged += value;
-			remove => _damageController.Damaged -= value;
-		}
-		public event IDamageController.OnHit Died {
-			add => _damageController.Died += value;
-			remove => _damageController.Died -= value;
-		}
-
 		public Rigidbody2D Body => _body;
 
-		private Rigidbody2D _body;
 		private GraphMotor _motor;
-		private IDamageController _damageController;
-		private LevelGraph _levelGraph;
-		private LevelForeman _levelForeman;
 
 		private Rigidbody2D _target;
 		private Vector2Int _moveDir;
 
 		[Inject]
-		public void Construct( Rigidbody2D body,
-			GraphMotor motor,
-			IDamageController damageController,
-			LevelGraph levelGraph,
-			LevelForeman levelForeman )
+		public void Construct( GraphMotor motor )
 		{
-			_body = body;
 			_motor = motor;
-			_damageController = damageController;
-			_levelGraph = levelGraph;
-			_levelForeman = levelForeman;
-
-			damageController.Died += OnDead;
 		}
 
 		public void StartFollowing( Rigidbody2D target )
@@ -52,8 +28,10 @@ namespace Minipede.Gameplay.Enemies
 			_target = target;
 		}
 
-		private void FixedUpdate()
+		protected override void FixedTick()
 		{
+			base.FixedTick();
+
 			if ( !_motor.IsMoving && _target != null )
 			{
 				Vector2Int currentCoord = _levelGraph.WorldPosToCellCoord( _body.position );
@@ -78,11 +56,11 @@ namespace Minipede.Gameplay.Enemies
 			transform.rotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
 		}
 
-		private void OnDead( Rigidbody2D victimBody, HealthController e )
+		protected override void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
-			_damageController.Died -= OnDead;
+			base.OnDied( victimBody, health );
 
-			if ( _levelForeman != null )
+			//if ( _levelForeman != null && _levelGraph != null )
 			{
 				Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( victimBody.position );
 				cellCoord += VectorExtensions.CreateRowCol( 0, _moveDir.Col() );
@@ -93,11 +71,6 @@ namespace Minipede.Gameplay.Enemies
 					instructions.Create( Block.Type.Regular );
 				}
 			}
-		}
-
-		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
-		{
-			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
 		public class Factory : UnityFactory<MinipedeSegmentController> { }

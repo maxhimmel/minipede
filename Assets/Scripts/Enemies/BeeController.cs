@@ -8,46 +8,32 @@ using Zenject;
 
 namespace Minipede.Gameplay.Enemies
 {
-    public class BeeController : MonoBehaviour,
-		IDamageable
-    {
+    public class BeeController : EnemyController
+	{
 		private IMotor _motor;
-		private GameController _gameController;
-		private LevelForeman _levelForeman;
-		private Rigidbody2D _body;
-		private IDamageController _damageController;
 
 		private float _createBlockChance;
 
 		[Inject]
 		public void Construct( Settings settings,
-			IMotor motor,
-			GameController gameController,
-			LevelForeman levelForeman,
-			Rigidbody2D body,
-			IDamageController damageController )
+			IMotor motor )
 		{
 			_motor = motor;
-			_gameController = gameController;
-			_levelForeman = levelForeman;
-			_body = body;
-			_damageController = damageController;
 
 			_createBlockChance = settings.CreateBlockRange.Random();
 		}
 
-		private IEnumerator Start()
+		protected override void OnReady()
 		{
-			while ( !_gameController.IsReady )
-			{
-				yield return null;
-			}
+			base.OnReady();
 
 			_motor.SetDesiredVelocity( transform.up );
 		}
 
-		private void FixedUpdate()
+		protected override void FixedTick()
 		{
+			base.FixedTick();
+
 			_motor.FixedTick();
 
 			if ( _levelForeman.TryQueryEmptyBlock( _body.position, out var instructions ) )
@@ -57,11 +43,6 @@ namespace Minipede.Gameplay.Enemies
 					instructions.Create( Block.Type.Regular );
 				}
 			}
-		}
-
-		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
-		{
-			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
 		[System.Serializable]

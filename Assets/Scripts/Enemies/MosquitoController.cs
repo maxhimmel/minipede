@@ -7,44 +7,33 @@ using Zenject;
 
 namespace Minipede.Gameplay.Enemies
 {
-    public class MosquitoController : MonoBehaviour,
-		IDamageable
+    public class MosquitoController : EnemyController
 	{
 		private Settings _settings;
 		private IMotor _motor;
-		private GameController _gameController;
-		private Rigidbody2D _body;
-		private IDamageController _damageController;
 		private ArenaBoundary _arena;
 
 		[Inject]
 		public void Construct( Settings settings,
 			IMotor motor,
-			GameController gameController,
-			Rigidbody2D body,
-			IDamageController damageController,
 			ArenaBoundary arena )
 		{
 			_settings = settings;
 			_motor = motor;
-			_gameController = gameController;
-			_body = body;
-			_damageController = damageController;
 			_arena = arena;
 		}
 
-		private IEnumerator Start()
+		protected override void OnReady()
 		{
-			while ( !_gameController.IsReady )
-			{
-				yield return null;
-			}
+			base.OnReady();
 
 			_motor.SetDesiredVelocity( transform.up );
 		}
 
-		private void FixedUpdate()
+		protected override void FixedTick()
 		{
+			base.FixedTick();
+
 			_motor.FixedTick();
 
 			if ( TryReflectOffWall( out var newPos, out var newFacingDir ) )
@@ -72,11 +61,6 @@ namespace Minipede.Gameplay.Enemies
 			newPos = _body.position;
 			newFacingDir = moveDir;
 			return false;
-		}
-
-		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
-		{
-			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
 		[System.Serializable]

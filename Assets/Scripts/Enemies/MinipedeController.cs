@@ -10,20 +10,12 @@ using Zenject;
 
 namespace Minipede.Gameplay.Enemies
 {
-	public class MinipedeController : MonoBehaviour,
-		IDamageable
+	public class MinipedeController : EnemyController
 	{
 		private Settings _settings;
 		private GraphMotor _motor;
-		private IDamageController _damageController;
-		private Rigidbody2D _body;
-		private GameController _gameController;
-		private LevelForeman _levelForeman;
-		private LevelGraph _levelGraph;
 		private MinipedeSegmentController.Factory _followerFactory;
 		private Factory _minipedeFactory;
-		private CancellationTokenSource _cts;
-		private CancellationToken _cancellationToken;
 
 		private List<MinipedeSegmentController> _followers;
 		private Vector2Int _rowDir;
@@ -32,46 +24,23 @@ namespace Minipede.Gameplay.Enemies
 		[Inject]
 		public void Construct( Settings settings,
 			GraphMotor motor,
-			IDamageController damageController,
-			Rigidbody2D body,
-			GameController gameController,
-			LevelForeman levelForeman,
-			LevelGraph levelGraph,
 			MinipedeSegmentController.Factory followerFactory,
 			Factory minipedeFactory )
 		{
 			_settings = settings;
 			_motor = motor;
-			_damageController = damageController;
-			_body = body;
-			_gameController = gameController;
-			_levelForeman = levelForeman;
-			_levelGraph = levelGraph;
 			_followerFactory = followerFactory;
 			_minipedeFactory = minipedeFactory;
 
-			damageController.Died += OnDead;
-
 			_rowDir = Vector2Int.down;
 			_columnDir = new Vector2Int( RandomExtensions.Sign(), 0 );
-
-			_cts = new CancellationTokenSource();
-			_cancellationToken = _cts.Token;
-		}
-
-		private void OnDestroy()
-		{
-			_cts.Cancel();
 		}
 
 		public bool CanCreateFollowers = true;
 
-		private async void Start()
+		protected override void OnReady()
 		{
-			while ( !_gameController.IsReady )
-			{
-				await UniTask.Yield();
-			}
+			base.OnReady();
 
 			if ( CanCreateFollowers )
 			{
@@ -79,7 +48,7 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			StartRowTransition()
-				.Cancellable( _cancellationToken )
+				.Cancellable( _onDestroyCancelToken )
 				.Forget();
 		}
 
@@ -194,7 +163,7 @@ namespace Minipede.Gameplay.Enemies
 				WillCollideWithNextColumn( nextColCoord ) )
 			{
 				StartRowTransition()
-					.Cancellable( _cancellationToken )
+					.Cancellable( _onDestroyCancelToken )
 					.Forget();
 				return;
 			}
@@ -210,7 +179,7 @@ namespace Minipede.Gameplay.Enemies
 				_motor.StopMoving();
 				_motor.Arrived -= OnHorizontalArrival;
 
-				StartRowTransition().Cancellable( _cancellationToken );
+				StartRowTransition().Cancellable( _onDestroyCancelToken );
 			}
 		}
 
@@ -223,12 +192,9 @@ namespace Minipede.Gameplay.Enemies
 				_levelForeman.TryQueryFilledBlock( nextPos, out _ );
 		}
 
-		private void FixedUpdate()
+		protected override void FixedTick()
 		{
-			if ( !_gameController.IsReady )
-			{
-				return;
-			}
+			base.FixedTick();
 
 			_motor.FixedTick();
 			UpdateFacingRotation();
@@ -245,11 +211,11 @@ namespace Minipede.Gameplay.Enemies
 			transform.rotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
 		}
 
-		private void OnDead( Rigidbody2D victimBody, HealthController e )
+		protected override void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
-			_damageController.Died -= OnDead;
+			base.OnDied( victimBody, health );
 
-			if ( _levelForeman != null )
+			//if ( _levelForeman != null && _levelGraph != null )
 			{
 				Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( victimBody.position );
 				cellCoord += _columnDir.ToRowCol();
@@ -260,11 +226,6 @@ namespace Minipede.Gameplay.Enemies
 					instructions.Create( Block.Type.Regular );
 				}
 			}
-		}
-
-		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
-		{
-			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
 		[System.Serializable]

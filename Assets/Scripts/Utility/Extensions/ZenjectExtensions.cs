@@ -26,6 +26,8 @@ namespace Minipede.Utility
 	public class UnityFactory<TValue> : IUnityFactory<TValue>
 		where TValue : Component
 	{
+		public TValue Prefab => _prefab;
+
 		[Inject]
 		private readonly TValue _prefab;
 		[Inject]

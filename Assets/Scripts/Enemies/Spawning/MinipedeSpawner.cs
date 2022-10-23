@@ -9,17 +9,14 @@ namespace Minipede.Gameplay.Enemies.Spawning
     public class MinipedeSpawner : MonoBehaviour
     {
 		private LevelGraph _levelGraph;
-		private EnemyFactory<MinipedeController> _minipedeSpawner;
-		private EnemyFactory<SegmentController> _segmentSpawner;
+		private EnemyFactoryBus _enemyFactory;
 
 		[Inject]
 		public void Construct( LevelGraph levelGraph,
-			EnemyFactory<MinipedeController> minipedeSpawner,
-			EnemyFactory<SegmentController> segmentSpawner )
+			EnemyFactoryBus enemyFactory )
 		{
 			_levelGraph = levelGraph;
-			_minipedeSpawner = minipedeSpawner;
-			_segmentSpawner = segmentSpawner;
+			_enemyFactory = enemyFactory;
 		}
 
 		public int SegmentCount = 3;
@@ -34,7 +31,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		public MinipedeController Create( TransformData placement, int segmentCount )
 		{
-			MinipedeController newEnemy = _minipedeSpawner.Create( placement );
+			MinipedeController newEnemy = _enemyFactory.Create<MinipedeController>( placement );
 
 			newEnemy.SetSegments(
 				CreateSegmentFollowers( segmentCount, newEnemy.Body, placement.Parent )
@@ -50,12 +47,14 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 			for ( int idx = 0; idx < segmentCount; ++idx )
 			{
-				Vector2 spawnPos = leader.position + offsetDir * _levelGraph.Data.Size.x;
-				Quaternion facing = Quaternion.LookRotation( Vector3.forward, -offsetDir );
+				SegmentController newSegment = _enemyFactory.Create<SegmentController>( new TransformData()
+				{
+					Position = leader.position + offsetDir * _levelGraph.Data.Size.x,
+					Rotation = Quaternion.LookRotation( Vector3.forward, -offsetDir ),
+					Parent = parent
+				} );
 
-				SegmentController newSegment = _segmentSpawner.Create( spawnPos, facing, parent );
 				leader = newSegment.Body;
-
 				segments.Add( newSegment );
 			}
 

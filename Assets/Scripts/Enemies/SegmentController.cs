@@ -13,6 +13,7 @@ namespace Minipede.Gameplay.Enemies
 
 		private Rigidbody2D _target;
 		private Vector2Int _moveDir;
+		private bool _canRecalibrate;
 
 		[Inject]
 		public void Construct( GraphMotor motor )
@@ -22,6 +23,7 @@ namespace Minipede.Gameplay.Enemies
 
 		public void StartFollowing( Rigidbody2D target )
 		{
+			_canRecalibrate = true;
 			_target = target;
 		}
 
@@ -29,8 +31,10 @@ namespace Minipede.Gameplay.Enemies
 		{
 			base.FixedTick();
 
-			if ( !_motor.IsMoving && _target != null )
+			if ( CanCalibrate() )
 			{
+				_canRecalibrate = false;
+
 				Vector2Int currentCoord = _levelGraph.WorldPosToCellCoord( _body.position );
 				Vector2Int targetCoord = _levelGraph.WorldPosToCellCoord( _target.position );
 				_motor.SetDestination( targetCoord ).Forget();
@@ -40,6 +44,16 @@ namespace Minipede.Gameplay.Enemies
 
 			_motor.FixedTick();
 			UpdateFacingRotation();
+		}
+
+		private bool CanCalibrate()
+		{
+			if ( _canRecalibrate )
+			{
+				return true;
+			}
+
+			return !_motor.IsMoving && _target != null;
 		}
 
 		private void UpdateFacingRotation()

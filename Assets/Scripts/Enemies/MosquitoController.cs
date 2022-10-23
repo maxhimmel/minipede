@@ -63,6 +63,13 @@ namespace Minipede.Gameplay.Enemies
 			return false;
 		}
 
+		protected override void OnDied( Rigidbody2D victimBody, HealthController health )
+		{
+			base.OnDied( victimBody, health );
+
+			// TODO: Move all blocks up a row ...
+		}
+
 		[System.Serializable]
 		public struct Settings
 		{

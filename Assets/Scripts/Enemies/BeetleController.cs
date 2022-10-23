@@ -84,6 +84,13 @@ namespace Minipede.Gameplay.Enemies
 			return position - _body.position;
 		}
 
+		protected override void OnDied( Rigidbody2D victimBody, HealthController health )
+		{
+			base.OnDied( victimBody, health );
+
+			// TODO: Move all blocks down a row ...
+		}
+
 		protected override void FixedTick()
 		{
 			base.FixedTick();

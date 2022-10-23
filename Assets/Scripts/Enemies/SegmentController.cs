@@ -71,17 +71,24 @@ namespace Minipede.Gameplay.Enemies
 		{
 			base.OnDied( victimBody, health );
 
-			//if ( _levelForeman != null && _levelGraph != null )
-			{
-				Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( victimBody.position );
-				cellCoord += VectorExtensions.CreateRowCol( 0, _moveDir.Col() );
-				Vector2 nextPos = _levelGraph.CellCoordToWorldPos( cellCoord );
+			/// TODO: Unify w/<see cref="MinipedeController.TryCreateBlock"/>
+			TryCreateBlock( victimBody.position );
+		}
 
-				if ( _levelForeman.TryQueryEmptyBlock( nextPos, out var instructions ) )
-				{
-					instructions.Create( Block.Type.Regular );
-				}
+		private bool TryCreateBlock( Vector2 position )
+		{
+			Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( position );
+			cellCoord += VectorExtensions.CreateRowCol( 0, _moveDir.Col() );
+			Vector2 nextPos = _levelGraph.CellCoordToWorldPos( cellCoord );
+
+			_levelForeman.ClearQuery();
+			if ( _levelForeman.TryQueryEmptyBlock( nextPos, out var instructions ) )
+			{
+				instructions.Create( Block.Type.Regular );
+				return true;
 			}
+
+			return false;
 		}
 
 		public class Factory : UnityFactory<SegmentController> { }

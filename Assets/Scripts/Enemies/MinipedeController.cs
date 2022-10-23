@@ -115,76 +115,11 @@ namespace Minipede.Gameplay.Enemies
 			transform.rotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
 		}
 
-		public bool Pause = true;
-
-		private void Update()
-		{
-			if ( _segments == null || _segments.Count <= 0 )
-			{
-				return;
-			}
-
-			if ( Input.GetKeyDown( KeyCode.Alpha1 ) )
-			{
-				var tailSegment = _segments[_segments.Count - 1];
-				tailSegment.TakeDamage( transform, transform, new DamageDatum( 1 ) );
-
-				if ( Pause )
-				{
-					Debug.Break();
-				}
-			}
-			else if ( Input.GetKeyDown( KeyCode.Alpha2 ) )
-			{
-				var head = this;
-				head.TakeDamage( transform, transform, new DamageDatum( 1 ) );
-
-				if ( Pause )
-				{
-					Debug.Break();
-				}
-			}
-			else if ( Input.GetKeyDown( KeyCode.Alpha3 ) )
-			{
-				int randBodyIndex = Mathf.Max( 0, _segments.Count - 3 );//Random.Range( 0, _segments.Count - 1 );
-				Debug.Log( randBodyIndex );
-
-				var body = _segments[randBodyIndex];
-				body.TakeDamage( transform, transform, new DamageDatum( 1 ) );
-
-				if ( Pause )
-				{
-					Debug.Break();
-				}
-			}
-		}
-
-		private void OnGUI()
-		{
-			if ( _segments == null )
-			{
-				return;
-			}
-
-			for ( int idx = 0; idx < _segments.Count; ++idx )
-			{
-				if ( GUILayout.Button( $"{idx}" ) )
-				{
-					var body = _segments[idx];
-					body.TakeDamage( transform, transform, new DamageDatum( 1 ) );
-
-					if ( Pause )
-					{
-						Debug.Break();
-					}
-				}
-			}
-		}
-
 		protected override void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
 			base.OnDied( victimBody, health );
 
+			/// TODO: Unify w/<see cref="SegmentController.TryCreateBlock"/>
 			TryCreateBlock( victimBody.position );
 
 			if ( _segments != null && _segments.Count > 0 )

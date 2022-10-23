@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
@@ -8,7 +7,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.Enemies
 {
-	public class EnemyController : MonoBehaviour,
+	public abstract class EnemyController : MonoBehaviour,
 		IDamageController
 	{
 		public event IDamageController.OnHit Damaged {

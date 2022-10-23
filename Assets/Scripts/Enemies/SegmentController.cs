@@ -90,7 +90,5 @@ namespace Minipede.Gameplay.Enemies
 
 			return false;
 		}
-
-		public class Factory : UnityFactory<SegmentController> { }
 	}
 }

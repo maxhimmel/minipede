@@ -51,7 +51,5 @@ namespace Minipede.Gameplay.Enemies
 			[MinMaxSlider( 0, 1, ShowFields = true )]
 			public Vector2 CreateBlockRange;
 		}
-
-		public class Factory : PlaceholderFactory<BeeController> { }
 	}
 }

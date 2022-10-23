@@ -37,7 +37,5 @@ namespace Minipede.Gameplay.Enemies
 					.Create( Block.Type.Poison );
 			}
 		}
-
-		public class Factory : PlaceholderFactory<EarwigController> { }
 	}
 }

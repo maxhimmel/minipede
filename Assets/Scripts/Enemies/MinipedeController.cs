@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using System.Threading;
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
 using Minipede.Utility;
@@ -14,7 +14,7 @@ namespace Minipede.Gameplay.Enemies
 	{
 		private Settings _settings;
 		private GraphMotor _motor;
-		private Factory _minipedeFactory;
+		private EnemyFactory<MinipedeController> _minipedeFactory;
 
 		private List<SegmentController> _segments;
 		private Vector2Int _rowDir;
@@ -23,7 +23,7 @@ namespace Minipede.Gameplay.Enemies
 		[Inject]
 		public void Construct( Settings settings,
 			GraphMotor motor,
-			Factory minipedeFactory )
+			EnemyFactory<MinipedeController> minipedeFactory )
 		{
 			_settings = settings;
 			_motor = motor;
@@ -227,7 +227,5 @@ namespace Minipede.Gameplay.Enemies
 
 			public SegmentController SegmentPrefab;
 		}
-
-		public class Factory : UnityFactory<MinipedeController> { }
 	}
 }

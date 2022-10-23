@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Zenject;
 
@@ -10,13 +9,13 @@ namespace Minipede.Gameplay.Enemies.Spawning
     public class MinipedeSpawner : MonoBehaviour
     {
 		private LevelGraph _levelGraph;
-		private MinipedeController.Factory _minipedeSpawner;
-		private SegmentController.Factory _segmentSpawner;
+		private EnemyFactory<MinipedeController> _minipedeSpawner;
+		private EnemyFactory<SegmentController> _segmentSpawner;
 
 		[Inject]
 		public void Construct( LevelGraph levelGraph,
-			MinipedeController.Factory minipedeSpawner,
-			SegmentController.Factory segmentSpawner )
+			EnemyFactory<MinipedeController> minipedeSpawner,
+			EnemyFactory<SegmentController> segmentSpawner )
 		{
 			_levelGraph = levelGraph;
 			_minipedeSpawner = minipedeSpawner;

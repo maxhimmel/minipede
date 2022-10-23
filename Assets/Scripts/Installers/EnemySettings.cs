@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Enemies;
+using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
@@ -49,13 +50,16 @@ namespace Minipede.Installers
 
 		private void BindEnemyFactories()
 		{
-			Container.Bind<MinipedeController.Factory>()
-				.AsSingle()
-				.WithArguments( _minipede.Prefab );
+			BindEnemyFactory( _minipede.Prefab );
+			BindEnemyFactory( _minipede.Settings.SegmentPrefab );
+		}
 
-			Container.Bind<SegmentController.Factory>()
+		private void BindEnemyFactory<TEnemy>( TEnemy prefab )
+			where TEnemy : EnemyController
+		{
+			Container.Bind<EnemyFactory<TEnemy>>()
 				.AsSingle()
-				.WithArguments( _minipede.Settings.SegmentPrefab );
+				.WithArguments( prefab );
 		}
 	}
 }

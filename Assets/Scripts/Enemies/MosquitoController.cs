@@ -75,7 +75,5 @@ namespace Minipede.Gameplay.Enemies
 		{
 			public float WhiskerDistance;
 		}
-
-		public class Factory : PlaceholderFactory<MosquitoController> { }
 	}
 }

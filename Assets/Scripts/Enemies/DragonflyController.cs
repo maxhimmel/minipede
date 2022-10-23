@@ -54,7 +54,5 @@ namespace Minipede.Gameplay.Enemies
 			[MinMaxSlider( 1, 10, ShowFields = true )]
 			public Vector2Int ZigZagRange;
 		}
-
-		public class Factory : PlaceholderFactory<DragonflyController> { }
 	}
 }

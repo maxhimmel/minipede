@@ -105,7 +105,5 @@ namespace Minipede.Gameplay.Enemies
 			public Vector2Int ColumnMovementRange;
 			public int ExitRow;
 		}
-
-		public class Factory : PlaceholderFactory<BeetleController> { }
 	}
 }

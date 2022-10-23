@@ -53,7 +53,7 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _minipede.Prefab );
 
-			Container.Bind<MinipedeSegmentController.Factory>()
+			Container.Bind<SegmentController.Factory>()
 				.AsSingle()
 				.WithArguments( _minipede.Settings.SegmentPrefab );
 		}

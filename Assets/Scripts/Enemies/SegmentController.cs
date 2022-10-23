@@ -7,11 +7,8 @@ using Zenject;
 
 namespace Minipede.Gameplay.Enemies
 {
-	public class MinipedeSegmentController : EnemyController,
-		IFollower
+	public class SegmentController : EnemyController
 	{
-		public Rigidbody2D Body => _body;
-
 		private GraphMotor _motor;
 
 		private Rigidbody2D _target;
@@ -73,6 +70,6 @@ namespace Minipede.Gameplay.Enemies
 			}
 		}
 
-		public class Factory : UnityFactory<MinipedeSegmentController> { }
+		public class Factory : UnityFactory<SegmentController> { }
 	}
 }

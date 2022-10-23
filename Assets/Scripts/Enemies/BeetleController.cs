@@ -21,9 +21,9 @@ namespace Minipede.Gameplay.Enemies
 			_motor = motor;
 		}
 
-		protected override async void OnReady()
+		public override async void OnSpawned()
 		{
-			base.OnReady();
+			base.OnSpawned();
 
 			await NavigationRoutine()
 				.Cancellable( _onDestroyCancelToken );

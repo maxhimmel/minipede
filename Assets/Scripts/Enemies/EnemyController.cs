@@ -99,6 +99,11 @@ namespace Minipede.Gameplay.Enemies
 
 		}
 
+		public virtual void OnSpawned()
+		{
+
+		}
+
 		protected void FixedUpdate()
 		{
 			if ( !IsReady )

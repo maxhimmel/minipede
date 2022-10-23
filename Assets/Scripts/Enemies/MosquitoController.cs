@@ -22,9 +22,9 @@ namespace Minipede.Gameplay.Enemies
 			_arena = arena;
 		}
 
-		protected override void OnReady()
+		public override void OnSpawned()
 		{
-			base.OnReady();
+			base.OnSpawned();
 
 			_motor.SetDesiredVelocity( transform.up );
 		}

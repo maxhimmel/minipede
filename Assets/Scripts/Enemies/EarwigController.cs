@@ -14,9 +14,9 @@ namespace Minipede.Gameplay.Enemies
 			_motor = motor;
 		}
 
-		protected override void OnReady()
+		public override void OnSpawned()
 		{
-			base.OnReady();
+			base.OnSpawned();
 
 			_motor.SetDesiredVelocity( transform.up );
 		}

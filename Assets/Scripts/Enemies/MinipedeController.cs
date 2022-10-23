@@ -33,14 +33,14 @@ namespace Minipede.Gameplay.Enemies
 			_columnDir = new Vector2Int( RandomExtensions.Sign(), 0 );
 		}
 
-		protected override void OnReady()
+		public override void OnSpawned()
 		{
-			base.OnReady();
+			base.OnSpawned();
 
-			//StartRowTransition();
+			StartRowTransition();
 		}
 
-		public void StartRowTransition()
+		private void StartRowTransition()
 		{
 			UpdateRowTransition()
 				.Cancellable( _onDestroyCancelToken )

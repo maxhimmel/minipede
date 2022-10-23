@@ -21,6 +21,7 @@ namespace Minipede.Gameplay.Enemies
 		}
 
 		public bool IsReady => _gameController.IsReady;
+		public Rigidbody2D Body => _body;
 
 		protected Rigidbody2D _body;
 		private IDamageController _damageController;

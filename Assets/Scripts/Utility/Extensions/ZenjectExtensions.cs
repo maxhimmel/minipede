@@ -20,6 +20,7 @@ namespace Minipede.Utility
 		TValue Create( Vector2 position );
 		TValue Create( Vector2 position, Quaternion rotation );
 		TValue Create( Vector2 position, Quaternion rotation, Transform parent );
+		TValue Create( TransformData placement );
 	}
 
 	public class UnityFactory<TValue> : IUnityFactory<TValue>
@@ -46,6 +47,11 @@ namespace Minipede.Utility
 			result.name = _prefab.name;
 
 			return result;
+		}
+
+		public TValue Create( TransformData placement )
+		{
+			return Create( placement.Position, placement.Rotation, placement.Parent );
 		}
 	}
 }

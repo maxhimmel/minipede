@@ -29,7 +29,7 @@ namespace Minipede.Gameplay.Enemies
 		protected LevelGraph _levelGraph;
 		protected LevelForeman _levelForeman;
 
-		protected CancellationTokenSource _onDestroyCancelSource;
+		private CancellationTokenSource _onDestroyCancelSource;
 		protected CancellationToken _onDestroyCancelToken;
 
 		[Inject]

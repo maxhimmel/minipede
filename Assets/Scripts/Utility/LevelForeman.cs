@@ -14,6 +14,11 @@ namespace Minipede.Utility
 			_builder = levelBuilder;
 		}
 
+		public void ClearQuery()
+		{
+			_currentCell = null;
+		}
+
 		public bool TryQueryFilledBlock( Vector2 worldPosition, out DemolishInstructions instructions )
 		{
 			if ( !TryQueryNewBlock( worldPosition, out var cellData ) || cellData.Block == null )

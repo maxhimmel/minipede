@@ -1,8 +1,5 @@
-using System.Collections;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
-using Minipede.Utility;
-using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.Enemies

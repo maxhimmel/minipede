@@ -19,27 +19,27 @@ MonoBehaviour:
     Damage:
       Damage: 1
   _bee:
-    Prefab: {fileID: 0}
+    Prefab: {fileID: 1177213487019694021, guid: 23f4588b3553ac14c85f96c327827397, type: 3}
     Settings:
       CreateBlockRange: {x: 0.1, y: 0.4}
-  _dragonfly:
-    Prefab: {fileID: 0}
-    Settings:
-      CreateBlockRange: {x: 0.1, y: 0.4}
-      ZigZagRange: {x: 2, y: 4}
-  _mosquito:
-    Prefab: {fileID: 0}
-    Settings:
-      WhiskerDistance: 1
-  _earwig:
-    Prefab: {fileID: 0}
   _beetle:
-    Prefab: {fileID: 0}
+    Prefab: {fileID: 1652218027726842911, guid: 065c4eaca3d2a5e44b302bae233886d4, type: 3}
     Settings:
       ColumnMovementRange: {x: 5, y: 24}
       ExitRow: 14
-  _minipede:
-    Prefab: {fileID: 236338040139199297, guid: cccfaedb81881644fbeb3e858069e0a7, type: 3}
+  _dragonfly:
+    Prefab: {fileID: 682032874086321491, guid: afe0baf7eada72846901d59c2098c7b2, type: 3}
     Settings:
-      SegmentRange: {x: 1, y: 1}
-      SegmentPrefab: {fileID: 8754202664335845638, guid: b4e3ef860a2523d4480d166b5e447b42, type: 3}
+      CreateBlockRange: {x: 0.1, y: 0.4}
+      ZigZagRange: {x: 2, y: 4}
+  _earwig:
+    Prefab: {fileID: 4363904833267379863, guid: bc7cc110e6ac10b4ebdcb436f6c716f3, type: 3}
+  _minipede:
+    Prefab: {fileID: -5776135086835103509, guid: cccfaedb81881644fbeb3e858069e0a7, type: 3}
+    Settings:
+      SegmentRange: {x: 10, y: 10}
+      SegmentPrefab: {fileID: -1147648705226150016, guid: b4e3ef860a2523d4480d166b5e447b42, type: 3}
+  _mosquito:
+    Prefab: {fileID: -1829202905928104995, guid: ab8460df5536ad84399420654ea65097, type: 3}
+    Settings:
+      WhiskerDistance: 1

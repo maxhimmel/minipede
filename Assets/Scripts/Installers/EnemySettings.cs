@@ -17,15 +17,15 @@ namespace Minipede.Installers
 		[BoxGroup( "Specialized" )]
 		[SerializeField] private Bee _bee;
 		[Space, BoxGroup( "Specialized" )]
-		[SerializeField] private Dragonfly _dragonfly;
+		[SerializeField] private Beetle _beetle;
 		[Space, BoxGroup( "Specialized" )]
-		[SerializeField] private Mosquito _mosquito;
+		[SerializeField] private Dragonfly _dragonfly;
 		[Space, BoxGroup( "Specialized" )]
 		[SerializeField] private Earwig _earwig;
 		[Space, BoxGroup( "Specialized" )]
-		[SerializeField] private Beetle _beetle;
-		[Space, BoxGroup( "Specialized" )]
 		[SerializeField] private Minipede _minipede;
+		[Space, BoxGroup( "Specialized" )]
+		[SerializeField] private Mosquito _mosquito;
 
 		public override void InstallBindings()
 		{
@@ -33,10 +33,10 @@ namespace Minipede.Installers
 
 			Container.BindInstances( 
 				_bee.Settings,
-				_dragonfly.Settings,
-				_mosquito.Settings,
 				_beetle.Settings,
-				_minipede.Settings
+				_dragonfly.Settings,
+				_minipede.Settings,
+				_mosquito.Settings
 			);
 
 			BindEnemyFactories();
@@ -49,8 +49,13 @@ namespace Minipede.Installers
 
 		private void BindEnemyFactories()
 		{
-			Container.BindUnityFactory<MinipedeController, MinipedeController.Factory>( _minipede.Prefab );
-			Container.BindUnityFactory<MinipedeSegmentController, MinipedeSegmentController.Factory>( _minipede.Settings.SegmentPrefab );
+			Container.Bind<MinipedeController.Factory>()
+				.AsSingle()
+				.WithArguments( _minipede.Prefab );
+
+			Container.Bind<MinipedeSegmentController.Factory>()
+				.AsSingle()
+				.WithArguments( _minipede.Settings.SegmentPrefab );
 		}
 	}
 }

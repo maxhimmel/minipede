@@ -31,6 +31,7 @@ namespace Minipede.Installers
 			BindSharedSettings();
 			BindInstancedSettings();
 			BindFactories();
+			BindSpawnSystem();
 		}
 
 		private void BindSharedSettings()
@@ -69,6 +70,15 @@ namespace Minipede.Installers
 			Container.Bind<EnemyFactory>()
 				.AsTransient()
 				.WithArguments( prefab );
+		}
+
+		private void BindSpawnSystem()
+		{
+			Container.Bind<EnemySpawner>()
+				.AsSingle();
+
+			Container.Bind<MinipedeSpawner>()
+				.AsSingle();
 		}
 	}
 }

@@ -2,42 +2,31 @@ using System.Collections.Generic;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
 using UnityEngine;
-using Zenject;
 
 namespace Minipede.Gameplay.Enemies.Spawning
 {
-    public class MinipedeSpawner : MonoBehaviour
+    public class MinipedeSpawner : EnemySpawner
     {
-		private LevelGraph _levelGraph;
-		private EnemyFactoryBus _enemyFactory;
+		private readonly MinipedeController.Settings _settings;
 
-		[Inject]
-		public void Construct( LevelGraph levelGraph,
-			EnemyFactoryBus enemyFactory )
+		public MinipedeSpawner( LevelGraph levelGraph, 
+			EnemyFactoryBus enemyFactory,
+			MinipedeController.Settings settings ) 
+			: base( levelGraph, enemyFactory )
 		{
-			_levelGraph = levelGraph;
-			_enemyFactory = enemyFactory;
+			_settings = settings;
 		}
 
-		public int SegmentCount = 3;
-		private void Update()
+		protected override void OnSpawned<TEnemy>( TEnemy newEnemy )
 		{
-			if ( Input.GetKeyDown( KeyCode.Return ) )
-			{
-				var newMinipede = Create( new TransformData( transform.position, transform.rotation ), SegmentCount );
-				newMinipede.StartRowTransition();
-			}
-		}
+			base.OnSpawned( newEnemy );
 
-		public MinipedeController Create( TransformData placement, int segmentCount )
-		{
-			MinipedeController newEnemy = _enemyFactory.Create<MinipedeController>( placement );
+			MinipedeController minipede = newEnemy as MinipedeController;
+			int segmentCount = _settings.SegmentRange.Random( true );
 
-			newEnemy.SetSegments(
-				CreateSegmentFollowers( segmentCount, newEnemy.Body, placement.Parent )
+			minipede.SetSegments(
+				CreateSegmentFollowers( segmentCount, newEnemy.Body, minipede.transform.parent )
 			);
-
-			return newEnemy;
 		}
 
 		private List<SegmentController> CreateSegmentFollowers( int segmentCount, Rigidbody2D leader, Transform parent )

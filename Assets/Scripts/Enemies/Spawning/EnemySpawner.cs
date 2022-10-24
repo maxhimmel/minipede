@@ -1,19 +1,31 @@
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
+using Zenject;
 
 namespace Minipede.Gameplay.Enemies.Spawning
 {
-    public class EnemySpawner
+	public class EnemySpawner<TEnemy> : EnemySpawner
+		where TEnemy : EnemyController
 	{
-		protected readonly LevelGraph _levelGraph;
-		protected readonly EnemyFactoryBus _enemyFactory;
-
-		public EnemySpawner( LevelGraph levelGraph,
-			EnemyFactoryBus enemyFactory )
+		public TEnemy Spawn( TransformData placement )
 		{
-			_levelGraph = levelGraph;
-			_enemyFactory = enemyFactory;
+			TEnemy newEnemy = _enemyFactory.Create<TEnemy>( placement );
+
+			OnSpawned( newEnemy );
+
+			return newEnemy;
 		}
+
+		protected virtual void OnSpawned( TEnemy newEnemy )
+		{
+			newEnemy.OnSpawned();
+		}
+	}
+
+	public class EnemySpawner
+	{
+		[Inject] protected readonly LevelGraph _levelGraph;
+		[Inject] protected readonly EnemyFactoryBus _enemyFactory;
 
 		public TEnemy Spawn<TEnemy>( TransformData placement )
 			where TEnemy : EnemyController

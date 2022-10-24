@@ -17,7 +17,7 @@ MonoBehaviour:
       ShotSpotId: ShotSpot
       ProjectileSpeed: 20
       ProjectileTorque: 0
-      FireRate: 0
+      FireRate: 0.24
     Projectile:
       Prefab: {fileID: 2730030010798562877, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
     Damage:

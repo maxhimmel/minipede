@@ -12,7 +12,7 @@ namespace Minipede.Editor
     {
         [TitleGroup( "Enemies", "Simulates 'OnSpawn' being called for enemies directly placed in the scene." )]
         [HideLabel, EnumToggleButtons]
-        [SerializeField] private EnemyType _enemies;
+        [SerializeField] private EnemyType _enemies = EnemyType.All;
 
         [Flags]
         private enum EnemyType

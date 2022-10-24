@@ -4,7 +4,6 @@ using Minipede.Gameplay.Enemies;
 using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
-using UnityEditor.TerrainTools;
 using UnityEngine;
 
 namespace Minipede.Editor

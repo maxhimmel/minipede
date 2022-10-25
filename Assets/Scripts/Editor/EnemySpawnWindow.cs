@@ -18,6 +18,7 @@ namespace Minipede.Editor
 		[InlineEditor( ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden )]
 		[SerializeField] private EnemySettings _enemySettings;
 
+		private readonly string _saveLoadKey = nameof( EnemySpawnWindow );
 		private SerializedObject _enemySettingsObj;
 
 		[MenuItem( "Minipede/Enemy Spawning" )]
@@ -30,6 +31,8 @@ namespace Minipede.Editor
 		{
 			base.OnEnable();
 
+			EditorUtility.LoadFromEditorPref( _saveLoadKey, this );
+
 			EditorApplication.playModeStateChanged += _simulator.OnPlayModeChanged;
 			SceneView.duringSceneGui += _renderer.OnSceneGui;
 		}
@@ -37,6 +40,8 @@ namespace Minipede.Editor
 		protected override void OnDestroy()
 		{
 			base.OnDestroy();
+
+			EditorUtility.SaveToEditorPref( _saveLoadKey, this );
 
 			EditorApplication.playModeStateChanged -= _simulator.OnPlayModeChanged;
 			SceneView.duringSceneGui -= _renderer.OnSceneGui;

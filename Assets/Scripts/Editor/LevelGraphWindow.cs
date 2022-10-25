@@ -24,6 +24,7 @@ namespace Minipede.Editor
 		[InlineEditor( ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden )]
 		[SerializeField] private GameplaySettings _gameplaySettings;
 
+		private readonly string _saveLoadKey = nameof( LevelGraphWindow );
 		private LevelGraphWrapper _levelGraphWrapper;
 
 		[MenuItem( "Minipede/Level Graph" )]
@@ -34,11 +35,19 @@ namespace Minipede.Editor
 
 		protected override void OnEnable()
 		{
+			base.OnEnable();
+
+			EditorUtility.LoadFromEditorPref( _saveLoadKey, this );
+
 			SceneView.duringSceneGui += OnSceneGui;
 		}
 
 		protected override void OnDestroy()
 		{
+			base.OnDestroy();
+
+			EditorUtility.SaveToEditorPref( _saveLoadKey, this );
+
 			SceneView.duringSceneGui -= OnSceneGui;
 		}
 

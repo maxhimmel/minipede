@@ -4,6 +4,11 @@ namespace Minipede.Utility
 {
     public static class VectorExtensions
     {
+        public static Vector2 ToVector2( this Vector2Int self )
+		{
+            return new Vector2( self.x, self.y );
+		}
+
         public static Vector2Int ToRowCol( this Vector2Int self )
 		{
             return CreateRowCol( self.y, self.x );

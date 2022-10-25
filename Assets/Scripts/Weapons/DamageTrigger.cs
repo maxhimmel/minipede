@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -38,6 +39,8 @@ namespace Minipede.Gameplay.Weapons
 		public struct Settings
 		{
 			public LayerMask HitMask;
+
+			[HideLabel]
 			public DamageDatum Damage;
 		}
 	}

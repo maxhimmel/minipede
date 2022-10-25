@@ -25,8 +25,8 @@ namespace Minipede.Editor
 			new DrawPlacementData( "_mosquito" )
 		};
 
-		[BoxGroup( "Main", ShowLabel = false, Order = 0 )]
-		[ToggleGroup( "_drawPlacements", ToggleGroupTitle = "Draw", GroupID = "Main/_drawPlacements" )]
+		[TitleGroup( "Enemy Placements", "View the graph and modify where enemies are allowed to spawn.", GroupID = "Main", Order = -1 )]
+		[ToggleGroup( "Main/_drawPlacements", ToggleGroupTitle = "Draw", Order = 0 )]
 		[SerializeField] private bool _drawPlacements = true;
 
 		private LevelGraphWrapper _levelGraphWrapper;

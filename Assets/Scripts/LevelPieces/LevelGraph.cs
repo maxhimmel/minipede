@@ -23,13 +23,8 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public Vector2 CellCoordToWorldPos( Vector2Int cellCoord )
 		{
-			Vector2 position = transform.position
-				+ Vector3.up * cellCoord.Row() * Data.Size.y
-				+ Vector3.right * cellCoord.Col() * Data.Size.x;
-
-			return position
-				+ Data.Size * 0.5f
-				+ Data.Offset;
+			Vector2 pivot = transform.position;
+			return pivot + Data.CellCoordToWorldPos( cellCoord );
 		}
 
 		public Vector2Int WorldPosToClampedCellCoord( Vector2 worldPosition )
@@ -112,6 +107,16 @@ namespace Minipede.Gameplay.LevelPieces
 			public Vector2Int Dimensions;
 			public Vector2 Size;
 			public Vector2 Offset;
+
+			public Vector2 CellCoordToWorldPos( Vector2Int cellCoord )
+			{
+				Vector2 rowPos = Vector2.up * cellCoord.Row() * Size.y;
+				Vector2 colPos = Vector2.right * cellCoord.Col() * Size.x;
+
+				return rowPos + colPos
+					+ Size * 0.5f
+					+ Offset;
+			}
 		}
 	}
 }

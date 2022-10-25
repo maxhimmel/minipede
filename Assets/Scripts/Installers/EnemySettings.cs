@@ -1,5 +1,6 @@
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
+using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Weapons;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -10,20 +11,20 @@ namespace Minipede.Installers
 	[CreateAssetMenu]
     public partial class EnemySettings : ScriptableObjectInstaller
     {
-		[BoxGroup( "Shared" )]
+		[FoldoutGroup( "Shared" )]
 		[SerializeField] private DamageTrigger.Settings _damage;
 
-		[BoxGroup( "Specialized" )]
+		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Bee", ShowLabel = false )]
 		[SerializeField] private Bee _bee;
-		[Space, BoxGroup( "Specialized" )]
+		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Beetle", ShowLabel = false )]
 		[SerializeField] private Beetle _beetle;
-		[Space, BoxGroup( "Specialized" )]
+		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Dragonfly", ShowLabel = false )]
 		[SerializeField] private Dragonfly _dragonfly;
-		[Space, BoxGroup( "Specialized" )]
+		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Earwig", ShowLabel = false )]
 		[SerializeField] private Earwig _earwig;
-		[Space, BoxGroup( "Specialized" )]
+		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Minipede", ShowLabel = false )]
 		[SerializeField] private Minipede _minipede;
-		[Space, BoxGroup( "Specialized" )]
+		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Mosquito", ShowLabel = false )]
 		[SerializeField] private Mosquito _mosquito;
 
 		public override void InstallBindings()

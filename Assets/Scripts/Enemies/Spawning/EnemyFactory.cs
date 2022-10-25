@@ -17,7 +17,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_factories = factories.ToDictionary( factory => factory.Prefab.GetType() );
 		}
 
-		public TEnemy Create<TEnemy>( TransformData placement )
+		public TEnemy Create<TEnemy>( IOrientation placement )
 			where TEnemy : EnemyController
 		{
 			return _factories[typeof( TEnemy )].Create( placement ) as TEnemy;

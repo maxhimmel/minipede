@@ -1,12 +1,13 @@
+using Minipede.Utility;
 using UnityEngine;
 
 namespace Minipede.Gameplay.LevelPieces
 {
 	public class SpawnPoint : MonoBehaviour,
-		ISpawnPoint
+		IOrientation
 	{
-		public Vector2 Position => Container.position;
-		public Quaternion Rotation => Container.rotation;
-		public Transform Container => transform;
+		public Vector2 Position => Parent.position;
+		public Quaternion Rotation => Parent.rotation;
+		public Transform Parent => transform;
 	}
 }

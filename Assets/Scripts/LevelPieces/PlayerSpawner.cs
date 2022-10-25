@@ -1,6 +1,6 @@
 using Minipede.Gameplay.Player;
 using Minipede.Installers;
-using UnityEngine;
+using Minipede.Utility;
 using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces
@@ -8,7 +8,7 @@ namespace Minipede.Gameplay.LevelPieces
     public class PlayerSpawner
 	{
 		private readonly PlayerController.Factory _factory;
-		private readonly ISpawnPoint _spawnPoint;
+		private readonly IOrientation _spawnPoint;
 
 		public PlayerSpawner( 
 			DiContainer container,
@@ -16,13 +16,13 @@ namespace Minipede.Gameplay.LevelPieces
 			GameplaySettings.Player settings )
 		{
 			_factory = factory;
-			_spawnPoint = container.ResolveId<ISpawnPoint>( settings.SpawnPointId );
+			_spawnPoint = container.ResolveId<IOrientation>( settings.SpawnPointId );
 		}
 
 		public PlayerController Spawn()
 		{
 			var newPlayer = _factory.Create();
-			newPlayer.transform.SetParent( _spawnPoint.Container );
+			newPlayer.transform.SetParent( _spawnPoint.Parent );
 			newPlayer.transform.SetPositionAndRotation( _spawnPoint.Position, _spawnPoint.Rotation );
 
 			return newPlayer;

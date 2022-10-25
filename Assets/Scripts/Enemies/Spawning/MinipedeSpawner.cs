@@ -30,12 +30,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 			for ( int idx = 0; idx < segmentCount; ++idx )
 			{
-				SegmentController newSegment = _enemyFactory.Create<SegmentController>( new TransformData()
-				{
-					Position = leader.position + offsetDir * _levelGraph.Data.Size.x,
-					Rotation = Quaternion.LookRotation( Vector3.forward, -offsetDir ),
-					Parent = parent
-				} );
+				SegmentController newSegment = _enemyFactory.Create<SegmentController>( new Orientation(
+					leader.position + offsetDir * _levelGraph.Data.Size.x,
+					Quaternion.LookRotation( Vector3.forward, -offsetDir ),
+					parent
+				) );
 
 				leader = newSegment.Body;
 				segments.Add( newSegment );

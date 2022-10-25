@@ -7,7 +7,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 	public class EnemySpawner<TEnemy> : EnemySpawner
 		where TEnemy : EnemyController
 	{
-		public TEnemy Spawn( TransformData placement )
+		public TEnemy Spawn( IOrientation placement )
 		{
 			TEnemy newEnemy = _enemyFactory.Create<TEnemy>( placement );
 
@@ -27,7 +27,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		[Inject] protected readonly LevelGraph _levelGraph;
 		[Inject] protected readonly EnemyFactoryBus _enemyFactory;
 
-		public TEnemy Spawn<TEnemy>( TransformData placement )
+		public TEnemy Spawn<TEnemy>( IOrientation placement )
 			where TEnemy : EnemyController
 		{
 			TEnemy newEnemy = _enemyFactory.Create<TEnemy>( placement );

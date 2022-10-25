@@ -74,7 +74,7 @@ namespace Minipede.Editor
 
 			// Player depth area ...
 			Handles.color = _playerDepthColor;
-			DrawRowsAndColumns( _levelGraphWrapper.PlayerRowDepth, _levelGraphWrapper.PlayerRows );
+			DrawRowsAndColumns( _levelGraphWrapper.PlayerRows - _levelGraphWrapper.PlayerRowDepth, _levelGraphWrapper.PlayerRows );
 		}
 
 		private void CacheReferences()

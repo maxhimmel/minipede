@@ -46,15 +46,15 @@ MonoBehaviour:
   _earwig:
     Prefab: {fileID: 4363904833267379863, guid: bc7cc110e6ac10b4ebdcb436f6c716f3, type: 3}
     SpawnPlacement:
-    - RowCol: {x: 0, y: -1}
-      Size: {x: 1, y: 32}
-    - RowCol: {x: 0, y: 30}
-      Size: {x: 1, y: 32}
+    - RowCol: {x: 14, y: -1}
+      Size: {x: 1, y: 15}
+    - RowCol: {x: 14, y: 30}
+      Size: {x: 1, y: 15}
   _minipede:
     Prefab: {fileID: -5776135086835103509, guid: cccfaedb81881644fbeb3e858069e0a7, type: 3}
     SpawnPlacement:
-    - RowCol: {x: 32, y: 0}
-      Size: {x: 30, y: 1}
+    - RowCol: {x: 32, y: 7}
+      Size: {x: 16, y: 1}
     Settings:
       SegmentRange: {x: 10, y: 10}
       SegmentPrefab: {fileID: -1147648705226150016, guid: b4e3ef860a2523d4480d166b5e447b42, type: 3}

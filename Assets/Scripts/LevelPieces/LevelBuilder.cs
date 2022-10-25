@@ -79,24 +79,32 @@ namespace Minipede.Gameplay.LevelPieces
 		public bool TryGetCellData( Vector2 worldPosition, out LevelCell cellData )
 		{
 			Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( worldPosition );
-
-			cellData = null;
-			if ( cellCoord.Row() < 0 || cellCoord.Row() >= _levelGraph.Data.Dimensions.Row() )
-			{
-				return false;
-			}
-			if ( cellCoord.Col() < 0 || cellCoord.Col() >= _levelGraph.Data.Dimensions.Col() )
-			{
-				return false;
-			}
-
 			cellData = GetCellData( cellCoord.Row(), cellCoord.Col() );
-			return true;
+
+			return cellData != null;
 		}
 
 		public LevelCell GetCellData( int row, int col )
 		{
+			if ( !IsCellCoordValid( row, col ) )
+			{
+				return null;
+			}
+
 			return GetCell( row, col ).Item;
+		}
+
+		private bool IsCellCoordValid( int row, int col )
+		{
+			if ( row < 0 || row >= _levelGraph.Data.Dimensions.Row() )
+			{
+				return false;
+			}
+			if ( col < 0 || col >= _levelGraph.Data.Dimensions.Col() )
+			{
+				return false;
+			}
+			return true;
 		}
 
 		private Graph<LevelCell>.Cell GetCell( int row, int col )

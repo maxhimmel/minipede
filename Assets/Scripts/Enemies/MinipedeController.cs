@@ -90,10 +90,9 @@ namespace Minipede.Gameplay.Enemies
 		private bool WillCollideWithNextColumn( Vector2Int currentCoords )
 		{
 			Vector2Int nextColCoord = currentCoords + _columnDir.ToRowCol();
-			Vector2 nextPos = _levelGraph.CellCoordToWorldPos( nextColCoord );
 
 			return !_levelGraph.IsWithinBounds( nextColCoord ) ||
-				_levelForeman.TryQueryFilledBlock( nextPos, out _ );
+				_levelForeman.TryQueryFilledBlock( nextColCoord, out _ );
 		}
 
 		protected override void FixedTick()
@@ -136,10 +135,9 @@ namespace Minipede.Gameplay.Enemies
 		{
 			Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( position );
 			cellCoord += _columnDir.ToRowCol();
-			Vector2 nextPos = _levelGraph.CellCoordToWorldPos( cellCoord );
 
 			_levelForeman.ClearQuery();
-			if ( _levelForeman.TryQueryEmptyBlock( nextPos, out var instructions ) )
+			if ( _levelForeman.TryQueryEmptyBlock( cellCoord, out var instructions ) )
 			{
 				instructions.Create( Block.Type.Regular );
 				return true;

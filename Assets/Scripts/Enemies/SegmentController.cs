@@ -79,10 +79,9 @@ namespace Minipede.Gameplay.Enemies
 		{
 			Vector2Int cellCoord = _levelGraph.WorldPosToCellCoord( position );
 			cellCoord += VectorExtensions.CreateRowCol( 0, _moveDir.Col() );
-			Vector2 nextPos = _levelGraph.CellCoordToWorldPos( cellCoord );
 
 			_levelForeman.ClearQuery();
-			if ( _levelForeman.TryQueryEmptyBlock( nextPos, out var instructions ) )
+			if ( _levelForeman.TryQueryEmptyBlock( cellCoord, out var instructions ) )
 			{
 				instructions.Create( Block.Type.Regular );
 				return true;

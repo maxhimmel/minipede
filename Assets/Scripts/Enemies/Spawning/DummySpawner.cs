@@ -21,7 +21,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			if ( Input.GetKeyDown( KeyCode.Return ) )
 			{
-				_minipedeSpawner.Spawn<MinipedeController>( _spawnPoint.ToData() );
+				_minipedeSpawner.Spawn( _spawnPoint.ToData() );
 			}
 		}
 	}

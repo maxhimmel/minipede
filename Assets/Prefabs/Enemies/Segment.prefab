@@ -19,6 +19,10 @@ PrefabInstance:
       propertyPath: _scriptableObjectInstallers.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 311c259c0670fb64c814ff989d8d9dac, type: 2}
+    - target: {fileID: 7099696817761447218, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: m_RootOrder
       value: 0

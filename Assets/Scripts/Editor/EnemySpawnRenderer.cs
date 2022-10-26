@@ -100,6 +100,8 @@ namespace Minipede.Editor
 					Mathf.RoundToInt( graphArea.Size.x * graphSettings.Size.x ), Mathf.RoundToInt( graphArea.Size.y * graphSettings.Size.y )
 				);
 
+				// TODO: DRAW DOTTED LINES, PLZ
+
 				Handles.DrawSolidRectangleWithOutline( area.ToRect(), color.MultAlpha( 0.3f ), color );
 			}
 		}

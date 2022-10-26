@@ -33,11 +33,14 @@ namespace Minipede.Editor
 			GetWindow<LevelGraphWindow>( "Level Graph" ).Show();
 		}
 
+		private void Awake()
+		{
+			EditorUtility.LoadFromEditorPref( _saveLoadKey, this );
+		}
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-
-			EditorUtility.LoadFromEditorPref( _saveLoadKey, this );
 
 			SceneView.duringSceneGui += OnSceneGui;
 		}

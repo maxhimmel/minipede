@@ -27,11 +27,14 @@ namespace Minipede.Editor
 			GetWindow<EnemySpawnWindow>( "Enemy Spawning" ).Show();
 		}
 
+		private void Awake()
+		{
+			EditorUtility.LoadFromEditorPref( _saveLoadKey, this );
+		}
+
 		protected override void OnEnable()
 		{
 			base.OnEnable();
-
-			EditorUtility.LoadFromEditorPref( _saveLoadKey, this );
 
 			EditorApplication.playModeStateChanged += _simulator.OnPlayModeChanged;
 			SceneView.duringSceneGui += _renderer.OnSceneGui;

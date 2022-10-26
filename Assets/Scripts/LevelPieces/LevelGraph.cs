@@ -100,6 +100,17 @@ namespace Minipede.Gameplay.LevelPieces
 			return true;
 		}
 
+		public Vector2 GetCenter()
+		{
+			Vector2 pivot = transform.position;
+			Vector2 extents = 0.5f * new Vector2( 
+				Data.Dimensions.Col() * Data.Size.x, 
+				Data.Dimensions.Row() * Data.Size.y 
+			);
+
+			return pivot + extents + Data.Offset;
+		}
+
 		[System.Serializable]
 		public struct Settings
 		{

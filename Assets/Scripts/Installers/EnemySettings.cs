@@ -75,11 +75,23 @@ namespace Minipede.Installers
 
 		private void BindSpawnSystem()
 		{
-			Container.Bind<EnemySpawner>()
-				.AsSingle();
+			// PLACEMENT SYSTEM
+			BindEnemySpawnPlacement<BeeController>( _bee.SpawnPlacement );
+			BindEnemySpawnPlacement<BeetleController>( _beetle.SpawnPlacement );
+			BindEnemySpawnPlacement<DragonflyController>( _dragonfly.SpawnPlacement );
+			BindEnemySpawnPlacement<EarwigController>( _earwig.SpawnPlacement );
+			BindEnemySpawnPlacement<MinipedeController>( _minipede.SpawnPlacement );
+			BindEnemySpawnPlacement<MosquitoController>( _mosquito.SpawnPlacement );
 
-			Container.Bind<MinipedeSpawner>()
+			Container.Bind<EnemyPlacementResolver>()
 				.AsSingle();
+		}
+
+		private void BindEnemySpawnPlacement<TEnemy>( GraphArea[] placement )
+			where TEnemy : EnemyController
+		{
+			Container.BindInstance( placement )
+				.WithId( typeof( TEnemy ) );
 		}
 	}
 }

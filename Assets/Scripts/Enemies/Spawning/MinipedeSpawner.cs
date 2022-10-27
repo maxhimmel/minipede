@@ -1,22 +1,24 @@
 using System.Collections.Generic;
+using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Enemies.Spawning
 {
-    public class MinipedeSpawner : EnemySpawner<MinipedeController>
+    public class MinipedeSpawner : SpecializedEnemySpawner<MinipedeController>
     {
 		private readonly MinipedeController.Settings _settings;
+		private readonly LevelGraph _levelGraph;
 
-		public MinipedeSpawner( MinipedeController.Settings settings )
+		public MinipedeSpawner( MinipedeController.Settings settings,
+			LevelGraph levelGraph )
 		{
 			_settings = settings;
+			_levelGraph = levelGraph;
 		}
 
-		protected override void OnSpawned( MinipedeController newEnemy )
+		protected override void HandleSpecialtySpawn( MinipedeController newEnemy )
 		{
-			base.OnSpawned( newEnemy );
-
 			int segmentCount = _settings.SegmentRange.Random( true );
 			newEnemy.SetSegments(
 				CreateSegmentFollowers( segmentCount, newEnemy.Body, newEnemy.transform.parent )

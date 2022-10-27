@@ -85,6 +85,18 @@ namespace Minipede.Installers
 
 			Container.Bind<EnemyPlacementResolver>()
 				.AsSingle();
+
+
+			// SPAWNING SYSTEM
+			Container.Bind<EnemySpawner>()
+				.AsCached();
+			Container.Bind<EnemySpawner>()
+				.To<MinipedeSpawner>()
+				.AsCached();
+
+			// TODO: IEnemyFactoryBus conversion ...
+			Container.Bind<EnemySpawnerBus>()
+				.AsSingle();
 		}
 
 		private void BindEnemySpawnPlacement<TEnemy>( GraphArea[] placement )

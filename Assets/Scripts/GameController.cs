@@ -1,5 +1,4 @@
 using System;
-using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Installers;
@@ -15,48 +14,41 @@ namespace Minipede.Gameplay
 		public bool IsReady { get; private set; }
 
 		private readonly GameplaySettings.Player _playerSettings;
-		private readonly PlayerSpawner _playerSpawner;
+		private readonly PlayerSpawnController _playerSpawnController;
 		private readonly LevelBuilder _levelBuilder;
 
-		private PlayerController _player;
-
 		public GameController( GameplaySettings.Player playerSettings,
-			PlayerSpawner playerSpawner,
+			PlayerSpawnController playerSpawnController,
 			LevelBuilder levelBuilder )
 		{
 			_playerSettings = playerSettings;
-			_playerSpawner = playerSpawner;
+			_playerSpawnController = playerSpawnController;
 			_levelBuilder = levelBuilder;
+
+			playerSpawnController.PlayerDied += OnPlayerDead;
 		}
 
 		public async void Initialize()
 		{
 			await _levelBuilder.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
-			CreatePlayer();
+
+			_playerSpawnController.Create();
 
 			IsReady = true;
 		}
 
-
-		private void CreatePlayer()
+		private async void OnPlayerDead( PlayerController deadPlayer )
 		{
-			_player = _playerSpawner.Spawn();
-			_player.DestroyNotify.Destroyed += OnPlayerDead;
-		}
-
-		private async void OnPlayerDead( object sender, EventArgs e )
-		{
-			_player = null;
 			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay );
 
-			CreatePlayer();
+			_playerSpawnController.Create();
 		}
 
 		public void Dispose()
 		{
-			if ( _player != null )
+			if ( _playerSpawnController != null )
 			{
-				_player.DestroyNotify.Destroyed -= OnPlayerDead;
+				_playerSpawnController.PlayerDied -= OnPlayerDead;
 			}
 		}
 	}

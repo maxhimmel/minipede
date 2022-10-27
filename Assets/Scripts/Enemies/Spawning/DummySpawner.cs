@@ -1,3 +1,4 @@
+using System.Linq;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
@@ -6,22 +7,28 @@ namespace Minipede.Gameplay.Enemies.Spawning
 {
     public class DummySpawner : MonoBehaviour
 	{
-		private MinipedeSpawner _minipedeSpawner;
-		private IOrientation _spawnPoint;
+		private EnemySpawnerBus _spawnerBus;
+		private EnemyPlacementResolver _placementResolver;
 
 		[Inject]
-		public void Construct( MinipedeSpawner spawner,
-			IOrientation spawnPoint )
+		public void Construct( EnemySpawnerBus spawnerBus,
+			EnemyPlacementResolver placementResolver )
 		{
-			_spawnPoint = spawnPoint;
-			_minipedeSpawner = spawner;
+			_spawnerBus = spawnerBus;
+			_placementResolver = placementResolver;
 		}
 
 		private void Update()
 		{
 			if ( Input.GetKeyDown( KeyCode.Return ) )
 			{
-				_minipedeSpawner.Spawn( _spawnPoint );
+				var spawnPositions = _placementResolver.GetSpawnPositionAndRotation<MinipedeController>().ToArray();
+				int randIdx = Random.Range( 0, spawnPositions.Length );
+
+				_spawnerBus.Create<MinipedeController>( new Orientation(
+					spawnPositions[randIdx].pos,
+					Quaternion.Euler( 0, 0, spawnPositions[randIdx].rot )
+				) );
 			}
 		}
 	}

@@ -8,7 +8,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 	{
 	}
 
-	public class EnemyFactoryBus
+	public class EnemyFactoryBus : IEnemyFactoryBus
 	{
 		private readonly Dictionary<System.Type, EnemyFactory> _factories;
 

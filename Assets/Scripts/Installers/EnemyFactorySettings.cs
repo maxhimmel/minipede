@@ -5,6 +5,8 @@ namespace Minipede.Installers
 {
     public partial class EnemySettings
 	{
+		// TODO: All of these could be private classes ...
+
 		[System.Serializable]
 		public struct Bee
 		{

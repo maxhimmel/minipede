@@ -5,14 +5,17 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.Enemies.Spawning
 {
-    public class MinipedeSpawner : SpecializedEnemySpawner<MinipedeController>
-    {
+    public class MinipedeSpawnBehavior : SpecializedEnemySpawnBehavior<MinipedeController>
+	{
+		private readonly EnemyFactoryBus _enemyFactory;
 		private readonly MinipedeController.Settings _settings;
 		private readonly LevelGraph _levelGraph;
 
-		public MinipedeSpawner( MinipedeController.Settings settings,
+		public MinipedeSpawnBehavior( EnemyFactoryBus enemyFactory,
+			MinipedeController.Settings settings,
 			LevelGraph levelGraph )
 		{
+			_enemyFactory = enemyFactory;
 			_settings = settings;
 			_levelGraph = levelGraph;
 		}
@@ -37,6 +40,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 					Quaternion.LookRotation( Vector3.forward, -offsetDir ),
 					parent
 				) );
+				newSegment.OnSpawned();
 
 				leader = newSegment.Body;
 				segments.Add( newSegment );

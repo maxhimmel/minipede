@@ -1,27 +1,30 @@
-using System.Collections.Generic;
 using Minipede.Utility;
-using System.Linq;
 
 namespace Minipede.Gameplay.Enemies.Spawning
 {
-	public class EnemySpawnerBus : IEnemyFactoryBus
+	/// <summary>
+	/// Uses the <see cref="EnemyFactoryBus"/> to spawn enemies and invoke customized <see cref="EnemyController.OnSpawned"/> behavior.<para></para>
+	/// See <see cref="EnemySpawnBehaviorBus"/> to create custom spawn behaviors.
+	/// </summary>
+	public class EnemySpawnerBus
 	{
-		private readonly Dictionary<System.Type, EnemySpawner> _spawners;
+		private readonly EnemyFactoryBus _enemyFactory;
+		private readonly EnemySpawnBehaviorBus _spawnBehaviors;
 
-		public EnemySpawnerBus( EnemySpawner[] spawners )
+		public EnemySpawnerBus( EnemyFactoryBus enemyFactory,
+			EnemySpawnBehaviorBus spawnBehaviors )
 		{
-			_spawners = spawners.ToDictionary( spawner => spawner.EnemyType );
+			_enemyFactory = enemyFactory;
+			_spawnBehaviors = spawnBehaviors;
 		}
 
 		public TEnemy Create<TEnemy>( IOrientation placement )
-			 where TEnemy : EnemyController
+			where TEnemy : EnemyController
 		{
-			if ( !_spawners.TryGetValue( typeof( TEnemy ), out var spawner ) )
-			{
-				spawner = _spawners[typeof( EnemyController )];
-			}
+			TEnemy newEnemy = _enemyFactory.Create<TEnemy>( placement );
+			_spawnBehaviors.Perform( newEnemy );
 
-			return spawner.Create<TEnemy>( placement );
+			return newEnemy;
 		}
 	}
 }

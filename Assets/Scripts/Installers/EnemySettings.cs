@@ -88,13 +88,15 @@ namespace Minipede.Installers
 
 
 			// SPAWNING SYSTEM
-			Container.Bind<EnemySpawner>()
+			Container.Bind<EnemySpawnBehavior>()
 				.AsCached();
-			Container.Bind<EnemySpawner>()
-				.To<MinipedeSpawner>()
+			Container.Bind<EnemySpawnBehavior>()
+				.To<MinipedeSpawnBehavior>()
 				.AsCached();
 
-			// TODO: IEnemyFactoryBus conversion ...
+			Container.Bind<EnemySpawnBehaviorBus>()
+				.AsSingle();
+
 			Container.Bind<EnemySpawnerBus>()
 				.AsSingle();
 		}

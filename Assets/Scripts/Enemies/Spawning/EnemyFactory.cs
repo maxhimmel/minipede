@@ -8,7 +8,12 @@ namespace Minipede.Gameplay.Enemies.Spawning
 	{
 	}
 
-	public class EnemyFactoryBus : IEnemyFactoryBus
+	/// <summary>
+	/// The <see cref="EnemySpawnerBus"/> should be used in replace of this in most cases.<para></para>
+	/// A lookup table for each <see cref="EnemyFactory"/> mapped to its enemy prefab.
+	/// This <b>will not</b> perform any <see cref="EnemyController.OnSpawned"/> behaviors.
+	/// </summary>
+	public class EnemyFactoryBus
 	{
 		private readonly Dictionary<System.Type, EnemyFactory> _factories;
 

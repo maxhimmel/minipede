@@ -1,3 +1,4 @@
+using Minipede.Gameplay;
 using UnityEngine;
 
 namespace Minipede.Utility
@@ -9,7 +10,15 @@ namespace Minipede.Utility
 			var attachedBody = collision.attachedRigidbody;
 			if ( attachedBody != null )
 			{
-				Destroy( attachedBody.gameObject );
+				IDamageable damageable = attachedBody.GetComponent<IDamageable>();
+				if ( damageable != null )
+				{
+					damageable.TakeDamage( transform, transform, new DamageDatum( 999 ) );
+				}
+				else
+				{
+					Destroy( attachedBody.gameObject );
+				}
 			}
 		}
 	}

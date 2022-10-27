@@ -19,7 +19,7 @@ namespace Minipede.Gameplay.LevelPieces
 			_spawnPoint = container.ResolveId<IOrientation>( settings.SpawnPointId );
 		}
 
-		public PlayerController Spawn()
+		public PlayerController Create()
 		{
 			var newPlayer = _factory.Create();
 			newPlayer.transform.SetParent( _spawnPoint.Parent );

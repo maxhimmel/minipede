@@ -32,6 +32,10 @@ namespace Minipede.Installers
 				.WithGameObjectName( _playerSettings.Prefab.name );
 
 			Container.Bind<PlayerSpawner>()
+				.AsSingle()
+				.WhenInjectedInto<PlayerSpawnController>();
+
+			Container.Bind<PlayerSpawnController>()
 				.AsSingle();
 		}
 

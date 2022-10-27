@@ -1,3 +1,4 @@
+using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
@@ -26,7 +27,8 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private void HandleDamageAnim( Rigidbody2D victimBody, HealthController health )
 		{
-			_renderer.transform.localScale = Vector3.one * health.Percentage;
+			_renderer.color = _renderer.color.SetAlpha( health.Percentage );
+			//_renderer.transform.localScale = Vector3.one * health.Percentage;
 		}
 
 		private void OnDestroy()

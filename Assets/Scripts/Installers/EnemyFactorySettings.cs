@@ -1,5 +1,6 @@
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.LevelPieces;
+using UnityEngine.Serialization;
 
 namespace Minipede.Installers
 {
@@ -11,7 +12,7 @@ namespace Minipede.Installers
 		public struct Bee
 		{
 			public BeeController Prefab;
-			public GraphArea[] SpawnPlacement;
+			public GraphSpawnPlacement[] SpawnPlacement;
 			public BeeController.Settings Settings;
 		}
 
@@ -19,7 +20,7 @@ namespace Minipede.Installers
 		public struct Mosquito
 		{
 			public MosquitoController Prefab;
-			public GraphArea[] SpawnPlacement;
+			public GraphSpawnPlacement[] SpawnPlacement;
 			public MosquitoController.Settings Settings;
 		}
 
@@ -27,14 +28,14 @@ namespace Minipede.Installers
 		public struct Earwig
 		{
 			public EarwigController Prefab;
-			public GraphArea[] SpawnPlacement;
+			public GraphSpawnPlacement[] SpawnPlacement;
 		}
 
 		[System.Serializable]
 		public struct Dragonfly
 		{
 			public DragonflyController Prefab;
-			public GraphArea[] SpawnPlacement;
+			public GraphSpawnPlacement[] SpawnPlacement;
 			public DragonflyController.Settings Settings;
 		}
 
@@ -42,7 +43,7 @@ namespace Minipede.Installers
 		public struct Beetle
 		{
 			public BeetleController Prefab;
-			public GraphArea[] SpawnPlacement;
+			public GraphSpawnPlacement[] SpawnPlacement;
 			public BeetleController.Settings Settings;
 		}
 
@@ -50,7 +51,7 @@ namespace Minipede.Installers
 		public struct Minipede
 		{
 			public MinipedeController Prefab;
-			public GraphArea[] SpawnPlacement;
+			public GraphSpawnPlacement[] SpawnPlacement;
 			public MinipedeController.Settings Settings;
 		}
 	}

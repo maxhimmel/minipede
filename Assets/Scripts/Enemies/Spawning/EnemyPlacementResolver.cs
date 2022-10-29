@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
@@ -9,12 +10,15 @@ namespace Minipede.Gameplay.Enemies.Spawning
     {
 		private readonly DiContainer _container;
 		private readonly LevelGraph _levelGraph;
+		private readonly Dictionary<System.Type, GraphSpawnPlacement[]> _placements;
 
 		public EnemyPlacementResolver( DiContainer container,
 			LevelGraph levelGraph )
 		{
 			_container = container;
 			_levelGraph = levelGraph;
+
+			_placements = new Dictionary<System.Type, GraphSpawnPlacement[]>();
 		}
 
 		public IEnumerable<Vector2> GetSpawnPositions<TEnemy>()
@@ -22,45 +26,60 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			Vector2 centerOffset = Vector2.one * 0.5f;
 
-			var spawnAreas = GetSpawnAreaData<TEnemy>();
+			var spawnAreas = GetSpawnOrientationData<TEnemy>();
 			foreach ( var area in spawnAreas )
 			{
-				foreach ( var spawnPos in area.area.allPositionsWithin )
+				foreach ( var spawnPos in area.Area.allPositionsWithin )
 				{
 					yield return spawnPos + centerOffset;
 				}
 			}
 		}
 
-		public IEnumerable<(Vector2 pos, float rot)> GetSpawnPositionAndRotation<TEnemy>()
+		public IEnumerable<IOrientation> GetSpawnOrientations<TEnemy>()
 			where TEnemy : EnemyController
 		{
 			Vector2 centerOffset = Vector2.one * 0.5f;
 
-			var spawnAreas = GetSpawnAreaData<TEnemy>();
+			var spawnAreas = GetSpawnOrientationData<TEnemy>();
 			foreach ( var area in spawnAreas )
 			{
-				foreach ( var spawnPos in area.area.allPositionsWithin )
+				foreach ( var spawnPos in area.Area.allPositionsWithin )
 				{
-					yield return (spawnPos + centerOffset, area.rot);
+					yield return new Orientation(
+						spawnPos + centerOffset,
+						Quaternion.Euler( 0, 0, area.Rotations.GetRandomItem() )
+					);
 				}
 			}
 		}
 
-		private IEnumerable<(RectInt area, float rot)> GetSpawnAreaData<TEnemy>()
+		private IEnumerable<(RectInt Area, WeightedListInt Rotations)> GetSpawnOrientationData<TEnemy>()
 			where TEnemy : EnemyController
 		{
 			var placements = GetPlacementData<TEnemy>();
-			foreach ( var graphArea in placements )
+			foreach ( var spawn in placements )
 			{
-				yield return (graphArea.ToRect( _levelGraph ), graphArea.Rotation);
+				yield return (spawn.Area.ToRect( _levelGraph ), spawn.Rotation);
 			}
 		}
 
-		public GraphArea[] GetPlacementData<TEnemy>()
+		public GraphSpawnPlacement[] GetPlacementData<TEnemy>()
 			where TEnemy : EnemyController
 		{
-			return _container.ResolveId<GraphArea[]>( typeof( TEnemy ) );
+			if ( _placements.TryGetValue( typeof( TEnemy ), out var placements ) )
+			{
+				return placements;
+			}
+
+			placements = _container.ResolveId<GraphSpawnPlacement[]>( typeof( TEnemy ) );
+			foreach ( var spawn in placements )
+			{
+				spawn.Rotation.Init();
+			}
+
+			_placements.Add( typeof( TEnemy ), placements );
+			return placements;
 		}
 	}
 }

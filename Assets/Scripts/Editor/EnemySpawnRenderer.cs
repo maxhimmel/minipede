@@ -80,16 +80,20 @@ namespace Minipede.Editor
 
 		private void DrawPlacement( SerializedProperty placementProperty, Color color )
 		{
+			Handles.color = color;
+
 			Vector2 levelGraphPos = _levelGraphWrapper.LevelGraph.transform.position;
 			LevelGraph.Settings graphSettings = _levelGraphWrapper.GraphSettings;
 
 			for ( int idx = 0; idx < placementProperty.arraySize; ++idx )
 			{
-				var graphAreaProperty = placementProperty.GetArrayElementAtIndex( idx );
+				var spawnProperty = placementProperty.GetArrayElementAtIndex( idx );
+				
+				var areaProperty = spawnProperty.FindPropertyRelative( "Area" );
 				GraphArea graphArea = new GraphArea()
 				{
-					RowCol = graphAreaProperty.FindPropertyRelative( "RowCol" ).vector2IntValue,
-					Size = graphAreaProperty.FindPropertyRelative( "Size" ).vector2IntValue
+					RowCol = areaProperty.FindPropertyRelative( "RowCol" ).vector2IntValue,
+					Size = areaProperty.FindPropertyRelative( "Size" ).vector2IntValue
 				};
 
 				Vector2 startPos = graphSettings.CellCoordToWorldPos( graphArea.RowCol );
@@ -101,8 +105,23 @@ namespace Minipede.Editor
 				);
 
 				// TODO: DRAW DOTTED LINES, PLZ
-
 				Handles.DrawSolidRectangleWithOutline( area.ToRect(), color.MultAlpha( 0.3f ), color );
+
+				DrawRotation( spawnProperty, area );
+			}
+		}
+
+		private void DrawRotation( SerializedProperty spawnProperty, RectInt area )
+		{
+			var rotationProperty = spawnProperty.FindPropertyRelative( "Rotation" );
+			var itemsProperty = rotationProperty.FindPropertyRelative( "_items" );
+			for ( int node = 0; node < itemsProperty.arraySize; ++node )
+			{
+				var nodeProperty = itemsProperty.GetArrayElementAtIndex( node );
+				var itemProperty = nodeProperty.FindPropertyRelative( "Item" );
+
+				Quaternion arrowRot = Quaternion.LookRotation( Vector2.up.Rotate( itemProperty.intValue ) );
+				Handles.ArrowHandleCap( 0, area.position.ToVector2(), arrowRot, 1f, EventType.Repaint );
 			}
 		}
 

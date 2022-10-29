@@ -102,6 +102,7 @@ namespace Minipede.Installers
 		}
 
 		private void BindEnemySpawnPlacement<TEnemy>( GraphArea[] placement )
+		private void BindEnemySpawnPlacement<TEnemy>( GraphSpawnPlacement[] placement )
 			where TEnemy : EnemyController
 		{
 			Container.BindInstance( placement )

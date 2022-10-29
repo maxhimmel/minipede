@@ -22,13 +22,10 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			if ( Input.GetKeyDown( KeyCode.Return ) )
 			{
-				var spawnPositions = _placementResolver.GetSpawnPositionAndRotation<MinipedeController>().ToArray();
-				int randIdx = Random.Range( 0, spawnPositions.Length );
+				var spawnOrientations = _placementResolver.GetSpawnOrientations<MinipedeController>().ToArray();
+				int randIdx = Random.Range( 0, spawnOrientations.Length );
 
-				_spawnerBus.Create<MinipedeController>( new Orientation(
-					spawnPositions[randIdx].pos,
-					Quaternion.Euler( 0, 0, spawnPositions[randIdx].rot )
-				) );
+				_spawnerBus.Create<MinipedeController>( spawnOrientations[randIdx] );
 			}
 		}
 	}

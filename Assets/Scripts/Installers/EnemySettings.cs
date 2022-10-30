@@ -1,6 +1,4 @@
-using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
-using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Weapons;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -14,25 +12,20 @@ namespace Minipede.Installers
 		[FoldoutGroup( "Shared" )]
 		[SerializeField] private DamageTrigger.Settings _damage;
 
-		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Bee", ShowLabel = false )]
-		[SerializeField] private Bee _bee;
-		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Beetle", ShowLabel = false )]
-		[SerializeField] private Beetle _beetle;
-		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Dragonfly", ShowLabel = false )]
-		[SerializeField] private Dragonfly _dragonfly;
-		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Earwig", ShowLabel = false )]
-		[SerializeField] private Earwig _earwig;
-		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Minipede", ShowLabel = false )]
-		[SerializeField] private Minipede _minipede;
-		[FoldoutGroup( "Specialized" ), BoxGroup( "Specialized/Mosquito", ShowLabel = false )]
-		[SerializeField] private Mosquito _mosquito;
+		[InlineEditor, LabelText( "Specialized" )]
+		[SerializeField] private EnemyInstaller[] _enemyInstallers;
+
+		[FoldoutGroup( "Wave Spawning" )]
+		[SerializeField] private EnemyWaveController.Settings _waveControllerSettings;
+		[Space, FoldoutGroup( "Wave Spawning" )]
+		[SerializeField] private EnemyWaveInstaller[] _stampedeInstallers;
 
 		public override void InstallBindings()
 		{
 			BindSharedSettings();
-			BindInstancedSettings();
-			BindFactories();
+			BindEnemies();
 			BindSpawnSystem();
+			BindWaveSystem();
 		}
 
 		private void BindSharedSettings()
@@ -40,59 +33,24 @@ namespace Minipede.Installers
 			Container.BindInstance( _damage );
 		}
 
-		private void BindInstancedSettings()
+		private void BindEnemies()
 		{
-			Container.BindInstances(
-				_bee.Settings,
-				_beetle.Settings,
-				_dragonfly.Settings,
-				_minipede.Settings,
-				_mosquito.Settings
-			);
-		}
-
-		private void BindFactories()
-		{
-			BindEnemyFactory( _bee.Prefab );
-			BindEnemyFactory( _beetle.Prefab );
-			BindEnemyFactory( _dragonfly.Prefab );
-			BindEnemyFactory( _earwig.Prefab );
-			BindEnemyFactory( _minipede.Prefab );
-			BindEnemyFactory( _minipede.Settings.SegmentPrefab );
-			BindEnemyFactory( _mosquito.Prefab );
-
-			Container.Bind<EnemyFactoryBus>()
-				.AsSingle();
-		}
-
-		private void BindEnemyFactory<TEnemy>( TEnemy prefab )
-			where TEnemy : EnemyController
-		{
-			Container.Bind<EnemyFactory>()
-				.AsTransient()
-				.WithArguments( prefab );
+			foreach ( var enemy in _enemyInstallers )
+			{
+				Container.Inject( enemy );
+				enemy.InstallBindings();
+			}
 		}
 
 		private void BindSpawnSystem()
 		{
-			// PLACEMENT SYSTEM
-			BindEnemySpawnPlacement<BeeController>( _bee.SpawnPlacement );
-			BindEnemySpawnPlacement<BeetleController>( _beetle.SpawnPlacement );
-			BindEnemySpawnPlacement<DragonflyController>( _dragonfly.SpawnPlacement );
-			BindEnemySpawnPlacement<EarwigController>( _earwig.SpawnPlacement );
-			BindEnemySpawnPlacement<MinipedeController>( _minipede.SpawnPlacement );
-			BindEnemySpawnPlacement<MosquitoController>( _mosquito.SpawnPlacement );
+			Container.Bind<EnemyFactoryBus>()
+				.AsSingle();
+
+			/* --- */
 
 			Container.Bind<EnemyPlacementResolver>()
 				.AsSingle();
-
-
-			// SPAWNING SYSTEM
-			Container.Bind<EnemySpawnBehavior>()
-				.AsCached();
-			Container.Bind<EnemySpawnBehavior>()
-				.To<MinipedeSpawnBehavior>()
-				.AsCached();
 
 			Container.Bind<EnemySpawnBehaviorBus>()
 				.AsSingle();
@@ -101,12 +59,19 @@ namespace Minipede.Installers
 				.AsSingle();
 		}
 
-		private void BindEnemySpawnPlacement<TEnemy>( GraphArea[] placement )
-		private void BindEnemySpawnPlacement<TEnemy>( GraphSpawnPlacement[] placement )
-			where TEnemy : EnemyController
+		private void BindWaveSystem()
 		{
-			Container.BindInstance( placement )
-				.WithId( typeof( TEnemy ) );
+			for ( int idx = 0; idx < _stampedeInstallers.Length; ++idx )
+			{
+				var stampede = _stampedeInstallers[idx];
+
+				Container.Inject( stampede );
+				stampede.InstallBindings();
+			}
+
+			Container.Bind<EnemyWaveController>()
+				.AsSingle()
+				.WithArguments( _waveControllerSettings );
 		}
 	}
 }

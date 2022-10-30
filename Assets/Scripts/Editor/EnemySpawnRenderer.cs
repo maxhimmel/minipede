@@ -10,20 +10,12 @@ namespace Minipede.Editor
 	[System.Serializable]
     public class EnemySpawnRenderer
 	{
-		[ListDrawerSettings( 
-			HideAddButton = true, HideRemoveButton = true, 
+		[ListDrawerSettings(
+			HideAddButton = true, HideRemoveButton = true,
 			ShowPaging = false, ShowItemCount = false,
 			DraggableItems = false, Expanded = true )]
 		[Space, ToggleGroup( "Main/_drawPlacements" )]
-		[SerializeField] private List<DrawPlacementData> _placements = new List<DrawPlacementData>()
-		{
-			new DrawPlacementData( "_bee" ),
-			new DrawPlacementData( "_beetle" ),
-			new DrawPlacementData( "_dragonfly" ),
-			new DrawPlacementData( "_earwig" ),
-			new DrawPlacementData( "_minipede" ),
-			new DrawPlacementData( "_mosquito" )
-		};
+		[SerializeField] private List<DrawPlacementData> _placements = new List<DrawPlacementData>();
 
 		[TitleGroup( "Enemy Placements", "View the graph and modify where enemies are allowed to spawn.", GroupID = "Main", Order = -1 )]
 		[ToggleGroup( "Main/_drawPlacements", ToggleGroupTitle = "Draw", Order = 0 )]
@@ -31,7 +23,7 @@ namespace Minipede.Editor
 
 		private LevelGraphWrapper _levelGraphWrapper;
 		private SerializedObject _enemySettingsObj;
-		private Dictionary<SerializedProperty, DrawPlacementData> _placementData;
+		private Dictionary<SerializedProperty, DrawPlacementData> _placementData = new Dictionary<SerializedProperty, DrawPlacementData>();
 
 		public void AttachEnemySettings( SerializedObject settings )
 		{
@@ -68,13 +60,38 @@ namespace Minipede.Editor
 			}
 			_levelGraphWrapper.RefreshReferences();
 
-			_placementData = new Dictionary<SerializedProperty, DrawPlacementData>( _placements.Count );
-			foreach ( var placement in _placements )
+			var enemyInstallersProperty = _enemySettingsObj.FindProperty( "_enemyInstallers" );
+			int enemyCount = enemyInstallersProperty.arraySize;
+
+			if ( _placements.Count != enemyCount )
 			{
-				_placementData.Add(
-					_enemySettingsObj.FindProperty( placement.Name ).FindPropertyRelative( "SpawnPlacement" ),
-					placement
-				);
+				for ( int idx = 0; idx < enemyCount; ++idx )
+				{
+					var installerProperty = enemyInstallersProperty.GetArrayElementAtIndex( idx );
+					var installerObj = new SerializedObject( installerProperty.objectReferenceValue );
+					string enemyName = installerProperty.objectReferenceValue.name;
+
+					var foundData = _placements.Find( data => data.Name == enemyName );
+					if ( foundData != null )
+					{
+						continue;
+					}
+
+					var data = new DrawPlacementData( enemyName );
+					_placements.Add( data );
+				}
+			}
+			if ( _placementData.Count != _placements.Count )
+			{
+				_placementData = new Dictionary<SerializedProperty, DrawPlacementData>( enemyCount );
+				for ( int idx = 0; idx < enemyCount; ++idx )
+				{
+					var installerProperty = enemyInstallersProperty.GetArrayElementAtIndex( idx );
+					var installerObj = new SerializedObject( installerProperty.objectReferenceValue );
+					string enemyName = installerProperty.objectReferenceValue.name;
+
+					_placementData.Add( installerObj.FindProperty( "_spawnPlacement" ), _placements[idx] );
+				}
 			}
 		}
 

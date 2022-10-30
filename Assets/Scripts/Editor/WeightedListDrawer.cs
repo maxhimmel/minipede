@@ -40,7 +40,8 @@ namespace Minipede.Editor
 			position.height = EditorGUIUtility.singleLineHeight;
 
 			SerializedProperty allowEmptyRolls = property.FindPropertyRelative( _allowEmptyRollsName );
-			EditorGUI.PropertyField( position, allowEmptyRolls );
+			GUIContent content = new GUIContent( allowEmptyRolls.displayName, allowEmptyRolls.tooltip );
+			allowEmptyRolls.boolValue = EditorGUI.ToggleLeft( position, content, allowEmptyRolls.boolValue );
 
 			position.height = prevPosHeight;
 			position.y += EditorGUIUtility.singleLineHeight;

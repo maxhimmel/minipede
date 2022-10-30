@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd0ab72b8020b441a7084b8ec23ecde, type: 3}
+  m_Name: Earwig
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 4363904833267379863, guid: bc7cc110e6ac10b4ebdcb436f6c716f3, type: 3}
+  _spawnPlacement:
+  - Area:
+      RowCol: {x: 14, y: 0}
+      Size: {x: -1, y: 15}
+    Rotation:
+      _allowEmptyRolls: 0
+      _items:
+      - _normalizedWeight: 100
+        Item: -90
+  - Area:
+      RowCol: {x: 14, y: 30}
+      Size: {x: 1, y: 15}
+    Rotation:
+      _allowEmptyRolls: 0
+      _items:
+      - _normalizedWeight: 100
+        Item: 90

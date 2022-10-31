@@ -1,4 +1,5 @@
 using System;
+using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Installers;
@@ -9,21 +10,25 @@ namespace Minipede.Gameplay
 {
 	public class GameController : 
 		IInitializable, 
-		IDisposable
+		IDisposable,
+		ITickable
 	{
 		public bool IsReady { get; private set; }
 
 		private readonly GameplaySettings.Player _playerSettings;
 		private readonly PlayerSpawnController _playerSpawnController;
 		private readonly LevelBuilder _levelBuilder;
+		private readonly EnemyWaveController _enemyWaveController;
 
 		public GameController( GameplaySettings.Player playerSettings,
 			PlayerSpawnController playerSpawnController,
-			LevelBuilder levelBuilder )
+			LevelBuilder levelBuilder,
+			EnemyWaveController enemyWaveController )
 		{
 			_playerSettings = playerSettings;
 			_playerSpawnController = playerSpawnController;
 			_levelBuilder = levelBuilder;
+			_enemyWaveController = enemyWaveController;
 
 			playerSpawnController.PlayerDied += OnPlayerDead;
 		}
@@ -39,6 +44,8 @@ namespace Minipede.Gameplay
 
 		private async void OnPlayerDead( PlayerController deadPlayer )
 		{
+			_enemyWaveController.OnPlayerDied();
+
 			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay );
 
 			_playerSpawnController.Create();
@@ -50,6 +57,16 @@ namespace Minipede.Gameplay
 			{
 				_playerSpawnController.PlayerDied -= OnPlayerDead;
 			}
+		}
+
+		public void Tick()
+		{
+			if ( !IsReady )
+			{
+				return;
+			}
+
+			_enemyWaveController.Tick();
 		}
 	}
 }

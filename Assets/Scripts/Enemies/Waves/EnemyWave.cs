@@ -34,7 +34,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			SetupPlayerDiedCancellation();
 
 			_signalBus.Subscribe<EnemySpawnedSignal>( OnEnemySpawned );
-			_signalBus.Subscribe<EnemyDiedSignal>( OnEnemyDied );
+			_signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 
 			RestartSpawning();
 		}
@@ -73,7 +73,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			}
 		}
 
-		protected virtual void OnEnemyDied( EnemyDiedSignal signal )
+		protected virtual void OnEnemyDestroyed( EnemyDestroyedSignal signal )
 		{
 			if ( CanWatchEnemy( signal.Victim ) )
 			{
@@ -95,7 +95,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			if ( ExitWaveRequested() )
 			{
 				_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
-				_signalBus.Unsubscribe<EnemyDiedSignal>( OnEnemyDied );
+				_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 			}
 		}
 
@@ -108,7 +108,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		/// <summary>
 		/// This is called when the player has died.<para></para>
-		/// On exit, this will stop listening for <see cref="EnemySpawnedSignal"/> and <see cref="EnemyDiedSignal"/>.
+		/// On exit, this will stop listening for <see cref="EnemySpawnedSignal"/> and <see cref="EnemyDestroyedSignal"/>.
 		/// </summary>
 		/// <returns>True if the wave should be exited.</returns>
 		protected abstract bool ExitWaveRequested();
@@ -127,7 +127,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			IsRunning = false;
 
 			_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
-			_signalBus.Unsubscribe<EnemyDiedSignal>( OnEnemyDied );
+			_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 
 			Completed?.Invoke( this );
 		}

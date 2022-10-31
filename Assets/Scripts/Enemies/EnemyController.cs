@@ -65,8 +65,6 @@ namespace Minipede.Gameplay.Enemies
 
 		protected virtual void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
-			_signalBus.Fire( new EnemyDiedSignal() { Victim = this } );
-
 			_damageController.Died -= OnDied;
 			Destroy( gameObject );
 		}
@@ -80,6 +78,8 @@ namespace Minipede.Gameplay.Enemies
 				_damageController.Damaged -= OnDamaged;
 				_damageController.Died -= OnDied;
 			}
+
+			_signalBus.Fire( new EnemyDestroyedSignal() { Victim = this } );
 		}
 
 		protected async void Start()

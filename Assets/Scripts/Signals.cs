@@ -1,6 +1,6 @@
 namespace Minipede.Gameplay.Enemies
 {
-	public class EnemyDiedSignal
+	public class EnemyDestroyedSignal
 	{
 		public EnemyController Victim;
 	}

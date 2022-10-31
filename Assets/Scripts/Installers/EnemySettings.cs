@@ -27,7 +27,7 @@ namespace Minipede.Installers
 		{
 			SignalBusInstaller.Install( Container );
 			Container.DeclareSignal<EnemySpawnedSignal>();
-			Container.DeclareSignal<EnemyDiedSignal>();
+			Container.DeclareSignal<EnemyDestroyedSignal>();
 
 			BindSharedSettings();
 			BindEnemies();

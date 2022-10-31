@@ -41,9 +41,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			}
 		}
 
-		protected override void OnEnemyDied( EnemyDiedSignal signal )
+		protected override void OnEnemyDestroyed( EnemyDestroyedSignal signal )
 		{
-			base.OnEnemyDied( signal );
+			base.OnEnemyDestroyed( signal );
 
 			if ( !IsWatchedEnemiesAlive )
 			{

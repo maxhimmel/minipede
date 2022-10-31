@@ -23,5 +23,5 @@ MonoBehaviour:
       - _normalizedWeight: 100
         Item: 180
   _settings:
-    SegmentRange: {x: 10, y: 10}
+    SegmentRange: {x: 2, y: 6}
     SegmentPrefab: {fileID: -1147648705226150016, guid: b4e3ef860a2523d4480d166b5e447b42, type: 3}

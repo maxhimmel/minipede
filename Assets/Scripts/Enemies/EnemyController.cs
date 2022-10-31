@@ -27,6 +27,7 @@ namespace Minipede.Gameplay.Enemies
 		protected GameController _gameController;
 		protected LevelGraph _levelGraph;
 		protected LevelForeman _levelForeman;
+		protected SignalBus _signalBus;
 
 		private CancellationTokenSource _onDestroyCancelSource;
 		protected CancellationToken _onDestroyCancelToken;
@@ -36,13 +37,15 @@ namespace Minipede.Gameplay.Enemies
 			IDamageController damageController,
 			GameController gameController, 
 			LevelGraph levelGraph,
-			LevelForeman foreman )
+			LevelForeman foreman,
+			SignalBus signalBus )
 		{
 			_body = body;
 			_damageController = damageController;
 			_gameController = gameController;
 			_levelGraph = levelGraph;
 			_levelForeman = foreman;
+			_signalBus = signalBus;
 
 			_onDestroyCancelSource = new CancellationTokenSource();
 			_onDestroyCancelToken = _onDestroyCancelSource.Token;
@@ -62,6 +65,8 @@ namespace Minipede.Gameplay.Enemies
 
 		protected virtual void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
+			_signalBus.Fire( new EnemyDiedSignal() { Victim = this } );
+
 			_damageController.Died -= OnDied;
 			Destroy( gameObject );
 		}
@@ -91,7 +96,7 @@ namespace Minipede.Gameplay.Enemies
 
 		protected virtual void OnStart()
 		{
-
+			_signalBus.Fire( new EnemySpawnedSignal() { Enemy = this } );
 		}
 
 		protected virtual void OnReady()

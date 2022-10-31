@@ -1,3 +1,4 @@
+using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Weapons;
 using Sirenix.OdinInspector;
@@ -16,12 +17,18 @@ namespace Minipede.Installers
 		[SerializeField] private EnemyInstaller[] _enemyInstallers;
 
 		[FoldoutGroup( "Wave Spawning" )]
-		[SerializeField] private EnemyWaveController.Settings _waveControllerSettings;
+		[SerializeField] private IEnemyWave.Settings _wave;
 		[Space, FoldoutGroup( "Wave Spawning" )]
-		[SerializeField] private EnemyWaveInstaller[] _stampedeInstallers;
+		[SerializeField] private MinipedeWaveInstaller _mainWave;
+		[Space, FoldoutGroup( "Wave Spawning" )]
+		[SerializeField] private EnemyWaveInstaller[] _stampedes;
 
 		public override void InstallBindings()
 		{
+			SignalBusInstaller.Install( Container );
+			Container.DeclareSignal<EnemySpawnedSignal>();
+			Container.DeclareSignal<EnemyDiedSignal>();
+
 			BindSharedSettings();
 			BindEnemies();
 			BindSpawnSystem();
@@ -61,17 +68,22 @@ namespace Minipede.Installers
 
 		private void BindWaveSystem()
 		{
-			for ( int idx = 0; idx < _stampedeInstallers.Length; ++idx )
+			Container.BindInstance( _wave )
+				.WhenInjectedInto<IEnemyWave>();
+
+			Container.Inject( _mainWave );
+			_mainWave.InstallBindings();
+
+			for ( int idx = 0; idx < _stampedes.Length; ++idx )
 			{
-				var stampede = _stampedeInstallers[idx];
+				var stampede = _stampedes[idx];
 
 				Container.Inject( stampede );
 				stampede.InstallBindings();
 			}
 
 			Container.Bind<EnemyWaveController>()
-				.AsSingle()
-				.WithArguments( _waveControllerSettings );
+				.AsSingle();
 		}
 	}
 }

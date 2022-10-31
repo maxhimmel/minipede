@@ -18,103 +18,6 @@ MonoBehaviour:
       m_Bits: 8
     Damage:
       Damage: 1
-  _bee:
-    Prefab: {fileID: 1177213487019694021, guid: 23f4588b3553ac14c85f96c327827397, type: 3}
-    Settings:
-      CreateBlockRange: {x: 0.1, y: 0.4}
-    SpawnPlacement:
-    - Area:
-        RowCol: {x: 32, y: 0}
-        Size: {x: 30, y: 1}
-      Rotation:
-        _allowEmptyRolls: 0
-        _items:
-        - _normalizedWeight: 100
-          Item: 180
-  _beetle:
-    Prefab: {fileID: 1652218027726842911, guid: 065c4eaca3d2a5e44b302bae233886d4, type: 3}
-    Settings:
-      ColumnMovementRange: {x: 5, y: 24}
-      ExitRow: 14
-    SpawnPlacement:
-    - Area:
-        RowCol: {x: 13, y: 0}
-        Size: {x: -1, y: 1}
-      Rotation:
-        _allowEmptyRolls: 0
-        _items:
-        - _normalizedWeight: 100
-          Item: -90
-    - Area:
-        RowCol: {x: 13, y: 30}
-        Size: {x: 1, y: 1}
-      Rotation:
-        _allowEmptyRolls: 0
-        _items:
-        - _normalizedWeight: 100
-          Item: 90
-  _dragonfly:
-    Prefab: {fileID: 682032874086321491, guid: afe0baf7eada72846901d59c2098c7b2, type: 3}
-    Settings:
-      CreateBlockRange: {x: 0.1, y: 0.4}
-      ZigZagRange: {x: 2, y: 4}
-    SpawnPlacement:
-    - Area:
-        RowCol: {x: 32, y: 0}
-        Size: {x: 30, y: 1}
-      Rotation:
-        _allowEmptyRolls: 0
-        _items:
-        - _normalizedWeight: 100
-          Item: 180
-  _earwig:
-    Prefab: {fileID: 4363904833267379863, guid: bc7cc110e6ac10b4ebdcb436f6c716f3, type: 3}
-    SpawnPlacement:
-    - Area:
-        RowCol: {x: 14, y: 0}
-        Size: {x: -1, y: 15}
-      Rotation:
-        _allowEmptyRolls: 0
-        _items:
-        - _normalizedWeight: 100
-          Item: -90
-    - Area:
-        RowCol: {x: 14, y: 30}
-        Size: {x: 1, y: 15}
-      Rotation:
-        _allowEmptyRolls: 0
-        _items:
-        - _normalizedWeight: 100
-          Item: 90
-  _minipede:
-    Prefab: {fileID: -5776135086835103509, guid: cccfaedb81881644fbeb3e858069e0a7, type: 3}
-    Settings:
-      SegmentRange: {x: 10, y: 10}
-      SegmentPrefab: {fileID: -1147648705226150016, guid: b4e3ef860a2523d4480d166b5e447b42, type: 3}
-    SpawnPlacement:
-    - Area:
-        RowCol: {x: 32, y: 7}
-        Size: {x: 16, y: 1}
-      Rotation:
-        _allowEmptyRolls: 0
-        _items:
-        - _normalizedWeight: 100
-          Item: 180
-  _mosquito:
-    Prefab: {fileID: -1829202905928104995, guid: ab8460df5536ad84399420654ea65097, type: 3}
-    Settings:
-      WhiskerDistance: 1
-    SpawnPlacement:
-    - Area:
-        RowCol: {x: 32, y: 0}
-        Size: {x: 30, y: 1}
-      Rotation:
-        _allowEmptyRolls: 0
-        _items:
-        - _normalizedWeight: 50
-          Item: 135
-        - _normalizedWeight: 50
-          Item: -135
   _enemyInstallers:
   - {fileID: 11400000, guid: e0067d59680a90a43b940c63bc6f09aa, type: 2}
   - {fileID: 11400000, guid: 7056a500decee1c498b91f099097c896, type: 2}
@@ -122,8 +25,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0409e06026b6c344bbafb1fe8156f898, type: 2}
   - {fileID: 11400000, guid: a3ee3ce27a01d874db616cf8a18ce79c, type: 2}
   - {fileID: 11400000, guid: a544608bf1d7516458069e3cfcb8cb4e, type: 2}
-  _waveControllerSettings:
+  _wave:
     StartDelay: 1
-  _stampedeInstallers:
-  - {fileID: 11400000, guid: 6e93caea736d0fb47a6a10033949c474, type: 2}
+  _mainWave: {fileID: 11400000, guid: b8568a1d81b04f446a734dc60b2399a8, type: 2}
+  _stampedes:
+  - {fileID: 11400000, guid: 1f738527c268c86418a011cab8ff7f41, type: 2}
   - {fileID: 11400000, guid: 0551070950644bb48a4f14086f9e279b, type: 2}
+  - {fileID: 11400000, guid: 6e93caea736d0fb47a6a10033949c474, type: 2}

@@ -43,7 +43,7 @@ namespace Minipede.Gameplay.Movement
 
 				await SetDestination( currentCoord, true );
 
-			} while ( IsMoving && !_cancelMoveLoop );
+			} while ( IsMoving && !_cancelMoveLoop && _body != null );
 		}
 
 		public async UniTask SetDestination( Vector2Int destCoord )

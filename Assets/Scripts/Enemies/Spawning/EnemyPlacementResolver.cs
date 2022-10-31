@@ -21,21 +21,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_placements = new Dictionary<System.Type, GraphSpawnPlacement[]>();
 		}
 
-		public IEnumerable<Vector2> GetSpawnPositions<TEnemy>()
-			where TEnemy : EnemyController
-		{
-			Vector2 centerOffset = Vector2.one * 0.5f;
-
-			var spawnAreas = GetSpawnOrientationData<TEnemy>();
-			foreach ( var area in spawnAreas )
-			{
-				foreach ( var spawnPos in area.Area.allPositionsWithin )
-				{
-					yield return spawnPos + centerOffset;
-				}
-			}
-		}
-
 		public IEnumerable<IOrientation> GetSpawnOrientations<TEnemy>()
 			where TEnemy : EnemyController
 		{

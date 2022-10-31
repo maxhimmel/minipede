@@ -15,7 +15,7 @@ MonoBehaviour:
   _settings:
     Gun:
       ShotSpotId: ShotSpot
-      ProjectileSpeed: 20
+      ProjectileSpeed: 30
       ProjectileTorque: 0
       FireRate: 0.24
     Projectile:

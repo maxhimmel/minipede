@@ -9,7 +9,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 	}
 
 	/// <summary>
-	/// The <see cref="EnemySpawnerBus"/> should be used in replace of this in most cases.<para></para>
+	/// The <see cref="EnemySpawnBuilder"/> should be used in replace of this in most cases.<para></para>
 	/// A lookup table for each <see cref="EnemyFactory"/> mapped to its enemy prefab.
 	/// This <b>will not</b> perform any <see cref="EnemyController.OnSpawned"/> behaviors.
 	/// </summary>

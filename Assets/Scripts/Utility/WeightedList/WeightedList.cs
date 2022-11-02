@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Minipede.Utility
@@ -14,6 +16,8 @@ namespace Minipede.Utility
 	public class WeightedList<T, K> : WeightedList
 		where T : WeightedNode<K>
 	{
+		public IEnumerable<K> Items => _items.Select( node => node.Item );
+
 		[Tooltip( "If a '0' is rolled this will return nothing." )]
 		[SerializeField] private bool _allowEmptyRolls = true;
 		[SerializeField] private T[] _items = default;

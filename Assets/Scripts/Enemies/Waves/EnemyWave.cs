@@ -19,7 +19,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		protected readonly EnemyPlacementResolver _placementResolver;
 		private readonly SignalBus _signalBus;
 
-		private bool _ignoreEnemyDestroys;
 		private HashSet<EnemyController> _livingEnemies = new HashSet<EnemyController>();
 		private CancellationTokenSource _playerDiedCancelSource;
 		protected CancellationToken _playerDiedCancelToken;

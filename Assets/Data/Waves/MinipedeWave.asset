@@ -14,3 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings:
     Repeats: 2
+    SpawnRateRange: {x: 5.5991187, y: 9.048458}
+    Enemies:
+      _allowEmptyRolls: 0
+      _items:
+      - _normalizedWeight: 50
+        Item: {fileID: 11400000, guid: f14c2f6ccbf1ca041a04e3eec13dad84, type: 2}
+      - _normalizedWeight: 50
+        Item: {fileID: 11400000, guid: bb8decc9bbfb94b4783ddb7fcd24e946, type: 2}

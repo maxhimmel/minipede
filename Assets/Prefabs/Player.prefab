@@ -161,7 +161,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 41184
+  m_InstanceId: 45098
 --- !u!1 &6378720964115801298
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,6 +249,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e40c8bb4f209747438e164f6bf77d9b4, type: 2}
   - {fileID: 11400000, guid: 87ab4a8d7995b484aa963d8a24987086, type: 2}
   - {fileID: 11400000, guid: ada563c25f9ba3941bd2b36c8c7d0580, type: 2}
+  - {fileID: 11400000, guid: f8c2b964137ad8e4da44927508543252, type: 2}
   _monoInstallers: []
   _installerPrefabs: []
   _autoRun: 1

@@ -62,7 +62,9 @@ namespace Minipede.Installers
 			Container.Bind<EnemySpawnBehaviorBus>()
 				.AsSingle();
 
-			Container.Bind<EnemySpawnerBus>()
+			/* --- */
+
+			Container.Bind<EnemySpawnBuilder>()
 				.AsSingle();
 		}
 

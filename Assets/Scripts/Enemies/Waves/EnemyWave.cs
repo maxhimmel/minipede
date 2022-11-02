@@ -14,15 +14,26 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		public bool IsRunning { get; protected set; }
 		protected bool IsWatchedEnemiesAlive => _livingEnemies.Count > 0;
 
-		[Inject] protected readonly IEnemyWave.Settings _globalSettings;
-		[Inject] protected readonly EnemySpawnerBus _spawnerBus;
-		[Inject] protected readonly EnemyFactoryBus _factoryBus;
-		[Inject] protected readonly EnemyPlacementResolver _placementResolver;
-		[Inject] private readonly SignalBus _signalBus;
+		protected readonly IEnemyWave.Settings _globalSettings;
+		protected readonly EnemySpawnBuilder _enemyBuilder;
+		protected readonly EnemyPlacementResolver _placementResolver;
+		private readonly SignalBus _signalBus;
 
+		private bool _ignoreEnemyDestroys;
 		private HashSet<EnemyController> _livingEnemies = new HashSet<EnemyController>();
 		private CancellationTokenSource _playerDiedCancelSource;
 		protected CancellationToken _playerDiedCancelToken;
+
+		public EnemyWave( IEnemyWave.Settings globalSettings,
+			EnemySpawnBuilder enemyBuilder,
+			EnemyPlacementResolver placementResolver,
+			SignalBus signalBus )
+		{
+			_globalSettings = globalSettings;
+			_enemyBuilder = enemyBuilder;
+			_placementResolver = placementResolver;
+			_signalBus = signalBus;
+		}
 
 		public void StartSpawning()
 		{
@@ -30,8 +41,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			{
 				throw new System.InvalidOperationException( $"Cannot start spawning if already running." );
 			}
-
-			SetupPlayerDiedCancellation();
 
 			_signalBus.Subscribe<EnemySpawnedSignal>( OnEnemySpawned );
 			_signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
@@ -50,6 +59,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		protected void RestartSpawning()
 		{
+			SetupPlayerDiedCancellation();
+
 			KickOffSpawning()
 				.Cancellable( _playerDiedCancelToken )
 				.Forget();

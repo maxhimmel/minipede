@@ -52,7 +52,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		public void OnPlayerDied()
 		{
 			Debug.Log( $"<color=yellow>[{nameof( EnemyWaveController )}]</color> " +
-				$"Restarting '<b>{_currentWave}</b>'." );
+				$"Attempting restart of '<b>{_currentWave}</b>'." );
 
 			if ( _currentWave != null )
 			{

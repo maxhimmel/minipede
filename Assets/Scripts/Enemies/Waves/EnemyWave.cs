@@ -47,15 +47,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			RestartSpawning();
 		}
 
-		protected void SetupPlayerDiedCancellation()
-		{
-			if ( _playerDiedCancelSource == null )
-			{
-				_playerDiedCancelSource = new CancellationTokenSource();
-				_playerDiedCancelToken = _playerDiedCancelSource.Token;
-			}
-		}
-
 		protected void RestartSpawning()
 		{
 			SetupPlayerDiedCancellation();
@@ -63,6 +54,15 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			KickOffSpawning()
 				.Cancellable( _playerDiedCancelToken )
 				.Forget();
+		}
+
+		protected void SetupPlayerDiedCancellation()
+		{
+			if ( _playerDiedCancelSource == null )
+			{
+				_playerDiedCancelSource = new CancellationTokenSource();
+				_playerDiedCancelToken = _playerDiedCancelSource.Token;
+			}
 		}
 
 		private async UniTask KickOffSpawning()

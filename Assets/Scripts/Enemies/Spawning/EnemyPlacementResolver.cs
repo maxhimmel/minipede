@@ -52,18 +52,19 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		public GraphSpawnPlacement[] GetPlacementData<TEnemy>()
 			where TEnemy : EnemyController
 		{
-			if ( _placements.TryGetValue( typeof( TEnemy ), out var placements ) )
+			var enemyType = typeof( TEnemy );
+			if ( _placements.TryGetValue( enemyType, out var placements ) )
 			{
 				return placements;
 			}
 
-			placements = _container.ResolveId<GraphSpawnPlacement[]>( typeof( TEnemy ) );
+			placements = _container.ResolveId<GraphSpawnPlacement[]>( enemyType );
 			foreach ( var spawn in placements )
 			{
 				spawn.Rotation.Init();
 			}
 
-			_placements.Add( typeof( TEnemy ), placements );
+			_placements.Add( enemyType, placements );
 			return placements;
 		}
 	}

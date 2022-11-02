@@ -19,7 +19,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			behavior.Perform( enemy );
 		}
 
-        private EnemySpawnBehavior GetSpawnBehavior<TEnemy>()
+		public EnemySpawnBehavior GetSpawnBehavior<TEnemy>()
 			where TEnemy : EnemyController
 		{
 			if ( !_behaviors.TryGetValue( typeof( TEnemy ), out var behavior ) )
@@ -28,5 +28,5 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			}
 			return behavior;
 		}
-    }
+	}
 }

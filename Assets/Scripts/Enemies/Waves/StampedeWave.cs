@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Enemies.Spawning
 {
@@ -11,7 +12,12 @@ namespace Minipede.Gameplay.Enemies.Spawning
 	{
 		private readonly Settings _settings;
 
-		public StampedeWave( Settings settings )
+		public StampedeWave( Settings settings,
+			IEnemyWave.Settings globalSettings, 
+			EnemySpawnBuilder enemyBuilder,
+			EnemyPlacementResolver placementResolver, 
+			SignalBus signalBus ) 
+			: base( globalSettings, enemyBuilder, placementResolver, signalBus )
 		{
 			_settings = settings;
 		}
@@ -35,7 +41,10 @@ namespace Minipede.Gameplay.Enemies.Spawning
 					return;
 				}
 
-				_spawnerBus.Create<TEnemy>( spawnOrientations[idx] );
+				_enemyBuilder.Build<TEnemy>()
+					.WithPlacement( spawnOrientations[idx] )
+					.WithSpawnBehavior()
+					.Create();
 
 				await TaskHelpers.DelaySeconds( _settings.SpawnRate );
 			}

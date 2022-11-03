@@ -11,7 +11,7 @@ namespace Minipede.Gameplay.Weapons
 
 		private bool _isFiringRequested;
 		private float _nextFireTime;
-		private HashSet<GameObject> _liveProjectiles;
+		private HashSet<Projectile> _liveProjectiles;
 
 		public Gun( Settings settings, 
 			Projectile.Factory factory,
@@ -21,7 +21,7 @@ namespace Minipede.Gameplay.Weapons
 			_factory = factory;
 			_shotSpot = shotSpot;
 
-			_liveProjectiles = new HashSet<GameObject>();
+			_liveProjectiles = new HashSet<Projectile>();
 		}
 
 		public void StartFiring()
@@ -72,13 +72,12 @@ namespace Minipede.Gameplay.Weapons
 
 		private void TrackProjectile( Projectile projectile )
 		{
-			projectile.DestroyedNotify.Destroyed += OnProjectileDestroyed;
-			_liveProjectiles.Add( projectile.gameObject );
+			projectile.Destroyed += OnProjectileDestroyed;
+			_liveProjectiles.Add( projectile );
 		}
 
-		private void OnProjectileDestroyed( object sender, System.EventArgs e )
+		private void OnProjectileDestroyed( Projectile projectile )
 		{
-			var projectile = sender as GameObject;
 			if ( !_liveProjectiles.Remove( projectile ) )
 			{
 				throw new System.DataMisalignedException();

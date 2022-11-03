@@ -6,33 +6,44 @@ using Zenject;
 namespace Minipede.Gameplay.Player
 {
     public class PlayerController : MonoBehaviour,
-		IDamageable
+		IDamageController
 	{
-		public IOnDestroyedNotify DestroyNotify => _destroyedNotify;
+		public event IDamageController.OnHit Damaged {
+			add => _damageController.Damaged += value;
+			remove => _damageController.Damaged -= value;
+		}
+		public event IDamageController.OnHit Died {
+			add => _damageController.Died += value;
+			remove => _damageController.Died -= value;
+		}
 
 		private Rewired.Player _input;
 		private IMotor _motor;
 		private Gun _gun;
-		private IOnDestroyedNotify _destroyedNotify;
 		private IDamageController _damageController;
 
 		[Inject]
         public void Construct( Rewired.Player input,
             IMotor motor,
 			IDamageController damageController,
-			Gun gun,
-			IOnDestroyedNotify destroyedNotify )
+			Gun gun )
 		{
 			_input = input;
 			_motor = motor;
 			_damageController = damageController;
 			_gun = gun;
-			_destroyedNotify = destroyedNotify;
+
+			damageController.Died += OnDied;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
 			return _damageController.TakeDamage( instigator, causer, data );
+		}
+
+		private void OnDied( Rigidbody2D victimBody, HealthController health )
+		{
+			Destroy( gameObject );
 		}
 
 		private void Update()

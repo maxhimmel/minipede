@@ -31,7 +31,6 @@ namespace Minipede.Gameplay
 			if ( !_health.IsAlive )
 			{
 				Died?.Invoke( _body, _health );
-				GameObject.Destroy( _body.gameObject );
 			}
 
 			return dmgTaken;

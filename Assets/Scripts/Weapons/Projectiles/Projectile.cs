@@ -5,16 +5,14 @@ namespace Minipede.Gameplay.Weapons
 {
 	public partial class Projectile : MonoBehaviour
 	{
-		public IOnDestroyedNotify DestroyedNotify { get; private set; }
+		public event System.Action<Projectile> Destroyed;
 
 		private Rigidbody2D _body;
 
 		[Inject]
-		public void Construct( Rigidbody2D body,
-			IOnDestroyedNotify destroyedNotify )
+		public void Construct( Rigidbody2D body )
 		{
 			_body = body;
-			DestroyedNotify = destroyedNotify;
 		}
 
 		public void Launch( Vector2 impulse )
@@ -32,6 +30,11 @@ namespace Minipede.Gameplay.Weapons
 			{
 				_body.AddTorque( torque, ForceMode2D.Impulse );
 			}
+		}
+
+		private void OnDestroy()
+		{
+			Destroyed?.Invoke( this );
 		}
 	}
 }

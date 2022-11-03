@@ -24,17 +24,17 @@ namespace Minipede.Gameplay.Player
 			}
 
 			_currentPlayer = _spawner.Create();
-			_currentPlayer.DestroyNotify.Destroyed += OnPlayerDead;
+			_currentPlayer.Died += OnPlayerDied;
 
 			PlayerSpawned?.Invoke( _currentPlayer );
 
 			return _currentPlayer;
 		}
 
-		private void OnPlayerDead( object sender, System.EventArgs e )
+		private void OnPlayerDied( UnityEngine.Rigidbody2D victimBody, HealthController health )
 		{
 			var deadPlayer = _currentPlayer;
-			deadPlayer.DestroyNotify.Destroyed -= OnPlayerDead;
+			deadPlayer.Died -= OnPlayerDied;
 
 			_currentPlayer = null;
 			PlayerDied?.Invoke( deadPlayer );

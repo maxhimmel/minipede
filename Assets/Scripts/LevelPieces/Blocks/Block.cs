@@ -18,6 +18,7 @@ namespace Minipede.Gameplay.LevelPieces
 			_renderer = renderer;
 
 			damageController.Damaged += HandleDamageAnim;
+			damageController.Died += HandleDeath;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
@@ -31,9 +32,15 @@ namespace Minipede.Gameplay.LevelPieces
 			//_renderer.transform.localScale = Vector3.one * health.Percentage;
 		}
 
+		private void HandleDeath( Rigidbody2D victimBody, HealthController health )
+		{
+			Destroy( victimBody.gameObject );
+		}
+
 		private void OnDestroy()
 		{
 			_damageController.Damaged -= HandleDamageAnim;
+			_damageController.Died -= HandleDeath;
 		}
 	}
 }

@@ -20,6 +20,7 @@ namespace Minipede.Gameplay.Enemies
 		}
 
 		public bool IsReady => _gameController.IsReady;
+		public bool IsAlive => !_onDestroyCancelToken.IsCancellationRequested;
 		public Rigidbody2D Body => _body;
 
 		protected Rigidbody2D _body;
@@ -65,21 +66,30 @@ namespace Minipede.Gameplay.Enemies
 
 		protected virtual void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
-			_damageController.Died -= OnDied;
+			Cleanup();
+		}
+
+		public void Cleanup()
+		{
+			if ( !IsAlive )
+			{
+				return;
+			}
+
+			Debug.Log( $"Cleaning up - {name}" );
+			_onDestroyCancelSource.Cancel();
+			_signalBus.Fire( new EnemyDestroyedSignal() { Victim = this } );
+
 			Destroy( gameObject );
 		}
 
 		protected void OnDestroy()
 		{
-			_onDestroyCancelSource.Cancel();
-
 			if ( _damageController != null )
 			{
 				_damageController.Damaged -= OnDamaged;
 				_damageController.Died -= OnDied;
 			}
-
-			_signalBus.Fire( new EnemyDestroyedSignal() { Victim = this } );
 		}
 
 		protected async void Start()

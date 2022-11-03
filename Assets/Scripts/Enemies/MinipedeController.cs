@@ -176,7 +176,6 @@ namespace Minipede.Gameplay.Enemies
 		private MinipedeController ReplaceSegmentWithHead( int segmentIndex, Vector2 newHeadPosition )
 		{
 			SegmentController segment = _segments[segmentIndex];
-			Destroy( segment.gameObject );
 			_segments.RemoveAt( segmentIndex );
 
 			MinipedeController newHead = _enemyBuilder.Build<MinipedeController>()
@@ -190,6 +189,8 @@ namespace Minipede.Gameplay.Enemies
 				.ContinueWith( newHead.StartRowTransition )
 				.Cancellable( newHead._onDestroyCancelToken )
 				.Forget();
+
+			segment.Cleanup();
 
 			return newHead;
 		}

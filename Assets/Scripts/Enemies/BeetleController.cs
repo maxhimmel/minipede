@@ -28,7 +28,7 @@ namespace Minipede.Gameplay.Enemies
 			await NavigationRoutine()
 				.Cancellable( _onDestroyCancelToken );
 
-			Destroy( gameObject );
+			Cleanup();
 		}
 
 		private async UniTask NavigationRoutine()

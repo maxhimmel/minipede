@@ -10,18 +10,25 @@ namespace Minipede.Gameplay
 
 		private readonly HealthController _health;
 		private readonly Rigidbody2D _body;
+		private readonly bool _logDamage;
 
 		public Damageable( HealthController health,
-			Rigidbody2D body )
+			Rigidbody2D body,
+			bool logDamage )
 		{
 			_health = health;
 			_body = body;
+			_logDamage = logDamage;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
 			int dmgTaken = _health.TakeDamage( data );
-			Debug.LogFormat( data.LogFormat(), _body.name, dmgTaken, instigator?.name, causer?.name );
+
+			if ( _logDamage )
+			{
+				Debug.LogFormat( data.LogFormat(), _body.name, dmgTaken, instigator?.name, causer?.name );
+			}
 
 			if ( dmgTaken > 0 )
 			{

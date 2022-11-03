@@ -1,4 +1,5 @@
 using Minipede.Gameplay;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -7,7 +8,9 @@ namespace Minipede.Installers
     [CreateAssetMenu]
     public class DamageableInstaller : ScriptableObjectInstaller
     {
+		[HideLabel]
 		[SerializeField] private HealthController.Settings _settings;
+		[SerializeField] private bool _logDamage;
 
 		public override void InstallBindings()
 		{
@@ -17,7 +20,8 @@ namespace Minipede.Installers
 
 			Container.Bind<IDamageController>()
 				.To<Damageable>()
-				.AsTransient();
+				.AsTransient()
+				.WithArguments( _logDamage );
 		}
 	}
 }

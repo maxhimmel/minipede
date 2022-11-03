@@ -23,5 +23,5 @@ MonoBehaviour:
       - _normalizedWeight: 100
         Item: 180
   _settings:
-    CreateBlockRange: {x: 0.1, y: 0.25}
+    CreateBlockRange: {x: 0, y: 0.15}
     ZigZagRange: {x: 2, y: 4}

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: MosquitoMotor
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 10
+    MaxSpeed: 20

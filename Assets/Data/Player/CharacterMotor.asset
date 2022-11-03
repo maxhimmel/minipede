@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: CharacterMotor
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 10
-    Acceleration: 90
+    MaxSpeed: 20
+    Acceleration: 100

@@ -149,7 +149,7 @@ namespace Minipede.Gameplay.Enemies
 		private void OnSegmentDied( Rigidbody2D victimBody, HealthController health )
 		{
 			int victimIndex = RemoveDeadSegment( victimBody );
-			if ( victimIndex < _segments.Count )
+			if ( victimIndex >= 0 && victimIndex < _segments.Count )
 			{
 				MinipedeController newHead = ReplaceSegmentWithHead( victimIndex, victimBody.position );
 				if ( _segments.Count > 0 )
@@ -164,6 +164,11 @@ namespace Minipede.Gameplay.Enemies
 
 		private int RemoveDeadSegment( Rigidbody2D victimBody )
 		{
+			if ( _segments.Count <= 0 )
+			{
+				return -1;
+			}
+
 			SegmentController victimSegment = victimBody.GetComponent<SegmentController>();
 			Debug.Assert( victimSegment != null, new MissingComponentException( nameof( SegmentController ) ), this );
 

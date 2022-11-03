@@ -14,7 +14,7 @@ namespace Minipede.Gameplay.Enemies
 	{
 		private Settings _settings;
 		private GraphMotor _motor;
-		private EnemyFactoryBus _enemyFactory;
+		private EnemySpawnBuilder _enemyBuilder;
 
 		private List<SegmentController> _segments;
 		private Vector2Int _rowDir;
@@ -23,11 +23,11 @@ namespace Minipede.Gameplay.Enemies
 		[Inject]
 		public void Construct( Settings settings,
 			GraphMotor motor,
-			EnemyFactoryBus enemyFactory )
+			EnemySpawnBuilder enemyBuilder )
 		{
 			_settings = settings;
 			_motor = motor;
-			_enemyFactory = enemyFactory;
+			_enemyBuilder = enemyBuilder;
 
 			_rowDir = Vector2Int.down;
 			_columnDir = new Vector2Int( RandomExtensions.Sign(), 0 );
@@ -179,7 +179,9 @@ namespace Minipede.Gameplay.Enemies
 			Destroy( segment.gameObject );
 			_segments.RemoveAt( segmentIndex );
 
-			MinipedeController newHead = _enemyFactory.Create<MinipedeController>( segment.transform.ToData() );
+			MinipedeController newHead = _enemyBuilder.Build<MinipedeController>()
+				.WithPlacement( segment.transform.ToData() )
+				.Create();
 			newHead._rowDir = _rowDir;
 			newHead._columnDir = _columnDir;
 

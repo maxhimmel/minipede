@@ -12,14 +12,20 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		public event System.Action<IEnemyWave> Completed;
 
 		public bool IsRunning { get; protected set; }
-		protected bool IsWatchedEnemiesAlive => _livingEnemies.Count > 0;
+		//protected bool IsWatchedEnemiesAlive => _watchedEnemies.Count > 0;
+		protected bool IsAnyEnemyAlive => _livingEnemies.Count > 0;
 
 		protected readonly IEnemyWave.Settings _globalSettings;
 		protected readonly EnemySpawnBuilder _enemyBuilder;
 		protected readonly EnemyPlacementResolver _placementResolver;
 		private readonly SignalBus _signalBus;
 
+		//private bool _ignoreEnemyDestruction;
+		//private HashSet<EnemyController> _watchedEnemies = new HashSet<EnemyController>();
+		//private HashSet<EnemyController> _otherEnemies = new HashSet<EnemyController>();
+		private bool _isClearingEnemies;
 		private HashSet<EnemyController> _livingEnemies = new HashSet<EnemyController>();
+
 		private CancellationTokenSource _playerDiedCancelSource;
 		protected CancellationToken _playerDiedCancelToken;
 
@@ -75,23 +81,66 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		protected abstract void HandleSpawning();
 
-		protected virtual void OnEnemySpawned( EnemySpawnedSignal signal )
+		private void OnEnemySpawned( EnemySpawnedSignal signal )
 		{
-			if ( CanWatchEnemy( signal.Enemy ) )
+			//if ( CanWatchEnemy( signal.Enemy ) )
+			//{
+			//	_watchedEnemies.Add( signal.Enemy );
+			//}
+			//else
+			//{
+			//	_otherEnemies.Add( signal.Enemy );
+			//}
+			_livingEnemies.Add( signal.Enemy );
+
+			if ( CanTrackEnemy( signal.Enemy ) )
 			{
-				_livingEnemies.Add( signal.Enemy );
+				OnTrackedEnemySpawned( signal.Enemy );
 			}
 		}
 
-		protected virtual void OnEnemyDestroyed( EnemyDestroyedSignal signal )
+		protected virtual void OnTrackedEnemySpawned( EnemyController enemy )
 		{
-			if ( CanWatchEnemy( signal.Victim ) )
+
+		}
+
+		private void OnEnemyDestroyed( EnemyDestroyedSignal signal )
+		{
+			//Debug.Log( $"<b>{signal.Victim.name}</b> destroyed. Ignoring? --> <b>{_ignoreEnemyDestruction}</b>" );
+			//if ( _ignoreEnemyDestruction )
+			//{
+			//	return;
+			//}
+
+			//if ( CanWatchEnemy( signal.Victim ) )
+			//{
+			//	_watchedEnemies.Remove( signal.Victim );
+			//	OnEnemyDestroyed( signal.Victim );
+			//}
+			//else
+			//{
+			//	_otherEnemies.Remove( signal.Victim );
+			//}
+
+			if ( _isClearingEnemies )
 			{
-				_livingEnemies.Remove( signal.Victim );
+				return;
+			}
+
+			_livingEnemies.Remove( signal.Victim );
+
+			if ( CanTrackEnemy( signal.Victim ) )
+			{
+				OnTrackedEnemyDestroyed( signal.Victim );
 			}
 		}
 
-		protected virtual bool CanWatchEnemy( EnemyController enemy )
+		protected virtual void OnTrackedEnemyDestroyed( EnemyController victim )
+		{
+
+		}
+
+		protected virtual bool CanTrackEnemy( EnemyController enemy )
 		{
 			return true;
 		}
@@ -116,24 +165,48 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_playerDiedCancelSource = null;
 		}
 
+		private void ClearEnemies()
+		{
+			//_ignoreEnemyDestruction = true;
+			//{
+			//	foreach ( var enemy in _watchedEnemies )
+			//	{
+			//		Debug.Log( $"Clearing <b>{enemy.name}</b> from wave." );
+			//		enemy.Cleanup();
+			//	}
+			//	_watchedEnemies.Clear();
+
+			//	foreach ( var enemy in _otherEnemies )
+			//	{
+			//		Debug.Log( $"Clearing <b>{enemy.name}</b> from wave." );
+			//		enemy.Cleanup();
+			//	}
+			//	_otherEnemies.Clear();
+			//}
+			//_ignoreEnemyDestruction = false;
+
+			_isClearingEnemies = true;
+
+			foreach ( var enemy in _livingEnemies )
+			{
+				enemy.Cleanup();
+			}
+			_livingEnemies.Clear();
+
+			_isClearingEnemies = false;
+		}
+
 		/// <summary>
 		/// This is called when the player has died.<para></para>
-		/// On exit, this will stop listening for <see cref="EnemySpawnedSignal"/> and <see cref="EnemyDestroyedSignal"/>.
+		/// On exiting, this will stop listening for <see cref="EnemySpawnedSignal"/> and <see cref="EnemyDestroyedSignal"/>.
 		/// </summary>
 		/// <returns>True if the wave should be exited.</returns>
 		protected abstract bool ExitWaveRequested();
 
-		private void ClearEnemies()
-		{
-			foreach ( var enemy in _livingEnemies )
-			{
-				GameObject.Destroy( enemy.gameObject );
-			}
-			_livingEnemies.Clear();
-		}
-
 		protected void SendCompletedEvent()
 		{
+			Debug.Log( $"Completing '<b>{this}</b>' wave." );
+
 			IsRunning = false;
 
 			_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );

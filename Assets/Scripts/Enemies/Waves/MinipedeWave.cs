@@ -1,9 +1,9 @@
 using System.Linq;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.UIElements;
 using Zenject;
 
 namespace Minipede.Gameplay.Enemies.Spawning
@@ -13,6 +13,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private readonly Settings _settings;
 
 		private int _completionCount;
+		private int _livingMinipedeCount;
+		private CancellationTokenSource _randomSpawningCancelSource;
+		private CancellationToken _randomSpawningCancelToken;
 
 		public MinipedeWave( Settings settings,
 			IEnemyWave.Settings globalSettings, 
@@ -32,6 +35,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		protected override void HandleSpawning()
 		{
+			_livingMinipedeCount = 0;
+
 			var spawnPlacements = _placementResolver.GetSpawnOrientations<MinipedeController>().ToArray();
 			spawnPlacements.FisherYatesShuffle();
 
@@ -53,31 +58,36 @@ namespace Minipede.Gameplay.Enemies.Spawning
 					.OnSpawned();
 			}
 
+			SetupRandomSpawningCancellation();
+
 			UpdateRandomSpawning()
-				.Cancellable( _playerDiedCancelToken )
+				.Cancellable( _randomSpawningCancelToken )
 				.Forget();
+		}
+
+		private void SetupRandomSpawningCancellation()
+		{
+			if ( _randomSpawningCancelSource != null )
+			{
+				_randomSpawningCancelSource.Dispose();
+			}
+
+			_randomSpawningCancelSource = CancellationTokenSource.CreateLinkedTokenSource( _playerDiedCancelToken );
+			_randomSpawningCancelToken = _randomSpawningCancelSource.Token;
 		}
 
 		private async UniTask UpdateRandomSpawning()
 		{
-			float nextSpawnCountdown = _settings.SpawnRateRange.Random();
-
 			while ( IsRunning )
 			{
-				if ( nextSpawnCountdown <= 0 )
-				{
-					nextSpawnCountdown = _settings.SpawnRateRange.Random();
+				await TaskHelpers.DelaySeconds( _settings.SpawnRateRange.Random(), _randomSpawningCancelToken );
 
-					var spawner = _settings.Enemies.GetRandomItem();
-					spawner.Create();
-				}
-
-				nextSpawnCountdown -= Time.deltaTime;
-				await UniTask.Yield();
+				var spawner = _settings.Enemies.GetRandomItem();
+				spawner.Create();
 			}
 		}
 
-		protected override bool CanWatchEnemy( EnemyController enemy )
+		protected override bool CanTrackEnemy( EnemyController enemy )
 		{
 			System.Type enemyType = enemy.GetType();
 			System.Type minipedeType = typeof( MinipedeController );
@@ -86,26 +96,39 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			return enemyType == minipedeType || enemyType == segmentType;
 		}
 
-		protected override void OnEnemyDestroyed( EnemyDestroyedSignal signal )
+		protected override void OnTrackedEnemySpawned( EnemyController enemy )
 		{
-			base.OnEnemyDestroyed( signal );
+			base.OnTrackedEnemySpawned( enemy );
 
-			if ( !IsWatchedEnemiesAlive )
+			++_livingMinipedeCount;
+		}
+
+		protected override void OnTrackedEnemyDestroyed( EnemyController victim )
+		{
+			base.OnTrackedEnemyDestroyed( victim );
+
+			--_livingMinipedeCount;
+			if ( _livingMinipedeCount > 0 )
 			{
-				++_completionCount;
-				if ( _completionCount % _settings.Repeats != 0 )
-				{
-					RestartSpawning();
-				}
-				else
-				{
-					SendCompletedEvent();
-				}
+				return;
+			}
+
+			_randomSpawningCancelSource.Cancel();
+
+			++_completionCount;
+			if ( _completionCount % _settings.Repeats != 0 )
+			{
+				RestartSpawning();
+			}
+			else
+			{
+				SendCompletedEvent();
 			}
 		}
 
 		protected override bool ExitWaveRequested()
 		{
+			_randomSpawningCancelSource.Cancel();
 			RestartSpawning();
 			return false;
 		}

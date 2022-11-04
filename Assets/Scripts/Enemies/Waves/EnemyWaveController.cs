@@ -15,7 +15,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private readonly IEnemyWave _mainWave;
 		private readonly IEnemyWave[] _bonusWaves;
 
-		private int _mainWaveCount;
+		private int _mainWaveRepeatCount;
 		private int _bonusWaveIndex;
 		private IEnemyWave _currentWave;
 
@@ -49,9 +49,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		private IEnemyWave GetNextWave()
 		{
-			if ( _mainWaveCount < _settings.MainWaveRepeatCount )
+			if ( _mainWaveRepeatCount < _settings.MainWaveRepeatCount )
 			{
-				++_mainWaveCount;
+				++_mainWaveRepeatCount;
 				return _mainWave;
 			}
 			else
@@ -63,7 +63,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 					_bonusWaveIndex = 0;
 				}
 
-				_mainWaveCount = 0;
+				_mainWaveRepeatCount = 0;
 				return _bonusWaves[_bonusWaveIndex++];
 			}
 		}

@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1063208465
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0.99215686, g: 0.5882353, b: 0.21176471, a: 1}
   m_FlipX: 0
@@ -91,6 +91,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2765438339435069048, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3006518857079507361, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: m_Name
       value: Minipede
@@ -159,6 +163,10 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.99215686
       objectReference: {fileID: 0}
+    - target: {fileID: 8851014196010823000, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
 --- !u!4 &2754490685816736757 stripped
@@ -183,4 +191,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da41e65935e48434c9938c8ccf70fdb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CanCreateFollowers: 1

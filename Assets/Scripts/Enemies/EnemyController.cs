@@ -75,21 +75,20 @@ namespace Minipede.Gameplay.Enemies
 			{
 				return;
 			}
+			//Debug.Log( $"Cleaning up - {name}" );
 
-			Debug.Log( $"Cleaning up - {name}" );
 			_onDestroyCancelSource.Cancel();
-			_signalBus.Fire( new EnemyDestroyedSignal() { Victim = this } );
+			_onDestroyCancelSource.Dispose();
 
-			Destroy( gameObject );
-		}
-
-		protected void OnDestroy()
-		{
 			if ( _damageController != null )
 			{
 				_damageController.Damaged -= OnDamaged;
 				_damageController.Died -= OnDied;
 			}
+
+			_signalBus.Fire( new EnemyDestroyedSignal() { Victim = this } );
+
+			Destroy( gameObject );
 		}
 
 		protected async void Start()

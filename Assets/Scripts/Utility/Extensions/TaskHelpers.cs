@@ -16,6 +16,15 @@ namespace Minipede.Utility
             return UniTask.Delay( TimeSpan.FromSeconds( seconds ), cancellationToken: cancellationToken );
 		}
 
+		public static UniTask WaitForFixedUpdate( CancellationToken cancellationToken = default )
+		{
+			if ( cancellationToken == default )
+			{
+				cancellationToken = AppHelper.AppQuittingToken;
+			}
+			return UniTask.WaitForFixedUpdate( cancellationToken );
+		}
+
         public static UniTask Cancellable( this UniTask task, CancellationToken token, bool suppressCancellationThrow = true )
 		{
 			var result = task.AttachExternalCancellation( token );

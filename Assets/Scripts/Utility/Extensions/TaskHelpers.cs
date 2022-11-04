@@ -6,14 +6,15 @@ namespace Minipede.Utility
 {
     public static class TaskHelpers
     {
-        public static UniTask DelaySeconds( float seconds, CancellationToken cancellationToken = default )
+        public static async UniTask DelaySeconds( float seconds, CancellationToken cancellationToken = default )
 		{
             if ( seconds <= 0 )
 			{
-                return UniTask.CompletedTask;
+				return;
 			}
 
-            return UniTask.Delay( TimeSpan.FromSeconds( seconds ), cancellationToken: cancellationToken );
+            await UniTask.Delay( TimeSpan.FromSeconds( seconds ), cancellationToken: cancellationToken );
+			await WaitForFixedUpdate( cancellationToken );
 		}
 
 		public static UniTask WaitForFixedUpdate( CancellationToken cancellationToken = default )

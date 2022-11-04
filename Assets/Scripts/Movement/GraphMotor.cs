@@ -61,7 +61,7 @@ namespace Minipede.Gameplay.Movement
 
 			while ( _lerpTimer < 1 )
 			{
-				await UniTask.Yield();
+				await TaskHelpers.WaitForFixedUpdate();
 			}
 
 			if ( !isContinuing )

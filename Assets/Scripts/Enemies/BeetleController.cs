@@ -64,7 +64,7 @@ namespace Minipede.Gameplay.Enemies
 			while ( _motor.IsMoving )
 			{
 				TryCreateFlowers();
-				await UniTask.WaitForFixedUpdate();
+				await UniTask.WaitForFixedUpdate( _onDestroyCancelToken );
 			}
 		}
 

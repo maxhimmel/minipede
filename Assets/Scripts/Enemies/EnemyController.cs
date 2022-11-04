@@ -97,7 +97,7 @@ namespace Minipede.Gameplay.Enemies
 
 			while ( !IsReady )
 			{
-				await UniTask.WaitForFixedUpdate();
+				await UniTask.WaitForFixedUpdate( _onDestroyCancelToken );
 			}
 
 			OnReady();

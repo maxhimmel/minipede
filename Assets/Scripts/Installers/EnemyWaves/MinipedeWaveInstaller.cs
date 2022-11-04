@@ -11,8 +11,9 @@ namespace Minipede.Installers
 		public override void InstallBindings()
 		{
 			Container.Bind<IEnemyWave>()
+				.WithId( EnemyWaveController.Settings.MainWaveId )
 				.To<MinipedeWave>()
-				.AsCached()
+				.AsSingle()
 				.WithArguments( _settings );
 		}
 	}

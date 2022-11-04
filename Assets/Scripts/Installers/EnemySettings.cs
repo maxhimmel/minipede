@@ -17,17 +17,17 @@ namespace Minipede.Installers
 		[SerializeField] private EnemyInstaller[] _enemyInstallers;
 
 		[FoldoutGroup( "Wave Spawning" )]
-		[SerializeField] private IEnemyWave.Settings _wave;
+		[SerializeField, HideLabel] private EnemyWaveController.Settings _wave;
 		[Space, FoldoutGroup( "Wave Spawning" )]
-		[SerializeField] private MinipedeWaveInstaller _mainWave;
-		[Space, FoldoutGroup( "Wave Spawning" )]
-		[SerializeField] private EnemyWaveInstaller[] _stampedes;
+		[SerializeField] private EnemyWaveInstaller[] _waves;
 
 		public override void InstallBindings()
 		{
 			SignalBusInstaller.Install( Container );
-			Container.DeclareSignal<EnemySpawnedSignal>();
-			Container.DeclareSignal<EnemyDestroyedSignal>();
+			Container.DeclareSignal<EnemySpawnedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<EnemyDestroyedSignal>()
+				.OptionalSubscriber();
 
 			BindSharedSettings();
 			BindEnemies();
@@ -70,18 +70,14 @@ namespace Minipede.Installers
 
 		private void BindWaveSystem()
 		{
-			Container.BindInstance( _wave )
-				.WhenInjectedInto<IEnemyWave>();
+			Container.BindInstance( _wave );
 
-			Container.Inject( _mainWave );
-			_mainWave.InstallBindings();
-
-			for ( int idx = 0; idx < _stampedes.Length; ++idx )
+			for ( int idx = 0; idx < _waves.Length; ++idx )
 			{
-				var stampede = _stampedes[idx];
+				var waveInstaller = _waves[idx];
 
-				Container.Inject( stampede );
-				stampede.InstallBindings();
+				Container.Inject( waveInstaller );
+				waveInstaller.InstallBindings();
 			}
 
 			Container.Bind<EnemyWaveController>()

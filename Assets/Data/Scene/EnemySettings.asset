@@ -27,8 +27,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a544608bf1d7516458069e3cfcb8cb4e, type: 2}
   _wave:
     StartDelay: 1
-  _mainWave: {fileID: 11400000, guid: b8568a1d81b04f446a734dc60b2399a8, type: 2}
-  _stampedes:
+    MainWaveRepeatCount: 2
+  _waves:
+  - {fileID: 11400000, guid: b8568a1d81b04f446a734dc60b2399a8, type: 2}
   - {fileID: 11400000, guid: 1f738527c268c86418a011cab8ff7f41, type: 2}
   - {fileID: 11400000, guid: 0551070950644bb48a4f14086f9e279b, type: 2}
   - {fileID: 11400000, guid: 6e93caea736d0fb47a6a10033949c474, type: 2}

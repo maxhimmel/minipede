@@ -13,6 +13,7 @@ namespace Minipede.Installers
 		public override void InstallBindings()
 		{
 			Container.Bind<IEnemyWave>()
+				.WithId( EnemyWaveController.Settings.BonusWaveId )
 				.To<StampedeWave<TEnemy>>()
 				.AsCached()
 				.WithArguments( _settings );

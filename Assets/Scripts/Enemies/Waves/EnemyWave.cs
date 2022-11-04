@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Player;
 using Zenject;
 
@@ -17,8 +18,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		protected readonly EnemyPlacementResolver _placementResolver;
 		private readonly PlayerSpawnController _playerSpawn;
 		private readonly SignalBus _signalBus;
-
-		private HashSet<EnemyController> _livingEnemies = new HashSet<EnemyController>();
+		private readonly HashSet<EnemyController> _livingEnemies;
 
 		public EnemyWave( EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver,
@@ -29,6 +29,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_placementResolver = placementResolver;
 			_playerSpawn = playerSpawn;
 			_signalBus = signalBus;
+
+			_livingEnemies = new HashSet<EnemyController>();
 		}
 
 		public void StartSpawning()
@@ -49,6 +51,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		private void OnEnemySpawned( EnemySpawnedSignal signal )
 		{
+			//Debug.Log( $"{signal.Enemy.name} was spawned." );
 			_livingEnemies.Add( signal.Enemy );
 
 			if ( CanTrackEnemy( signal.Enemy ) )
@@ -62,14 +65,22 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		}
 
-		private void OnEnemyDestroyed( EnemyDestroyedSignal signal )
+		private async void OnEnemyDestroyed( EnemyDestroyedSignal signal )
 		{
+			//Debug.Log( $"{signal.Victim.name} was destroyed." );
 			_livingEnemies.Remove( signal.Victim );
+
+			await EnemyCleanupDelay();
 
 			if ( CanTrackEnemy( signal.Victim ) )
 			{
 				OnTrackedEnemyDestroyed( signal.Victim );
 			}
+		}
+
+		private UniTask EnemyCleanupDelay()
+		{
+			return UniTask.Yield( PlayerLoopTiming.LastPostLateUpdate, PlayerDiedCancelToken );
 		}
 
 		protected virtual void OnTrackedEnemyDestroyed( EnemyController victim )

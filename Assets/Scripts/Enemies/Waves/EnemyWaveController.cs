@@ -70,6 +70,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		private void OnWaveCompleted( IEnemyWave wave )
 		{
+			Debug.Log( $"<color=yellow>[{nameof( EnemyWaveController )}]</color> " +
+				$"Completed '<b>{_currentWave}</b>'." );
+
 			wave.Completed -= OnWaveCompleted;
 			_currentWave = null;
 		}
@@ -93,58 +96,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 					.Forget();
 			}
 		}
-
-		//public void Tick()
-		//{
-		//	if ( IsRunning )
-		//	{
-		//		return;
-		//	}
-
-		//	_currentWave = GetNextWave();
-		//	_currentWave.Completed += OnWaveComplete;
-		//	_currentWave.StartSpawning();
-
-		//	Debug.Log( $"<color=yellow>[{nameof( EnemyWaveController )}]</color> " +
-		//		$"Starting '<b>{_currentWave}</b>'." );
-		//}
-
-		//private IEnemyWave GetNextWave()
-		//{
-
-
-		//	return null;
-		//	//var nextWave = _enemyWaves[_nextWaveIndex];
-
-		//	//++_nextWaveIndex;
-		//	//_nextWaveIndex %= _enemyWaves.Length;
-
-		//	//return nextWave;
-		//}
-
-		//private void OnWaveComplete( IEnemyWave wave )
-		//{
-		//	Debug.Log( $"<color=yellow>[{nameof( EnemyWaveController )}]</color> " +
-		//		$"Completed '<b>{wave}</b>'." );
-
-		//	wave.Completed -= OnWaveComplete;
-		//}
-
-		//public void OnPlayerDied()
-		//{
-		//	Debug.Log( $"<color=yellow>[{nameof( EnemyWaveController )}]</color> " +
-		//		$"Attempting restart of '<b>{_currentWave}</b>'." );
-
-		//	if ( _currentWave != null )
-		//	{
-		//		_currentWave.OnPlayerDied();
-
-		//		if ( !_currentWave.IsRunning )
-		//		{
-		//			_currentWave.Completed -= OnWaveComplete;
-		//		}
-		//	}
-		//}
 
 		[System.Serializable]
 		public struct Settings

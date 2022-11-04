@@ -21,11 +21,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private readonly PlayerSpawnController _playerSpawn;
 		private readonly SignalBus _signalBus;
 
-		private bool _isClearingEnemies;
 		private HashSet<EnemyController> _livingEnemies = new HashSet<EnemyController>();
-
-		//private CancellationTokenSource _playerDiedCancelSource;
-		//protected CancellationToken _playerDiedCancelToken;
 
 		public EnemyWave( EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver,
@@ -48,36 +44,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_signalBus.Subscribe<EnemySpawnedSignal>( OnEnemySpawned );
 			_signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 
-			//RestartSpawning();
 			IsRunning = true;
 			HandleSpawning();
 		}
-
-		//protected void RestartSpawning()
-		//{
-		//	//SetupPlayerDiedCancellation();
-
-		//	KickOffSpawning()
-		//		.Cancellable( PlayerDiedCancelToken )
-		//		.Forget();
-		//}
-
-		//protected void SetupPlayerDiedCancellation()
-		//{
-		//	if ( _playerDiedCancelSource == null )
-		//	{
-		//		_playerDiedCancelSource = new CancellationTokenSource();
-		//		_playerDiedCancelToken = _playerDiedCancelSource.Token;
-		//	}
-		//}
-
-		//private async UniTask KickOffSpawning()
-		//{
-		//	IsRunning = true;
-		//	//await TaskHelpers.DelaySeconds( _globalSettings.StartDelay );
-
-		//	HandleSpawning();
-		//}
 
 		protected abstract void HandleSpawning();
 
@@ -98,13 +67,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		private void OnEnemyDestroyed( EnemyDestroyedSignal signal )
 		{
-			//Debug.Log( $"<b>{signal.Victim.name}</b> destroyed. Ignoring? --> <b>{_ignoreEnemyDestruction}</b>" );
-
-			if ( _isClearingEnemies )
-			{
-				return;
-			}
-
 			_livingEnemies.Remove( signal.Victim );
 
 			if ( CanTrackEnemy( signal.Victim ) )
@@ -127,7 +89,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			IsRunning = false;
 
-			//InvokePlayerDiedCancellation();
 			_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
 			_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 
@@ -136,47 +97,29 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			if ( ExitWaveRequested() )
 			{
 				Completed?.Invoke( this );
-
-				//SendCompletedEvent();
 				return true;
-				//_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
-				//_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 			}
 
 			return false;
 		}
 
-		//protected void InvokePlayerDiedCancellation()
-		//{
-		//	_playerDiedCancelSource.Cancel();
-		//	_playerDiedCancelSource.Dispose();
-		//	_playerDiedCancelSource = null;
-		//}
-
 		private void ClearEnemies()
 		{
-			//_isClearingEnemies = true;
-
 			foreach ( var enemy in _livingEnemies )
 			{
 				enemy.Cleanup();
 			}
 			_livingEnemies.Clear();
-
-			//_isClearingEnemies = false;
 		}
 
 		/// <summary>
-		/// This is called when the player has died.<para></para>
-		/// On exiting, this will stop listening for <see cref="EnemySpawnedSignal"/> and <see cref="EnemyDestroyedSignal"/>.
+		/// This is called when the player has died.
 		/// </summary>
-		/// <returns>True if the wave should be exited.</returns>
+		/// <returns>True if the wave should be completed.</returns>
 		protected abstract bool ExitWaveRequested();
 
 		protected void SendCompletedEvent()
 		{
-			Debug.Log( $"Completing '<b>{this}</b>' wave." );
-
 			IsRunning = false;
 
 			_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );

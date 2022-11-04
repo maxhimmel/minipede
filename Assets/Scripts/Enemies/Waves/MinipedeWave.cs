@@ -115,27 +115,12 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 				++_completionCount;
 				SendCompletedEvent();
-				return;
 			}
-
-			//_randomSpawningCancelSource.Cancel();
-
-			//++_completionCount;
-			//if ( _completionCount % _settings.Repeats != 0 )
-			//{
-			//	//RestartSpawning();
-			//	HandleSpawning();
-			//}
-			//else
-			//{
-			//	SendCompletedEvent();
-			//}
 		}
 
 		protected override bool ExitWaveRequested()
 		{
 			_randomSpawningCancelSource.Cancel();
-			//RestartSpawning();
 			return false;
 		}
 

@@ -49,6 +49,11 @@ namespace Minipede.Gameplay.Enemies
 
 		private async UniTask UpdateRowTransition()
 		{
+			if ( _body == null )
+			{
+				return;
+			}
+
 			Vector2Int nextRowCoord = _levelGraph.WorldPosToCellCoord( _body.position );
 			if ( !_levelGraph.IsWithinBounds( nextRowCoord + _rowDir.ToRowCol() ) )
 			{

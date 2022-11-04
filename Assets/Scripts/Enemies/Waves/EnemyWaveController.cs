@@ -79,6 +79,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		private async UniTask KickOffWave( IEnemyWave wave )
 		{
+			Debug.Log( $"<color=yellow>[{nameof( EnemyWaveController )}]</color> " +
+				$"Starting '<b>{wave}</b>' in <b>{_settings.StartDelay}</b> seconds." );
+
 			await TaskHelpers.DelaySeconds( _settings.StartDelay );
 			wave.StartSpawning();
 		}

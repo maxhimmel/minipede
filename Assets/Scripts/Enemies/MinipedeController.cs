@@ -178,7 +178,10 @@ namespace Minipede.Gameplay.Enemies
 			Debug.Assert( victimSegment != null, new MissingComponentException( nameof( SegmentController ) ), this );
 
 			int victimIndex = _segments.FindIndex( other => other == victimSegment );
-			_segments.RemoveAt( victimIndex );
+			if ( victimIndex >= 0 )
+			{
+				_segments.RemoveAt( victimIndex );
+			}
 
 			return victimIndex;
 		}

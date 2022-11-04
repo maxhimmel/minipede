@@ -32,9 +32,9 @@ MonoBehaviour:
     RowGeneration:
       _allowEmptyRolls: 0
       _items:
-      - _normalizedWeight: 18
+      - _normalizedWeight: 70
         Item: 1
-      - _normalizedWeight: 64
+      - _normalizedWeight: 20
         Item: 2
-      - _normalizedWeight: 18
+      - _normalizedWeight: 10
         Item: 3

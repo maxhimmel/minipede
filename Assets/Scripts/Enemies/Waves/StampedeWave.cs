@@ -1,5 +1,6 @@
 using System.Linq;
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Player;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -13,11 +14,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private readonly Settings _settings;
 
 		public StampedeWave( Settings settings,
-			IEnemyWave.Settings globalSettings, 
 			EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver, 
+			PlayerSpawnController playerSpawn,
 			SignalBus signalBus ) 
-			: base( globalSettings, enemyBuilder, placementResolver, signalBus )
+			: base( enemyBuilder, placementResolver, playerSpawn, signalBus )
 		{
 			_settings = settings;
 		}
@@ -54,7 +55,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			base.OnTrackedEnemyDestroyed( victim );
 
-			//if ( !IsWatchedEnemiesAlive )
 			if ( !IsAnyEnemyAlive )
 			{
 				SendCompletedEvent();
@@ -63,7 +63,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		protected override bool ExitWaveRequested()
 		{
-			IsRunning = false;
 			return true;
 		}
 

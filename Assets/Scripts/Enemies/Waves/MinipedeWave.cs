@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Player;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -18,11 +19,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private CancellationToken _randomSpawningCancelToken;
 
 		public MinipedeWave( Settings settings,
-			IEnemyWave.Settings globalSettings, 
 			EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver, 
+			PlayerSpawnController playerSpawn,
 			SignalBus signalBus ) 
-			: base( globalSettings, enemyBuilder, placementResolver, signalBus )
+			: base( enemyBuilder, placementResolver, playerSpawn, signalBus )
 		{
 			_settings = settings;
 
@@ -72,7 +73,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 				_randomSpawningCancelSource.Dispose();
 			}
 
-			_randomSpawningCancelSource = CancellationTokenSource.CreateLinkedTokenSource( _playerDiedCancelToken );
+			_randomSpawningCancelSource = CancellationTokenSource.CreateLinkedTokenSource( PlayerDiedCancelToken );
 			_randomSpawningCancelToken = _randomSpawningCancelSource.Token;
 		}
 
@@ -108,28 +109,33 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			base.OnTrackedEnemyDestroyed( victim );
 
 			--_livingMinipedeCount;
-			if ( _livingMinipedeCount > 0 )
+			if ( _livingMinipedeCount <= 0 )
 			{
+				_randomSpawningCancelSource.Cancel();
+
+				++_completionCount;
+				SendCompletedEvent();
 				return;
 			}
 
-			_randomSpawningCancelSource.Cancel();
+			//_randomSpawningCancelSource.Cancel();
 
-			++_completionCount;
-			if ( _completionCount % _settings.Repeats != 0 )
-			{
-				RestartSpawning();
-			}
-			else
-			{
-				SendCompletedEvent();
-			}
+			//++_completionCount;
+			//if ( _completionCount % _settings.Repeats != 0 )
+			//{
+			//	//RestartSpawning();
+			//	HandleSpawning();
+			//}
+			//else
+			//{
+			//	SendCompletedEvent();
+			//}
 		}
 
 		protected override bool ExitWaveRequested()
 		{
 			_randomSpawningCancelSource.Cancel();
-			RestartSpawning();
+			//RestartSpawning();
 			return false;
 		}
 

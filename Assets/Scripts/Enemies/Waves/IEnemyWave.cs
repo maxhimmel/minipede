@@ -7,12 +7,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
         bool IsRunning { get; }
 
         void StartSpawning();
-        void OnPlayerDied();
 
-        [System.Serializable]
-        public struct Settings
-		{
-            public float StartDelay;
-		}
+        /// <returns>True if the wave was completed or false if it should restart.</returns>
+        bool Interrupt();
 	}
 }

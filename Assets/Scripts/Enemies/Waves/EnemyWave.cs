@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Player;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
@@ -12,31 +13,28 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		public event System.Action<IEnemyWave> Completed;
 
 		public bool IsRunning { get; protected set; }
-		//protected bool IsWatchedEnemiesAlive => _watchedEnemies.Count > 0;
 		protected bool IsAnyEnemyAlive => _livingEnemies.Count > 0;
+		protected CancellationToken PlayerDiedCancelToken => _playerSpawn.PlayerDiedCancelToken;
 
-		protected readonly IEnemyWave.Settings _globalSettings;
 		protected readonly EnemySpawnBuilder _enemyBuilder;
 		protected readonly EnemyPlacementResolver _placementResolver;
+		private readonly PlayerSpawnController _playerSpawn;
 		private readonly SignalBus _signalBus;
 
-		//private bool _ignoreEnemyDestruction;
-		//private HashSet<EnemyController> _watchedEnemies = new HashSet<EnemyController>();
-		//private HashSet<EnemyController> _otherEnemies = new HashSet<EnemyController>();
 		private bool _isClearingEnemies;
 		private HashSet<EnemyController> _livingEnemies = new HashSet<EnemyController>();
 
-		private CancellationTokenSource _playerDiedCancelSource;
-		protected CancellationToken _playerDiedCancelToken;
+		//private CancellationTokenSource _playerDiedCancelSource;
+		//protected CancellationToken _playerDiedCancelToken;
 
-		public EnemyWave( IEnemyWave.Settings globalSettings,
-			EnemySpawnBuilder enemyBuilder,
+		public EnemyWave( EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver,
+			PlayerSpawnController playerSpawn,
 			SignalBus signalBus )
 		{
-			_globalSettings = globalSettings;
 			_enemyBuilder = enemyBuilder;
 			_placementResolver = placementResolver;
+			_playerSpawn = playerSpawn;
 			_signalBus = signalBus;
 		}
 
@@ -50,47 +48,41 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_signalBus.Subscribe<EnemySpawnedSignal>( OnEnemySpawned );
 			_signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 
-			RestartSpawning();
-		}
-
-		protected void RestartSpawning()
-		{
-			SetupPlayerDiedCancellation();
-
-			KickOffSpawning()
-				.Cancellable( _playerDiedCancelToken )
-				.Forget();
-		}
-
-		protected void SetupPlayerDiedCancellation()
-		{
-			if ( _playerDiedCancelSource == null )
-			{
-				_playerDiedCancelSource = new CancellationTokenSource();
-				_playerDiedCancelToken = _playerDiedCancelSource.Token;
-			}
-		}
-
-		private async UniTask KickOffSpawning()
-		{
+			//RestartSpawning();
 			IsRunning = true;
-			await TaskHelpers.DelaySeconds( _globalSettings.StartDelay );
-
 			HandleSpawning();
 		}
+
+		//protected void RestartSpawning()
+		//{
+		//	//SetupPlayerDiedCancellation();
+
+		//	KickOffSpawning()
+		//		.Cancellable( PlayerDiedCancelToken )
+		//		.Forget();
+		//}
+
+		//protected void SetupPlayerDiedCancellation()
+		//{
+		//	if ( _playerDiedCancelSource == null )
+		//	{
+		//		_playerDiedCancelSource = new CancellationTokenSource();
+		//		_playerDiedCancelToken = _playerDiedCancelSource.Token;
+		//	}
+		//}
+
+		//private async UniTask KickOffSpawning()
+		//{
+		//	IsRunning = true;
+		//	//await TaskHelpers.DelaySeconds( _globalSettings.StartDelay );
+
+		//	HandleSpawning();
+		//}
 
 		protected abstract void HandleSpawning();
 
 		private void OnEnemySpawned( EnemySpawnedSignal signal )
 		{
-			//if ( CanWatchEnemy( signal.Enemy ) )
-			//{
-			//	_watchedEnemies.Add( signal.Enemy );
-			//}
-			//else
-			//{
-			//	_otherEnemies.Add( signal.Enemy );
-			//}
 			_livingEnemies.Add( signal.Enemy );
 
 			if ( CanTrackEnemy( signal.Enemy ) )
@@ -107,20 +99,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private void OnEnemyDestroyed( EnemyDestroyedSignal signal )
 		{
 			//Debug.Log( $"<b>{signal.Victim.name}</b> destroyed. Ignoring? --> <b>{_ignoreEnemyDestruction}</b>" );
-			//if ( _ignoreEnemyDestruction )
-			//{
-			//	return;
-			//}
-
-			//if ( CanWatchEnemy( signal.Victim ) )
-			//{
-			//	_watchedEnemies.Remove( signal.Victim );
-			//	OnEnemyDestroyed( signal.Victim );
-			//}
-			//else
-			//{
-			//	_otherEnemies.Remove( signal.Victim );
-			//}
 
 			if ( _isClearingEnemies )
 			{
@@ -145,47 +123,39 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			return true;
 		}
 
-		public void OnPlayerDied()
+		public bool Interrupt()
 		{
-			InvokePlayerDiedCancellation();
+			IsRunning = false;
+
+			//InvokePlayerDiedCancellation();
+			_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
+			_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 
 			ClearEnemies();
 
 			if ( ExitWaveRequested() )
 			{
-				_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
-				_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
+				Completed?.Invoke( this );
+
+				//SendCompletedEvent();
+				return true;
+				//_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
+				//_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 			}
+
+			return false;
 		}
 
-		protected void InvokePlayerDiedCancellation()
-		{
-			_playerDiedCancelSource.Cancel();
-			_playerDiedCancelSource.Dispose();
-			_playerDiedCancelSource = null;
-		}
+		//protected void InvokePlayerDiedCancellation()
+		//{
+		//	_playerDiedCancelSource.Cancel();
+		//	_playerDiedCancelSource.Dispose();
+		//	_playerDiedCancelSource = null;
+		//}
 
 		private void ClearEnemies()
 		{
-			//_ignoreEnemyDestruction = true;
-			//{
-			//	foreach ( var enemy in _watchedEnemies )
-			//	{
-			//		Debug.Log( $"Clearing <b>{enemy.name}</b> from wave." );
-			//		enemy.Cleanup();
-			//	}
-			//	_watchedEnemies.Clear();
-
-			//	foreach ( var enemy in _otherEnemies )
-			//	{
-			//		Debug.Log( $"Clearing <b>{enemy.name}</b> from wave." );
-			//		enemy.Cleanup();
-			//	}
-			//	_otherEnemies.Clear();
-			//}
-			//_ignoreEnemyDestruction = false;
-
-			_isClearingEnemies = true;
+			//_isClearingEnemies = true;
 
 			foreach ( var enemy in _livingEnemies )
 			{
@@ -193,7 +163,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			}
 			_livingEnemies.Clear();
 
-			_isClearingEnemies = false;
+			//_isClearingEnemies = false;
 		}
 
 		/// <summary>

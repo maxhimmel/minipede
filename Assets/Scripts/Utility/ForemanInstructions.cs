@@ -26,8 +26,10 @@ namespace Minipede.Utility
 
 			public RefurbishInstructions Destroy()
 			{
+				var cellCoord = _currentCell.CellCoord;
+
 				GameObject.Destroy( _currentCell.Block.gameObject );
-				_currentCell.Block = null;
+				_builder.RemoveBlock( cellCoord.Row(), cellCoord.Col() );
 
 				return new RefurbishInstructions( _builder, _currentCell );
 			}

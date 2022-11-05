@@ -2,6 +2,7 @@ using Cysharp.Threading.Tasks;
 using Minipede.Installers;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -13,6 +14,7 @@ namespace Minipede.Gameplay.LevelPieces
 		private readonly LevelGraph _levelGraph;
 		private readonly Block.Factory _blockFactory;
 		private readonly Graph<LevelCell> _graph;
+		private readonly List<Block> _levelBlocks = new List<Block>();
 
 		public LevelBuilder( GameplaySettings.Level settings,
 			LevelGraph levelGraph,
@@ -29,7 +31,7 @@ namespace Minipede.Gameplay.LevelPieces
 				{
 					Vector2Int rowCol = VectorExtensions.CreateRowCol( row, col );
 					Vector2 worldPos = _levelGraph.CellCoordToWorldPos( rowCol );
-					return new LevelCell( worldPos );
+					return new LevelCell( rowCol, worldPos );
 				} );
 		}
 
@@ -72,8 +74,38 @@ namespace Minipede.Gameplay.LevelPieces
 			newBlock.transform.SetParent( _levelGraph.transform );
 
 			data.Block = newBlock;
+			_levelBlocks.Add( newBlock );
+
+			newBlock.Died += OnBlockDestroyed;
 
 			return newBlock;
+		}
+
+		private void OnBlockDestroyed( Rigidbody2D victimBody, HealthController health )
+		{
+			Block victimBlock = victimBody.GetComponent<Block>();
+			Debug.Assert( victimBlock != null, new MissingComponentException( nameof( Block ) ), victimBody );
+
+			var blockCoords = _levelGraph.WorldPosToCellCoord( victimBody.position );
+			RemoveBlock( blockCoords.Row(), blockCoords.Col() );
+		}
+
+		public void RemoveBlock( int row, int column )
+		{
+			if ( !IsCellCoordValid( row, column ) )
+			{
+				return;
+			}
+
+			var cellData = GetCellData( row, column );
+			if ( cellData.Block == null )
+			{
+				return;
+			}
+
+			cellData.Block.Died -= OnBlockDestroyed;
+			_levelBlocks.Remove( cellData.Block );
+			cellData.Block = null;
 		}
 
 		public bool TryGetCellData( Vector2 worldPosition, out LevelCell cellData )
@@ -110,6 +142,35 @@ namespace Minipede.Gameplay.LevelPieces
 		private Graph<LevelCell>.Cell GetCell( int row, int col )
 		{
 			return _graph.GetCell( row, col );
+		}
+
+		public void MoveBlocks( Vector2Int direction )
+		{
+			for (int idx = _levelBlocks.Count - 1; idx >= 0; --idx )
+			{
+				Block block = _levelBlocks[idx];
+
+				var startCoord = _levelGraph.WorldPosToCellCoord( block.transform.position );
+				var startData = GetCellData( startCoord.Row(), startCoord.Col() );
+
+				var destCoord = startCoord + direction.ToRowCol();
+				if ( IsCellCoordValid( destCoord.Row(), destCoord.Col() ) )
+				{
+					var destData = GetCellData( destCoord.Row(), destCoord.Col() );
+
+					block.transform.position = destData.Center;
+
+					destData.Block = block;
+					startData.Block = null;
+				}
+				else
+				{
+					block.Died -= OnBlockDestroyed;
+					_levelBlocks.RemoveAt( idx );
+					startData.Block = null;
+					GameObject.Destroy( block.gameObject );
+				}
+			}
 		}
 
 		[System.Serializable]

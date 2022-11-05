@@ -13,6 +13,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 	{
 		private readonly Settings _settings;
 
+		private int _expectedSpawnCount;
+
 		public StampedeWave( Settings settings,
 			EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver, 
@@ -25,7 +27,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		protected override async void HandleSpawning()
 		{
-			int spawnCount = _settings.SpawnRange.Random( true );
+			_expectedSpawnCount = _settings.SpawnRange.Random( true );
+
+			int spawnCount = _expectedSpawnCount;
 			if ( spawnCount <= 0 )
 			{
 				IsRunning = false;
@@ -55,7 +59,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			base.OnTrackedEnemyDestroyed( victim );
 
-			if ( !IsAnyEnemyAlive )
+			--_expectedSpawnCount;
+
+			if ( !IsAnyEnemyAlive && _expectedSpawnCount <= 0 )
 			{
 				SendCompletedEvent();
 			}

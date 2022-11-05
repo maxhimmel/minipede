@@ -22,6 +22,7 @@ namespace Minipede.Gameplay
 		{
 			int dmgTaken = Mathf.Min( data.Damage, _health );
 			_health -= dmgTaken;
+			_health = Mathf.Clamp( _health, 0, _settings.Health );
 
 			return dmgTaken;
 		}

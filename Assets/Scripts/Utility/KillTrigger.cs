@@ -10,10 +10,10 @@ namespace Minipede.Utility
 			var attachedBody = collision.attachedRigidbody;
 			if ( attachedBody != null )
 			{
-				IDamageable damageable = attachedBody.GetComponent<IDamageable>();
-				if ( damageable != null )
+				ICleanup cleanup = attachedBody.GetComponent<ICleanup>();
+				if ( cleanup != null )
 				{
-					damageable.TakeDamage( transform, transform, new DamageDatum( 999 ) );
+					cleanup.Cleanup();
 				}
 				else
 				{

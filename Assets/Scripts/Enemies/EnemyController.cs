@@ -8,7 +8,8 @@ using Zenject;
 namespace Minipede.Gameplay.Enemies
 {
 	public abstract class EnemyController : MonoBehaviour,
-		IDamageController
+		IDamageController,
+		ICleanup
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;

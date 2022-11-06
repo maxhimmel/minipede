@@ -28,7 +28,7 @@ namespace Minipede.Utility
 			{
 				var cellCoord = _currentCell.CellCoord;
 
-				GameObject.Destroy( _currentCell.Block.gameObject );
+				_currentCell.Block.Cleanup();
 				_builder.RemoveBlock( cellCoord.Row(), cellCoord.Col() );
 
 				return new RefurbishInstructions( _builder, _currentCell );

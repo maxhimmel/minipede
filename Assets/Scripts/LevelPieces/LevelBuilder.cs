@@ -98,13 +98,10 @@ namespace Minipede.Gameplay.LevelPieces
 			}
 
 			var cellData = GetCellData( row, column );
-			if ( cellData.Block == null )
-			{
-				return;
-			}
-
+			
 			cellData.Block.Died -= OnBlockDestroyed;
 			_levelBlocks.Remove( cellData.Block );
+
 			cellData.Block = null;
 		}
 
@@ -146,29 +143,35 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public void MoveBlocks( Vector2Int direction )
 		{
-			for (int idx = _levelBlocks.Count - 1; idx >= 0; --idx )
+			for ( int idx = _levelBlocks.Count - 1; idx >= 0; --idx )
 			{
 				Block block = _levelBlocks[idx];
 
-				var startCoord = _levelGraph.WorldPosToCellCoord( block.transform.position );
-				var startData = GetCellData( startCoord.Row(), startCoord.Col() );
+				Vector2Int startCoord = _levelGraph.WorldPosToCellCoord( block.transform.position );
+				var startCell = GetCellData( startCoord.Row(), startCoord.Col() );
 
-				var destCoord = startCoord + direction.ToRowCol();
+				Vector2Int destCoord = startCoord + direction.ToRowCol();
 				if ( IsCellCoordValid( destCoord.Row(), destCoord.Col() ) )
 				{
-					var destData = GetCellData( destCoord.Row(), destCoord.Col() );
+					var destCell = GetCellData( destCoord.Row(), destCoord.Col() );
+					destCell.Block = block;
+					block.transform.position = destCell.Center;
 
-					block.transform.position = destData.Center;
-
-					destData.Block = block;
-					startData.Block = null;
+					if ( startCell.Block == block )
+					{
+						startCell.Block = null;
+					}
 				}
 				else
 				{
+					if ( startCell.Block == block )
+					{
+						startCell.Block = null;
+					}
+
+					block.Cleanup();
 					block.Died -= OnBlockDestroyed;
 					_levelBlocks.RemoveAt( idx );
-					startData.Block = null;
-					GameObject.Destroy( block.gameObject );
 				}
 			}
 		}

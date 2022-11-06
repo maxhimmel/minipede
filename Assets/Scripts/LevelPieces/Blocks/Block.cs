@@ -5,11 +5,9 @@ using Zenject;
 namespace Minipede.Gameplay.LevelPieces
 {
 	public partial class Block : MonoBehaviour,
-		IDamageController
+		IDamageController,
+		ICleanup
 	{
-		private IDamageController _damageController;
-		private SpriteRenderer _renderer;
-
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
 			remove => _damageController.Damaged -= value;
@@ -18,6 +16,11 @@ namespace Minipede.Gameplay.LevelPieces
 			add => _damageController.Died += value;
 			remove => _damageController.Died -= value;
 		}
+
+		private IDamageController _damageController;
+		private SpriteRenderer _renderer;
+
+		private bool _isCleanedUp;
 
 		[Inject]
 		public void Construct( IDamageController damageController,
@@ -43,10 +46,21 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private void HandleDeath( Rigidbody2D victimBody, HealthController health )
 		{
+			Cleanup();
+		}
+
+		public void Cleanup()
+		{
+			if ( _isCleanedUp )
+			{
+				return;
+			}
+
 			_damageController.Damaged -= HandleDamageAnim;
 			_damageController.Died -= HandleDeath;
 
-			Destroy( victimBody.gameObject );
+			Destroy( gameObject );
+			_isCleanedUp = true;
 		}
 	}
 }

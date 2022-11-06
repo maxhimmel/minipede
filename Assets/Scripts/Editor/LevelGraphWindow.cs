@@ -20,6 +20,14 @@ namespace Minipede.Editor
 		[ToggleGroup( "_drawGraph", GroupID = "Main/_drawGraph" )]
 		[SerializeField] private Color _playerDepthColor = Color.yellow;
 
+		[BoxGroup( GroupID = "Main/_drawGraph/debug" )]
+		[HorizontalGroup( GroupID = "Main/_drawGraph/debug/CellCoord" )]
+		[SerializeField, ToggleLeft] private bool _debugCellCoord;
+		[HorizontalGroup( GroupID = "Main/_drawGraph/debug/CellCoord" ), ShowIf( "_debugCellCoord" )]
+		[SerializeField, HideLabel] private Vector2Int _cellCoord;
+		[BoxGroup( GroupID = "Main/_drawGraph/debug" ), ShowIf( "_debugCellCoord" )]
+		[SerializeField] private Color _cellCoordColor = Color.white;
+
 		[FoldoutGroup( "Gameplay Settings" )] 
 		[InlineEditor( ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden )]
 		[SerializeField] private GameplaySettings _gameplaySettings;
@@ -78,6 +86,8 @@ namespace Minipede.Editor
 			// Player depth area ...
 			Handles.color = _playerDepthColor;
 			DrawRowsAndColumns( _levelGraphWrapper.PlayerRows - _levelGraphWrapper.PlayerRowDepth, _levelGraphWrapper.PlayerRows );
+
+			DrawDebugCellCoord();
 		}
 
 		private void CacheReferences()
@@ -104,6 +114,23 @@ namespace Minipede.Editor
 					Handles.DrawWireCube( pos, graphSettings.Size );
 				}
 			}
+		}
+
+		private void DrawDebugCellCoord()
+		{
+			if ( !_debugCellCoord )
+			{
+				return;
+			}
+
+			Vector2 pivot = _levelGraphWrapper.LevelGraph.transform.position;
+			LevelGraph.Settings graphSettings = _levelGraphWrapper.GraphSettings;
+
+			Vector2 pos = pivot + graphSettings.CellCoordToWorldPos( _cellCoord );
+			Rect rect = new Rect( pos - graphSettings.Size / 2f, graphSettings.Size );
+
+			Handles.color = _cellCoordColor;
+			Handles.DrawSolidRectangleWithOutline( rect, _cellCoordColor.MultAlpha( 0.2f ), _cellCoordColor );
 		}
 	}
 }

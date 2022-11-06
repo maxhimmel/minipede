@@ -18,7 +18,7 @@ namespace Minipede.Editor
 		[SerializeField] private List<DrawPlacementData> _placements = new List<DrawPlacementData>();
 
 		[TitleGroup( "Enemy Placements", "View the graph and modify where enemies are allowed to spawn.", GroupID = "Main", Order = -1 )]
-		[ToggleGroup( "Main/_drawPlacements", ToggleGroupTitle = "Draw", Order = 0 )]
+		[ToggleGroup( "Main/_drawPlacements", ToggleGroupTitle = "Draw Placements", Order = 0 )]
 		[SerializeField] private bool _drawPlacements = true;
 
 		private LevelGraphWrapper _levelGraphWrapper;

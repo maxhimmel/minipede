@@ -12,13 +12,16 @@ namespace Minipede.Gameplay.Enemies
 	{
 		private Settings _settings;
 		private IRemoteMotor _motor;
+		private LevelBuilder _levelBuilder;
 
 		[Inject]
 		public void Construct( Settings settings,
-			IRemoteMotor motor )
+			IRemoteMotor motor,
+			LevelBuilder levelBuilder )
 		{
 			_settings = settings;
 			_motor = motor;
+			_levelBuilder = levelBuilder;
 		}
 
 		public override async void OnSpawned()
@@ -87,7 +90,7 @@ namespace Minipede.Gameplay.Enemies
 		{
 			base.OnDied( victimBody, health );
 
-			// TODO: Move all blocks down a row ...
+			_levelBuilder.MoveBlocks( Vector2Int.down );
 		}
 
 		protected override void FixedTick()

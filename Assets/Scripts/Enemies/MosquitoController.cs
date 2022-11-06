@@ -11,15 +11,18 @@ namespace Minipede.Gameplay.Enemies
 		private Settings _settings;
 		private IMotor _motor;
 		private ArenaBoundary _arena;
+		private LevelBuilder _levelBuilder;
 
 		[Inject]
 		public void Construct( Settings settings,
 			IMotor motor,
-			ArenaBoundary arena )
+			ArenaBoundary arena,
+			LevelBuilder levelBuilder )
 		{
 			_settings = settings;
 			_motor = motor;
 			_arena = arena;
+			_levelBuilder = levelBuilder;
 		}
 
 		public override void OnSpawned()
@@ -66,7 +69,7 @@ namespace Minipede.Gameplay.Enemies
 		{
 			base.OnDied( victimBody, health );
 
-			// TODO: Move all blocks up a row ...
+			_levelBuilder.MoveBlocks( Vector2Int.up );
 		}
 
 		[System.Serializable]

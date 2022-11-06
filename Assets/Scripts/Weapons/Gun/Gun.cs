@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Weapons
@@ -8,20 +7,19 @@ namespace Minipede.Gameplay.Weapons
 		private readonly Settings _settings;
 		private readonly Projectile.Factory _factory;
 		private readonly ShotSpot _shotSpot;
+		private readonly IFireSafety[] _fireSafeties;
 
 		private bool _isFiringRequested;
-		private float _nextFireTime;
-		private HashSet<Projectile> _liveProjectiles;
 
 		public Gun( Settings settings, 
 			Projectile.Factory factory,
-			ShotSpot shotSpot )
+			ShotSpot shotSpot,
+			IFireSafety[] safeties )
 		{
 			_settings = settings;
 			_factory = factory;
 			_shotSpot = shotSpot;
-
-			_liveProjectiles = new HashSet<Projectile>();
+			_fireSafeties = safeties;
 		}
 
 		public void StartFiring()
@@ -46,18 +44,20 @@ namespace Minipede.Gameplay.Weapons
 				return;
 			}
 
-			if ( _nextFireTime <= Time.timeSinceLevelLoad )
-			{
-				_nextFireTime = _settings.FireRate + Time.timeSinceLevelLoad;
-
-				var newProjectile = Fire();
-				TrackProjectile( newProjectile );
-			}
+			var newProjectile = Fire();
+			NotifySafety( newProjectile );
 		}
 
 		private bool CanFire()
 		{
-			return _liveProjectiles.Count <= 0;
+			foreach ( var safety in _fireSafeties )
+			{
+				if ( !safety.CanFire() )
+				{
+					return false;
+				}
+			}
+			return true;
 		}
 
 		private Projectile Fire()
@@ -70,17 +70,11 @@ namespace Minipede.Gameplay.Weapons
 			return newProjectile;
 		}
 
-		private void TrackProjectile( Projectile projectile )
+		private void NotifySafety( Projectile firedProjectile )
 		{
-			projectile.Destroyed += OnProjectileDestroyed;
-			_liveProjectiles.Add( projectile );
-		}
-
-		private void OnProjectileDestroyed( Projectile projectile )
-		{
-			if ( !_liveProjectiles.Remove( projectile ) )
+			foreach ( var safety in _fireSafeties )
 			{
-				throw new System.DataMisalignedException();
+				safety.Notify( firedProjectile );
 			}
 		}
 
@@ -92,7 +86,6 @@ namespace Minipede.Gameplay.Weapons
 			[Space]
 			public float ProjectileSpeed;
 			public float ProjectileTorque;
-			[Min( 0 )] public float FireRate;
 		}
 	}
 }

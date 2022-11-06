@@ -36,6 +36,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 				return;
 			}
 
+			int orientationIndex = 0;
 			IOrientation[] spawnOrientations = _placementResolver.GetSpawnOrientations<TEnemy>().ToArray();
 			spawnOrientations.FisherYatesShuffle();
 
@@ -46,8 +47,10 @@ namespace Minipede.Gameplay.Enemies.Spawning
 					return;
 				}
 
+				orientationIndex %= spawnOrientations.Length;
+
 				_enemyBuilder.Build<TEnemy>()
-					.WithPlacement( spawnOrientations[idx] )
+					.WithPlacement( spawnOrientations[orientationIndex++] )
 					.WithSpawnBehavior()
 					.Create();
 

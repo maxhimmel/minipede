@@ -76,7 +76,6 @@ namespace Minipede.Gameplay.Enemies
 			{
 				return;
 			}
-			//Debug.Log( $"Cleaning up - {name}" );
 
 			_onDestroyCancelSource.Cancel();
 			_onDestroyCancelSource.Dispose();

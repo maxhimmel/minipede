@@ -8,14 +8,16 @@ namespace Minipede.Gameplay.LevelPieces
 		IDamageController,
 		ICleanup
 	{
-		public event IDamageController.OnHit Damaged {
-			add => _damageController.Damaged += value;
-			remove => _damageController.Damaged -= value;
-		}
-		public event IDamageController.OnHit Died {
-			add => _damageController.Died += value;
-			remove => _damageController.Died -= value;
-		}
+		public event IDamageController.OnHit Damaged;
+		public event IDamageController.OnHit Died;
+		//public event IDamageController.OnHit Damaged {
+		//	add => _damageController.Damaged += value;
+		//	remove => _damageController.Damaged -= value;
+		//}
+		//public event IDamageController.OnHit Died {
+		//	add => _damageController.Died += value;
+		//	remove => _damageController.Died -= value;
+		//}
 
 		private IDamageController _damageController;
 		private SpriteRenderer _renderer;
@@ -23,19 +25,20 @@ namespace Minipede.Gameplay.LevelPieces
 		private bool _isCleanedUp;
 
 		[Inject]
-		public void Construct( IDamageController damageController,
+		public void Construct( /*IDamageController damageController,*/
 			SpriteRenderer renderer )
 		{
-			_damageController = damageController;
+			//_damageController = damageController;
 			_renderer = renderer;
 
-			damageController.Damaged += HandleDamageAnim;
-			damageController.Died += HandleDeath;
+			//damageController.Damaged += HandleDamageAnim;
+			//damageController.Died += HandleDeath;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
-			return _damageController.TakeDamage( instigator, causer, data );
+			return 0;
+			//return _damageController.TakeDamage( instigator, causer, data );
 		}
 
 		private void HandleDamageAnim( Rigidbody2D victimBody, HealthController health )
@@ -56,8 +59,8 @@ namespace Minipede.Gameplay.LevelPieces
 				return;
 			}
 
-			_damageController.Damaged -= HandleDamageAnim;
-			_damageController.Died -= HandleDeath;
+			//_damageController.Damaged -= HandleDamageAnim;
+			//_damageController.Died -= HandleDeath;
 
 			Destroy( gameObject );
 			_isCleanedUp = true;

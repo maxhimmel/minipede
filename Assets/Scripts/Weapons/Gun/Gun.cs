@@ -9,18 +9,21 @@ namespace Minipede.Gameplay.Weapons
 		private readonly Projectile.Factory _factory;
 		private readonly IFireSafety[] _fireSafeties;
 		private readonly IFireSpread _fireSpread;
+		private readonly IDirectionAdjuster _accuracyAdjuster;
 
 		private bool _isFiringRequested;
 
 		public Gun( Settings settings, 
 			Projectile.Factory factory,
 			IFireSafety[] safeties,
-			IFireSpread fireSpread )
+			IFireSpread fireSpread,
+			IDirectionAdjuster accuracyAdjuster )
 		{
 			_settings = settings;
 			_factory = factory;
 			_fireSafeties = safeties;
 			_fireSpread = fireSpread;
+			_accuracyAdjuster = accuracyAdjuster;
 		}
 
 		public void StartFiring()
@@ -66,10 +69,11 @@ namespace Minipede.Gameplay.Weapons
 
 		private Projectile Fire( IOrientation orientation )
 		{
-			Projectile newProjectile = _factory.Create( orientation.Position, orientation.Rotation );
-
 			Vector2 direction = orientation.Rotation * Vector2.up;
-			// TODO: Add accuracy module ...
+			direction = _accuracyAdjuster.Adjust( direction );
+
+			Quaternion spawnRotation = Quaternion.LookRotation( Vector3.forward, direction );
+			Projectile newProjectile = _factory.Create( orientation.Position, spawnRotation );
 
 			Vector2 projectileImpulse = direction * _settings.ProjectileSpeed;
 			newProjectile.Launch( projectileImpulse, _settings.ProjectileTorque );

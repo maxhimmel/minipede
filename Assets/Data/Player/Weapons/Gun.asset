@@ -27,3 +27,4 @@ MonoBehaviour:
         Damage: 1
     Modules:
     - {fileID: 11400000, guid: 18a15045f73ac2142bd3f194d2eebf74, type: 2}
+    - {fileID: 11400000, guid: 11e9d635fa00dd245b0213911a1f0d60, type: 2}

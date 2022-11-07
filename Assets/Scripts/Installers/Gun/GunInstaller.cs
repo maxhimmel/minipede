@@ -55,7 +55,7 @@ namespace Minipede.Installers
 			public ProjectileProvider.Settings Projectile;
 			public DamageTrigger.Settings Damage;
 
-			[Space, InlineEditor( ObjectFieldMode = InlineEditorObjectFieldModes.Boxed )]
+			[Space, InlineEditor]
 			public GunModuleInstaller[] Modules;
 		}
 

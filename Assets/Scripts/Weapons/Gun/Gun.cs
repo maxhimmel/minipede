@@ -1,3 +1,4 @@
+using Minipede.Utility;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Weapons
@@ -6,20 +7,20 @@ namespace Minipede.Gameplay.Weapons
     {
 		private readonly Settings _settings;
 		private readonly Projectile.Factory _factory;
-		private readonly ShotSpot _shotSpot;
 		private readonly IFireSafety[] _fireSafeties;
+		private readonly IFireSpread _fireSpread;
 
 		private bool _isFiringRequested;
 
 		public Gun( Settings settings, 
 			Projectile.Factory factory,
-			ShotSpot shotSpot,
-			IFireSafety[] safeties )
+			IFireSafety[] safeties,
+			IFireSpread fireSpread )
 		{
 			_settings = settings;
 			_factory = factory;
-			_shotSpot = shotSpot;
 			_fireSafeties = safeties;
+			_fireSpread = fireSpread;
 		}
 
 		public void StartFiring()
@@ -44,8 +45,11 @@ namespace Minipede.Gameplay.Weapons
 				return;
 			}
 
-			var newProjectile = Fire();
-			NotifySafety( newProjectile );
+			foreach ( var shotSpot in _fireSpread.GetSpread() )
+			{
+				var newProjectile = Fire( shotSpot );
+				NotifySafety( newProjectile );
+			}
 		}
 
 		private bool CanFire()
@@ -60,11 +64,14 @@ namespace Minipede.Gameplay.Weapons
 			return true;
 		}
 
-		private Projectile Fire()
+		private Projectile Fire( IOrientation orientation )
 		{
-			Projectile newProjectile = _factory.Create( _shotSpot.Position, _shotSpot.Rotation );
+			Projectile newProjectile = _factory.Create( orientation.Position, orientation.Rotation );
 
-			Vector2 projectileImpulse = _shotSpot.Facing * _settings.ProjectileSpeed;
+			Vector2 direction = orientation.Rotation * Vector2.up;
+			// TODO: Add accuracy module ...
+
+			Vector2 projectileImpulse = direction * _settings.ProjectileSpeed;
 			newProjectile.Launch( projectileImpulse, _settings.ProjectileTorque );
 
 			return newProjectile;

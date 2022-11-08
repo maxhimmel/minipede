@@ -62,7 +62,7 @@ namespace Minipede.Gameplay.Enemies
 			float moveSpeed = velocity.magnitude;
 			float turnDegrees = 90f;
 			float rotationDelta = moveSpeed * turnDegrees * Time.fixedDeltaTime;
-			Quaternion targetRotation = Quaternion.LookRotation( Vector3.forward, velocity / moveSpeed );
+			Quaternion targetRotation = (velocity / moveSpeed).ToLookRotation();
 
 			transform.rotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
 		}

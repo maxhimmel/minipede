@@ -78,8 +78,7 @@ namespace Minipede.Gameplay.Weapons
 				direction = _accuracyAdjuster.Adjust( direction );
 			}
 
-			Quaternion spawnRotation = Quaternion.LookRotation( Vector3.forward, direction );
-			Projectile newProjectile = _factory.Create( orientation.Position, spawnRotation );
+			Projectile newProjectile = _factory.Create( orientation.Position, direction.ToLookRotation() );
 
 			Vector2 projectileImpulse = direction * _settings.ProjectileSpeed;
 			newProjectile.Launch( projectileImpulse, _settings.ProjectileTorque );

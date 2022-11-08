@@ -37,7 +37,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			{
 				SegmentController newSegment = _enemyFactory.Create<SegmentController>( new Orientation(
 					leader.position + offsetDir * _levelGraph.Data.Size.x,
-					Quaternion.LookRotation( Vector3.forward, -offsetDir ),
+					(-offsetDir).ToLookRotation(),
 					parent
 				) );
 				newSegment.OnSpawned();

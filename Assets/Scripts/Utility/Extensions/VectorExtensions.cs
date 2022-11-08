@@ -109,5 +109,14 @@ namespace Minipede.Utility
 
             return self;
         }
+
+        public static Quaternion ToLookRotation( this Vector2 self )
+		{
+            return Quaternion.LookRotation( Vector3.forward, self );
+        }
+        public static Quaternion ToLookRotation( this Vector3 self )
+        {
+            return Quaternion.LookRotation( Vector3.forward, self );
+        }
     }
 }

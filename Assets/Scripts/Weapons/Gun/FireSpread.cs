@@ -28,7 +28,7 @@ namespace Minipede.Gameplay.Weapons
 			{
 				yield return new Orientation(
 					_shotSpot.Position,
-					Quaternion.LookRotation( Vector3.forward, _shotSpot.Facing ),
+					_shotSpot.Facing.ToLookRotation(),
 					null
 				);
 			}
@@ -48,7 +48,7 @@ namespace Minipede.Gameplay.Weapons
 
 					yield return new Orientation(
 						_shotSpot.Position,
-						Quaternion.LookRotation( Vector3.forward, direction ),
+						direction.ToLookRotation(),
 						null
 					);
 				}

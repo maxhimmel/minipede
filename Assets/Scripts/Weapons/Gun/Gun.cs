@@ -1,5 +1,7 @@
+using Cinemachine;
 using Minipede.Utility;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
@@ -15,14 +17,15 @@ namespace Minipede.Gameplay.Weapons
 
 		public Gun( Settings settings, 
 			Projectile.Factory factory,
-			IFireSafety[] safeties,
 			IFireSpread fireSpread,
-			IDirectionAdjuster accuracyAdjuster )
+			[InjectOptional] IFireSafety[] safeties,
+			[InjectOptional] IDirectionAdjuster accuracyAdjuster )
 		{
 			_settings = settings;
 			_factory = factory;
-			_fireSafeties = safeties;
 			_fireSpread = fireSpread;
+
+			_fireSafeties = safeties ?? new IFireSafety[0];
 			_accuracyAdjuster = accuracyAdjuster;
 		}
 
@@ -70,7 +73,10 @@ namespace Minipede.Gameplay.Weapons
 		private Projectile Fire( IOrientation orientation )
 		{
 			Vector2 direction = orientation.Rotation * Vector2.up;
-			direction = _accuracyAdjuster.Adjust( direction );
+			if ( _accuracyAdjuster != null )
+			{
+				direction = _accuracyAdjuster.Adjust( direction );
+			}
 
 			Quaternion spawnRotation = Quaternion.LookRotation( Vector3.forward, direction );
 			Projectile newProjectile = _factory.Create( orientation.Position, spawnRotation );

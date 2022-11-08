@@ -8,6 +8,7 @@ namespace Minipede.Installers
 	[CreateAssetMenu( menuName = "Gun/Gun" )]
     public class GunInstaller : ScriptableObjectInstaller
     {
+		[HideLabel]
 		[SerializeField] private Settings _settings;
 
 		public override void InstallBindings()

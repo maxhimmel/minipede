@@ -46,6 +46,7 @@ namespace Minipede.Gameplay
 		{
 			_enemyWaveController.Interrupt();
 
+			await _levelBuilder.HealBlocks();
 			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay );
 
 			_playerSpawnController.Create();

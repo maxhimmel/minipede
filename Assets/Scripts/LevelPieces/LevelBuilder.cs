@@ -176,6 +176,13 @@ namespace Minipede.Gameplay.LevelPieces
 			}
 		}
 
+		public async UniTask HealBlocks()
+		{
+			await UniTask.WhenAll( 
+				_levelBlocks.Select( block => block.Heal() ) 
+			);
+		}
+
 		[System.Serializable]
 		public struct Settings
 		{

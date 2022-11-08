@@ -16,6 +16,14 @@ MonoBehaviour:
     Prefab: {fileID: 6378720964115801289, guid: 6e94192d214948143a4ff9f4f50c4fcb, type: 3}
     SpawnPointId: PlayerSpawn
     RespawnDelay: 1
+  _blockSettings:
+    Settings:
+      HealStep: -1
+      DelayPerHealStep: 1
+    Prefabs:
+      Regular: {fileID: 6093263636819055870, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
+      Poison: {fileID: 7901060816210389742, guid: b365f0d28be7fa44989337593a66181c, type: 3}
+      Flower: {fileID: 8470412232020281501, guid: d6bf6258b2770a04f98a69588242b66b, type: 3}
   _levelSettings:
     Graph:
       Dimensions: {x: 32, y: 30}
@@ -25,10 +33,6 @@ MonoBehaviour:
       PlayerRows: 8
       PlayerRowDepth: 4
     SpawnRate: 0.5
-    BlockPrefabs:
-      Regular: {fileID: 6093263636819055870, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
-      Poison: {fileID: 7901060816210389742, guid: b365f0d28be7fa44989337593a66181c, type: 3}
-      Flower: {fileID: 8470412232020281501, guid: d6bf6258b2770a04f98a69588242b66b, type: 3}
     RowGeneration:
       _allowEmptyRolls: 0
       _items:

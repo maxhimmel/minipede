@@ -6,12 +6,15 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
+using BlockActor = Minipede.Gameplay.LevelPieces.Block;
+
 namespace Minipede.Installers
 {
 	[CreateAssetMenu]
     public class GameplaySettings : ScriptableObjectInstaller
 	{
 		[SerializeField] private Player _playerSettings;
+		[SerializeField] private Block _blockSettings;
 		[SerializeField] private Level _levelSettings;
 
 		public override void InstallBindings()
@@ -43,13 +46,16 @@ namespace Minipede.Installers
 		{
 			Container.BindInstance( _levelSettings );
 
+			Container.BindInstance( _blockSettings.Settings )
+				.WhenInjectedInto<BlockActor>();
+
 			Container.Bind<IBlockProvider>()
 				.To<BlockProvider>()
 				.AsSingle()
-				.WithArguments( _levelSettings.BlockPrefabs );
+				.WithArguments( _blockSettings.Prefabs );
 
-			Container.BindFactory<Block.Type, Vector2, Quaternion, Block, Block.Factory>()
-				.FromFactory<Block.CustomFactory>();
+			Container.BindFactory<BlockActor.Type, Vector2, Quaternion, BlockActor, BlockActor.Factory>()
+				.FromFactory<BlockActor.CustomFactory>();
 
 			Container.Bind<LevelBuilder>()
 				.AsSingle();
@@ -80,10 +86,17 @@ namespace Minipede.Installers
 
 			[TabGroup( "Spawning" ), Min( 0 )]
 			public float SpawnRate;
-			[TabGroup( "Spawning" )]
-			public BlockProvider.Settings BlockPrefabs;
 			[Space, TabGroup( "Spawning" )]
 			public WeightedListInt RowGeneration;
+		}
+
+		[System.Serializable]
+		public struct Block
+		{
+			[HideLabel]
+			public BlockActor.Settings Settings;
+			[BoxGroup( "Prefabs" ), HideLabel]
+			public BlockProvider.Settings Prefabs;
 		}
 	}
 }

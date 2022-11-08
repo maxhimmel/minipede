@@ -37,11 +37,6 @@ namespace Minipede.Gameplay.Enemies
 		{
 			base.OnSpawned();
 
-			StartRowTransition();
-		}
-
-		private void StartRowTransition()
-		{
 			UpdateRowTransition()
 				.Cancellable( _onDestroyCancelToken )
 				.Forget();
@@ -49,15 +44,30 @@ namespace Minipede.Gameplay.Enemies
 
 		private async UniTask UpdateRowTransition()
 		{
+			Vector2Int arrivalCoord = await PerformRowTransition();
+
+			// We're on top of a block or will collide with a block in front of us ...
+			while ( WillCollideWithNextColumn( arrivalCoord, out _ ) ||
+				 _levelForeman.TryQueryFilledBlock( _body.position, out _ ) )
+			{
+				arrivalCoord = await PerformRowTransition();
+			}
+
+			_motor.Arrived += OnHorizontalArrival;
+			_motor.StartMoving( _columnDir ).Forget();
+		}
+
+		private async UniTask<Vector2Int> PerformRowTransition()
+		{
 			if ( _body == null )
 			{
-				return;
+				return Vector2Int.one * -1;
 			}
 
 			Vector2Int nextRowCoord = _levelGraph.WorldPosToCellCoord( _body.position );
 			if ( !_levelGraph.IsWithinBounds( nextRowCoord + _rowDir.ToRowCol() ) )
 			{
-				// Flip our vertical direction if we're at the very top or very bottom ...
+				// Flip our vertical direction if we're at the very top or very bottom/top ...
 				_rowDir.y *= -1;
 			}
 			nextRowCoord += _rowDir.ToRowCol();
@@ -69,16 +79,7 @@ namespace Minipede.Gameplay.Enemies
 			Vector2Int nextColCoord = nextRowCoord + _columnDir.ToRowCol();
 			await _motor.SetDestination( nextColCoord );
 
-			// We're on top of a block or will collide with a block in front of us ...
-			if ( _levelForeman.TryQueryFilledBlock( _body.position, out _ ) ||
-				WillCollideWithNextColumn( nextColCoord, out _ ) )
-			{
-				StartRowTransition();
-				return;
-			}
-
-			_motor.Arrived += OnHorizontalArrival;
-			_motor.StartMoving( _columnDir ).Forget();
+			return nextColCoord;
 		}
 
 		private void OnHorizontalArrival( object sender, Vector2Int arrivalCoords )
@@ -88,18 +89,49 @@ namespace Minipede.Gameplay.Enemies
 				_motor.StopMoving();
 				_motor.Arrived -= OnHorizontalArrival;
 
-				if ( data != null )
+				if ( IsBlockPoisoned( data ) )
 				{
-					if ( data.Cell.Block.name.Contains( "Poison" ) )
-					{
-						// TODO: Handles poison movement ...
-							// Snake all the way down to bottom row - then move back up a row
-								/// Essentially, snake all the way down until <see cref="_rowDir"/> changes
-					}
-				}
+					// TODO: VFX for poisoned/angered ...
 
-				StartRowTransition();
+					RushBottomRow()
+						.Cancellable( _onDestroyCancelToken )
+						.Forget();
+				}
+				else
+				{
+					UpdateRowTransition()
+						.Cancellable( _onDestroyCancelToken )
+						.Forget();
+				}
 			}
+		}
+
+		private bool IsBlockPoisoned( LevelForeman.InternalInstructions instructions )
+		{
+			if ( instructions == null || instructions.Cell == null || instructions.Cell.Block == null )
+			{
+				return false;
+			}
+
+			// TODO: Can we do better than a crummy stgring comparison?
+			// The interface here isn't explicit or descriptive.
+			// Actually, it's non-existant. This is essentially hardcoded.
+			return instructions.Cell.Block.name.Contains( "Poison" );
+		}
+
+		private async UniTask RushBottomRow()
+		{
+			_rowDir.y = -1;
+
+			while ( _rowDir.y < 0 )
+			{
+				await PerformRowTransition();
+			}
+
+			// TODO: VFX for exiting poisoned/angered ...
+
+			_motor.Arrived += OnHorizontalArrival;
+			_motor.StartMoving( _columnDir ).Forget();
 		}
 
 		private bool WillCollideWithNextColumn( Vector2Int currentCoords, out LevelForeman.DemolishInstructions instructions )
@@ -210,7 +242,7 @@ namespace Minipede.Gameplay.Enemies
 
 			Vector2Int destCoord = _levelGraph.WorldPosToCellCoord( newHeadPosition );
 			newHead._motor.SetDestination( destCoord )
-				.ContinueWith( newHead.StartRowTransition )
+				.ContinueWith( newHead.UpdateRowTransition )
 				.Cancellable( newHead._onDestroyCancelToken )
 				.Forget();
 

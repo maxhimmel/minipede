@@ -15,12 +15,12 @@ namespace Minipede.Installers
 		public override void InstallBindings()
 		{
 			Container.Bind<HealthController>()
-				.AsTransient()
+				.AsSingle()
 				.WithArguments( _settings );
 
 			Container.Bind<IDamageController>()
 				.To<Damageable>()
-				.AsTransient()
+				.AsSingle()
 				.WithArguments( _logDamage );
 		}
 	}

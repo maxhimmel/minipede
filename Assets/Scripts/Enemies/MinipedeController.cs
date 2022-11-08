@@ -71,7 +71,7 @@ namespace Minipede.Gameplay.Enemies
 
 			// We're on top of a block or will collide with a block in front of us ...
 			if ( _levelForeman.TryQueryFilledBlock( _body.position, out _ ) ||
-				WillCollideWithNextColumn( nextColCoord ) )
+				WillCollideWithNextColumn( nextColCoord, out _ ) )
 			{
 				StartRowTransition();
 				return;
@@ -83,21 +83,32 @@ namespace Minipede.Gameplay.Enemies
 
 		private void OnHorizontalArrival( object sender, Vector2Int arrivalCoords )
 		{
-			if ( WillCollideWithNextColumn( arrivalCoords ) )
+			if ( WillCollideWithNextColumn( arrivalCoords, out var data ) )
 			{
 				_motor.StopMoving();
 				_motor.Arrived -= OnHorizontalArrival;
+
+				if ( data != null )
+				{
+					if ( data.Cell.Block.name.Contains( "Poison" ) )
+					{
+						// TODO: Handles poison movement ...
+							// Snake all the way down to bottom row - then move back up a row
+								/// Essentially, snake all the way down until <see cref="_rowDir"/> changes
+					}
+				}
 
 				StartRowTransition();
 			}
 		}
 
-		private bool WillCollideWithNextColumn( Vector2Int currentCoords )
+		private bool WillCollideWithNextColumn( Vector2Int currentCoords, out LevelForeman.DemolishInstructions instructions )
 		{
+			instructions = null;
 			Vector2Int nextColCoord = currentCoords + _columnDir.ToRowCol();
 
 			return !_levelGraph.IsWithinBounds( nextColCoord ) ||
-				_levelForeman.TryQueryFilledBlock( nextColCoord, out _ );
+				_levelForeman.TryQueryFilledBlock( nextColCoord, out instructions );
 		}
 
 		protected override void FixedTick()

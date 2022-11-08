@@ -7,6 +7,8 @@ namespace Minipede.Utility
 	{
 		public abstract class InternalInstructions
 		{
+			public LevelCell Cell => _currentCell;
+
 			protected readonly LevelBuilder _builder;
 			protected readonly LevelCell _currentCell;
 

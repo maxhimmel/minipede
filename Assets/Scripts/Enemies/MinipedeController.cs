@@ -121,7 +121,7 @@ namespace Minipede.Gameplay.Enemies
 
 		private async UniTask RushBottomRow()
 		{
-			_rowDir.y = -1;
+			_rowDir = Vector2Int.down;
 
 			while ( _rowDir.y < 0 )
 			{

@@ -13,7 +13,12 @@ namespace Minipede.Utility
 				return;
 			}
 
-            await UniTask.Delay( TimeSpan.FromSeconds( seconds ), cancellationToken: cancellationToken );
+			if ( cancellationToken == default )
+			{
+				cancellationToken = AppHelper.AppQuittingToken;
+			}
+
+			await UniTask.Delay( TimeSpan.FromSeconds( seconds ), cancellationToken: cancellationToken );
 			await WaitForFixedUpdate( cancellationToken );
 		}
 

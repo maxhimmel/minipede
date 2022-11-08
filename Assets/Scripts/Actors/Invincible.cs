@@ -5,8 +5,7 @@ namespace Minipede.Gameplay
 {
 	public class Invincible : IDamageController
 	{
-		event IDamageController.OnHit IDamageController.Damaged { add { } remove { } }
-			  
+		event IDamageController.OnHit IDamageController.Damaged { add { } remove { } }			  
 		event IDamageController.OnHit IDamageController.Died { add { } remove { } }
 
 		private readonly Rigidbody2D _body;

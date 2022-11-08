@@ -43,6 +43,7 @@ namespace Minipede.Gameplay.Player
 
 		private void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
+			_damageController.Died -= OnDied;
 			Destroy( gameObject );
 		}
 

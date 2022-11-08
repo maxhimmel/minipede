@@ -38,10 +38,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			_livingMinipedeCount = 0;
 
+			int nextSpawnIndex = 0;
 			var spawnPlacements = _placementResolver.GetSpawnOrientations<MinipedeController>().ToArray();
 			spawnPlacements.FisherYatesShuffle();
-
-			int nextSpawnIndex = 0;
 
 			_enemyBuilder.Build<MinipedeController>()
 				.WithPlacement( spawnPlacements[nextSpawnIndex] )
@@ -51,6 +50,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			int headSpawnCount = _completionCount;
 			for ( int idx = 0; idx < headSpawnCount; ++idx )
 			{
+				nextSpawnIndex %= spawnPlacements.Length;
 				var spawnOrientation = spawnPlacements[++nextSpawnIndex];
 
 				_enemyBuilder.Build<MinipedeController>()
@@ -129,7 +129,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			public int Repeats;
 
-			[Space, MinMaxSlider( 1, 10 )]
+			[MinMaxSlider( 1f, 10f )]
 			public Vector2 SpawnRateRange;
 
 			[BoxGroup]

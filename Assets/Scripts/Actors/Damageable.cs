@@ -30,7 +30,7 @@ namespace Minipede.Gameplay
 				Debug.LogFormat( data.LogFormat(), _body.name, dmgTaken, instigator?.name, causer?.name );
 			}
 
-			if ( dmgTaken > 0 )
+			if ( dmgTaken != 0 )
 			{
 				Damaged?.Invoke( _body, _health );
 			}

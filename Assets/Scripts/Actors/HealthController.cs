@@ -20,11 +20,12 @@ namespace Minipede.Gameplay
 		/// <returns>The amount of damage taken.</returns>
 		public int TakeDamage( DamageDatum data )
 		{
-			int dmgTaken = Mathf.Min( data.Damage, _health );
-			_health -= dmgTaken;
+			int prevHealth = _health;
+
+			_health -= data.Damage;
 			_health = Mathf.Clamp( _health, 0, _settings.Health );
 
-			return dmgTaken;
+			return prevHealth - _health;
 		}
 
         [System.Serializable]

@@ -15,6 +15,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private readonly IEnemyWave _mainWave;
 		private readonly IEnemyWave[] _bonusWaves;
 
+		private bool _autoPlay;
 		private int _mainWaveRepeatCount;
 		private int _bonusWaveIndex;
 		private IEnemyWave _currentWave;
@@ -34,6 +35,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		public void Play()
 		{
+			_autoPlay = true;
+
 			if ( !IsRunning )
 			{
 				_currentWave = GetNextWave();
@@ -73,6 +76,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 			wave.Completed -= OnWaveCompleted;
 			_currentWave = null;
+
+			if ( _autoPlay )
+			{
+				Play();
+			}
 		}
 
 		private async UniTask KickOffWave( IEnemyWave wave )
@@ -86,6 +94,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		public void Interrupt()
 		{
+			_autoPlay = false;
 			if ( _currentWave == null )
 			{
 				return;

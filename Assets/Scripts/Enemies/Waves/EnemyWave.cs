@@ -80,7 +80,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		private UniTask EnemyCleanupDelay()
 		{
-			return UniTask.Yield( PlayerLoopTiming.LastPostLateUpdate, PlayerDiedCancelToken );
+			return UniTask.Yield( PlayerLoopTiming.LastPostLateUpdate, PlayerDiedCancelToken )
+				.SuppressCancellationThrow();
 		}
 
 		protected virtual void OnTrackedEnemyDestroyed( EnemyController victim )

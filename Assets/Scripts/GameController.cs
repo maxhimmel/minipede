@@ -10,8 +10,7 @@ namespace Minipede.Gameplay
 {
 	public class GameController : 
 		IInitializable, 
-		IDisposable,
-		ITickable
+		IDisposable
 	{
 		public bool IsReady { get; private set; }
 
@@ -38,17 +37,19 @@ namespace Minipede.Gameplay
 			await _levelBuilder.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
 
 			_playerSpawnController.Create();
+			_enemyWaveController.Play();
 
 			IsReady = true;
 		}
 
 		private async void OnPlayerDead( PlayerController deadPlayer )
 		{
-			_enemyWaveController.OnPlayerDied();
+			_enemyWaveController.Interrupt();
 
 			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay );
 
 			_playerSpawnController.Create();
+			_enemyWaveController.Play();
 		}
 
 		public void Dispose()
@@ -57,16 +58,6 @@ namespace Minipede.Gameplay
 			{
 				_playerSpawnController.PlayerDied -= OnPlayerDead;
 			}
-		}
-
-		public void Tick()
-		{
-			if ( !IsReady )
-			{
-				return;
-			}
-
-			_enemyWaveController.Tick();
 		}
 	}
 }

@@ -32,15 +32,13 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_bonusWaves = bonusWaves;
 		}
 
-		public void Tick()
+		public void Play()
 		{
-			if ( IsRunning )
+			if ( !IsRunning )
 			{
-				return;
+				_currentWave = GetNextWave();
+				_currentWave.Completed += OnWaveCompleted;
 			}
-
-			_currentWave = GetNextWave();
-			_currentWave.Completed += OnWaveCompleted;
 
 			KickOffWave( _currentWave )
 				.Cancellable( _playerSpawnController.PlayerDiedCancelToken )
@@ -71,7 +69,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private void OnWaveCompleted( IEnemyWave wave )
 		{
 			Debug.Log( $"<color=yellow>[{nameof( EnemyWaveController )}]</color> " +
-				$"Completed '<b>{_currentWave}</b>'." );
+				$"Completed '<b>{wave}</b>'." );
 
 			wave.Completed -= OnWaveCompleted;
 			_currentWave = null;
@@ -86,18 +84,17 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			wave.StartSpawning();
 		}
 
-		public void OnPlayerDied()
+		public void Interrupt()
 		{
+			if ( _currentWave == null )
+			{
+				return;
+			}
+
 			Debug.Log( $"<color=yellow>[{nameof( EnemyWaveController )}]</color> " +
 				$"Attempting interrupt of '<b>{_currentWave}</b>'." );
 
-			if ( _currentWave != null && !_currentWave.Interrupt() )
-			{
-				// Wave refused to be interrupted so let's restart it ...
-				KickOffWave( _currentWave )
-					.Cancellable( _playerSpawnController.PlayerDiedCancelToken )
-					.Forget();
-			}
+			_currentWave.Interrupt();
 		}
 
 		[System.Serializable]

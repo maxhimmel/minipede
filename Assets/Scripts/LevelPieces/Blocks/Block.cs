@@ -62,7 +62,7 @@ namespace Minipede.Gameplay.LevelPieces
 				healAmount = TakeDamage( transform, transform, new DamageDatum( _settings.HealStep ) );
 				if ( healAmount != 0 )
 				{
-					await TaskHelpers.DelaySeconds( _settings.DelayPerHealStep );
+					await TaskHelpers.DelaySeconds( _settings.DelayPerHealStep, this.GetCancellationTokenOnDestroy() );
 				}
 
 			} while ( healAmount != 0 );

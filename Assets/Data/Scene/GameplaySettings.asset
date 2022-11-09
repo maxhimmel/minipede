@@ -42,3 +42,12 @@ MonoBehaviour:
         Item: 2
       - _normalizedWeight: 10
         Item: 3
+  _treasureSettings:
+    Block:
+      Prefab: {fileID: 3998707362301707692, guid: 32d9d7d1433277444924d183628de4fb, type: 3}
+      Spawns: {x: 0, y: 2}
+      LaunchImpulse: {x: 2.0226746, y: 4.341665}
+    Enemy:
+      Prefab: {fileID: 5900723460014828011, guid: 3cc2ef870756d7940a9b04d9151bfc68, type: 3}
+      Spawns: {x: 4, y: 7}
+      LaunchImpulse: {x: 4.1097655, y: 5.733059}

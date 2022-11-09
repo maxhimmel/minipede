@@ -1,12 +1,15 @@
 using Minipede.Gameplay;
+using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
+using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
 using BlockActor = Minipede.Gameplay.LevelPieces.Block;
+using TreasureActor = Minipede.Gameplay.Treasures.Treasure;
 
 namespace Minipede.Installers
 {
@@ -16,6 +19,7 @@ namespace Minipede.Installers
 		[SerializeField] private Player _playerSettings;
 		[SerializeField] private Block _blockSettings;
 		[SerializeField] private Level _levelSettings;
+		[SerializeField] private Treasure _treasureSettings;
 
 		public override void InstallBindings()
 		{
@@ -24,6 +28,7 @@ namespace Minipede.Installers
 
 			BindPlayer();
 			BindLevelGeneration();
+			BindTreasure();
 		}
 
 		private void BindPlayer()
@@ -64,6 +69,22 @@ namespace Minipede.Installers
 				.AsTransient();
 		}
 
+		private void BindTreasure()
+		{
+			Container.Bind<TreasureActor.Factory>()
+				.AsSingle();
+
+			Container.Bind<LootBox>()
+				.AsCached()
+				.WithArguments( _treasureSettings.Block )
+				.WhenInjectedInto<BlockActor>();
+
+			Container.Bind<LootBox>()
+				.AsCached()
+				.WithArguments( _treasureSettings.Enemy )
+				.WhenInjectedInto<EnemyController>();
+		}
+
 		[System.Serializable]
         public struct Player
 		{
@@ -93,10 +114,19 @@ namespace Minipede.Installers
 		[System.Serializable]
 		public struct Block
 		{
-			[HideLabel]
+			[HideLabel, FoldoutGroup( "Gameplay" )]
 			public BlockActor.Settings Settings;
 			[BoxGroup( "Prefabs" ), HideLabel]
 			public BlockProvider.Settings Prefabs;
+		}
+
+		[System.Serializable]
+		public struct Treasure
+		{
+			[FoldoutGroup( "Block" ), HideLabel]
+			public LootBox.Settings Block;
+			[FoldoutGroup( "Enemy" ), HideLabel]
+			public LootBox.Settings Enemy;
 		}
 	}
 }

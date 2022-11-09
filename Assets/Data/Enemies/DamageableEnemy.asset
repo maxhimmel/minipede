@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings:
     Health: 1
-  _logDamage: 1
+  _logDamage: 0

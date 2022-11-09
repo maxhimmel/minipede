@@ -13,5 +13,10 @@ namespace Minipede.Utility
 
             return Random.value <= zeroToOne;
 		}
+
+        public static Quaternion To2DRotation( this float angle )
+		{
+            return Quaternion.Euler( 0, 0, angle );
+		}
     }
 }

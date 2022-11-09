@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -22,17 +23,20 @@ namespace Minipede.Gameplay.LevelPieces
 		private Settings _settings;
 		private IDamageController _damageController;
 		private SpriteRenderer _renderer;
+		private LootBox _lootBox;
 
 		private bool _isCleanedUp;
 
 		[Inject]
 		public void Construct( Settings settings,
 			IDamageController damageController,
-			SpriteRenderer renderer )
+			SpriteRenderer renderer,
+			LootBox lootBox )
 		{
 			_settings = settings;
 			_damageController = damageController;
 			_renderer = renderer;
+			_lootBox = lootBox;
 
 			damageController.Damaged += HandleDamageAnim;
 			damageController.Died += HandleDeath;
@@ -51,21 +55,8 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private void HandleDeath( Rigidbody2D victimBody, HealthController health )
 		{
+			_lootBox.Open( victimBody.position );
 			Cleanup();
-		}
-
-		public async UniTask Heal()
-		{
-			int healAmount;
-			do
-			{
-				healAmount = TakeDamage( transform, transform, new DamageDatum( _settings.HealStep ) );
-				if ( healAmount != 0 )
-				{
-					await TaskHelpers.DelaySeconds( _settings.DelayPerHealStep, this.GetCancellationTokenOnDestroy() );
-				}
-
-			} while ( healAmount != 0 );
 		}
 
 		public void Cleanup()
@@ -80,6 +71,20 @@ namespace Minipede.Gameplay.LevelPieces
 
 			Destroy( gameObject );
 			_isCleanedUp = true;
+		}
+
+		public async UniTask Heal()
+		{
+			int healAmount;
+			do
+			{
+				healAmount = TakeDamage( transform, transform, new DamageDatum( _settings.HealStep ) );
+				if ( healAmount != 0 )
+				{
+					await TaskHelpers.DelaySeconds( _settings.DelayPerHealStep, this.GetCancellationTokenOnDestroy() );
+				}
+
+			} while ( healAmount != 0 );
 		}
 
 		[System.Serializable]

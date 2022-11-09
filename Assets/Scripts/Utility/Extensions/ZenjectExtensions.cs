@@ -56,4 +56,24 @@ namespace Minipede.Utility
 			return Create( placement.Position, placement.Rotation, placement.Parent );
 		}
 	}
+
+	public class UnityPrefabFactory<TValue> : IFactory<Object, IOrientation, TValue>
+		where TValue : Component
+	{
+		[Inject]
+		private readonly DiContainer _container;
+
+		public TValue Create( Object prefab, IOrientation placement )
+		{
+			var result = _container.InstantiatePrefabForComponent<TValue>( 
+				prefab, 
+				placement.Position, 
+				placement.Rotation, 
+				placement.Parent 
+			);
+			result.name = prefab.name;
+
+			return result;
+		}
+	}
 }

@@ -16,13 +16,13 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		protected readonly EnemySpawnBuilder _enemyBuilder;
 		protected readonly EnemyPlacementResolver _placementResolver;
-		private readonly PlayerSpawnController _playerSpawn;
+		private readonly PlayerController _playerSpawn;
 		private readonly SignalBus _signalBus;
 		private readonly HashSet<EnemyController> _livingEnemies;
 
 		public EnemyWave( EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver,
-			PlayerSpawnController playerSpawn,
+			PlayerController playerSpawn,
 			SignalBus signalBus )
 		{
 			_enemyBuilder = enemyBuilder;

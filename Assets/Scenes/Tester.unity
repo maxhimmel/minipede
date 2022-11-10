@@ -899,7 +899,7 @@ GameObject:
   - component: {fileID: 640213064}
   - component: {fileID: 640213063}
   m_Layer: 2
-  m_Name: PlayerArea
+  m_Name: ShipArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1285,7 +1285,7 @@ CompositeCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

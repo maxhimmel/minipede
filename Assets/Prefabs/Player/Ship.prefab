@@ -161,7 +161,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 45098
+  m_InstanceId: 58698
 --- !u!1 &6378720964115801298
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,7 +176,7 @@ GameObject:
   - component: {fileID: 6378720964115801303}
   - component: {fileID: 8111629679736748909}
   m_Layer: 3
-  m_Name: Player
+  m_Name: Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -209,7 +209,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6378720964115801298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 531086118b29ca34188d2f801b4b3022, type: 3}
+  m_Script: {fileID: 11500000, guid: 4477c9a6993ee4748a64dbae64bb01cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!50 &6378720964115801302
@@ -269,6 +269,7 @@ MonoBehaviour:
   _components:
   - {fileID: 6378720964115801302}
   - {fileID: 6378720964115801301}
+  - {fileID: 6378720963097473948}
   _identifier: 
   _useSceneContext: 0
   _context: {fileID: 0}

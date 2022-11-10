@@ -12,7 +12,7 @@ namespace Minipede.Gameplay.Player
 
 		public CancellationToken PlayerDiedCancelToken { get; private set; }
 
-		private readonly ShipSpawner _spawner;
+		private readonly ShipSpawner _shipSpawner;
 		private readonly ShipController _shipController;
 		private readonly Explorer.Factory _explorerFactory;
 		private readonly ExplorerController _explorerController;
@@ -26,7 +26,7 @@ namespace Minipede.Gameplay.Player
 			Explorer.Factory explorerFactory,
 			ExplorerController explorerController )
 		{
-			_spawner = spawner;
+			_shipSpawner = spawner;
 			_shipController = shipController;
 			_explorerFactory = explorerFactory;
 			_explorerController = explorerController;
@@ -42,7 +42,7 @@ namespace Minipede.Gameplay.Player
 				throw new System.NotSupportedException( "Cannot have multiple ships active." );
 			}
 
-			_ship = _spawner.Create();
+			_ship = _shipSpawner.Create();
 			_ship.Died += OnShipDied;
 
 			_shipController.Possess( _ship );

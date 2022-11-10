@@ -5,21 +5,21 @@ using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces
 {
-    public class PlayerSpawner
+    public class ShipSpawner
 	{
-		private readonly PlayerController.Factory _factory;
+		private readonly Ship.Factory _factory;
 		private readonly IOrientation _spawnPoint;
 
-		public PlayerSpawner( 
+		public ShipSpawner( 
 			DiContainer container,
-			PlayerController.Factory factory,
+			Ship.Factory factory,
 			GameplaySettings.Player settings )
 		{
 			_factory = factory;
 			_spawnPoint = container.ResolveId<IOrientation>( settings.SpawnPointId );
 		}
 
-		public PlayerController Create()
+		public Ship Create()
 		{
 			var newPlayer = _factory.Create();
 			newPlayer.transform.SetParent( _spawnPoint.Parent );

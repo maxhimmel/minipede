@@ -41,6 +41,11 @@ namespace Minipede.Gameplay.Player
 			damageController.Died += OnDied;
 		}
 
+		public void EnterShip()
+		{
+			Cleanup();
+		}
+
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
 			return _damageController.TakeDamage( instigator, causer, data );

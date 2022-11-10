@@ -16,6 +16,17 @@ namespace Minipede.Gameplay.Player
 			_input = input;
 		}
 
+		public void UnPossess()
+		{
+			_ship = null;
+
+			_input.RemoveInputEventDelegate( OnMoveHorizontal );
+			_input.RemoveInputEventDelegate( OnMoveVertical );
+			_input.RemoveInputEventDelegate( OnStartFiring );
+			_input.RemoveInputEventDelegate( OnStopFiring );
+			_input.RemoveInputEventDelegate( OnEjectShip );
+		}
+
 		public void Possess( Ship pawn )
 		{
 			_ship = pawn;
@@ -25,6 +36,8 @@ namespace Minipede.Gameplay.Player
 			_input.AddButtonPressedDelegate( OnStartFiring, ReConsts.Action.Fire );
 			_input.AddButtonReleasedDelegate( OnStopFiring, ReConsts.Action.Fire );
 			_input.AddButtonPressedDelegate( OnEjectShip, ReConsts.Action.Interact );
+
+			pawn.Possessed();
 		}
 
 		private void OnMoveHorizontal( InputActionEventData data )
@@ -51,17 +64,6 @@ namespace Minipede.Gameplay.Player
 		{
 			_ship.Eject();
 			UnPossess();
-		}
-
-		public void UnPossess()
-		{
-			_ship = null;
-
-			_input.RemoveInputEventDelegate( OnMoveHorizontal );
-			_input.RemoveInputEventDelegate( OnMoveVertical );
-			_input.RemoveInputEventDelegate( OnStartFiring );
-			_input.RemoveInputEventDelegate( OnStopFiring );
-			_input.RemoveInputEventDelegate( OnEjectShip );
 		}
 	}
 }

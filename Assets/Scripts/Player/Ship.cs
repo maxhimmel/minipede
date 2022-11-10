@@ -60,12 +60,18 @@ namespace Minipede.Gameplay.Player
 			Destroy( gameObject );
 		}
 
-		public Explorer Eject()
+		public void Eject()
 		{
 			_body.simulated = false;
 			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
 
-			return _playerSpawnController.CreateExplorer();
+			_playerSpawnController.CreateExplorer();
+		}
+
+		public void Possessed()
+		{
+			_body.simulated = true;
+			_renderer.color = Color.white;
 		}
 
 		public void StartFiring()

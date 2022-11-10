@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6378720963049898107}
   - component: {fileID: 6378720963049898106}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: ShotSpot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -61,7 +61,7 @@ GameObject:
   - component: {fileID: 6378720963097473949}
   - component: {fileID: 6378720963097473948}
   - component: {fileID: 5189942001726060132}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -161,7 +161,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 58698
+  m_InstanceId: 39524
 --- !u!1 &6378720964115801298
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +175,7 @@ GameObject:
   - component: {fileID: 6378720964115801302}
   - component: {fileID: 6378720964115801303}
   - component: {fileID: 8111629679736748909}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: Ship
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -284,7 +284,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6378720964698641083}
   - component: {fileID: 8631466526497156362}
-  m_Layer: 3
+  m_Layer: 10
   m_Name: Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}

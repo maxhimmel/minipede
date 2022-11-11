@@ -1,9 +1,6 @@
 using Minipede.Gameplay;
-<<<<<<< HEAD
 using Minipede.Gameplay.Enemies;
-=======
 using Minipede.Gameplay.Camera;
->>>>>>> phase2-player-and-ship
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;

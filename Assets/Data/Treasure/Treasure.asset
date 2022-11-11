@@ -15,3 +15,4 @@ MonoBehaviour:
   _settings:
     LifetimeRange: {x: 60.606495, y: 68.235016}
     TorqueRange: {x: 675.7356, y: 900.8955}
+    FollowForce: 2

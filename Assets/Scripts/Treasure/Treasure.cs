@@ -16,6 +16,7 @@ namespace Minipede.Gameplay.Treasures
 		private bool _isCleanedUp;
 		private CancellationTokenSource _cleanupCancelSource;
 		private CancellationToken _cleanupCancelToken;
+		private Rigidbody2D _followTarget;
 
 		[Inject]
 		public void Construct( Settings settings,
@@ -58,6 +59,42 @@ namespace Minipede.Gameplay.Treasures
 			_isCleanedUp = true;
 		}
 
+		public void Follow( Rigidbody2D target )
+		{
+			_followTarget = target;
+		}
+
+		private void FixedUpdate()
+		{
+			if ( !CanFollow() )
+			{
+				return;
+			}
+
+			MoveTowardsTarget();
+		}
+
+		private bool CanFollow()
+		{
+			return _followTarget != null;
+		}
+
+		private void MoveTowardsTarget()
+		{
+			Vector2 selfToTarget = _followTarget.position - _body.position;
+			_body.AddForce( selfToTarget.normalized * _settings.FollowForce, ForceMode2D.Force );
+		}
+
+		private void OnCollisionEnter2D( Collision2D collision )
+		{
+			var otherBody = collision.rigidbody;
+			ICollector collector = otherBody?.GetComponent<ICollector>();
+			if ( collector != null )
+			{
+				collector.Collect( this );
+			}
+		}
+
 		[System.Serializable]
 		public struct Settings
 		{
@@ -65,6 +102,9 @@ namespace Minipede.Gameplay.Treasures
 			public Vector2 LifetimeRange;
 			[MinMaxSlider( 0, 1080 )]
 			public Vector2 TorqueRange;
+
+			[Space]
+			public float FollowForce;
 		}
 
 		public class Factory : UnityPrefabFactory<Treasure> { }

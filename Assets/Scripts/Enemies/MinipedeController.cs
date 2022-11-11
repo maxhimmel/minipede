@@ -50,7 +50,16 @@ namespace Minipede.Gameplay.Enemies
 			while ( WillCollideWithNextColumn( arrivalCoord, out _ ) ||
 				 _levelForeman.TryQueryFilledBlock( _body.position, out _ ) )
 			{
-				arrivalCoord = await PerformRowTransition();
+				var results = await PerformRowTransition()
+					.AttachExternalCancellation( _onDestroyCancelToken )
+					.SuppressCancellationThrow();
+
+				if ( results.IsCanceled )
+				{
+					return;
+				}
+
+				arrivalCoord = results.Result;
 			}
 
 			_motor.Arrived += OnHorizontalArrival;
@@ -125,7 +134,14 @@ namespace Minipede.Gameplay.Enemies
 
 			while ( _rowDir.y < 0 )
 			{
-				await PerformRowTransition();
+				var results = await PerformRowTransition()
+					.AttachExternalCancellation( _onDestroyCancelToken )
+					.SuppressCancellationThrow();
+
+				if ( results.IsCanceled )
+				{
+					return;
+				}
 			}
 
 			// TODO: VFX for exiting poisoned/angered ...

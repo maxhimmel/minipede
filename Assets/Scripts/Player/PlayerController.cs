@@ -96,6 +96,9 @@ namespace Minipede.Gameplay.Player
 			_explorer = null;
 			_explorerController.UnPossess();
 			ExplorerDied?.Invoke( deadExplorer );
+
+			// Self-destruct explorer's ship ...
+			_ship.TakeDamage( deadExplorer.transform, deadExplorer.transform, new DamageDatum( 999 ) );
 		}
 	}
 }

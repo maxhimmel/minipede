@@ -18,15 +18,15 @@ namespace Minipede.Gameplay.Camera
 
 		public void Activate( Ship sender )
 		{
-			ToggleCamera( "Ship" );
+			EnableCamera( "Ship" );
 		}
 
 		public void Activate( Explorer sender )
 		{
-			ToggleCamera( "Explorer" );
+			EnableCamera( "Explorer" );
 		}
 
-		private void ToggleCamera( string id )
+		private void EnableCamera( string id )
 		{
 			if ( _currentCamera != null )
 			{
@@ -35,6 +35,27 @@ namespace Minipede.Gameplay.Camera
 
 			_currentCamera = _cameraResolver.GetCamera( id );
 			_currentCamera.enabled = true;
+		}
+
+		public void Deactivate( Ship sender )
+		{
+			DisableCamera( "Ship" );
+		}
+
+		public void Deactivate( Explorer sender )
+		{
+			DisableCamera( "Explorer" );
+		}
+
+		private void DisableCamera( string id )
+		{
+			var cam = _cameraResolver.GetCamera( id );
+			cam.enabled = false;
+
+			if ( _currentCamera == cam )
+			{
+				_currentCamera = null;
+			}
 		}
 	}
 }

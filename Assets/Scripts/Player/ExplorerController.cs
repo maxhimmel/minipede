@@ -23,14 +23,16 @@ namespace Minipede.Gameplay.Player
 
 		public void UnPossess()
 		{
-			_explorer = null;
-
-			_ship = null;
-			_shipController = null;
+			_cameraToggler.Deactivate( _explorer );
 
 			_input.RemoveInputEventDelegate( OnEnterShip );
 			_input.RemoveInputEventDelegate( OnMoveHorizontal );
 			_input.RemoveInputEventDelegate( OnMoveVertical );
+
+			_ship = null;
+			_shipController = null;
+
+			_explorer = null;
 		}
 
 		public void Possess( Explorer pawn )

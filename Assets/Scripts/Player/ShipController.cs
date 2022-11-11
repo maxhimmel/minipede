@@ -22,13 +22,15 @@ namespace Minipede.Gameplay.Player
 
 		public void UnPossess()
 		{
-			_ship = null;
+			_cameraToggler.Deactivate( _ship );
 
 			_input.RemoveInputEventDelegate( OnMoveHorizontal );
 			_input.RemoveInputEventDelegate( OnMoveVertical );
 			_input.RemoveInputEventDelegate( OnStartFiring );
 			_input.RemoveInputEventDelegate( OnStopFiring );
 			_input.RemoveInputEventDelegate( OnEjectShip );
+
+			_ship = null;
 		}
 
 		public void Possess( Ship pawn )

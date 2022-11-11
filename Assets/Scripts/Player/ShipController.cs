@@ -1,4 +1,5 @@
 using System;
+using Minipede.Gameplay.Camera;
 using Minipede.Utility;
 using Rewired;
 using UnityEngine;
@@ -8,12 +9,15 @@ namespace Minipede.Gameplay.Player
 	public class ShipController : IController<Ship>
 	{
 		private readonly Rewired.Player _input;
+		private readonly ICameraToggler<Ship> _cameraToggler;
 
 		private Ship _ship;
 
-		public ShipController( Rewired.Player input )
+		public ShipController( Rewired.Player input,
+			ICameraToggler<Ship> cameraToggler )
 		{
 			_input = input;
+			_cameraToggler = cameraToggler;
 		}
 
 		public void UnPossess()
@@ -38,6 +42,7 @@ namespace Minipede.Gameplay.Player
 			_input.AddButtonPressedDelegate( OnEjectShip, ReConsts.Action.Interact );
 
 			pawn.Possessed();
+			_cameraToggler.Activate( pawn );
 		}
 
 		private void OnMoveHorizontal( InputActionEventData data )

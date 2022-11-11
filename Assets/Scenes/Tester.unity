@@ -155,6 +155,7 @@ MonoBehaviour:
   _scriptableObjectInstallers:
   - {fileID: 11400000, guid: 6ab4253e2d306ad468601eefbb684ade, type: 2}
   - {fileID: 11400000, guid: 9f2db609825e9ea46a09fe1c1b51a065, type: 2}
+  - {fileID: 11400000, guid: 1eb799f8acd6847499cf4e4fd2f92dae, type: 2}
   _monoInstallers: []
   _installerPrefabs: []
   _autoRun: 1

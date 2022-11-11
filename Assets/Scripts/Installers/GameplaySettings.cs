@@ -1,5 +1,9 @@
 using Minipede.Gameplay;
+<<<<<<< HEAD
 using Minipede.Gameplay.Enemies;
+=======
+using Minipede.Gameplay.Camera;
+>>>>>>> phase2-player-and-ship
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
@@ -26,24 +30,50 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<GameController>()
 				.AsSingle();
 
+			BindCameraSystems();
 			BindPlayer();
 			BindLevelGeneration();
 			BindTreasure();
+		}
+
+		private void BindCameraSystems()
+		{
+			Container.Bind<VCameraResolver>()
+				.AsSingle();
+
+			Container.Bind<TargetGroupResolver>()
+				.AsSingle();
+
+			Container.BindInterfacesAndSelfTo<CameraController>()
+				.AsSingle();
 		}
 
 		private void BindPlayer()
 		{
 			Container.BindInstance( _playerSettings );
 
-			Container.BindFactory<PlayerController, PlayerController.Factory>()
-				.FromComponentInNewPrefab( _playerSettings.Prefab )
-				.WithGameObjectName( _playerSettings.Prefab.name );
 
-			Container.Bind<PlayerSpawner>()
+			// Pawn Factories ...
+			Container.BindFactory<Ship, Ship.Factory>()
+				.FromComponentInNewPrefab( _playerSettings.ShipPrefab )
+				.WithGameObjectName( _playerSettings.ShipPrefab.name );
+
+			Container.BindUnityFactory<Explorer, Explorer.Factory>( _playerSettings.ExplorerPrefab );
+
+
+			// Controllers ...
+			Container.Bind<ShipController>()
+				.AsSingle();
+			Container.Bind<ExplorerController>()
+				.AsSingle();
+
+
+			// Spawning ...
+			Container.Bind<ShipSpawner>()
 				.AsSingle()
-				.WhenInjectedInto<PlayerSpawnController>();
+				.WhenInjectedInto<PlayerController>();
 
-			Container.Bind<PlayerSpawnController>()
+			Container.Bind<PlayerController>()
 				.AsSingle();
 		}
 
@@ -89,8 +119,10 @@ namespace Minipede.Installers
         public struct Player
 		{
 			[FoldoutGroup( "Initialization" )]
-			public PlayerController Prefab;
+			public Ship ShipPrefab;
 			[FoldoutGroup( "Initialization" )]
+			public Explorer ExplorerPrefab;
+			[Space, FoldoutGroup( "Initialization" )]
 			public string SpawnPointId;
 
 			[FoldoutGroup( "Gameplay" )]

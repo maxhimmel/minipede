@@ -13,7 +13,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		public bool IsRunning => _currentWave != null;
 
 		private readonly Settings _settings;
-		private readonly PlayerSpawnController _playerSpawnController;
+		private readonly PlayerController _playerSpawnController;
 		private readonly IEnemyWave _mainWave;
 		private readonly IEnemyWave[] _bonusWaves;
 
@@ -23,7 +23,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private IEnemyWave _currentWave;
 
 		public EnemyWaveController( Settings settings,
-			PlayerSpawnController playerSpawnController,
+			PlayerController playerSpawnController,
 			[Inject( Id = Settings.MainWaveId )] IEnemyWave mainWave,
 			[Inject( Id = Settings.BonusWaveId )] IEnemyWave[] bonusWaves )
 		{

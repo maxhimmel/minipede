@@ -15,7 +15,7 @@ MonoBehaviour:
   _damage:
     HitMask:
       serializedVersion: 2
-      m_Bits: 8
+      m_Bits: 1032
     Damage:
       Damage: 1
   _enemyInstallers:

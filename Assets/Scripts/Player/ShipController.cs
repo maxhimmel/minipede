@@ -43,7 +43,7 @@ namespace Minipede.Gameplay.Player
 			_input.AddButtonReleasedDelegate( OnStopFiring, ReConsts.Action.Fire );
 			_input.AddButtonPressedDelegate( OnEjectShip, ReConsts.Action.Interact );
 
-			pawn.Possessed();
+			pawn.PossessedBy( this );
 			_cameraToggler.Activate( pawn );
 		}
 
@@ -69,7 +69,7 @@ namespace Minipede.Gameplay.Player
 
 		private void OnEjectShip( InputActionEventData obj )
 		{
-			_ship.Eject();
+			_ship.UnPossess();
 			UnPossess();
 		}
 	}

@@ -1,6 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
@@ -30,6 +31,7 @@ namespace Minipede.Gameplay.Enemies
 		protected LevelGraph _levelGraph;
 		protected LevelForeman _levelForeman;
 		protected SignalBus _signalBus;
+		private LootBox _lootBox;
 
 		private CancellationTokenSource _onDestroyCancelSource;
 		protected CancellationToken _onDestroyCancelToken;
@@ -40,7 +42,8 @@ namespace Minipede.Gameplay.Enemies
 			GameController gameController, 
 			LevelGraph levelGraph,
 			LevelForeman foreman,
-			SignalBus signalBus )
+			SignalBus signalBus,
+			LootBox lootBox )
 		{
 			_body = body;
 			_damageController = damageController;
@@ -48,6 +51,7 @@ namespace Minipede.Gameplay.Enemies
 			_levelGraph = levelGraph;
 			_levelForeman = foreman;
 			_signalBus = signalBus;
+			_lootBox = lootBox;
 
 			_onDestroyCancelSource = new CancellationTokenSource();
 			_onDestroyCancelToken = _onDestroyCancelSource.Token;
@@ -67,6 +71,7 @@ namespace Minipede.Gameplay.Enemies
 
 		protected virtual void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
+			_lootBox.Open( victimBody.position );
 			Cleanup();
 		}
 

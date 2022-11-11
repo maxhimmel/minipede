@@ -8,6 +8,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 {
     public class EnemyWaveController
 	{
+		public event System.Action WaveCompleted;
+
 		public bool IsRunning => _currentWave != null;
 
 		private readonly Settings _settings;
@@ -76,6 +78,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 			wave.Completed -= OnWaveCompleted;
 			_currentWave = null;
+
+			WaveCompleted?.Invoke();
 
 			if ( _autoPlay )
 			{

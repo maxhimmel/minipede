@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Movement;
+using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
@@ -6,9 +7,10 @@ using Zenject;
 namespace Minipede.Gameplay.Player
 {
     public class Explorer : MonoBehaviour,
-        IPawn,
-        IDamageController,
-		ICleanup
+		IPawn,
+		IDamageController,
+		ICleanup,
+		ICollector
     {
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -97,6 +99,11 @@ namespace Minipede.Gameplay.Player
 		private void FixedUpdate()
 		{
 			_motor.FixedTick();
+		}
+
+		public void Collect( Treasure treasure )
+		{
+			treasure.Cleanup();
 		}
 
 		public class Factory : UnityFactory<Explorer> { }

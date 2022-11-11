@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Movement;
+using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
 using UnityEngine;
@@ -7,8 +8,9 @@ using Zenject;
 namespace Minipede.Gameplay.Player
 {
     public class Ship : MonoBehaviour,
-		IPawn,
-		IDamageController
+		IPawn<Ship, ShipController>,
+		IDamageController,
+		ICollector
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -60,7 +62,13 @@ namespace Minipede.Gameplay.Player
 			Destroy( gameObject );
 		}
 
-		public void Eject()
+		public void PossessedBy( ShipController controller )
+		{
+			_body.simulated = true;
+			_renderer.color = Color.white;
+		}
+
+		public void UnPossess()
 		{
 			_body.simulated = false;
 			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
@@ -70,12 +78,6 @@ namespace Minipede.Gameplay.Player
 			_motor.SetDesiredVelocity( Vector2.zero );
 
 			_playerSpawnController.CreateExplorer();
-		}
-
-		public void Possessed()
-		{
-			_body.simulated = true;
-			_renderer.color = Color.white;
 		}
 
 		public void StartFiring()
@@ -117,6 +119,11 @@ namespace Minipede.Gameplay.Player
 		{
 			_motor.FixedTick();
 			_gun.FixedTick();
+		}
+
+		public void Collect( Treasure treasure )
+		{
+			treasure.Cleanup();
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

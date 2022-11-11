@@ -65,6 +65,10 @@ namespace Minipede.Gameplay.Player
 			_body.simulated = false;
 			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
 
+			_isMoveInputConsumed = true;
+			_moveInput = Vector2.zero;
+			_motor.SetDesiredVelocity( Vector2.zero );
+
 			_playerSpawnController.CreateExplorer();
 		}
 

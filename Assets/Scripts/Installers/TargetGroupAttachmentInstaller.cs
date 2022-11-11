@@ -1,8 +1,8 @@
-using Minipede.Utility;
+using Minipede.Gameplay.Camera;
 using UnityEngine;
 using Zenject;
 
-namespace Minipede
+namespace Minipede.Installers
 {
     [CreateAssetMenu( menuName = "Target Group Attachment" )]
     public class TargetGroupAttachmentInstaller : ScriptableObjectInstaller

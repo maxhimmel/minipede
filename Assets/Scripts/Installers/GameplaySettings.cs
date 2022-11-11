@@ -1,4 +1,5 @@
 using Minipede.Gameplay;
+using Minipede.Gameplay.Camera;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Utility;
@@ -22,8 +23,21 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<GameController>()
 				.AsSingle();
 
+			BindCameraSystems();
 			BindPlayer();
 			BindLevelGeneration();
+		}
+
+		private void BindCameraSystems()
+		{
+			Container.Bind<VCameraResolver>()
+				.AsSingle();
+
+			Container.Bind<TargetGroupResolver>()
+				.AsSingle();
+
+			Container.BindInterfacesAndSelfTo<CameraController>()
+				.AsSingle();
 		}
 
 		private void BindPlayer()

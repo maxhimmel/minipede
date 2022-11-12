@@ -2,7 +2,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 {
     public interface IEnemyWave
     {
-        event System.Action<IEnemyWave> Completed;
+        event CompletedSignature Completed;
+        delegate void CompletedSignature( IEnemyWave wave, bool isSuccess );
 
         bool IsRunning { get; }
 

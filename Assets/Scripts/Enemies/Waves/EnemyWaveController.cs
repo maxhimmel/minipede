@@ -71,7 +71,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			}
 		}
 
-		private void OnWaveCompleted( IEnemyWave wave )
+		private void OnWaveCompleted( IEnemyWave wave, bool isSuccess )
 		{
 			Debug.Log( $"<color=yellow>[{nameof( EnemyWaveController )}]</color> " +
 				$"Completed '<b>{wave}</b>'." );
@@ -79,7 +79,10 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			wave.Completed -= OnWaveCompleted;
 			_currentWave = null;
 
-			WaveCompleted?.Invoke();
+			if ( isSuccess )
+			{
+				WaveCompleted?.Invoke();
+			}
 
 			if ( _autoPlay )
 			{

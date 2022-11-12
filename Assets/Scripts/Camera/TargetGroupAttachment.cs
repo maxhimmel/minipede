@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
-namespace Minipede.Utility
+namespace Minipede.Gameplay.Camera
 {
     public class TargetGroupAttachment : MonoBehaviour
     {
@@ -12,10 +12,10 @@ namespace Minipede.Utility
 
         [Inject]
 		public void Construct( Settings settings,
-			CinemachineTargetGroup targetGroup )
+			TargetGroupResolver targetGroupResolver )
 		{
 			_settings = settings;
-            _targetGroup = targetGroup;
+			_targetGroup = targetGroupResolver.GetTargetGroup( settings.BindingId );
 		}
 
 		private void OnEnable()
@@ -31,8 +31,12 @@ namespace Minipede.Utility
 		[System.Serializable]
 		public struct Settings
 		{
-			[MinValue( 0 )] public float Weight;
-			[MinValue( 0 )] public float Radius;
+			public string BindingId;
+
+			[MinValue( 0 ), BoxGroup] 
+			public float Weight;
+			[MinValue( 0 ), BoxGroup] 
+			public float Radius;
 		}
 	}
 }

@@ -1,12 +1,16 @@
 using Minipede.Gameplay;
+using Minipede.Gameplay.Enemies;
+using Minipede.Gameplay.Camera;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
+using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
 using BlockActor = Minipede.Gameplay.LevelPieces.Block;
+using TreasureActor = Minipede.Gameplay.Treasures.Treasure;
 
 namespace Minipede.Installers
 {
@@ -16,29 +20,57 @@ namespace Minipede.Installers
 		[SerializeField] private Player _playerSettings;
 		[SerializeField] private Block _blockSettings;
 		[SerializeField] private Level _levelSettings;
+		[SerializeField] private Treasure _treasureSettings;
 
 		public override void InstallBindings()
 		{
 			Container.BindInterfacesAndSelfTo<GameController>()
 				.AsSingle();
 
+			BindCameraSystems();
 			BindPlayer();
 			BindLevelGeneration();
+			BindTreasure();
+		}
+
+		private void BindCameraSystems()
+		{
+			Container.Bind<VCameraResolver>()
+				.AsSingle();
+
+			Container.Bind<TargetGroupResolver>()
+				.AsSingle();
+
+			Container.BindInterfacesAndSelfTo<CameraController>()
+				.AsSingle();
 		}
 
 		private void BindPlayer()
 		{
 			Container.BindInstance( _playerSettings );
 
-			Container.BindFactory<PlayerController, PlayerController.Factory>()
-				.FromComponentInNewPrefab( _playerSettings.Prefab )
-				.WithGameObjectName( _playerSettings.Prefab.name );
 
-			Container.Bind<PlayerSpawner>()
+			// Pawn Factories ...
+			Container.BindFactory<Ship, Ship.Factory>()
+				.FromComponentInNewPrefab( _playerSettings.ShipPrefab )
+				.WithGameObjectName( _playerSettings.ShipPrefab.name );
+
+			Container.BindUnityFactory<Explorer, Explorer.Factory>( _playerSettings.ExplorerPrefab );
+
+
+			// Controllers ...
+			Container.Bind<ShipController>()
+				.AsSingle();
+			Container.Bind<ExplorerController>()
+				.AsSingle();
+
+
+			// Spawning ...
+			Container.Bind<ShipSpawner>()
 				.AsSingle()
-				.WhenInjectedInto<PlayerSpawnController>();
+				.WhenInjectedInto<PlayerController>();
 
-			Container.Bind<PlayerSpawnController>()
+			Container.Bind<PlayerController>()
 				.AsSingle();
 		}
 
@@ -64,12 +96,30 @@ namespace Minipede.Installers
 				.AsTransient();
 		}
 
+		private void BindTreasure()
+		{
+			Container.Bind<TreasureActor.Factory>()
+				.AsSingle();
+
+			Container.Bind<LootBox>()
+				.AsCached()
+				.WithArguments( _treasureSettings.Block )
+				.WhenInjectedInto<BlockActor>();
+
+			Container.Bind<LootBox>()
+				.AsCached()
+				.WithArguments( _treasureSettings.Enemy )
+				.WhenInjectedInto<EnemyController>();
+		}
+
 		[System.Serializable]
         public struct Player
 		{
 			[FoldoutGroup( "Initialization" )]
-			public PlayerController Prefab;
+			public Ship ShipPrefab;
 			[FoldoutGroup( "Initialization" )]
+			public Explorer ExplorerPrefab;
+			[Space, FoldoutGroup( "Initialization" )]
 			public string SpawnPointId;
 
 			[FoldoutGroup( "Gameplay" )]
@@ -93,10 +143,19 @@ namespace Minipede.Installers
 		[System.Serializable]
 		public struct Block
 		{
-			[HideLabel]
+			[HideLabel, FoldoutGroup( "Gameplay" )]
 			public BlockActor.Settings Settings;
 			[BoxGroup( "Prefabs" ), HideLabel]
 			public BlockProvider.Settings Prefabs;
+		}
+
+		[System.Serializable]
+		public struct Treasure
+		{
+			[FoldoutGroup( "Block" ), HideLabel]
+			public LootBox.Settings Block;
+			[FoldoutGroup( "Enemy" ), HideLabel]
+			public LootBox.Settings Enemy;
 		}
 	}
 }

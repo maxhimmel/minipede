@@ -1,84 +1,104 @@
-using Minipede.Gameplay.Movement;
-using Minipede.Gameplay.Weapons;
+using System.Threading;
+using Minipede.Gameplay.LevelPieces;
 using UnityEngine;
-using Zenject;
 
 namespace Minipede.Gameplay.Player
 {
-    public class PlayerController : MonoBehaviour,
-		IDamageController
+    public class PlayerController
 	{
-		public event IDamageController.OnHit Damaged {
-			add => _damageController.Damaged += value;
-			remove => _damageController.Damaged -= value;
-		}
-		public event IDamageController.OnHit Died {
-			add => _damageController.Died += value;
-			remove => _damageController.Died -= value;
-		}
+		public event System.Action<Ship> PlayerSpawned;
+		public event System.Action<Ship> ShipDied;
+		public event System.Action<Explorer> ExplorerDied;
 
-		private Rewired.Player _input;
-		private IMotor _motor;
-		private Gun _gun;
-		private IDamageController _damageController;
+		public CancellationToken PlayerDiedCancelToken { get; private set; }
 
-		[Inject]
-        public void Construct( Rewired.Player input,
-            IMotor motor,
-			IDamageController damageController,
-			Gun gun )
+		private readonly ShipSpawner _shipSpawner;
+		private readonly ShipController _shipController;
+		private readonly Explorer.Factory _explorerFactory;
+		private readonly ExplorerController _explorerController;
+
+		private Ship _ship;
+		private Explorer _explorer;
+		private CancellationTokenSource _playerDiedCancelSource;
+
+		public PlayerController( ShipSpawner spawner,
+			ShipController shipController,
+			Explorer.Factory explorerFactory,
+			ExplorerController explorerController )
 		{
-			_input = input;
-			_motor = motor;
-			_damageController = damageController;
-			_gun = gun;
+			_shipSpawner = spawner;
+			_shipController = shipController;
+			_explorerFactory = explorerFactory;
+			_explorerController = explorerController;
 
-			damageController.Died += OnDied;
+			_playerDiedCancelSource = new CancellationTokenSource();
+			PlayerDiedCancelToken = _playerDiedCancelSource.Token;
 		}
 
-		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
+		public Ship CreateShip()
 		{
-			return _damageController.TakeDamage( instigator, causer, data );
-		}
-
-		private void OnDied( Rigidbody2D victimBody, HealthController health )
-		{
-			_damageController.Died -= OnDied;
-			Destroy( gameObject );
-		}
-
-		private void Update()
-		{
-			HandleMovement();
-			HandleGun();
-		}
-
-		private void HandleMovement()
-		{
-			var moveInput = _input.GetAxis2D( ReConsts.Action.Horizontal, ReConsts.Action.Vertical );
-			moveInput = Vector2.ClampMagnitude( moveInput, 1 );
-
-			_motor.SetDesiredVelocity( moveInput );
-		}
-
-		private void HandleGun()
-		{
-			if ( _input.GetButtonDown( ReConsts.Action.Fire ) )
+			if ( _ship != null )
 			{
-				_gun.StartFiring();
+				throw new System.NotSupportedException( "Cannot have multiple ships active." );
 			}
-			else if ( _input.GetButtonUp( ReConsts.Action.Fire ) )
-			{
-				_gun.StopFiring();
-			}
+
+			_ship = _shipSpawner.Create();
+			_ship.Died += OnShipDied;
+
+			_shipController.Possess( _ship );
+
+			PlayerSpawned?.Invoke( _ship );
+
+			return _ship;
 		}
 
-		private void FixedUpdate()
+		private void OnShipDied( Rigidbody2D victimBody, HealthController health )
 		{
-			_motor.FixedTick();
-			_gun.FixedTick();
+			var deadShip = _ship;
+			deadShip.Died -= OnShipDied;
+
+			_playerDiedCancelSource.Cancel();
+			_playerDiedCancelSource.Dispose();
+			_playerDiedCancelSource = new CancellationTokenSource();
+			PlayerDiedCancelToken = _playerDiedCancelSource.Token;
+
+			_ship = null;
+			_shipController.UnPossess();
+			ShipDied?.Invoke( deadShip );
 		}
 
-		public class Factory : PlaceholderFactory<PlayerController> { }
+		public Explorer CreateExplorer()
+		{
+			if ( _explorer != null )
+			{
+				throw new System.NotSupportedException( "Cannot have multiple explorers active." );
+			}
+
+			_explorer = _explorerFactory.Create( _ship.Orientation );
+			_explorer.Died += OnExplorerDied;
+
+			_explorerController.Possess( _explorer );
+			_explorerController.SetShip( _ship, _shipController );
+
+			return _explorer;
+		}
+
+		private void OnExplorerDied( Rigidbody2D victimBody, HealthController health )
+		{
+			var deadExplorer = _explorer;
+			deadExplorer.Died -= OnExplorerDied;
+
+			_playerDiedCancelSource.Cancel();
+			_playerDiedCancelSource.Dispose();
+			_playerDiedCancelSource = new CancellationTokenSource();
+			PlayerDiedCancelToken = _playerDiedCancelSource.Token;
+
+			_explorer = null;
+			_explorerController.UnPossess();
+			ExplorerDied?.Invoke( deadExplorer );
+
+			// Self-destruct explorer's ship ...
+			_ship.TakeDamage( deadExplorer.transform, deadExplorer.transform, new DamageDatum( 999 ) );
+		}
 	}
 }

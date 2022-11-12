@@ -15,12 +15,12 @@ namespace Minipede.Gameplay
 		public bool IsReady { get; private set; }
 
 		private readonly GameplaySettings.Player _playerSettings;
-		private readonly PlayerSpawnController _playerSpawnController;
+		private readonly PlayerController _playerSpawnController;
 		private readonly LevelBuilder _levelBuilder;
 		private readonly EnemyWaveController _enemyWaveController;
 
 		public GameController( GameplaySettings.Player playerSettings,
-			PlayerSpawnController playerSpawnController,
+			PlayerController playerSpawnController,
 			LevelBuilder levelBuilder,
 			EnemyWaveController enemyWaveController )
 		{
@@ -29,27 +29,27 @@ namespace Minipede.Gameplay
 			_levelBuilder = levelBuilder;
 			_enemyWaveController = enemyWaveController;
 
-			playerSpawnController.PlayerDied += OnPlayerDead;
+			playerSpawnController.ShipDied += OnPlayerDead;
 		}
 
 		public async void Initialize()
 		{
 			await _levelBuilder.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
 
-			_playerSpawnController.Create();
+			_playerSpawnController.CreateShip();
 			_enemyWaveController.Play();
 
 			IsReady = true;
 		}
 
-		private async void OnPlayerDead( PlayerController deadPlayer )
+		private async void OnPlayerDead( Ship deadPlayer )
 		{
 			_enemyWaveController.Interrupt();
 
 			await _levelBuilder.HealBlocks();
 			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay );
 
-			_playerSpawnController.Create();
+			_playerSpawnController.CreateShip();
 			_enemyWaveController.Play();
 		}
 
@@ -57,7 +57,7 @@ namespace Minipede.Gameplay
 		{
 			if ( _playerSpawnController != null )
 			{
-				_playerSpawnController.PlayerDied -= OnPlayerDead;
+				_playerSpawnController.ShipDied -= OnPlayerDead;
 			}
 		}
 	}

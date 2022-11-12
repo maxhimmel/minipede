@@ -1,9 +1,11 @@
+using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
-	public partial class Projectile : MonoBehaviour
+	public partial class Projectile : MonoBehaviour,
+		IListener<DamagedSignal>
 	{
 		public event System.Action<Projectile> Destroyed;
 
@@ -30,6 +32,11 @@ namespace Minipede.Gameplay.Weapons
 			{
 				_body.AddTorque( torque, ForceMode2D.Impulse );
 			}
+		}
+
+		public void Notify( DamagedSignal message )
+		{
+			Destroy( gameObject );
 		}
 
 		private void OnDestroy()

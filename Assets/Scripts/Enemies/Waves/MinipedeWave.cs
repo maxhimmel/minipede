@@ -21,7 +21,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		public MinipedeWave( Settings settings,
 			EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver, 
-			PlayerSpawnController playerSpawn,
+			PlayerController playerSpawn,
 			SignalBus signalBus ) 
 			: base( enemyBuilder, placementResolver, playerSpawn, signalBus )
 		{

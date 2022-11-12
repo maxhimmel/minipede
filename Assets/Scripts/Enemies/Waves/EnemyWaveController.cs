@@ -8,10 +8,12 @@ namespace Minipede.Gameplay.Enemies.Spawning
 {
     public class EnemyWaveController
 	{
+		public event System.Action WaveCompleted;
+
 		public bool IsRunning => _currentWave != null;
 
 		private readonly Settings _settings;
-		private readonly PlayerSpawnController _playerSpawnController;
+		private readonly PlayerController _playerSpawnController;
 		private readonly IEnemyWave _mainWave;
 		private readonly IEnemyWave[] _bonusWaves;
 
@@ -21,7 +23,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private IEnemyWave _currentWave;
 
 		public EnemyWaveController( Settings settings,
-			PlayerSpawnController playerSpawnController,
+			PlayerController playerSpawnController,
 			[Inject( Id = Settings.MainWaveId )] IEnemyWave mainWave,
 			[Inject( Id = Settings.BonusWaveId )] IEnemyWave[] bonusWaves )
 		{
@@ -69,13 +71,18 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			}
 		}
 
-		private void OnWaveCompleted( IEnemyWave wave )
+		private void OnWaveCompleted( IEnemyWave wave, bool isSuccess )
 		{
 			Debug.Log( $"<color=yellow>[{nameof( EnemyWaveController )}]</color> " +
 				$"Completed '<b>{wave}</b>'." );
 
 			wave.Completed -= OnWaveCompleted;
 			_currentWave = null;
+
+			if ( isSuccess )
+			{
+				WaveCompleted?.Invoke();
+			}
 
 			if ( _autoPlay )
 			{

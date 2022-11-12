@@ -8,7 +8,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 {
 	public abstract class EnemyWave : IEnemyWave
 	{
-		public event System.Action<IEnemyWave> Completed;
+		public event IEnemyWave.CompletedSignature Completed;
 
 		public bool IsRunning { get; protected set; }
 		protected bool IsAnyEnemyAlive => _livingEnemies.Count > 0;
@@ -16,13 +16,13 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		protected readonly EnemySpawnBuilder _enemyBuilder;
 		protected readonly EnemyPlacementResolver _placementResolver;
-		private readonly PlayerSpawnController _playerSpawn;
+		private readonly PlayerController _playerSpawn;
 		private readonly SignalBus _signalBus;
 		private readonly HashSet<EnemyController> _livingEnemies;
 
 		public EnemyWave( EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver,
-			PlayerSpawnController playerSpawn,
+			PlayerController playerSpawn,
 			SignalBus signalBus )
 		{
 			_enemyBuilder = enemyBuilder;
@@ -98,14 +98,14 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			IsRunning = false;
 
-			_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
-			_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
+			_signalBus.TryUnsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
+			_signalBus.TryUnsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 
 			ClearEnemies();
 
 			if ( ExitWaveRequested() )
 			{
-				Completed?.Invoke( this );
+				Completed?.Invoke( this, false );
 				return true;
 			}
 
@@ -134,7 +134,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
 			_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 
-			Completed?.Invoke( this );
+			Completed?.Invoke( this, true );
 		}
 	}
 }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6908e8673413d4343a3f3aff62bf7a17, type: 3}
-  m_Name: CharacterMotor
+  m_Name: ShipMotor
   m_EditorClassIdentifier: 
   _settings:
     MaxSpeed: 20

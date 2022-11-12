@@ -11,7 +11,7 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			Container.Bind<GatheringWaveController>()
+			Container.BindInterfacesAndSelfTo<GatheringWaveController>()
 				.AsSingle()
 				.WithArguments( _settings )
 				.NonLazy();

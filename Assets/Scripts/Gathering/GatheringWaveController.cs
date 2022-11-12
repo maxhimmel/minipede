@@ -1,3 +1,4 @@
+using System;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -5,7 +6,7 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.Gathering
 {
-    public class GatheringWaveController
+    public class GatheringWaveController : IDisposable
     {
 		private readonly Settings _settings;
 		private readonly EnemyWaveController _enemyWaveController;
@@ -21,6 +22,14 @@ namespace Minipede.Gameplay.Gathering
 			enemyWaveController.WaveCompleted += OnWaveCompleted;
 
 			ResetCountdown();
+		}
+
+		public void Dispose()
+		{
+			if ( _enemyWaveController != null )
+			{
+				_enemyWaveController.WaveCompleted -= OnWaveCompleted;
+			}
 		}
 
 		private async void OnWaveCompleted()

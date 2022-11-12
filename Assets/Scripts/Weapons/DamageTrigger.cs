@@ -34,11 +34,17 @@ namespace Minipede.Gameplay.Weapons
 				return;
 			}
 
-			if ( _body.IsTouchingLayers( _settings.HitMask ) )
+			if ( IsHittable( body ) )
 			{
 				damageable.TakeDamage( _owner, _body.transform, _settings.Damage );
 				NotifyDamageListeners( damageable );
 			}
+		}
+
+		private bool IsHittable( Rigidbody2D other )
+		{
+			int otherMask = 1 << other.gameObject.layer;
+			return (otherMask & _settings.HitMask) != 0;
 		}
 
 		private void NotifyDamageListeners( IDamageable victim )

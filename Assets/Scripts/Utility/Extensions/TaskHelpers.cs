@@ -18,8 +18,12 @@ namespace Minipede.Utility
 				cancellationToken = AppHelper.AppQuittingToken;
 			}
 
-			await UniTask.Delay( TimeSpan.FromSeconds( seconds ), cancellationToken: cancellationToken );
-			await WaitForFixedUpdate( cancellationToken );
+			await UniTask.Delay( 
+				TimeSpan.FromSeconds( seconds ), 
+				DelayType.DeltaTime, 
+				PlayerLoopTiming.FixedUpdate, 
+				cancellationToken 
+			);
 		}
 
 		public static UniTask WaitForFixedUpdate( CancellationToken cancellationToken = default )

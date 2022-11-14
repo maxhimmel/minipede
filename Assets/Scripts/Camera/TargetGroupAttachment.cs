@@ -3,7 +3,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
-namespace Minipede.Gameplay.Camera
+namespace Minipede.Gameplay.Cameras
 {
     public class TargetGroupAttachment : MonoBehaviour
     {

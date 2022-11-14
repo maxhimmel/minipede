@@ -1,7 +1,7 @@
 using Cinemachine;
 using Minipede.Gameplay.Player;
 
-namespace Minipede.Gameplay.Camera
+namespace Minipede.Gameplay.Cameras
 {
 	public class CameraController :
 		ICameraToggler<Ship>,

@@ -1,7 +1,7 @@
 using Cinemachine;
 using Zenject;
 
-namespace Minipede.Gameplay.Camera
+namespace Minipede.Gameplay.Cameras
 {
     public class TargetGroupResolver
     {

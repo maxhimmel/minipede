@@ -1,6 +1,6 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.Enemies;
-using Minipede.Gameplay.Camera;
+using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;

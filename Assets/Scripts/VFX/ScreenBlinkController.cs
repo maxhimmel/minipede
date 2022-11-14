@@ -6,13 +6,12 @@ namespace Minipede.Gameplay.Vfx
 {
     public class ScreenBlinkController : ITickable
 	{
-		private readonly UnityEngine.Camera _camera;
-		private readonly SignalBus _signalBus;
+		private readonly Camera _camera;
 		private readonly List<BlinkData> _blinks;
 
 		private Color _baseColor;
 
-		public ScreenBlinkController( UnityEngine.Camera camera )
+		public ScreenBlinkController( Camera camera )
 		{
 			_camera = camera;
 			_blinks = new List<BlinkData>();

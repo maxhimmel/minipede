@@ -1,4 +1,4 @@
-﻿namespace Minipede.Gameplay.Camera
+﻿namespace Minipede.Gameplay.Cameras
 {
 	public interface ICameraToggler<TToggler>
 	{

@@ -1,4 +1,4 @@
-﻿using Minipede.Gameplay.Camera;
+﻿using Minipede.Gameplay.Cameras;
 using Minipede.Utility;
 using Rewired;
 using UnityEngine;

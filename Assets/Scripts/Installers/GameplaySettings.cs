@@ -4,6 +4,7 @@ using Minipede.Gameplay.Camera;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
+using Minipede.Gameplay.Vfx;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -35,6 +36,9 @@ namespace Minipede.Installers
 
 		private void BindCameraSystems()
 		{
+			Container.BindInterfacesAndSelfTo<ScreenBlinkController>()
+				.AsSingle();
+
 			Container.Bind<VCameraResolver>()
 				.AsSingle();
 

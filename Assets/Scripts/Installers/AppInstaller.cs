@@ -6,6 +6,8 @@ namespace Minipede.Installers
     {
 		public override void InstallBindings()
 		{
+			SignalBusInstaller.Install( Container );
+
 			Container.Bind<Rewired.Player>()
 				.FromMethod( GetFirstPlayer );
 		}

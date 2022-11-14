@@ -23,7 +23,6 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			SignalBusInstaller.Install( Container );
 			Container.DeclareSignal<EnemySpawnedSignal>()
 				.OptionalSubscriber();
 			Container.DeclareSignal<EnemyDestroyedSignal>()

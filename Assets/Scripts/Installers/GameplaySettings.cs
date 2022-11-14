@@ -75,7 +75,8 @@ namespace Minipede.Installers
 				.WhenInjectedInto<PlayerController>();
 
 			Container.Bind<PlayerController>()
-				.AsSingle();
+				.AsSingle()
+				.WithArguments( _playerSettings.PlayerSettings );
 		}
 
 		private void BindLevelGeneration()
@@ -128,6 +129,8 @@ namespace Minipede.Installers
 
 			[FoldoutGroup( "Gameplay" )]
 			public float RespawnDelay;
+			[FoldoutGroup( "Gameplay" ), HideLabel]
+			public PlayerController.Settings PlayerSettings;
 		}
 
 		[System.Serializable]

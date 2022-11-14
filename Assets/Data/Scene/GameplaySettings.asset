@@ -17,6 +17,10 @@ MonoBehaviour:
     ExplorerPrefab: {fileID: 6295317173650423721, guid: e0aa3e4d8444a6549b25836ce7001373, type: 3}
     SpawnPointId: PlayerSpawn
     RespawnDelay: 1
+    PlayerSettings:
+      DeathBlink:
+        Color: {r: 1, g: 0, b: 0, a: 0}
+        Duration: 1
   _blockSettings:
     Settings:
       HealStep: -1

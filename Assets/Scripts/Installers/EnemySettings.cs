@@ -12,6 +12,8 @@ namespace Minipede.Installers
     {
 		[FoldoutGroup( "Shared" )]
 		[SerializeField] private DamageTrigger.Settings _damage;
+		[FoldoutGroup( "Shared" )]
+		[SerializeField] private EnemyController.BaseSettings _global;
 
 		[InlineEditor, LabelText( "Specialized" )]
 		[SerializeField] private EnemyInstaller[] _enemyInstallers;
@@ -37,6 +39,7 @@ namespace Minipede.Installers
 		private void BindSharedSettings()
 		{
 			Container.BindInstance( _damage );
+			Container.BindInstance( _global );
 		}
 
 		private void BindEnemies()

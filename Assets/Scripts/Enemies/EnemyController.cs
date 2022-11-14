@@ -2,7 +2,9 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Treasures;
+using Minipede.Gameplay.Vfx;
 using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -25,6 +27,7 @@ namespace Minipede.Gameplay.Enemies
 		public bool IsAlive => !_onDestroyCancelToken.IsCancellationRequested;
 		public Rigidbody2D Body => _body;
 
+		protected BaseSettings _globalSettings;
 		protected Rigidbody2D _body;
 		private IDamageController _damageController;
 		protected GameController _gameController;
@@ -32,19 +35,23 @@ namespace Minipede.Gameplay.Enemies
 		protected LevelForeman _levelForeman;
 		protected SignalBus _signalBus;
 		private LootBox _lootBox;
+		private ScreenBlinkController _screenBlinker;
 
 		private CancellationTokenSource _onDestroyCancelSource;
 		protected CancellationToken _onDestroyCancelToken;
 
 		[Inject]
-		public void Construct( Rigidbody2D body,
+		public void Construct( BaseSettings globalSettings,
+			Rigidbody2D body,
 			IDamageController damageController,
 			GameController gameController, 
 			LevelGraph levelGraph,
 			LevelForeman foreman,
 			SignalBus signalBus,
-			LootBox lootBox )
+			LootBox lootBox,
+			ScreenBlinkController screenBlinker )
 		{
+			_globalSettings = globalSettings;
 			_body = body;
 			_damageController = damageController;
 			_gameController = gameController;
@@ -52,6 +59,7 @@ namespace Minipede.Gameplay.Enemies
 			_levelForeman = foreman;
 			_signalBus = signalBus;
 			_lootBox = lootBox;
+			_screenBlinker = screenBlinker;
 
 			_onDestroyCancelSource = new CancellationTokenSource();
 			_onDestroyCancelToken = _onDestroyCancelSource.Token;
@@ -71,6 +79,7 @@ namespace Minipede.Gameplay.Enemies
 
 		protected virtual void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
+			_screenBlinker.Blink( _globalSettings.DeathBlink );
 			_lootBox.Open( victimBody.position );
 			Cleanup();
 		}
@@ -136,6 +145,13 @@ namespace Minipede.Gameplay.Enemies
 		protected virtual void FixedTick()
 		{
 
+		}
+
+		[System.Serializable]
+		public struct BaseSettings
+		{
+			[BoxGroup( "Death Blink" ), HideLabel]
+			public ScreenBlinkController.Settings DeathBlink;
 		}
 	}
 }

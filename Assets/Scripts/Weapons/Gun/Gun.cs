@@ -1,5 +1,7 @@
 using Cinemachine;
+using Minipede.Gameplay.Vfx;
 using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -11,6 +13,7 @@ namespace Minipede.Gameplay.Weapons
 		private readonly Projectile.Factory _factory;
 		private readonly IFireSafety[] _fireSafeties;
 		private readonly IFireSpread _fireSpread;
+		private readonly ScreenBlinkController _screenBlinker;
 		private readonly IDirectionAdjuster _accuracyAdjuster;
 
 		private bool _isFiringRequested;
@@ -18,13 +21,15 @@ namespace Minipede.Gameplay.Weapons
 		public Gun( Settings settings, 
 			Projectile.Factory factory,
 			IFireSpread fireSpread,
+			ScreenBlinkController screenBlinker,
+
 			[InjectOptional] IFireSafety[] safeties,
 			[InjectOptional] IDirectionAdjuster accuracyAdjuster )
 		{
 			_settings = settings;
 			_factory = factory;
 			_fireSpread = fireSpread;
-
+			_screenBlinker = screenBlinker;
 			_fireSafeties = safeties ?? new IFireSafety[0];
 			_accuracyAdjuster = accuracyAdjuster;
 		}
@@ -51,11 +56,7 @@ namespace Minipede.Gameplay.Weapons
 				return;
 			}
 
-			foreach ( var shotSpot in _fireSpread.GetSpread() )
-			{
-				var newProjectile = Fire( shotSpot );
-				NotifySafety( newProjectile );
-			}
+			HandleFiring();
 		}
 
 		private bool CanFire()
@@ -68,6 +69,17 @@ namespace Minipede.Gameplay.Weapons
 				}
 			}
 			return true;
+		}
+
+		private void HandleFiring()
+		{
+			foreach ( var shotSpot in _fireSpread.GetSpread() )
+			{
+				var newProjectile = Fire( shotSpot );
+				NotifySafety( newProjectile );
+			}
+
+			_screenBlinker.Blink( _settings.ScreenBlink );
 		}
 
 		private Projectile Fire( IOrientation orientation )
@@ -99,9 +111,13 @@ namespace Minipede.Gameplay.Weapons
 		{
 			public string ShotSpotId;
 
-			[Space]
+			[BoxGroup( "Projectile", ShowLabel = false )]
 			public float ProjectileSpeed;
+			[BoxGroup( "Projectile", ShowLabel = false )]
 			public float ProjectileTorque;
+
+			[BoxGroup( "Fired Blink" ), HideLabel]
+			public ScreenBlinkController.Settings ScreenBlink;
 		}
 	}
 }

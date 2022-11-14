@@ -17,6 +17,9 @@ MonoBehaviour:
       ShotSpotId: ShotSpot
       ProjectileSpeed: 30
       ProjectileTorque: 0
+      ScreenBlink:
+        Color: {r: 0.1, g: 0.1, b: 0.1, a: 0}
+        Duration: 0.2
     Projectile:
       Prefab: {fileID: 2730030010798562877, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
     Damage:

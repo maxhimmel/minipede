@@ -42,6 +42,7 @@ namespace Minipede.Gameplay.Vfx
 		[System.Serializable]
 		public struct Settings
 		{
+			[BoxGroup( "Attack Blink" ), HideLabel]
 			public ScreenBlinkController.Settings AttackBlink;
 
 			[FoldoutGroup( "Recoil" ), HideLabel]

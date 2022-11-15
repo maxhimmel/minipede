@@ -10,26 +10,26 @@ namespace Minipede.Gameplay.Weapons
     public class Gun
     {
 		private readonly Settings _settings;
+		private readonly SignalBus _signalBus;
 		private readonly Projectile.Factory _factory;
 		private readonly IFireSafety[] _fireSafeties;
 		private readonly IFireSpread _fireSpread;
-		private readonly ScreenBlinkController _screenBlinker;
 		private readonly IDirectionAdjuster _accuracyAdjuster;
 
 		private bool _isFiringRequested;
 
-		public Gun( Settings settings, 
+		public Gun( Settings settings,
+			SignalBus signalBus,
 			Projectile.Factory factory,
 			IFireSpread fireSpread,
-			ScreenBlinkController screenBlinker,
 
 			[InjectOptional] IFireSafety[] safeties,
 			[InjectOptional] IDirectionAdjuster accuracyAdjuster )
 		{
 			_settings = settings;
+			_signalBus = signalBus;
 			_factory = factory;
 			_fireSpread = fireSpread;
-			_screenBlinker = screenBlinker;
 			_fireSafeties = safeties ?? new IFireSafety[0];
 			_accuracyAdjuster = accuracyAdjuster;
 		}
@@ -73,13 +73,23 @@ namespace Minipede.Gameplay.Weapons
 
 		private void HandleFiring()
 		{
+			int spreadCount = 0;
+			Vector2 avgShotOrigin = Vector2.zero;
+			Vector3 avgShotDirection = Vector3.zero;
 			foreach ( var shotSpot in _fireSpread.GetSpread() )
 			{
 				var newProjectile = Fire( shotSpot );
 				NotifySafety( newProjectile );
+
+				++spreadCount;
+				avgShotOrigin += shotSpot.Position;
+				avgShotDirection += shotSpot.Rotation * Vector2.up;
 			}
 
-			_screenBlinker.Blink( _settings.ScreenBlink );
+			_signalBus.Fire( new AttackedSignal( 
+				position:	avgShotOrigin / spreadCount, 
+				direction:	avgShotDirection / spreadCount 
+			) );
 		}
 
 		private Projectile Fire( IOrientation orientation )
@@ -115,9 +125,6 @@ namespace Minipede.Gameplay.Weapons
 			public float ProjectileSpeed;
 			[BoxGroup( "Projectile", ShowLabel = false )]
 			public float ProjectileTorque;
-
-			[BoxGroup( "Fired Blink" ), HideLabel]
-			public ScreenBlinkController.Settings ScreenBlink;
 		}
 	}
 }

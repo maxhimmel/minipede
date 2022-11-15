@@ -13,6 +13,9 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
+			Container.DeclareSignal<AttackedSignal>()
+				.OptionalSubscriber();
+
 			InstallModules();
 
 			Container.BindInstances( 

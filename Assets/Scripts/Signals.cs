@@ -22,3 +22,18 @@ namespace Minipede.Gameplay
 		public IDamageable Victim;
 	}
 }
+
+namespace Minipede.Gameplay.Weapons
+{
+	public class AttackedSignal
+	{
+		public Vector2 Position;
+		public Vector2 Direction;
+
+		public AttackedSignal( Vector2 position, Vector2 direction )
+		{
+			Position = position;
+			Direction = direction;
+		}
+	}
+}

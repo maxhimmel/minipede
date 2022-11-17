@@ -1,3 +1,4 @@
+using Minipede.Utility;
 using Zenject;
 
 namespace Minipede.Installers
@@ -7,6 +8,9 @@ namespace Minipede.Installers
 		public override void InstallBindings()
 		{
 			SignalBusInstaller.Install( Container );
+
+			Container.Bind<TimeController>()
+				.AsSingle();
 
 			Container.Bind<Rewired.Player>()
 				.FromMethod( GetFirstPlayer );

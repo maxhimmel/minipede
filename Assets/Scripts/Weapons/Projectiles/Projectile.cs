@@ -4,17 +4,21 @@ using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
-	public partial class Projectile : MonoBehaviour,
-		IListener<DamagedSignal>
+	public partial class Projectile : MonoBehaviour
 	{
 		public event System.Action<Projectile> Destroyed;
 
 		private Rigidbody2D _body;
+		private SignalBus _signalBus;
 
 		[Inject]
-		public void Construct( Rigidbody2D body )
+		public void Construct( Rigidbody2D body,
+			SignalBus signalBus )
 		{
 			_body = body;
+			_signalBus = signalBus;
+
+			signalBus.Subscribe<DamagedSignal>( OnDamagedOther );
 		}
 
 		public void Launch( Vector2 impulse )
@@ -34,13 +38,14 @@ namespace Minipede.Gameplay.Weapons
 			}
 		}
 
-		public void Notify( DamagedSignal message )
+		public void OnDamagedOther( DamagedSignal message )
 		{
 			Destroy( gameObject );
 		}
 
 		private void OnDestroy()
 		{
+			_signalBus.Unsubscribe<DamagedSignal>( OnDamagedOther );
 			Destroyed?.Invoke( this );
 		}
 	}

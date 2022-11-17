@@ -1,4 +1,3 @@
-using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -10,34 +9,33 @@ namespace Minipede.Gameplay.Weapons
 		private Settings _settings;
 		private Transform _owner;
 		private Rigidbody2D _body;
-		private IListener<DamagedSignal>[] _damageListeners;
+		private SignalBus _signalBus;
 
 		[Inject]
 		public void Construct( Settings settings,
 			Transform owner,
 			Rigidbody2D body,
-			
-			[InjectOptional] IListener<DamagedSignal>[] damageListeners )
+			SignalBus signalBus )
 		{
 			_settings = settings;
 			_owner = owner;
 			_body = body;
-			_damageListeners = damageListeners ?? new IListener<DamagedSignal>[0];
+			_signalBus = signalBus;
 		}
 
 		private void OnTriggerEnter2D( Collider2D collision )
 		{
-			var body = collision.attachedRigidbody;
-			var damageable = body?.GetComponent<IDamageable>();
+			var otherBody = collision.attachedRigidbody;
+			var damageable = otherBody?.GetComponent<IDamageable>();
 			if ( damageable == null )
 			{
 				return;
 			}
 
-			if ( IsHittable( body ) )
+			if ( IsHittable( otherBody ) )
 			{
 				damageable.TakeDamage( _owner, _body.transform, _settings.Damage );
-				NotifyDamageListeners( damageable );
+				NotifyDamageListeners( otherBody );
 			}
 		}
 
@@ -47,17 +45,16 @@ namespace Minipede.Gameplay.Weapons
 			return (otherMask & _settings.HitMask) != 0;
 		}
 
-		private void NotifyDamageListeners( IDamageable victim )
+		private void NotifyDamageListeners( Rigidbody2D victim )
 		{
-			foreach ( var dmgListener in _damageListeners )
+			_signalBus.Fire( new DamagedSignal()
 			{
-				dmgListener.Notify( new DamagedSignal()
-				{
-					Instigator = _owner,
-					Causer = _body.transform,
-					Victim = victim
-				} );
-			}
+				Victim = victim,
+				Instigator = _owner,
+				Causer = _body.transform,
+				Data = _settings.Damage,
+				HitDirection = (victim.position - _body.position).normalized
+			} );
 		}
 
 		[System.Serializable]

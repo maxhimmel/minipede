@@ -200,7 +200,7 @@ GameObject:
   - component: {fileID: 2730030010798562877}
   - component: {fileID: 1830351262087100844}
   - component: {fileID: 3323268451898096091}
-  - component: {fileID: 6330338846596738274}
+  - component: {fileID: -1433486364197284875}
   m_Layer: 7
   m_Name: Projectile
   m_TagString: Untagged
@@ -271,11 +271,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: -1433486364197284875}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &6330338846596738274
+--- !u!114 &-1433486364197284875
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -284,16 +285,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 8807341101252389148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 76fcce9ac4b49374785661ebacf3f2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 1830351262087100844}
-  - {fileID: 2730030010798562877}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 2
 --- !u!1 &8973282730886175239
 GameObject:
   m_ObjectHideFlags: 0

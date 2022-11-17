@@ -17,9 +17,11 @@ namespace Minipede.Gameplay
 {
 	public class DamagedSignal
 	{
+		public Rigidbody2D Victim;
 		public Transform Instigator;
 		public Transform Causer;
-		public IDamageable Victim;
+		public DamageDatum Data;
+		public Vector2 HitDirection;
 	}
 }
 

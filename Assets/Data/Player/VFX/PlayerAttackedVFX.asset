@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxSettings:
   - rid: 3031877403029536770
-  - rid: 3031877403029536779
+  - rid: 3031877438641012755
   references:
     version: 2
     RefIds:
@@ -23,7 +23,7 @@ MonoBehaviour:
       data:
         Color: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 0}
         Duration: 0.2
-    - rid: 3031877403029536779
+    - rid: 3031877438641012755
       type: {class: ScreenShakeVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
       data:
         Definition:
@@ -84,4 +84,4 @@ MonoBehaviour:
           m_DissipationMode: 2
           m_DissipationDistance: 100
           m_PropagationSpeed: 343
-        Force: 0.25
+        Force: 0.175

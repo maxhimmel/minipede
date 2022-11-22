@@ -14,30 +14,24 @@ namespace Minipede.Gameplay.Player
 
 		public CancellationToken PlayerDiedCancelToken { get; private set; }
 
-		private readonly Settings _settings;
 		private readonly ShipSpawner _shipSpawner;
 		private readonly ShipController _shipController;
 		private readonly Explorer.Factory _explorerFactory;
 		private readonly ExplorerController _explorerController;
-		private readonly ScreenBlinkController _screenBlinker;
 
 		private Ship _ship;
 		private Explorer _explorer;
 		private CancellationTokenSource _playerDiedCancelSource;
 
-		public PlayerController( Settings settings,
-			ShipSpawner spawner,
+		public PlayerController( ShipSpawner spawner,
 			ShipController shipController,
 			Explorer.Factory explorerFactory,
-			ExplorerController explorerController,
-			ScreenBlinkController screenBlinker )
+			ExplorerController explorerController )
 		{
-			_settings = settings;
 			_shipSpawner = spawner;
 			_shipController = shipController;
 			_explorerFactory = explorerFactory;
 			_explorerController = explorerController;
-			_screenBlinker = screenBlinker;
 
 			_playerDiedCancelSource = new CancellationTokenSource();
 			PlayerDiedCancelToken = _playerDiedCancelSource.Token;
@@ -73,8 +67,6 @@ namespace Minipede.Gameplay.Player
 			_ship = null;
 			_shipController.UnPossess();
 			ShipDied?.Invoke( deadShip );
-
-			_screenBlinker.Blink( _settings.DeathBlink );
 		}
 
 		public Explorer CreateExplorer()
@@ -109,13 +101,6 @@ namespace Minipede.Gameplay.Player
 
 			// Self-destruct explorer's ship ...
 			_ship.TakeDamage( deadExplorer.transform, deadExplorer.transform, new DamageDatum( 999 ) );
-		}
-
-		[System.Serializable]
-		public struct Settings
-		{
-			[BoxGroup( "Death Blink" ), HideLabel]
-			public ScreenBlinkController.Settings DeathBlink;
 		}
 	}
 }

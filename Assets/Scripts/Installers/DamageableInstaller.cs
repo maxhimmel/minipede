@@ -14,6 +14,9 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
+			Container.DeclareSignal<DamagedSignal>()
+				.OptionalSubscriber();
+
 			Container.Bind<HealthController>()
 				.AsSingle()
 				.WithArguments( _settings );

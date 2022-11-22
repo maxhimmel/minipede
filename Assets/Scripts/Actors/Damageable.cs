@@ -1,5 +1,8 @@
 using System;
+using Minipede.Gameplay.Vfx;
+using Minipede.Utility;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay
 {
@@ -10,14 +13,17 @@ namespace Minipede.Gameplay
 
 		private readonly HealthController _health;
 		private readonly Rigidbody2D _body;
+		private readonly SignalBus _signalBus;
 		private readonly bool _logDamage;
 
 		public Damageable( HealthController health,
 			Rigidbody2D body,
+			SignalBus signalBus,
 			bool logDamage )
 		{
 			_health = health;
 			_body = body;
+			_signalBus = signalBus;
 			_logDamage = logDamage;
 		}
 
@@ -33,6 +39,18 @@ namespace Minipede.Gameplay
 			if ( dmgTaken != 0 )
 			{
 				Damaged?.Invoke( _body, _health );
+
+				if ( dmgTaken > 0 )
+				{
+					_signalBus.TryFire( new DamagedSignal()
+					{
+						Victim = _body,
+						Instigator = instigator,
+						Causer = causer,
+						Data = data,
+						HitDirection = (_body.position - causer.position.ToVector2()).normalized
+					} );
+				}
 			}
 
 			if ( !_health.IsAlive )

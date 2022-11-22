@@ -18,10 +18,6 @@ MonoBehaviour:
       m_Bits: 1032
     Damage:
       Damage: 1
-  _global:
-    DeathBlink:
-      Color: {r: 0, g: 0.32941177, b: 0.14274512, a: 0}
-      Duration: 1
   _enemyInstallers:
   - {fileID: 11400000, guid: e0067d59680a90a43b940c63bc6f09aa, type: 2}
   - {fileID: 11400000, guid: 7056a500decee1c498b91f099097c896, type: 2}

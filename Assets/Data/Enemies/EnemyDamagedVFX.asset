@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd6cc52a8551d8f45990d7e3ffa7b0a8, type: 3}
+  m_Name: EnemyDamagedVFX
+  m_EditorClassIdentifier: 
+  _vfxSettings:
+  - rid: 3031877438641012741
+  references:
+    version: 2
+    RefIds:
+    - rid: 3031877438641012741
+      type: {class: ScreenBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+      data:
+        Color: {r: 0, g: 0.32941177, b: 0.14117648, a: 0}
+        Duration: 1

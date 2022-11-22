@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-namespace Minipede.Gameplay.Vfx
+﻿namespace Minipede.Gameplay.Vfx
 {
 	public interface IVfxAnimator
 	{

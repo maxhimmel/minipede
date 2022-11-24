@@ -1,3 +1,4 @@
+using Minipede.Gameplay.Audio;
 using Minipede.Utility;
 using Zenject;
 
@@ -10,6 +11,11 @@ namespace Minipede.Installers
 			SignalBusInstaller.Install( Container );
 
 			Container.Bind<TimeController>()
+				.AsSingle();
+
+			Container.Bind<IAudioController>()
+				.To<AudioController>()
+				.FromMethod( GetComponentInChildren<AudioController> )
 				.AsSingle();
 
 			Container.Bind<Rewired.Player>()

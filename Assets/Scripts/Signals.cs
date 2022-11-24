@@ -43,3 +43,18 @@ namespace Minipede.Gameplay.Weapons
 		}
 	}
 }
+
+namespace Minipede.Gameplay.Vfx
+{
+	public class FxSignal : IVfxSignal
+	{
+		public Vector2 Position { get; }
+		public Vector2 Direction { get; }
+
+		public FxSignal( Vector2 position, Vector2 direction )
+		{
+			Position = position;
+			Direction = direction;
+		}
+	}
+}

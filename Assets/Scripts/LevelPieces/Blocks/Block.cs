@@ -22,7 +22,6 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private Settings _settings;
 		private IDamageController _damageController;
-		private SpriteRenderer _renderer;
 		private LootBox _lootBox;
 
 		private bool _isCleanedUp;
@@ -30,27 +29,18 @@ namespace Minipede.Gameplay.LevelPieces
 		[Inject]
 		public void Construct( Settings settings,
 			IDamageController damageController,
-			SpriteRenderer renderer,
 			LootBox lootBox )
 		{
 			_settings = settings;
 			_damageController = damageController;
-			_renderer = renderer;
 			_lootBox = lootBox;
 
-			damageController.Damaged += HandleDamageAnim;
 			damageController.Died += HandleDeath;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
 			return _damageController.TakeDamage( instigator, causer, data );
-		}
-
-		private void HandleDamageAnim( Rigidbody2D victimBody, HealthController health )
-		{
-			_renderer.color = _renderer.color.SetAlpha( health.Percentage );
-			//_renderer.transform.localScale = Vector3.one * health.Percentage;
 		}
 
 		private void HandleDeath( Rigidbody2D victimBody, HealthController health )
@@ -66,7 +56,6 @@ namespace Minipede.Gameplay.LevelPieces
 				return;
 			}
 
-			_damageController.Damaged -= HandleDamageAnim;
 			_damageController.Died -= HandleDeath;
 
 			Destroy( gameObject );

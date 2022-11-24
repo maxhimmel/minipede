@@ -16,7 +16,7 @@ namespace Minipede.Gameplay.Enemies
 
 namespace Minipede.Gameplay
 {
-	public class DamagedSignal : IVfxSignal
+	public class DamagedSignal
 	{
 		public Vector2 Position => Victim.position;
 		public Vector2 Direction => HitDirection;

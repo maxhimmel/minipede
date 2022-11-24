@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.Weapons;
@@ -29,6 +31,7 @@ namespace Minipede.Gameplay.Player
 		private IDamageController _damageController;
 		private PlayerController _playerSpawnController;
 		private SpriteRenderer _renderer;
+		private TargetGroupAttachment _audioListenerTarget;
 
 		private bool _isMoveInputConsumed;
 		private Vector2 _moveInput;
@@ -39,7 +42,8 @@ namespace Minipede.Gameplay.Player
 			Gun gun,
 			Rigidbody2D body,
 			PlayerController playerSpawnController,
-			SpriteRenderer renderer )
+			SpriteRenderer renderer,
+			List<TargetGroupAttachment> targetGroups )
 		{
 			_motor = motor;
 			_damageController = damageController;
@@ -47,6 +51,7 @@ namespace Minipede.Gameplay.Player
 			_body = body;
 			_playerSpawnController = playerSpawnController;
 			_renderer = renderer;
+			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
 
 			damageController.Died += OnDied;
 		}
@@ -66,12 +71,14 @@ namespace Minipede.Gameplay.Player
 		{
 			_body.simulated = true;
 			_renderer.color = Color.white;
+			_audioListenerTarget.enabled = true;
 		}
 
 		public void UnPossess()
 		{
 			_body.simulated = false;
 			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
+			_audioListenerTarget.enabled = false;
 
 			_isMoveInputConsumed = true;
 			_moveInput = Vector2.zero;

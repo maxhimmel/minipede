@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Minipede.Assets.Scripts.VFX.Animators
 {
-	public class BounceVfxAnimator : IVfxAnimator
+	public class BounceVfxAnimator : IFxAnimator
 	{
 		private readonly Settings _settings;
 		private readonly BounceScaler _bouncer;
@@ -18,14 +18,14 @@ namespace Minipede.Assets.Scripts.VFX.Animators
 			_bouncer = new BounceScaler( renderer );
 		}
 
-		public void Play( IVfxSignal signal )
+		public void Play( IFxSignal signal )
 		{
 			_bouncer.Bounce( _settings.BounceSettings )
 				.Forget();
 		}
 
 		[System.Serializable]
-		public struct Settings : IVfxAnimator.Settings
+		public struct Settings : IFxAnimator.Settings
 		{
 			public Type AnimatorType => typeof( BounceVfxAnimator );
 

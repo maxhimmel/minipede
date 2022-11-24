@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.Vfx
 {
-	public class SpriteBlinkVfxAnimator : IVfxAnimator
+	public class SpriteBlinkVfxAnimator : IFxAnimator
 	{
 		private readonly Settings _settings;
 		private readonly SpriteBlinker _blinker;
@@ -17,14 +17,14 @@ namespace Minipede.Gameplay.Vfx
 			_blinker = new SpriteBlinker( renderer );
 		}
 
-		public void Play( IVfxSignal signal )
+		public void Play( IFxSignal signal )
 		{
 			_blinker.Blink( _settings.BlinkSettings )
 				.Forget();
 		}
 
 		[System.Serializable]
-		public struct Settings : IVfxAnimator.Settings
+		public struct Settings : IFxAnimator.Settings
 		{
 			public Type AnimatorType => typeof( SpriteBlinkVfxAnimator );
 

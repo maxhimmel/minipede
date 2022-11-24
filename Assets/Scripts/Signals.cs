@@ -1,4 +1,3 @@
-using Minipede.Gameplay.Vfx;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Enemies
@@ -29,24 +28,9 @@ namespace Minipede.Gameplay
 	}
 }
 
-namespace Minipede.Gameplay.Weapons
-{
-	public class AttackedSignal : IVfxSignal
-	{
-		public Vector2 Position { get; }
-		public Vector2 Direction { get; }
-
-		public AttackedSignal( Vector2 position, Vector2 direction )
-		{
-			Position = position;
-			Direction = direction;
-		}
-	}
-}
-
 namespace Minipede.Gameplay.Vfx
 {
-	public class FxSignal : IVfxSignal
+	public class FxSignal : IFxSignal
 	{
 		public Vector2 Position { get; }
 		public Vector2 Direction { get; }

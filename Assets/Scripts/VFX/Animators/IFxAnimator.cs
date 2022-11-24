@@ -1,8 +1,8 @@
 ﻿namespace Minipede.Gameplay.Vfx
 {
-	public interface IVfxAnimator
+	public interface IFxAnimator
 	{
-		void Play( IVfxSignal signal );
+		void Play( IFxSignal signal );
 
 		public interface Settings
 		{

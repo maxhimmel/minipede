@@ -3,7 +3,7 @@ using Minipede.Gameplay.Audio;
 
 namespace Minipede.Gameplay.Vfx
 {
-	public class SfxAnimator : IVfxAnimator
+	public class SfxAnimator : IFxAnimator
 	{
 		private readonly Settings _settings;
 		private readonly IAudioController _audioController;
@@ -15,13 +15,13 @@ namespace Minipede.Gameplay.Vfx
 			_audioController = audioController;
 		}
 
-		public void Play( IVfxSignal signal )
+		public void Play( IFxSignal signal )
 		{
 			_audioController.PlayOneShot( _settings.EventReference.EventName, signal.Position );
 		}
 
 		[System.Serializable]
-		public struct Settings : IVfxAnimator.Settings
+		public struct Settings : IFxAnimator.Settings
 		{
 			public Type AnimatorType => typeof( SfxAnimator );
 

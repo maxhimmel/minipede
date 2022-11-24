@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0796d42c2ebec44f96f9068e3a38fba, type: 3}
+  m_Script: {fileID: 11500000, guid: 781720031daeac842bcb0c0293e0b470, type: 3}
   m_Name: BlockDamagedVFX
   m_EditorClassIdentifier: 
-  _vfxId: Damaged
-  _vfxSettings:
+  _fxId: Damaged
+  _fxSettings:
   - rid: 3031877484250660872
   - rid: 3031877484250660873
   - rid: 3031877484250660874

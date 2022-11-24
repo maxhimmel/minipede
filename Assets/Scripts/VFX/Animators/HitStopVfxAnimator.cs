@@ -4,7 +4,7 @@ using Minipede.Utility;
 
 namespace Minipede.Gameplay.Vfx
 {
-	public class HitStopVfxAnimator : IVfxAnimator
+	public class HitStopVfxAnimator : IFxAnimator
 	{
 		private readonly Settings _settings;
 		private readonly TimeController _timeController;
@@ -16,14 +16,14 @@ namespace Minipede.Gameplay.Vfx
 			_timeController = timeController;
 		}
 
-		public void Play( IVfxSignal signal )
+		public void Play( IFxSignal signal )
 		{
 			_timeController.PauseForSeconds( _settings.Duration )
 				.Forget();
 		}
 
 		[System.Serializable]
-		public struct Settings : IVfxAnimator.Settings
+		public struct Settings : IFxAnimator.Settings
 		{
 			public Type AnimatorType => typeof( HitStopVfxAnimator );
 

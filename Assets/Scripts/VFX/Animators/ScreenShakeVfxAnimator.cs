@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 
 namespace Minipede.Gameplay.Vfx
 {
-	public class ScreenShakeVfxAnimator : IVfxAnimator
+	public class ScreenShakeVfxAnimator : IFxAnimator
 	{
 		private readonly Settings _settings;
 
@@ -13,13 +13,13 @@ namespace Minipede.Gameplay.Vfx
 			_settings = settings;
 		}
 
-		public void Play( IVfxSignal signal )
+		public void Play( IFxSignal signal )
 		{
 			_settings.Definition.CreateEvent( signal.Position, signal.Direction * _settings.Force );
 		}
 
 		[System.Serializable]
-		public struct Settings : IVfxAnimator.Settings
+		public struct Settings : IFxAnimator.Settings
 		{
 			public Type AnimatorType => typeof( ScreenShakeVfxAnimator );
 

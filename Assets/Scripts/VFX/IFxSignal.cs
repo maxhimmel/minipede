@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.Vfx
 {
-	public interface IVfxSignal
+	public interface IFxSignal
 	{
 		Vector2 Position { get; }
 		Vector2 Direction { get; }

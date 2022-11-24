@@ -2,7 +2,7 @@
 
 namespace Minipede.Gameplay.Vfx
 {
-	public class ScreenBlinkVfxAnimator : IVfxAnimator
+	public class ScreenBlinkVfxAnimator : IFxAnimator
 	{
 		private readonly Settings _settings;
 		private readonly ScreenBlinkController _screenBlinker;
@@ -14,7 +14,7 @@ namespace Minipede.Gameplay.Vfx
 			_screenBlinker = screenBlinker;
 		}
 
-		public void Play( IVfxSignal signal )
+		public void Play( IFxSignal signal )
 		{
 			_screenBlinker.Blink( new ScreenBlinkController.Settings()
 			{
@@ -24,7 +24,7 @@ namespace Minipede.Gameplay.Vfx
 		}
 
 		[System.Serializable]
-		public struct Settings : IVfxAnimator.Settings
+		public struct Settings : IFxAnimator.Settings
 		{
 			public System.Type AnimatorType => typeof( ScreenBlinkVfxAnimator );
 

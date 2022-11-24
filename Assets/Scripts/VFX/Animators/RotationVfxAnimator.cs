@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.Vfx
 {
-	public class RotationVfxAnimator : IVfxAnimator
+	public class RotationVfxAnimator : IFxAnimator
 	{
 		private readonly Settings _settings;
 		private readonly SpriteRenderer _renderer;
@@ -25,7 +25,7 @@ namespace Minipede.Gameplay.Vfx
 			_destroyCancelToken = renderer.GetCancellationTokenOnDestroy();
 		}
 
-		public void Play( IVfxSignal signal )
+		public void Play( IFxSignal signal )
 		{
 			Play().Cancellable( _destroyCancelToken );
 		}
@@ -41,7 +41,7 @@ namespace Minipede.Gameplay.Vfx
 		}
 
 		[System.Serializable]
-		public struct Settings : IVfxAnimator.Settings
+		public struct Settings : IFxAnimator.Settings
 		{
 			public Type AnimatorType => typeof( RotationVfxAnimator );
 

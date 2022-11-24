@@ -12,6 +12,8 @@ using Zenject;
 
 using BlockActor = Minipede.Gameplay.LevelPieces.Block;
 using TreasureActor = Minipede.Gameplay.Treasures.Treasure;
+using Minipede.Gameplay.Audio;
+using System;
 
 namespace Minipede.Installers
 {
@@ -22,6 +24,7 @@ namespace Minipede.Installers
 		[SerializeField] private Block _blockSettings;
 		[SerializeField] private Level _levelSettings;
 		[SerializeField] private Treasure _treasureSettings;
+		[SerializeField] private AudioBankLoader.Settings _audioSettings;
 
 		public override void InstallBindings()
 		{
@@ -32,6 +35,7 @@ namespace Minipede.Installers
 			BindPlayer();
 			BindLevelGeneration();
 			BindTreasure();
+			BindAudio();
 		}
 
 		private void BindCameraSystems()
@@ -114,6 +118,13 @@ namespace Minipede.Installers
 				.AsCached()
 				.WithArguments( _treasureSettings.Enemy )
 				.WhenInjectedInto<EnemyController>();
+		}
+
+		private void BindAudio()
+		{
+			Container.Bind<AudioBankLoader>()
+				.AsSingle()
+				.WithArguments( _audioSettings );
 		}
 
 		[System.Serializable]

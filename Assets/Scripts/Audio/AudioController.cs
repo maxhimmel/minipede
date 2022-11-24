@@ -64,6 +64,12 @@ namespace Minipede.Gameplay.Audio
 				throw new KeyNotFoundException( key );
 			}
 
+			if ( data.Clip.loadState != AudioDataLoadState.Loaded )
+			{
+				Debug.LogWarning( $"Playing '<b>{key}</b>' clip before loading. This may cause lag.\n" +
+					$"Try using '<b>{nameof(IAudioController)}.{nameof(LoadBank)}</b>' prior to this call.", data.Clip );
+			}
+
 			AudioSource.PlayClipAtPoint( data.Clip, position );
 		}
 	}

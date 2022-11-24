@@ -1,10 +1,9 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
-using Minipede.Gameplay.Vfx;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Minipede.Assets.Scripts.VFX.Animators
+namespace Minipede.Gameplay.Vfx
 {
 	public class BounceVfxAnimator : IFxAnimator
 	{

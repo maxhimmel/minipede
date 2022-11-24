@@ -1,5 +1,6 @@
 using System.Threading;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Utility;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Player
@@ -11,6 +12,7 @@ namespace Minipede.Gameplay.Player
 		public event System.Action<Explorer> ExplorerDied;
 
 		public CancellationToken PlayerDiedCancelToken { get; private set; }
+		public bool IsExploring => _explorer != null;
 
 		private readonly ShipSpawner _shipSpawner;
 		private readonly ShipController _shipController;
@@ -99,6 +101,18 @@ namespace Minipede.Gameplay.Player
 
 			// Self-destruct explorer's ship ...
 			_ship.TakeDamage( deadExplorer.transform, deadExplorer.transform, new DamageDatum( 999 ) );
+		}
+
+		public IOrientation GetOrientation()
+		{
+			if ( _ship == null && _explorer == null )
+			{
+				return new Orientation();
+			}
+
+			return IsExploring
+				? _explorer.Orientation
+				: _ship.Orientation;
 		}
 	}
 }

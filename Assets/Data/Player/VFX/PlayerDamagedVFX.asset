@@ -15,6 +15,7 @@ MonoBehaviour:
   _vfxSettings:
   - rid: 3031877403029536776
   - rid: 3031877438641012738
+  - rid: 3031877470060806148
   references:
     version: 2
     RefIds:
@@ -67,3 +68,8 @@ MonoBehaviour:
           m_DissipationDistance: 100
           m_PropagationSpeed: 343
         Force: 1
+    - rid: 3031877470060806148
+      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+      data:
+        EventReference:
+          EventName: Sfx/died

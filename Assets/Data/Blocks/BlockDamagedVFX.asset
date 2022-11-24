@@ -16,6 +16,7 @@ MonoBehaviour:
   - rid: 3031877426743869452
   - rid: 3031877426743870238
   - rid: 3031877426743870265
+  - rid: 3031877470060806145
   references:
     version: 2
     RefIds:
@@ -70,3 +71,8 @@ MonoBehaviour:
       data:
         AngleRange: {x: -5, y: 5}
         Duration: 0.1
+    - rid: 3031877470060806145
+      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+      data:
+        EventReference:
+          EventName: Sfx/damaged

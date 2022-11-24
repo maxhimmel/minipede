@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _vfxSettings:
   - rid: 3031877438641012741
+  - rid: 3031877470060806147
   references:
     version: 2
     RefIds:
@@ -22,3 +23,8 @@ MonoBehaviour:
       data:
         Color: {r: 0, g: 0.32941177, b: 0.14117648, a: 0}
         Duration: 1
+    - rid: 3031877470060806147
+      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+      data:
+        EventReference:
+          EventName: Sfx/died

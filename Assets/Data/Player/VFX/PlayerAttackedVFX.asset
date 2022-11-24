@@ -15,6 +15,7 @@ MonoBehaviour:
   _vfxSettings:
   - rid: 3031877403029536770
   - rid: 3031877438641012755
+  - rid: 3031877470060806149
   references:
     version: 2
     RefIds:
@@ -85,3 +86,8 @@ MonoBehaviour:
           m_DissipationDistance: 100
           m_PropagationSpeed: 343
         Force: 0.175
+    - rid: 3031877470060806149
+      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+      data:
+        EventReference:
+          EventName: Sfx/gun_fired

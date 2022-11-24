@@ -1,4 +1,6 @@
 using System;
+using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
@@ -18,22 +20,26 @@ namespace Minipede.Gameplay
 		private readonly PlayerController _playerSpawnController;
 		private readonly LevelBuilder _levelBuilder;
 		private readonly EnemyWaveController _enemyWaveController;
+		private readonly AudioBankLoader _audioBankLoader;
 
 		public GameController( GameplaySettings.Player playerSettings,
 			PlayerController playerSpawnController,
 			LevelBuilder levelBuilder,
-			EnemyWaveController enemyWaveController )
+			EnemyWaveController enemyWaveController,
+			AudioBankLoader audioBankLoader )
 		{
 			_playerSettings = playerSettings;
 			_playerSpawnController = playerSpawnController;
 			_levelBuilder = levelBuilder;
 			_enemyWaveController = enemyWaveController;
+			_audioBankLoader = audioBankLoader;
 
 			playerSpawnController.ShipDied += OnPlayerDead;
 		}
 
 		public async void Initialize()
 		{
+			await _audioBankLoader.LoadBanks();
 			await _levelBuilder.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
 
 			_playerSpawnController.CreateShip();
@@ -59,6 +65,8 @@ namespace Minipede.Gameplay
 			{
 				_playerSpawnController.ShipDied -= OnPlayerDead;
 			}
+
+			_audioBankLoader.UnloadBanks().Forget();
 		}
 	}
 }

@@ -1,4 +1,7 @@
+using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Minipede.ReConsts;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Audio
@@ -20,6 +23,38 @@ namespace Minipede.Gameplay.Audio
 					_events.Add( key, data );
 				}
 			}
+		}
+
+		public UniTask LoadBank( string category )
+		{
+			var bank = Array.Find( _banks, b => b.Category == category );
+			if ( bank == null )
+			{
+				throw new KeyNotFoundException( category );
+			}
+
+			foreach ( var data in bank.Events )
+			{
+				data.Clip.LoadAudioData();
+			}
+
+			return UniTask.CompletedTask;
+		}
+
+		public UniTask UnloadBank( string category )
+		{
+			var bank = Array.Find( _banks, b => b.Category == category );
+			if ( bank == null )
+			{
+				throw new KeyNotFoundException( category );
+			}
+
+			foreach ( var data in bank.Events )
+			{
+				data.Clip.UnloadAudioData();
+			}
+
+			return UniTask.CompletedTask;
 		}
 
 		public void PlayOneShot( string key, Vector2 position )

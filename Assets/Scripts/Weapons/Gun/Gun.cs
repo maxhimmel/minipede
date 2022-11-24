@@ -1,4 +1,3 @@
-using Cinemachine;
 using Minipede.Gameplay.Vfx;
 using Minipede.Utility;
 using Sirenix.OdinInspector;

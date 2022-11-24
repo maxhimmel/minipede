@@ -1,4 +1,3 @@
-using System;
 using Minipede.Gameplay.Vfx;
 using Minipede.Utility;
 using UnityEngine;

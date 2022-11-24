@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d086d555505c92d4f820e1547f1bd194, type: 3}
+  m_Name: Bank_SFX
+  m_EditorClassIdentifier: 
+  _category: Sfx
+  _events:
+  - EventName: collect_treasure
+    Clip: {fileID: 8300000, guid: 9a308cb12ccd4e74ba7426577b2a6715, type: 3}
+  - EventName: damaged
+    Clip: {fileID: 8300000, guid: 720898f6053fad747989fa1008575874, type: 3}
+  - EventName: died
+    Clip: {fileID: 8300000, guid: c27149550767dd344b2fb2d240bafe29, type: 3}
+  - EventName: enter_ship
+    Clip: {fileID: 8300000, guid: a424f49228c53b746a1c71d8b7acf10e, type: 3}
+  - EventName: exit_ship
+    Clip: {fileID: 8300000, guid: 6761bf32be9e9ab4295dcee9aff5d17b, type: 3}
+  - EventName: gun_fired
+    Clip: {fileID: 8300000, guid: 92c8ea039d4a9a4469f7f2e75f782f4c, type: 3}

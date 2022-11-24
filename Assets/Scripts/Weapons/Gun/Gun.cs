@@ -86,7 +86,7 @@ namespace Minipede.Gameplay.Weapons
 				avgShotDirection += shotSpot.Rotation * Vector2.up;
 			}
 
-			_signalBus.Fire( new AttackedSignal( 
+			_signalBus.FireId( "Attacked", new FxSignal( 
 				position:	avgShotOrigin / spreadCount, 
 				direction:	avgShotDirection / spreadCount 
 			) );

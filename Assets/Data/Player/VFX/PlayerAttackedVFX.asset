@@ -9,22 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7167a8b2020f744a9f1b0fe988710dc, type: 3}
+  m_Script: {fileID: 11500000, guid: c0796d42c2ebec44f96f9068e3a38fba, type: 3}
   m_Name: PlayerAttackedVFX
   m_EditorClassIdentifier: 
+  _vfxId: Attacked
   _vfxSettings:
-  - rid: 3031877403029536770
-  - rid: 3031877438641012755
-  - rid: 3031877470060806149
+  - rid: 3031877484250660864
+  - rid: 3031877484250660865
+  - rid: 3031877484250660866
   references:
     version: 2
     RefIds:
-    - rid: 3031877403029536770
+    - rid: 3031877484250660864
       type: {class: ScreenBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
       data:
         Color: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 0}
         Duration: 0.2
-    - rid: 3031877438641012755
+    - rid: 3031877484250660865
       type: {class: ScreenShakeVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
       data:
         Definition:
@@ -86,7 +87,7 @@ MonoBehaviour:
           m_DissipationDistance: 100
           m_PropagationSpeed: 343
         Force: 0.175
-    - rid: 3031877470060806149
+    - rid: 3031877484250660866
       type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
       data:
         EventReference:

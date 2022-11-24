@@ -42,20 +42,21 @@ namespace Minipede.Gameplay
 
 				if ( dmgTaken > 0 )
 				{
-					_signalBus.TryFire( new DamagedSignal()
-					{
-						Victim = _body,
-						Instigator = instigator,
-						Causer = causer,
-						Data = data,
-						HitDirection = (_body.position - causer.position.ToVector2()).normalized
-					} );
+					_signalBus.TryFireId( "Damaged", new FxSignal(
+						position:	_body.position,
+						direction:	(_body.position - causer.position.ToVector2()).normalized
+					) );
 				}
 			}
 
 			if ( !_health.IsAlive )
 			{
 				Died?.Invoke( _body, _health );
+
+				_signalBus.TryFireId( "Died", new FxSignal(
+					position: _body.position,
+					direction: (_body.position - causer.position.ToVector2()).normalized
+				) );
 			}
 
 			return dmgTaken;

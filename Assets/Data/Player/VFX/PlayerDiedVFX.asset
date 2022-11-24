@@ -9,22 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd6cc52a8551d8f45990d7e3ffa7b0a8, type: 3}
-  m_Name: PlayerDamagedVFX
+  m_Script: {fileID: 11500000, guid: c0796d42c2ebec44f96f9068e3a38fba, type: 3}
+  m_Name: PlayerDiedVFX
   m_EditorClassIdentifier: 
+  _vfxId: Died
   _vfxSettings:
-  - rid: 3031877403029536776
-  - rid: 3031877438641012738
-  - rid: 3031877470060806148
+  - rid: 3031877484250660867
+  - rid: 3031877484250660868
+  - rid: 3031877484250660869
   references:
     version: 2
     RefIds:
-    - rid: 3031877403029536776
+    - rid: 3031877484250660867
       type: {class: ScreenBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
       data:
         Color: {r: 1, g: 0, b: 0, a: 0}
         Duration: 1
-    - rid: 3031877438641012738
+    - rid: 3031877484250660868
       type: {class: ScreenShakeVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
       data:
         Definition:
@@ -68,7 +69,7 @@ MonoBehaviour:
           m_DissipationDistance: 100
           m_PropagationSpeed: 343
         Force: 1
-    - rid: 3031877470060806148
+    - rid: 3031877484250660869
       type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
       data:
         EventReference:

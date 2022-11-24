@@ -1,5 +1,6 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Vfx;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -12,6 +13,7 @@ namespace Minipede.Gameplay.Treasures
     {
 		private Settings _settings;
 		private Rigidbody2D _body;
+		private SignalBus _signalBus;
 
 		private bool _isCleanedUp;
 		private CancellationTokenSource _cleanupCancelSource;
@@ -20,10 +22,12 @@ namespace Minipede.Gameplay.Treasures
 
 		[Inject]
 		public void Construct( Settings settings,
-			Rigidbody2D body )
+			Rigidbody2D body,
+			SignalBus signalBus )
 		{
 			_settings = settings;
             _body = body;
+			_signalBus = signalBus;
 
 			_cleanupCancelSource = new CancellationTokenSource();
 			_cleanupCancelToken = _cleanupCancelSource.Token;
@@ -91,6 +95,11 @@ namespace Minipede.Gameplay.Treasures
 			ICollector collector = otherBody?.GetComponent<ICollector>();
 			if ( collector != null )
 			{
+				_signalBus.FireId( "Collected", new FxSignal(
+					_body.position,
+					(otherBody.position - _body.position).normalized
+				) );
+
 				collector.Collect( this );
 			}
 		}

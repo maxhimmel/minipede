@@ -1,7 +1,5 @@
 using System.Threading;
 using Minipede.Gameplay.LevelPieces;
-using Minipede.Gameplay.Vfx;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Player

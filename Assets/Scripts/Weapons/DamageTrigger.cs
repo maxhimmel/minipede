@@ -49,11 +49,11 @@ namespace Minipede.Gameplay.Weapons
 		{
 			_signalBus.Fire( new DamagedSignal()
 			{
-				Victim = victim,
-				Instigator = _owner,
-				Causer = _body.transform,
-				Data = _settings.Damage,
-				HitDirection = (victim.position - _body.position).normalized
+				Victim			= victim,
+				Instigator		= _owner,
+				Causer			= _body.transform,
+				Data			= _settings.Damage,
+				HitDirection	= (victim.position - _body.position).normalized
 			} );
 		}
 

@@ -10,48 +10,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 781720031daeac842bcb0c0293e0b470, type: 3}
-  m_Name: PlayerAttackedVFX
+  m_Name: PlayerDiedFX
   m_EditorClassIdentifier: 
-  _fxId: Attacked
+  _fxId: Died
   _fxSettings:
-  - rid: 3031877484250660864
-  - rid: 3031877484250660865
-  - rid: 3031877484250660866
+  - rid: 3031877484250660867
+  - rid: 3031877484250660868
+  - rid: 3031877484250660869
   references:
     version: 2
     RefIds:
-    - rid: 3031877484250660864
+    - rid: 3031877484250660867
       type: {class: ScreenBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
       data:
-        Color: {r: 0.101960786, g: 0.101960786, b: 0.101960786, a: 0}
-        Duration: 0.2
-    - rid: 3031877484250660865
+        Color: {r: 1, g: 0, b: 0, a: 0}
+        Duration: 1
+    - rid: 3031877484250660868
       type: {class: ScreenShakeVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
       data:
         Definition:
           m_ImpulseChannel: 1
-          m_ImpulseShape: 1
+          m_ImpulseShape: 2
           m_CustomImpulseShape:
             serializedVersion: 2
-            m_Curve:
-            - serializedVersion: 3
-              time: 0
-              value: 0
-              inSlope: -0.8738364
-              outSlope: -0.8738364
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0
-              outWeight: 0.095833324
-            - serializedVersion: 3
-              time: 1
-              value: 1
-              inSlope: -1.1031842
-              outSlope: -1.1031842
-              tangentMode: 0
-              weightedMode: 0
-              inWeight: 0.09791672
-              outWeight: 0
+            m_Curve: []
             m_PreInfinity: 2
             m_PostInfinity: 2
             m_RotationOrder: 4
@@ -86,9 +68,9 @@ MonoBehaviour:
           m_DissipationMode: 2
           m_DissipationDistance: 100
           m_PropagationSpeed: 343
-        Force: 0.175
-    - rid: 3031877484250660866
+        Force: 1
+    - rid: 3031877484250660869
       type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
       data:
         EventReference:
-          EventName: Sfx/gun_fired
+          EventName: Sfx/died

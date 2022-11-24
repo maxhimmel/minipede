@@ -13,7 +13,7 @@ namespace Minipede.Installers
 		{
 			Container.Bind<TargetGroupAttachment>()
 				.FromNewComponentOnRoot()
-				.AsSingle()
+				.AsCached()
 				.WithArguments( _settings )
 				.NonLazy();
 		}

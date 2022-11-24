@@ -7,6 +7,8 @@ namespace Minipede.Gameplay.Cameras
 {
     public class TargetGroupAttachment : MonoBehaviour
     {
+		public string Id => _settings.BindingId;
+
 		private Settings _settings;
 		private CinemachineTargetGroup _targetGroup;
 

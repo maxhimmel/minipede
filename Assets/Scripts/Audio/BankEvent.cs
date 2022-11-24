@@ -8,10 +8,22 @@ namespace Minipede.Gameplay.Audio
 	[InlineProperty]
 	public class BankEvent : IComparable<BankEvent>
 	{
-		[HorizontalGroup, HideLabel]
+		[BoxGroup( GroupID = "Box" )]
+		[HorizontalGroup( GroupID = "Box/Hori", Title = "Event" ), HideLabel]
 		public string EventName;
-		[HorizontalGroup, HideLabel]
+		[BoxGroup( GroupID = "Box" )]
+		[HorizontalGroup( GroupID = "Box/Hori", Title = "Event" ), HideLabel]
 		public AudioClip Clip;
+
+		[FoldoutGroup( "Box/Params" ), PropertyRange( 0, 1 )]
+		public float Volume = 1;
+		[FoldoutGroup( "Box/Params" ), MinMaxSlider( -3, 3, ShowFields = true )]
+		public Vector2 PitchRange = Vector2.one;
+		[ToggleGroup( "Box/Params/Is3d", "3D", CollapseOthersOnExpand = false )]
+		public bool Is3d = true;
+		[ToggleGroup( "Box/Params/Is3d", "3D", CollapseOthersOnExpand = false )]
+		[MinMaxSlider( 1, 500, ShowFields = true )]
+		public Vector2 DistanceRange = new Vector2( 1, 50 );
 
 		public int CompareTo( BankEvent other )
 		{

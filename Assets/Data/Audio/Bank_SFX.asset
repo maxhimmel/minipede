@@ -16,13 +16,37 @@ MonoBehaviour:
   _events:
   - EventName: collect_treasure
     Clip: {fileID: 8300000, guid: 9a308cb12ccd4e74ba7426577b2a6715, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.8, y: 1.2}
+    Is3d: 0
+    DistanceRange: {x: 1, y: 5}
   - EventName: damaged
     Clip: {fileID: 8300000, guid: 720898f6053fad747989fa1008575874, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.8, y: 1.2}
+    Is3d: 1
+    DistanceRange: {x: 1, y: 20}
   - EventName: died
     Clip: {fileID: 8300000, guid: c27149550767dd344b2fb2d240bafe29, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.8, y: 1.2}
+    Is3d: 1
+    DistanceRange: {x: 1, y: 30}
   - EventName: enter_ship
     Clip: {fileID: 8300000, guid: a424f49228c53b746a1c71d8b7acf10e, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+    Is3d: 0
+    DistanceRange: {x: 1, y: 5}
   - EventName: exit_ship
     Clip: {fileID: 8300000, guid: 6761bf32be9e9ab4295dcee9aff5d17b, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+    Is3d: 0
+    DistanceRange: {x: 1, y: 5}
   - EventName: gun_fired
     Clip: {fileID: 8300000, guid: 92c8ea039d4a9a4469f7f2e75f782f4c, type: 3}
+    Volume: 1
+    PitchRange: {x: 0.8, y: 1.2}
+    Is3d: 1
+    DistanceRange: {x: 1, y: 30}

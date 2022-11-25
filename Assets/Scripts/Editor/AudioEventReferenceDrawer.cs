@@ -29,7 +29,10 @@ namespace Minipede.Editor
 		{
 			using ( new EditorGUILayout.HorizontalScope() )
 			{
-				EditorGUILayout.PrefixLabel( label );
+				if ( label != null )
+				{
+					EditorGUILayout.PrefixLabel( label );
+				}
 				if ( GUILayout.Button( ValueEntry.SmartValue.EventName, _buttonStyle ) )
 				{
 					_eventSelector.ShowInPopup();

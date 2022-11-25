@@ -53,5 +53,15 @@ MonoBehaviour:
       Spawns: {x: 1, y: 1}
       LaunchImpulse: {x: 4.1097655, y: 5.733059}
   _audioSettings:
-    LoadBanks:
-    - Sfx
+    Banks:
+      LoadBanks:
+      - Sfx
+    Music:
+      NextTrackDelay: 2
+      Tracks:
+      - EventName: Music/Anamnesis of the worlds Sin
+      - EventName: Music/Cosmic Temperance
+      - EventName: Music/Dark Matter Moon
+      - EventName: Music/Lich is Unbreakable
+      - EventName: Music/Star Judgment
+      - EventName: Music/Universes Storm

@@ -24,7 +24,7 @@ namespace Minipede.Installers
 		[SerializeField] private Block _blockSettings;
 		[SerializeField] private Level _levelSettings;
 		[SerializeField] private Treasure _treasureSettings;
-		[SerializeField] private AudioBankLoader.Settings _audioSettings;
+		[SerializeField] private Audio _audioSettings;
 
 		public override void InstallBindings()
 		{
@@ -127,7 +127,11 @@ namespace Minipede.Installers
 
 			Container.Bind<AudioBankLoader>()
 				.AsSingle()
-				.WithArguments( _audioSettings );
+				.WithArguments( _audioSettings.Banks );
+
+			Container.BindInterfacesAndSelfTo<MusicPlayer>()
+				.AsSingle()
+				.WithArguments( _audioSettings.Music );
 		}
 
 		[System.Serializable]
@@ -174,6 +178,16 @@ namespace Minipede.Installers
 			public LootBox.Settings Block;
 			[FoldoutGroup( "Enemy" ), HideLabel]
 			public LootBox.Settings Enemy;
+		}
+
+		[System.Serializable]
+		public struct Audio
+		{
+			[HideLabel]
+			public AudioBankLoader.Settings Banks;
+
+			[FoldoutGroup( "Music" ), HideLabel]
+			public MusicPlayer.Settings Music;
 		}
 	}
 }

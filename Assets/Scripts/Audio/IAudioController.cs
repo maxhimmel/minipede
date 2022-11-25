@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using Minipede.Utility;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Audio
@@ -7,6 +8,10 @@ namespace Minipede.Gameplay.Audio
 	{
 		UniTask LoadBank( string key );
 		UniTask UnloadBank( string key );
-		void PlayOneShot( string key, Vector2 position );
+
+		IEventInstance PlayOneShot( string key, Vector2 position );
+
+		IEventInstance CreateInstance( string key );
 	}
+
 }

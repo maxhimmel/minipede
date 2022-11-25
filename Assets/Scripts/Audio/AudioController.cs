@@ -82,17 +82,20 @@ namespace Minipede.Gameplay.Audio
 			return UniTask.CompletedTask;
 		}
 
-		public void PlayOneShot( string key, Vector2 position )
+		public IEventInstance PlayOneShot( string key, Vector2 position )
+		{
+			IEventInstance instance = CreateInstance( key );
+			instance.SetOrientation( new Orientation( position ) );
+			instance.Play();
+
+			return instance;
+		}
+
+		public IEventInstance CreateInstance( string key )
 		{
 			if ( !_events.TryGetValue( key, out var data ) )
 			{
 				throw new KeyNotFoundException( key );
-			}
-
-			if ( data.Clip.loadState != AudioDataLoadState.Loaded )
-			{
-				Debug.LogWarning( $"Playing '<b>{key}</b>' clip before loading. This may cause lag.\n" +
-					$"Try using '<b>{nameof(IAudioController)}.{nameof(LoadBank)}</b>' prior to this call.", data.Clip );
 			}
 
 			var mixerKey = key.Split( '/' )[0];
@@ -103,17 +106,14 @@ namespace Minipede.Gameplay.Audio
 			source.spatialBlend = data.Is3d ? 1 : 0;
 			source.minDistance = data.DistanceRange.x;
 			source.maxDistance = data.DistanceRange.y;
-			source.transform.position = position;
 
 			// General ...
 			source.volume = data.Volume;
 			source.pitch = data.PitchRange.Random();
-
-			// Play!
 			source.clip = data.Clip;
-			source.Play();
 
 			_playingSources.Add( source );
+			return new EventInstance( source );
 		}
 
 		private void Update()
@@ -137,6 +137,57 @@ namespace Minipede.Gameplay.Audio
 			foreach ( var kvp in _sourcesByMixer )
 			{
 				kvp.Value.Dispose();
+			}
+		}
+
+
+		/*---*/
+
+
+		private class EventInstance : IEventInstance
+		{
+			public bool IsPlaying => _source.isPlaying;
+
+			private readonly AudioSource _source;
+
+			public EventInstance( AudioSource source )
+			{
+				_source = source;
+			}
+
+			public void Play()
+			{
+				if ( _source.clip.loadState != AudioDataLoadState.Loaded )
+				{
+					Debug.LogWarning( $"Playing '<b>{_source.clip.name}</b>' clip before loading. This may cause lag.\n" +
+						$"Try using '<b>{nameof( IAudioController )}.{nameof( LoadBank )}</b>' prior to this call.", _source.clip );
+				}
+
+				_source.Play();
+			}
+
+			public void Stop()
+			{
+				_source.Stop();
+			}
+
+			public void Pause()
+			{
+				_source.Pause();
+			}
+
+			public void Resume()
+			{
+				_source.UnPause();
+			}
+
+			public void SetOrientation( IOrientation orientation )
+			{
+				_source.transform.SetPositionAndRotation(
+					orientation.Position,
+					orientation.Rotation
+				);
+				//_source.transform.SetParent( orientation.Parent );
 			}
 		}
 	}

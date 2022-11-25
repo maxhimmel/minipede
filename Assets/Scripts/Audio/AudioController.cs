@@ -82,6 +82,29 @@ namespace Minipede.Gameplay.Audio
 			return UniTask.CompletedTask;
 		}
 
+		public float GetVolume( string category )
+		{
+			_masterMixer.GetFloat( GetVolumeKey( category ), out var volume );
+			return Mathf.Pow( 10, volume / 20f );
+		}
+
+		public void SetVolume( string category, float volume )
+		{
+			volume = Mathf.Clamp( volume, 0.001f, 1 );
+			float convertedVolume = Mathf.Log10( volume ) * 20;
+			bool isSuccess = _masterMixer.SetFloat( GetVolumeKey( category ), convertedVolume );
+
+			if ( !isSuccess )
+			{
+				throw new NotImplementedException( $"'{_masterMixer.name}/{category}' does not expose a 'Volume' parameter." );
+			}
+		}
+
+		private string GetVolumeKey( string category )
+		{
+			return $"{category}/Volume";
+		}
+
 		public IEventInstance PlayOneShot( string key, Vector2 position )
 		{
 			IEventInstance instance = CreateInstance( key );

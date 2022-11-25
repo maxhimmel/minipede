@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d086d555505c92d4f820e1547f1bd194, type: 3}
+  m_Name: Bank_Music
+  m_EditorClassIdentifier: 
+  _category: Music
+  _events:
+  - EventName: Anamnesis of the worlds Sin
+    Clip: {fileID: 8300000, guid: 257ea60561acfaa4dbfc0a5e37f18277, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+    Is3d: 0
+    DistanceRange: {x: 1, y: 50}
+  - EventName: Cosmic Temperance
+    Clip: {fileID: 8300000, guid: 52bec7563f90a2045a42aa5f26cae9f1, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+    Is3d: 0
+    DistanceRange: {x: 1, y: 50}
+  - EventName: Dark Matter Moon
+    Clip: {fileID: 8300000, guid: 51c0424cea8c5ff43b7a640f8b9335dc, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+    Is3d: 0
+    DistanceRange: {x: 1, y: 50}
+  - EventName: Lich is Unbreakable
+    Clip: {fileID: 8300000, guid: e5c39d77f54cdeb47bd4f697f7cee045, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+    Is3d: 0
+    DistanceRange: {x: 1, y: 50}
+  - EventName: Star Judgment
+    Clip: {fileID: 8300000, guid: a5ff9af39c8ae1d4e968ee25f4ad911b, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+    Is3d: 0
+    DistanceRange: {x: 1, y: 50}
+  - EventName: Universes Storm
+    Clip: {fileID: 8300000, guid: 77a41fa1268ad5c488c2d47e23742f19, type: 3}
+    Volume: 1
+    PitchRange: {x: 1, y: 1}
+    Is3d: 0
+    DistanceRange: {x: 1, y: 50}

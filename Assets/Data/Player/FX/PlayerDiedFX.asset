@@ -14,19 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fxId: Died
   _fxSettings:
-  - rid: 3031877484250660867
-  - rid: 3031877484250660868
-  - rid: 3031877484250660869
+  - rid: 3031877517092847709
+  - rid: 3031877517092847710
+  - rid: 3031877517092847701
   references:
     version: 2
     RefIds:
-    - rid: 3031877484250660867
-      type: {class: ScreenBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+    - rid: 3031877517092847701
+      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        EventReference:
+          EventName: Sfx/died
+    - rid: 3031877517092847709
+      type: {class: ScreenBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
       data:
         Color: {r: 1, g: 0, b: 0, a: 0}
         Duration: 1
-    - rid: 3031877484250660868
-      type: {class: ScreenShakeVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+    - rid: 3031877517092847710
+      type: {class: ScreenShakeVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
       data:
         Definition:
           m_ImpulseChannel: 1
@@ -69,8 +74,3 @@ MonoBehaviour:
           m_DissipationDistance: 100
           m_PropagationSpeed: 343
         Force: 1
-    - rid: 3031877484250660869
-      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
-      data:
-        EventReference:
-          EventName: Sfx/died

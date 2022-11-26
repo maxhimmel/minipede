@@ -14,32 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fxId: Damaged
   _fxSettings:
-  - rid: 3031877484250660872
-  - rid: 3031877484250660880
-  - rid: 3031877484250660874
-  - rid: 3031877484250660875
+  - rid: 3031877517092847732
+  - rid: 3031877517092847730
+  - rid: 3031877517092847714
+  - rid: 3031877517092847729
   references:
     version: 2
     RefIds:
-    - rid: 3031877484250660872
-      type: {class: SpriteBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+    - rid: 3031877517092847714
+      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        EventReference:
+          EventName: Sfx/damaged
+    - rid: 3031877517092847729
+      type: {class: SpriteBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
       data:
         BlinkSettings:
           Color: {r: 1, g: 1, b: 1, a: 1}
           Blinks: 1
           Duration: 0.1
-    - rid: 3031877484250660874
-      type: {class: RotationVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+    - rid: 3031877517092847730
+      type: {class: RotationVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
       data:
         AngleRange: {x: -5, y: 5}
         Duration: 0.1
-    - rid: 3031877484250660875
-      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
-      data:
-        EventReference:
-          EventName: Sfx/damaged
-    - rid: 3031877484250660880
-      type: {class: BounceVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+    - rid: 3031877517092847732
+      type: {class: BounceVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
       data:
         BounceSettings:
           Scale: 0.2

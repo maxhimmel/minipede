@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fxId: Died
   _fxSettings:
-  - rid: 3031877484250660870
-  - rid: 3031877484250660871
+  - rid: 3031877517092847642
+  - rid: 3031877517092847622
   references:
     version: 2
     RefIds:
-    - rid: 3031877484250660870
-      type: {class: ScreenBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
-      data:
-        Color: {r: 0, g: 0.32941177, b: 0.14117648, a: 0}
-        Duration: 1
-    - rid: 3031877484250660871
-      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+    - rid: 3031877517092847622
+      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
       data:
         EventReference:
           EventName: Sfx/died
+    - rid: 3031877517092847642
+      type: {class: ScreenBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        Color: {r: 0, g: 0.3294118, b: 0.14117648, a: 0}
+        Duration: 1

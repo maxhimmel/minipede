@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _fxId: Collected
   _fxSettings:
-  - rid: 3031877470060806151
+  - rid: 3031877517092847620
   references:
     version: 2
     RefIds:
-    - rid: 3031877470060806151
-      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Vfx, asm: Minipede}
+    - rid: 3031877517092847620
+      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
       data:
         EventReference:
           EventName: Sfx/collect_treasure

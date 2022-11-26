@@ -2,7 +2,7 @@
 using Cinemachine;
 using Sirenix.OdinInspector;
 
-namespace Minipede.Gameplay.Vfx
+namespace Minipede.Gameplay.Fx
 {
 	public class ScreenShakeVfxAnimator : IFxAnimator
 	{

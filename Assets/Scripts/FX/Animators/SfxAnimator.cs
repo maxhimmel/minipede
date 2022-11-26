@@ -1,7 +1,7 @@
 ﻿using System;
 using Minipede.Gameplay.Audio;
 
-namespace Minipede.Gameplay.Vfx
+namespace Minipede.Gameplay.Fx
 {
 	public class SfxAnimator : IFxAnimator
 	{

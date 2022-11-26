@@ -1,4 +1,4 @@
-﻿using Minipede.Gameplay.Vfx;
+﻿using Minipede.Gameplay.Fx;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;

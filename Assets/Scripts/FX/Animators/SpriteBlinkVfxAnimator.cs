@@ -3,7 +3,7 @@ using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Minipede.Gameplay.Vfx
+namespace Minipede.Gameplay.Fx
 {
 	public class SpriteBlinkVfxAnimator : IFxAnimator
 	{

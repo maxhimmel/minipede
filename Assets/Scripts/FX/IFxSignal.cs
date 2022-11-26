@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Minipede.Gameplay.Vfx
+namespace Minipede.Gameplay.Fx
 {
 	public interface IFxSignal
 	{

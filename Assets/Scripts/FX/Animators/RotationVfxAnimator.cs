@@ -7,7 +7,7 @@ using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Minipede.Gameplay.Vfx
+namespace Minipede.Gameplay.Fx
 {
 	public class RotationVfxAnimator : IFxAnimator
 	{

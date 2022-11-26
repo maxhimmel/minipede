@@ -28,7 +28,7 @@ namespace Minipede.Gameplay
 	}
 }
 
-namespace Minipede.Gameplay.Vfx
+namespace Minipede.Gameplay.Fx
 {
 	public class FxSignal : IFxSignal
 	{

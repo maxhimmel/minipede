@@ -4,7 +4,7 @@ using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
-using Minipede.Gameplay.Vfx;
+using Minipede.Gameplay.Fx;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;

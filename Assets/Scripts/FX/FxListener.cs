@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using Zenject;
 
-namespace Minipede.Gameplay.Vfx
+namespace Minipede.Gameplay.Fx
 {
 	public class FxListener :
 		IInitializable,

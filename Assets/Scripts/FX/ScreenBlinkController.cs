@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
-namespace Minipede.Gameplay.Vfx
+namespace Minipede.Gameplay.Fx
 {
     public class ScreenBlinkController : ITickable
 	{

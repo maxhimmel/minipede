@@ -2,7 +2,7 @@ using System;
 using Cysharp.Threading.Tasks;
 using Minipede.Utility;
 
-namespace Minipede.Gameplay.Vfx
+namespace Minipede.Gameplay.Fx
 {
 	public class HitStopVfxAnimator : IFxAnimator
 	{

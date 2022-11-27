@@ -47,6 +47,7 @@ namespace Minipede.Editor
 			{
 				if ( kvp.Value.Toggle )
 				{
+					kvp.Key.serializedObject.UpdateIfRequiredOrScript();
 					DrawPlacement( kvp.Key, kvp.Value.Color );
 				}
 			}

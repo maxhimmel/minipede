@@ -29,9 +29,6 @@ namespace Minipede.Gameplay.Audio
 
 		public void Dispose()
 		{
-			/// TODO: Stop music. Add method to <see cref="IAudioController"/> for stopping a track.
-			/// Or, let's at least double check this <see cref="IEventInstance"/> API.
-			
 			if ( _currentEvent != null )
 			{
 				_currentEvent.Stop();

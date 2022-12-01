@@ -19,6 +19,8 @@ namespace Minipede.Gameplay.Treasures
 		private CancellationTokenSource _cleanupCancelSource;
 		private CancellationToken _cleanupCancelToken;
 		private Rigidbody2D _followTarget;
+		private LineRenderer _tetherRenderer;
+		private Vector3[] _tetherPositions;
 
 		[Inject]
 		public void Construct( Settings settings,
@@ -31,6 +33,17 @@ namespace Minipede.Gameplay.Treasures
 
 			_cleanupCancelSource = new CancellationTokenSource();
 			_cleanupCancelToken = _cleanupCancelSource.Token;
+
+			SetupTether();
+		}
+
+		private void SetupTether()
+		{
+			_tetherPositions = new Vector3[2];
+
+			_tetherRenderer = Instantiate( _settings.TetherPrefab, transform );
+			_tetherRenderer.positionCount = 2;
+			_tetherRenderer.enabled = false;
 		}
 
 		public void Launch( Vector2 impulse )
@@ -56,6 +69,8 @@ namespace Minipede.Gameplay.Treasures
 				return;
 			}
 
+			_tetherRenderer.enabled = false;
+
 			_cleanupCancelSource.Cancel();
 			_cleanupCancelSource.Dispose();
 
@@ -66,6 +81,15 @@ namespace Minipede.Gameplay.Treasures
 		public void Follow( Rigidbody2D target )
 		{
 			_followTarget = target;
+
+			UpdateTether();
+			_tetherRenderer.enabled = true;
+		}
+
+		public void StopFollowing()
+		{
+			_followTarget = null;
+			_tetherRenderer.enabled = false;
 		}
 
 		private void FixedUpdate()
@@ -76,6 +100,7 @@ namespace Minipede.Gameplay.Treasures
 			}
 
 			MoveTowardsTarget();
+			UpdateTether();
 		}
 
 		private bool CanFollow()
@@ -86,7 +111,19 @@ namespace Minipede.Gameplay.Treasures
 		private void MoveTowardsTarget()
 		{
 			Vector2 selfToTarget = _followTarget.position - _body.position;
+			if ( selfToTarget.sqrMagnitude < _settings.MinFollowDistance * _settings.MinFollowDistance )
+			{
+				return;
+			}
+
 			_body.AddForce( selfToTarget.normalized * _settings.FollowForce, ForceMode2D.Force );
+		}
+
+		private void UpdateTether()
+		{
+			_tetherPositions[0] = _body.position;
+			_tetherPositions[1] = _followTarget.position;
+			_tetherRenderer.SetPositions( _tetherPositions );
 		}
 
 		private void OnCollisionEnter2D( Collision2D collision )
@@ -113,7 +150,9 @@ namespace Minipede.Gameplay.Treasures
 			public Vector2 TorqueRange;
 
 			[Space]
+			public LineRenderer TetherPrefab;
 			public float FollowForce;
+			public float MinFollowDistance;
 		}
 
 		public class Factory : UnityPrefabFactory<Treasure> { }

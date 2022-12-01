@@ -106,6 +106,10 @@ namespace Minipede.Installers
 
 		private void BindTreasure()
 		{
+			Container.BindInstance( _treasureSettings.Hauling )
+				.AsSingle()
+				.WhenInjectedInto<TreasureHauler>();
+
 			Container.Bind<TreasureActor.Factory>()
 				.AsSingle();
 
@@ -178,6 +182,8 @@ namespace Minipede.Installers
 			public LootBox.Settings Block;
 			[FoldoutGroup( "Enemy" ), HideLabel]
 			public LootBox.Settings Enemy;
+			[FoldoutGroup( "Player" )]
+			public TreasureHauler.Settings Hauling;
 		}
 
 		[System.Serializable]

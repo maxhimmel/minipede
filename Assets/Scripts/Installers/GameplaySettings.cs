@@ -76,6 +76,11 @@ namespace Minipede.Installers
 
 			Container.Bind<PlayerController>()
 				.AsSingle();
+
+
+			// Resource Management ...
+			Container.Bind<Wallet>()
+				.AsSingle();
 		}
 
 		private void BindLevelGeneration()

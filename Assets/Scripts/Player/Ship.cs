@@ -31,6 +31,7 @@ namespace Minipede.Gameplay.Player
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
 		private PlayerController _playerController;
+		private Wallet _wallet;
 		private SpriteRenderer _renderer;
 		private TargetGroupAttachment _audioListenerTarget;
 
@@ -43,6 +44,7 @@ namespace Minipede.Gameplay.Player
 			Gun gun,
 			Rigidbody2D body,
 			PlayerController playerController,
+			Wallet wallet,
 			SpriteRenderer renderer,
 			List<TargetGroupAttachment> targetGroups )
 		{
@@ -51,6 +53,7 @@ namespace Minipede.Gameplay.Player
 			_gun = gun;
 			_body = body;
 			_playerController = playerController;
+			_wallet = wallet;
 			_renderer = renderer;
 			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
 
@@ -131,6 +134,7 @@ namespace Minipede.Gameplay.Player
 
 		public void Collect( Treasure treasure )
 		{
+			_wallet.CollectTreasure( treasure );
 			treasure.Cleanup();
 		}
 

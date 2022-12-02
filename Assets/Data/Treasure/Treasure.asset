@@ -17,5 +17,6 @@ MonoBehaviour:
     TorqueRange: {x: 675.7356, y: 900.8955}
     TetherPrefab: {fileID: 1824722372019756568, guid: 3f9e8fab95fc6e648860996ad417b75f, type: 3}
     FollowForce: 2
+    SnapToCollectorSpeed: 10
     MinFollowDistance: 1.75
     Weight: 0.5

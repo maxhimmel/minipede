@@ -20,6 +20,7 @@ namespace Minipede.Gameplay.Treasures
 		private bool _isCleanedUp;
 		private CancellationTokenSource _cleanupCancelSource;
 		private CancellationToken _cleanupCancelToken;
+		private FollowMode _followMode;
 		private Rigidbody2D _followTarget;
 		private LineRenderer _tetherRenderer;
 		private Vector3[] _tetherPositions;
@@ -71,7 +72,7 @@ namespace Minipede.Gameplay.Treasures
 				return;
 			}
 
-			_tetherRenderer.enabled = false;
+			StopFollowing();
 
 			_cleanupCancelSource.Cancel();
 			_cleanupCancelSource.Dispose();
@@ -80,18 +81,30 @@ namespace Minipede.Gameplay.Treasures
 			_isCleanedUp = true;
 		}
 
+		public void SnapToCollector( Rigidbody2D collector )
+		{
+			StopFollowing();
+
+			_followTarget = collector;
+			SetFollowMode( FollowMode.Collect );
+		}
+
 		public void Follow( Rigidbody2D target )
 		{
 			_followTarget = target;
 
 			UpdateTether();
 			_tetherRenderer.enabled = true;
+
+			SetFollowMode( FollowMode.Haul );
 		}
 
 		public void StopFollowing()
 		{
 			_followTarget = null;
 			_tetherRenderer.enabled = false;
+
+			SetFollowMode( FollowMode.None );
 		}
 
 		private void FixedUpdate()
@@ -101,16 +114,26 @@ namespace Minipede.Gameplay.Treasures
 				return;
 			}
 
-			MoveTowardsTarget();
-			UpdateTether();
+			switch ( _followMode )
+			{
+				case FollowMode.Haul:
+					MoveIntoTargetRadius();
+					UpdateTether();
+					break;
+
+				case FollowMode.Collect:
+					SnapToTarget();
+					break;
+			}
 		}
 
 		private bool CanFollow()
 		{
-			return _followTarget != null;
+			return _followMode != FollowMode.None 
+				&& _followTarget != null;
 		}
 
-		private void MoveTowardsTarget()
+		private void MoveIntoTargetRadius()
 		{
 			Vector2 selfToTarget = _followTarget.position - _body.position;
 			if ( selfToTarget.sqrMagnitude < _settings.MinFollowDistance * _settings.MinFollowDistance )
@@ -128,6 +151,15 @@ namespace Minipede.Gameplay.Treasures
 			_tetherRenderer.SetPositions( _tetherPositions );
 		}
 
+		private void SnapToTarget()
+		{
+			float moveDelta = Time.deltaTime * _settings.SnapToCollectorSpeed;
+			Vector2 newPos = Vector2.MoveTowards( _body.position, _followTarget.position, moveDelta );
+
+			_body.velocity = Vector2.zero;
+			_body.MovePosition( newPos );
+		}
+
 		private void OnCollisionEnter2D( Collision2D collision )
 		{
 			var otherBody = collision.rigidbody;
@@ -143,6 +175,11 @@ namespace Minipede.Gameplay.Treasures
 			}
 		}
 
+		private void SetFollowMode( FollowMode mode )
+		{
+			_followMode = mode;
+		}
+
 		[System.Serializable]
 		public struct Settings
 		{
@@ -156,9 +193,19 @@ namespace Minipede.Gameplay.Treasures
 			[BoxGroup( "Hauling" )]
 			public float FollowForce;
 			[BoxGroup( "Hauling" )]
+			public float SnapToCollectorSpeed;
+			[BoxGroup( "Hauling" )]
 			public float MinFollowDistance;
 			[BoxGroup( "Hauling" )]
 			public float Weight;
+		}
+
+		private enum FollowMode
+		{
+			None,
+
+			Haul,
+			Collect
 		}
 
 		public class Factory : UnityPrefabFactory<Treasure> { }

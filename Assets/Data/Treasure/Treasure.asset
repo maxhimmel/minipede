@@ -18,3 +18,4 @@ MonoBehaviour:
     TetherPrefab: {fileID: 1824722372019756568, guid: 3f9e8fab95fc6e648860996ad417b75f, type: 3}
     FollowForce: 2
     MinFollowDistance: 1.75
+    Weight: 0.5

@@ -20,6 +20,7 @@ namespace Minipede.Gameplay.Player
 			remove => _damageController.Died -= value;
 		}
 
+		public Rigidbody2D Body => _body;
 		public IOrientation Orientation => new Orientation( _body.position, _body.transform.rotation, _body.transform.parent );
 
 		private IDamageController _damageController;

@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.Treasures
 {
-    public class Treasure : MonoBehaviour,
+    public abstract class Treasure : MonoBehaviour,
 		ICleanup
     {
 		public float Weight => _settings.Weight;

@@ -27,6 +27,7 @@ namespace Minipede.Gameplay.Player
 		private Rigidbody2D _body;
 		private TreasureHauler _treasureHauler;
 
+		private float _initialMaxSpeed;
 		private Vector2 _moveInput;
 		private bool _isMoveInputConsumed;
 		private bool _isCleanedUp;
@@ -42,7 +43,10 @@ namespace Minipede.Gameplay.Player
 			_body = body;
 			_treasureHauler = treasureHauler;
 
+			treasureHauler.HaulAmountChanged += TreasureHaulAmountChanged;
 			damageController.Died += OnDied;
+
+			_initialMaxSpeed = motor.Settings.MaxSpeed;
 		}
 
 		public void EnterShip()
@@ -75,6 +79,12 @@ namespace Minipede.Gameplay.Player
 			_treasureHauler.StopReleasingTreasure();
 		}
 
+		private void TreasureHaulAmountChanged( float weight )
+		{
+			float maxSpeed = _initialMaxSpeed - weight;
+			_motor.SetMaxSpeed( maxSpeed );
+		}
+
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
 			return _damageController.TakeDamage( instigator, causer, data );
@@ -93,6 +103,7 @@ namespace Minipede.Gameplay.Player
 			}
 
 			_damageController.Died -= OnDied;
+			_treasureHauler.HaulAmountChanged -= TreasureHaulAmountChanged;
 
 			Destroy( gameObject );
 			_isCleanedUp = true;

@@ -61,6 +61,7 @@ namespace Minipede.Gameplay.Treasures
 
 		private async UniTask StartLifetime()
 		{
+			// TODO: Pause this when being hauled/snapping ...
 			await TaskHelpers.DelaySeconds( _settings.LifetimeRange.Random(), _cleanupCancelToken );
 			Cleanup();
 		}

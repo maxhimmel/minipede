@@ -30,7 +30,7 @@ namespace Minipede.Gameplay.Player
 		private Gun _gun;
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
-		private PlayerController _playerSpawnController;
+		private PlayerController _playerController;
 		private SpriteRenderer _renderer;
 		private TargetGroupAttachment _audioListenerTarget;
 
@@ -42,7 +42,7 @@ namespace Minipede.Gameplay.Player
 			IDamageController damageController,
 			Gun gun,
 			Rigidbody2D body,
-			PlayerController playerSpawnController,
+			PlayerController playerController,
 			SpriteRenderer renderer,
 			List<TargetGroupAttachment> targetGroups )
 		{
@@ -50,7 +50,7 @@ namespace Minipede.Gameplay.Player
 			_damageController = damageController;
 			_gun = gun;
 			_body = body;
-			_playerSpawnController = playerSpawnController;
+			_playerController = playerController;
 			_renderer = renderer;
 			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
 
@@ -85,7 +85,7 @@ namespace Minipede.Gameplay.Player
 			_moveInput = Vector2.zero;
 			_motor.SetDesiredVelocity( Vector2.zero );
 
-			_playerSpawnController.CreateExplorer();
+			_playerController.CreateExplorer();
 		}
 
 		public void StartFiring()

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -7,6 +8,9 @@ namespace Minipede.Gameplay.Treasures
 {
     public class TreasureHauler : MonoBehaviour
     {
+		public event TreaseHaulSignature HaulAmountChanged;
+		public delegate void TreaseHaulSignature( float weight );
+
 		private Settings _settings;
 		private Rigidbody2D _body;
         private Collider2D _haulTrigger;
@@ -39,6 +43,8 @@ namespace Minipede.Gameplay.Treasures
 				treasure.StopFollowing();
 			}
 			_haulingTreasures.Clear();
+
+			HaulAmountChanged?.Invoke( 0 );
 		}
 
 		public void StartReleasingTreasure()
@@ -103,6 +109,8 @@ namespace Minipede.Gameplay.Treasures
 			{
 				_treasuresWithinRange.RemoveAt( lastIndex );
 				closestTreasure.Follow( _body );
+
+				HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
 			}
 
 			_nextCollectTime = Time.timeSinceLevelLoad + _settings.HoldCollectDelay;
@@ -133,8 +141,20 @@ namespace Minipede.Gameplay.Treasures
 			treasure.StopFollowing();
 
 			_haulingTreasures.Remove( treasure );
+			HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
 
 			_nextReleaseTime = Time.timeSinceLevelLoad + _settings.HoldReleaseDelay;
+		}
+
+		private float GetHauledTreasureWeight()
+		{
+			float weight = 0;
+			foreach ( var treasure in _haulingTreasures )
+			{
+				weight += treasure.Weight;
+			}
+
+			return weight * _settings.WeightScalar;
 		}
 
 		[System.Serializable]
@@ -142,6 +162,9 @@ namespace Minipede.Gameplay.Treasures
 		{
 			public float HoldCollectDelay;
 			public float HoldReleaseDelay;
+
+			[Space, PropertyRange( 0, 1 )]
+			public float WeightScalar;
 		}
 
 		private class TreasureSorter : IComparer<Treasure>

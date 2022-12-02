@@ -11,6 +11,8 @@ namespace Minipede.Gameplay.Treasures
     public class Treasure : MonoBehaviour,
 		ICleanup
     {
+		public float Weight => _settings.Weight;
+
 		private Settings _settings;
 		private Rigidbody2D _body;
 		private SignalBus _signalBus;
@@ -144,15 +146,19 @@ namespace Minipede.Gameplay.Treasures
 		[System.Serializable]
 		public struct Settings
 		{
-			[MinMaxSlider( 5, 120 )]
+			[BoxGroup( "Spawning" ), MinMaxSlider( 5, 120 )]
 			public Vector2 LifetimeRange;
-			[MinMaxSlider( 0, 1080 )]
+			[BoxGroup( "Spawning" ), MinMaxSlider( 0, 1080 )]
 			public Vector2 TorqueRange;
 
-			[Space]
+			[BoxGroup( "Hauling" )]
 			public LineRenderer TetherPrefab;
+			[BoxGroup( "Hauling" )]
 			public float FollowForce;
+			[BoxGroup( "Hauling" )]
 			public float MinFollowDistance;
+			[BoxGroup( "Hauling" )]
+			public float Weight;
 		}
 
 		public class Factory : UnityPrefabFactory<Treasure> { }

@@ -7,8 +7,9 @@ namespace Minipede.Gameplay.Movement
 	{
 		public bool IsMoving => Velocity.sqrMagnitude > 0.01f;
 		public Vector2 Velocity => _body.velocity;
+		IMotor.ISettings IMotor.Settings => _settings;
 
-		private readonly Settings _settings;
+		private Settings _settings;
 		private readonly Rigidbody2D _body;
 
 		private Vector2 _desiredVelocity;
@@ -18,6 +19,11 @@ namespace Minipede.Gameplay.Movement
 		{
 			_settings = settings;
 			_body = body;
+		}
+
+		public void SetMaxSpeed( float maxSpeed )
+		{
+			_settings.MaxSpeed = maxSpeed;
 		}
 
 		public void StartMoving( Vector2 direction )
@@ -41,8 +47,10 @@ namespace Minipede.Gameplay.Movement
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public struct Settings : IMotor.ISettings
 		{
+			float IMotor.ISettings.MaxSpeed => MaxSpeed;
+
 			public float MaxSpeed;
 		}
 	}

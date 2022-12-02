@@ -84,9 +84,10 @@ namespace Minipede.Gameplay.Player
 				return;
 			}
 
+			_explorer.CollectAllTreasure( _ship.Body );
 			_explorer.EnterShip();
-			_shipController.Possess( _ship );
 
+			_shipController.Possess( _ship );
 			UnPossess();
 		}
 

@@ -86,6 +86,11 @@ namespace Minipede.Gameplay.Player
 			_motor.SetMaxSpeed( maxSpeed );
 		}
 
+		public void CollectAllTreasure( Rigidbody2D collector )
+		{
+			_treasureHauler.CollectAll( collector );
+		}
+
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
 		{
 			return _damageController.TakeDamage( instigator, causer, data );

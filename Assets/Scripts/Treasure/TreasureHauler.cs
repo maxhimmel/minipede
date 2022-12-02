@@ -36,14 +36,27 @@ namespace Minipede.Gameplay.Treasures
 			_sorter = new TreasureSorter( body );
 		}
 
+		public void CollectAll( Rigidbody2D collector )
+		{
+			foreach ( var treasure in _haulingTreasures )
+			{
+				treasure.SnapToCollector( collector );
+			}
+			ClearHaul();
+		}
+
 		public void ReleaseAll()
 		{
 			foreach ( var treasure in _haulingTreasures )
 			{
 				treasure.StopFollowing();
 			}
-			_haulingTreasures.Clear();
+			ClearHaul();
+		}
 
+		private void ClearHaul()
+		{
+			_haulingTreasures.Clear();
 			HaulAmountChanged?.Invoke( 0 );
 		}
 

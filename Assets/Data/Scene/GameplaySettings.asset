@@ -55,6 +55,7 @@ MonoBehaviour:
     Hauling:
       HoldCollectDelay: 0.25
       HoldReleaseDelay: 0.25
+      WeightScalar: 1
   _audioSettings:
     Banks:
       LoadBanks:

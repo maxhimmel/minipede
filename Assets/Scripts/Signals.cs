@@ -39,3 +39,12 @@ namespace Minipede.Gameplay.Fx
 		}
 	}
 }
+
+namespace Minipede.Gameplay.Treasures
+{
+	public class CollectedTreasureSignal
+	{
+		public System.Type TreasureType;
+		public int TotalAmount;
+	}
+}

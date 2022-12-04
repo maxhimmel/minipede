@@ -25,6 +25,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0409e06026b6c344bbafb1fe8156f898, type: 2}
   - {fileID: 11400000, guid: a3ee3ce27a01d874db616cf8a18ce79c, type: 2}
   - {fileID: 11400000, guid: a544608bf1d7516458069e3cfcb8cb4e, type: 2}
+  _playerZone:
+    Countdown: 10
+    ConsecutiveDelay: 3
+    SpawnPointId: MinipedePlayerZoneSpawner
   _wave:
     StartDelay: 1
     MainWaveRepeatCount: 2

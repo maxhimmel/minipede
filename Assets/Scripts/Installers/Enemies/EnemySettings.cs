@@ -21,6 +21,9 @@ namespace Minipede.Installers
 		[Space, FoldoutGroup( "Wave Spawning" )]
 		[SerializeField] private EnemyWaveInstaller[] _waves;
 
+		[FoldoutGroup( "Player Zone" )]
+		[SerializeField, HideLabel] private MinipedePlayerZoneSpawner.Settings _playerZone;
+
 		public override void InstallBindings()
 		{
 			Container.DeclareSignal<EnemySpawnedSignal>()
@@ -81,6 +84,12 @@ namespace Minipede.Installers
 
 			Container.Bind<EnemyWaveController>()
 				.AsSingle();
+
+			/* --- */
+
+			Container.Bind<MinipedePlayerZoneSpawner>()
+				.AsSingle()
+				.WithArguments( _playerZone );
 		}
 	}
 }

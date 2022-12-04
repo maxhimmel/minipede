@@ -100,6 +100,15 @@ namespace Minipede.Gameplay.LevelPieces
 			return true;
 		}
 
+		/// <returns>1 for rhs and -1 for lhs.</returns>
+		public int GetHorizontalSide( Vector2 position )
+		{
+			Vector2 center = GetCenter();
+			float dot = Vector2.Dot( transform.right, position - center );
+
+			return (int)Mathf.Sign( dot );
+		}
+
 		public Vector2 GetCenter()
 		{
 			Vector2 pivot = transform.position;

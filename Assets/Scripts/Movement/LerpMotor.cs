@@ -8,8 +8,9 @@ namespace Minipede.Gameplay.Movement
 	{
 		public bool IsMoving => _lerpTimer < 1 && _travelDuration > 0;
 		public Vector2 Velocity => _simluatedVelocity;
+		IMotor.ISettings IMotor.Settings => _settings;
 
-		private readonly Settings _settings;
+		private Settings _settings;
 		private readonly Rigidbody2D _body;
 
 		private float _lerpTimer;
@@ -25,6 +26,11 @@ namespace Minipede.Gameplay.Movement
 			_body = body;
 
 			SetDesiredVelocity( Vector2.zero );
+		}
+
+		public void SetMaxSpeed( float maxSpeed )
+		{
+			_settings.MaxSpeed = maxSpeed;
 		}
 
 		public void SetDesiredVelocity( Vector2 direction )
@@ -71,8 +77,10 @@ namespace Minipede.Gameplay.Movement
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public struct Settings : IMotor.ISettings
 		{
+			float IMotor.ISettings.MaxSpeed => MaxSpeed;
+
 			public float MaxSpeed;
 		}
 	}

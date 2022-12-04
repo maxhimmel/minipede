@@ -49,7 +49,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 2.31
+  m_Intensity: 1.25
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 47cbfaa90000000011465f3f
@@ -203,7 +203,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1530993560611149909}
-  - component: {fileID: 3998707362301707692}
   - component: {fileID: 1530993560611149908}
   - component: {fileID: 1530993560611149906}
   - component: {fileID: 7110612451819475940}
@@ -232,18 +231,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3998707362301707692
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1530993560611149911}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7d31a62973b4e14eafd2d7dfcc74d40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &1530993560611149908
 Rigidbody2D:
   serializedVersion: 4

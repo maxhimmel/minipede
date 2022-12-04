@@ -1,5 +1,5 @@
 using Minipede.Gameplay;
-using Minipede.Gameplay.Enemies;
+using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
@@ -11,9 +11,6 @@ using UnityEngine;
 using Zenject;
 
 using BlockActor = Minipede.Gameplay.LevelPieces.Block;
-using TreasureActor = Minipede.Gameplay.Treasures.Treasure;
-using Minipede.Gameplay.Audio;
-using System;
 
 namespace Minipede.Installers
 {
@@ -23,7 +20,6 @@ namespace Minipede.Installers
 		[SerializeField] private Player _playerSettings;
 		[SerializeField] private Block _blockSettings;
 		[SerializeField] private Level _levelSettings;
-		[SerializeField] private Treasure _treasureSettings;
 		[SerializeField] private Audio _audioSettings;
 
 		public override void InstallBindings()
@@ -80,6 +76,11 @@ namespace Minipede.Installers
 
 			Container.Bind<PlayerController>()
 				.AsSingle();
+
+
+			// Resource Management ...
+			Container.Bind<Wallet>()
+				.AsSingle();
 		}
 
 		private void BindLevelGeneration()
@@ -106,18 +107,12 @@ namespace Minipede.Installers
 
 		private void BindTreasure()
 		{
-			Container.Bind<TreasureActor.Factory>()
+			Container.BindInstance( _playerSettings.Hauling )
+				.AsSingle()
+				.WhenInjectedInto<TreasureHauler>();
+
+			Container.Bind<Treasure.Factory>()
 				.AsSingle();
-
-			Container.Bind<LootBox>()
-				.AsCached()
-				.WithArguments( _treasureSettings.Block )
-				.WhenInjectedInto<BlockActor>();
-
-			Container.Bind<LootBox>()
-				.AsCached()
-				.WithArguments( _treasureSettings.Enemy )
-				.WhenInjectedInto<EnemyController>();
 		}
 
 		private void BindAudio()
@@ -146,6 +141,8 @@ namespace Minipede.Installers
 
 			[FoldoutGroup( "Gameplay" )]
 			public float RespawnDelay;
+			[FoldoutGroup( "Gameplay" )]
+			public TreasureHauler.Settings Hauling;
 		}
 
 		[System.Serializable]
@@ -169,15 +166,6 @@ namespace Minipede.Installers
 			public BlockActor.Settings Settings;
 			[BoxGroup( "Prefabs" ), HideLabel]
 			public BlockProvider.Settings Prefabs;
-		}
-
-		[System.Serializable]
-		public struct Treasure
-		{
-			[FoldoutGroup( "Block" ), HideLabel]
-			public LootBox.Settings Block;
-			[FoldoutGroup( "Enemy" ), HideLabel]
-			public LootBox.Settings Enemy;
 		}
 
 		[System.Serializable]

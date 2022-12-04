@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6908e8673413d4343a3f3aff62bf7a17, type: 3}
-  m_Name: ExplorerMotor
+  m_Script: {fileID: 11500000, guid: 0f0ed414fca431f4781154c145149f47, type: 3}
+  m_Name: Loot_Enemy
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 2.5
-    MinSpeed: 0.25
-    Acceleration: 100
+    Prefab: {fileID: 399484163939243506, guid: 3cc2ef870756d7940a9b04d9151bfc68, type: 3}
+    Spawns: {x: 1, y: 1}
+    LaunchImpulse: {x: 4.058812, y: 5.715143}

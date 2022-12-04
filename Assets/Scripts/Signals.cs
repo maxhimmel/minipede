@@ -17,9 +17,6 @@ namespace Minipede.Gameplay
 {
 	public class DamagedSignal
 	{
-		public Vector2 Position => Victim.position;
-		public Vector2 Direction => HitDirection;
-
 		public Rigidbody2D Victim;
 		public Transform Instigator;
 		public Transform Causer;
@@ -40,5 +37,14 @@ namespace Minipede.Gameplay.Fx
 			Position = position;
 			Direction = direction;
 		}
+	}
+}
+
+namespace Minipede.Gameplay.Treasures
+{
+	public class CollectedTreasureSignal
+	{
+		public System.Type TreasureType;
+		public int TotalAmount;
 	}
 }

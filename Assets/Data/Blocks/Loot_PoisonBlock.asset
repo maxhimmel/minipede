@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6908e8673413d4343a3f3aff62bf7a17, type: 3}
-  m_Name: ExplorerMotor
+  m_Script: {fileID: 11500000, guid: 0f0ed414fca431f4781154c145149f47, type: 3}
+  m_Name: Loot_PoisonBlock
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 2.5
-    MinSpeed: 0.25
-    Acceleration: 100
+    Prefab: {fileID: 9037908128424353492, guid: 0002196434ec4f74cac3f800346ab4c5, type: 3}
+    Spawns: {x: 1, y: 2}
+    LaunchImpulse: {x: 2.0064018, y: 4.3468695}

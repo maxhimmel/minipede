@@ -9,8 +9,7 @@ namespace Minipede.Gameplay.Player
     public class Explorer : MonoBehaviour,
 		IPawn,
 		IDamageController,
-		ICleanup,
-		ICollector
+		ICleanup
     {
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -21,12 +20,15 @@ namespace Minipede.Gameplay.Player
 			remove => _damageController.Died -= value;
 		}
 
+		public Rigidbody2D Body => _body;
 		public IOrientation Orientation => new Orientation( _body.position, _body.transform.rotation, _body.transform.parent );
 
 		private IDamageController _damageController;
 		private IMotor _motor;
 		private Rigidbody2D _body;
+		private TreasureHauler _treasureHauler;
 
+		private float _initialMaxSpeed;
 		private Vector2 _moveInput;
 		private bool _isMoveInputConsumed;
 		private bool _isCleanedUp;
@@ -34,18 +36,59 @@ namespace Minipede.Gameplay.Player
 		[Inject]
 		public void Construct( IDamageController damageController,
 			IMotor motor,
-			Rigidbody2D body )
+			Rigidbody2D body,
+			TreasureHauler treasureHauler )
 		{
             _damageController = damageController;
 			_motor = motor;
 			_body = body;
+			_treasureHauler = treasureHauler;
 
+			treasureHauler.HaulAmountChanged += TreasureHaulAmountChanged;
 			damageController.Died += OnDied;
+
+			_initialMaxSpeed = motor.Settings.MaxSpeed;
 		}
 
 		public void EnterShip()
 		{
 			Cleanup();
+		}
+
+		public void StartGrabbing()
+		{
+			_treasureHauler.StartGrabbing();
+		}
+
+		public void StopGrabbing()
+		{
+			_treasureHauler.StopGrabbing();
+		}
+
+		public void ReleaseAllTreasure()
+		{
+			_treasureHauler.ReleaseAll();
+		}
+
+		public void StartReleasingTreasure()
+		{
+			_treasureHauler.StartReleasingTreasure();
+		}
+
+		public void StopReleasingTreasure()
+		{
+			_treasureHauler.StopReleasingTreasure();
+		}
+
+		private void TreasureHaulAmountChanged( float weight )
+		{
+			float maxSpeed = _initialMaxSpeed - weight;
+			_motor.SetMaxSpeed( maxSpeed );
+		}
+
+		public void CollectAllTreasure( Rigidbody2D collector )
+		{
+			_treasureHauler.CollectAll( collector );
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
@@ -66,6 +109,7 @@ namespace Minipede.Gameplay.Player
 			}
 
 			_damageController.Died -= OnDied;
+			_treasureHauler.HaulAmountChanged -= TreasureHaulAmountChanged;
 
 			Destroy( gameObject );
 			_isCleanedUp = true;
@@ -99,11 +143,6 @@ namespace Minipede.Gameplay.Player
 		private void FixedUpdate()
 		{
 			_motor.FixedTick();
-		}
-
-		public void Collect( Treasure treasure )
-		{
-			treasure.Cleanup();
 		}
 
 		public class Factory : UnityFactory<Explorer> { }

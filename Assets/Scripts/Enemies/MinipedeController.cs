@@ -15,6 +15,7 @@ namespace Minipede.Gameplay.Enemies
 		private Settings _settings;
 		private GraphMotor _motor;
 		private EnemySpawnBuilder _enemyBuilder;
+		private MinipedePlayerZoneSpawner _playerZoneSpawner;
 
 		private List<SegmentController> _segments;
 		private Vector2Int _rowDir;
@@ -23,14 +24,25 @@ namespace Minipede.Gameplay.Enemies
 		[Inject]
 		public void Construct( Settings settings,
 			GraphMotor motor,
-			EnemySpawnBuilder enemyBuilder )
+			EnemySpawnBuilder enemyBuilder,
+			MinipedePlayerZoneSpawner playerZoneSpawner )
 		{
 			_settings = settings;
 			_motor = motor;
 			_enemyBuilder = enemyBuilder;
+			_playerZoneSpawner = playerZoneSpawner;
 
 			_rowDir = Vector2Int.down;
 			_columnDir = new Vector2Int( RandomExtensions.Sign(), 0 );
+		}
+
+		public void StartSidewaysTransition()
+		{
+			int side = _levelGraph.GetHorizontalSide( _body.position );
+			_columnDir.x = -1 * side;
+
+			_motor.Arrived += OnHorizontalArrival;
+			_motor.StartMoving( _columnDir ).Forget();
 		}
 
 		public override void OnSpawned()
@@ -82,8 +94,17 @@ namespace Minipede.Gameplay.Enemies
 			nextRowCoord += _rowDir.ToRowCol();
 			await _motor.SetDestination( nextRowCoord );
 
-			// Flip horizontal move direction ...
-			_columnDir.x *= -1;
+			if ( IsWithinShipZone( nextRowCoord ) )
+			{
+				// Everytime we change rows let's check if we're in the player's zone ...
+				_playerZoneSpawner.NotifyEnteredZone( this );
+			}
+
+			if ( _levelGraph.IsWithinBounds( nextRowCoord - _columnDir.ToRowCol() ) )
+			{
+				// Flip horizontal move direction if we're not gonna be out of bounds ...
+				_columnDir.x *= -1;
+			}
 
 			Vector2Int nextColCoord = nextRowCoord + _columnDir.ToRowCol();
 			await _motor.SetDestination( nextColCoord );

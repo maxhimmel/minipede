@@ -7,6 +7,7 @@ using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
+using Minipede.Installers;
 
 namespace Minipede.Gameplay.Enemies
 {
@@ -34,6 +35,7 @@ namespace Minipede.Gameplay.Enemies
 		protected LevelForeman _levelForeman;
 		protected SignalBus _signalBus;
 		private LootBox _lootBox;
+		private GameplaySettings.Level _levelSettings;
 
 		private CancellationTokenSource _onDestroyCancelSource;
 		protected CancellationToken _onDestroyCancelToken;
@@ -45,7 +47,8 @@ namespace Minipede.Gameplay.Enemies
 			LevelGraph levelGraph,
 			LevelForeman foreman,
 			SignalBus signalBus,
-			LootBox lootBox )
+			LootBox lootBox,
+			GameplaySettings.Level levelSettings )
 		{
 			_body = body;
 			_damageController = damageController;
@@ -54,6 +57,7 @@ namespace Minipede.Gameplay.Enemies
 			_levelForeman = foreman;
 			_signalBus = signalBus;
 			_lootBox = lootBox;
+			_levelSettings = levelSettings;
 
 			_onDestroyCancelSource = new CancellationTokenSource();
 			_onDestroyCancelToken = _onDestroyCancelSource.Token;
@@ -138,6 +142,12 @@ namespace Minipede.Gameplay.Enemies
 		protected virtual void FixedTick()
 		{
 
+		}
+
+		// TODO: Move into a utility?
+		protected bool IsWithinShipZone( Vector2Int rowColCoord )
+		{
+			return rowColCoord.Row() < _levelSettings.Builder.PlayerRows;
 		}
 	}
 }

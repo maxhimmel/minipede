@@ -10,15 +10,18 @@ namespace Minipede.Gameplay.Movement
 		IMotor.ISettings IMotor.Settings => _settings;
 
 		private Settings _settings;
+		private readonly IMotor.ISettings _maxSpeedSettings;
 		private readonly Rigidbody2D _body;
 
 		private Vector2 _velocity;
 		private Vector2 _desiredVelocity;
 
 		public CharacterMotor( Settings settings,
+			IMotor.ISettings maxSpeedSettings,
 			Rigidbody2D body )
 		{
 			_settings = settings;
+			_maxSpeedSettings = maxSpeedSettings;
 			_body = body;
 		}
 
@@ -40,7 +43,7 @@ namespace Minipede.Gameplay.Movement
 
 		public void SetDesiredVelocity( Vector2 direction )
 		{
-			_desiredVelocity = direction * _settings.MaxSpeed;
+			_desiredVelocity = direction * _maxSpeedSettings.MaxSpeed;//_settings.MaxSpeed;
 		}
 
 		public void FixedTick()

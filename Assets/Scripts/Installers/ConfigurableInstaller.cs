@@ -10,8 +10,12 @@ namespace Minipede.Installers
 		public override void InstallBindings()
 		{
 			Container.BindInterfacesAndSelfTo<TConfigurable>()
-				.AsTransient()
-				.WithArguments( GetSettings() );
+				.AsSingle();
+			//.WithArguments( GetSettings() );
+
+			Container.BindInterfacesAndSelfTo<TSettings>()
+				.FromInstance( GetSettings() )
+				.AsSingle();
 		}
 
 		public virtual TSettings GetSettings()

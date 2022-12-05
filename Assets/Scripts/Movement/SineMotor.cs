@@ -12,6 +12,7 @@ namespace Minipede.Gameplay.Movement
 		IMotor.ISettings IMotor.Settings => _settings;
 
 		private Settings _settings;
+		private readonly IMotor.ISettings _maxSpeedSettings;
 		private readonly Rigidbody2D _body;
 
 		private Vector2 _origin;
@@ -20,9 +21,11 @@ namespace Minipede.Gameplay.Movement
 		private float _sineTimer;
 
 		public SineMotor( Settings settings,
+			IMotor.ISettings maxSpeedSettings,
 			Rigidbody2D body )
 		{
 			_settings = settings;
+			_maxSpeedSettings = maxSpeedSettings;
 			_body = body;
 
 			_origin = body.position;
@@ -49,7 +52,7 @@ namespace Minipede.Gameplay.Movement
 		public void SetDesiredVelocity( Vector2 direction )
 		{
 			_sineDirection = direction.Rotate( 90 );
-			_velocity = direction * _settings.MaxSpeed;
+			_velocity = direction * _maxSpeedSettings.MaxSpeed;//_settings.MaxSpeed;
 		}
 
 		public void FixedTick()
@@ -75,7 +78,7 @@ namespace Minipede.Gameplay.Movement
 		{
 			_sineTimer += Time.fixedDeltaTime;
 
-			return _settings.Evaluate( _sineTimer );
+			return _settings.Evaluate( _sineTimer, _maxSpeedSettings.MaxSpeed );
 		}
 
 		[System.Serializable]
@@ -105,6 +108,20 @@ namespace Minipede.Gameplay.Movement
 
 				float totalWaveDistanceTravelled = Wave.Amplitude * 4;
 				float moveSpeed = MatchLinearSpeed ? MaxSpeed : MaxWaveSpeed;
+				float moveSpeedScalar = totalWaveDistanceTravelled / moveSpeed;
+
+				return Wave.Evaluate( timer / moveSpeedScalar );
+			}
+
+			public float Evaluate( float timer, float maxSpeedOverride )
+			{
+				if ( !ScaleBySpeed )
+				{
+					return Wave.Evaluate( timer );
+				}
+
+				float totalWaveDistanceTravelled = Wave.Amplitude * 4;
+				float moveSpeed = MatchLinearSpeed ? maxSpeedOverride : MaxWaveSpeed;
 				float moveSpeedScalar = totalWaveDistanceTravelled / moveSpeed;
 
 				return Wave.Evaluate( timer / moveSpeedScalar );

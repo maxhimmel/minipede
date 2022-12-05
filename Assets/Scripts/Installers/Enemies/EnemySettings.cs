@@ -1,5 +1,6 @@
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
+using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Weapons;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -40,6 +41,10 @@ namespace Minipede.Installers
 		private void BindSharedSettings()
 		{
 			Container.BindInstance( _damage );
+
+			Container.Bind<MaxSpeedScalar>()
+				.WithId( "EnemySpeedScalar" )
+				.AsSingle();
 		}
 
 		private void BindEnemies()

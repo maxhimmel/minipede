@@ -11,6 +11,7 @@ namespace Minipede.Gameplay.Movement
 		IMotor.ISettings IMotor.Settings => _settings;
 
 		private Settings _settings;
+		private readonly IMotor.ISettings _maxSpeedSettings;
 		private readonly Rigidbody2D _body;
 
 		private float _lerpTimer;
@@ -20,9 +21,11 @@ namespace Minipede.Gameplay.Movement
 		private Vector2 _simluatedVelocity;
 
 		public LerpMotor( Settings settings,
+			IMotor.ISettings maxSpeedSettings,
 			Rigidbody2D body )
 		{
 			_settings = settings;
+			_maxSpeedSettings = maxSpeedSettings;
 			_body = body;
 
 			SetDesiredVelocity( Vector2.zero );
@@ -47,11 +50,11 @@ namespace Minipede.Gameplay.Movement
 			float travelDistance = _simluatedVelocity.magnitude;
 			if ( travelDistance > 0 )
 			{
-				_simluatedVelocity /= travelDistance * _settings.MaxSpeed;
+				_simluatedVelocity /= travelDistance * _maxSpeedSettings.MaxSpeed;//_settings.MaxSpeed;
 			}
 
 			_lerpTimer = 0;
-			_travelDuration = travelDistance / _settings.MaxSpeed;
+			_travelDuration = travelDistance / _maxSpeedSettings.MaxSpeed;//_settings.MaxSpeed;
 		}
 
 		public void StopMoving()

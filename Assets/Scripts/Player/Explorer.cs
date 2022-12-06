@@ -25,10 +25,10 @@ namespace Minipede.Gameplay.Player
 
 		private IDamageController _damageController;
 		private IMotor _motor;
+		private IMaxSpeed _maxSpeed;
 		private Rigidbody2D _body;
 		private TreasureHauler _treasureHauler;
 
-		private float _initialMaxSpeed;
 		private Vector2 _moveInput;
 		private bool _isMoveInputConsumed;
 		private bool _isCleanedUp;
@@ -36,18 +36,18 @@ namespace Minipede.Gameplay.Player
 		[Inject]
 		public void Construct( IDamageController damageController,
 			IMotor motor,
+			IMaxSpeed maxSpeedSettings,
 			Rigidbody2D body,
 			TreasureHauler treasureHauler )
 		{
             _damageController = damageController;
 			_motor = motor;
+			_maxSpeed = maxSpeedSettings;
 			_body = body;
 			_treasureHauler = treasureHauler;
 
 			treasureHauler.HaulAmountChanged += TreasureHaulAmountChanged;
 			damageController.Died += OnDied;
-
-			_initialMaxSpeed = motor.Settings.MaxSpeed;
 		}
 
 		public void EnterShip()
@@ -82,8 +82,10 @@ namespace Minipede.Gameplay.Player
 
 		private void TreasureHaulAmountChanged( float weight )
 		{
-			float maxSpeed = _initialMaxSpeed - weight;
-			_motor.SetMaxSpeed( maxSpeed );
+			_maxSpeed.RestoreMaxSpeed();
+			float currentMax = _maxSpeed.GetMaxSpeed();
+
+			_maxSpeed.SetMaxSpeed( currentMax - weight );
 		}
 
 		public void CollectAllTreasure( Rigidbody2D collector )

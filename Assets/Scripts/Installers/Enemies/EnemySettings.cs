@@ -2,6 +2,7 @@ using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Weapons;
+using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -13,6 +14,8 @@ namespace Minipede.Installers
     {
 		[FoldoutGroup( "Shared" )]
 		[SerializeField] private DamageTrigger.Settings _damage;
+		[Space, FoldoutGroup( "Shared" )]
+		[SerializeField] private string _speedScalarId = "EnemySpeedScalar";
 
 		[InlineEditor, LabelText( "Specialized" )]
 		[SerializeField] private EnemyInstaller[] _enemyInstallers;
@@ -42,8 +45,8 @@ namespace Minipede.Installers
 		{
 			Container.BindInstance( _damage );
 
-			Container.Bind<MaxSpeedScalar>()
-				.WithId( "EnemySpeedScalar" )
+			Container.Bind<Scalar>()
+				.WithId( _speedScalarId )
 				.AsSingle();
 		}
 

@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2f6a4a94477d4741be10763e3ff555a, type: 3}
   m_Name: EnemySpeedScalar
   m_EditorClassIdentifier: 
+  _id: EnemySpeedScalar

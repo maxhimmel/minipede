@@ -11,14 +11,11 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			//Container.BindInterfacesAndSelfTo<MaxSpeedScalar>()
-			//	.FromResolve( "EnemySpeedScalar" )
-			//	.AsSingle();
 			Container.Bind<MaxSpeedScalar>()
-				.FromResolveGetter( ( DiContainer c ) => c.ResolveId<MaxSpeedScalar>( "EnemySpeedScalar" ) )
+				.FromResolveGetter( ( DiContainer c ) => c.ResolveId<MaxSpeedScalar>( _id ) )
 				.AsSingle();
 
-			Container.Decorate<IMotor.ISettings>()
+			Container.Decorate<IMaxSpeed>()
 				.With<MaxSpeedDecorator>();
 		}
 	}
@@ -26,18 +23,32 @@ namespace Minipede.Installers
 
 namespace Minipede.Gameplay.Movement
 {
-	public class MaxSpeedDecorator : IMotor.ISettings
+	public class MaxSpeedDecorator : IMaxSpeed
 	{
-		public float MaxSpeed => _settings.MaxSpeed * _speedScalar.Scale;
-
-		private readonly IMotor.ISettings _settings;
+		private readonly IMaxSpeed _maxSpeed;
 		private readonly MaxSpeedScalar _speedScalar;
 
-		public MaxSpeedDecorator( IMotor.ISettings settings,
+		public MaxSpeedDecorator( IMaxSpeed maxSpeedSettings,
 			MaxSpeedScalar speedScalar )
 		{
-			_settings = settings;
+			_maxSpeed = maxSpeedSettings;
 			_speedScalar = speedScalar;
+		}
+
+		public float GetMaxSpeed()
+		{
+			return _maxSpeed.GetMaxSpeed() * _speedScalar.Scale;
+		}
+
+		public void RestoreMaxSpeed()
+		{
+			_maxSpeed.RestoreMaxSpeed();
+		}
+
+		public void SetMaxSpeed( float maxSpeed )
+		{
+			// No need to apply scaling here. We apply it when GetMaxSpeed is called.
+			_maxSpeed.SetMaxSpeed( maxSpeed );
 		}
 	}
 

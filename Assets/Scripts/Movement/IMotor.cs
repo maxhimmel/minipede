@@ -9,11 +9,4 @@ namespace Minipede.Gameplay.Movement
 		void SetDesiredVelocity( Vector2 direction );
 		void FixedTick();
 	}
-
-	public interface IMaxSpeed
-	{
-		float GetMaxSpeed();
-		void SetMaxSpeed( float maxSpeed );
-		void RestoreMaxSpeed();
-	}
 }

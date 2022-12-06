@@ -1,4 +1,3 @@
-using Minipede.Utility;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Movement
@@ -8,10 +7,9 @@ namespace Minipede.Gameplay.Movement
 	{
 		public bool IsMoving => _lerpTimer < 1 && _travelDuration > 0;
 		public Vector2 Velocity => _simluatedVelocity;
-		IMotor.ISettings IMotor.Settings => _settings;
 
-		private Settings _settings;
-		private readonly IMotor.ISettings _maxSpeedSettings;
+		private readonly Settings _settings;
+		private readonly IMaxSpeed _maxSpeed;
 		private readonly Rigidbody2D _body;
 
 		private float _lerpTimer;
@@ -21,19 +19,14 @@ namespace Minipede.Gameplay.Movement
 		private Vector2 _simluatedVelocity;
 
 		public LerpMotor( Settings settings,
-			IMotor.ISettings maxSpeedSettings,
+			IMaxSpeed maxSpeedSettings,
 			Rigidbody2D body )
 		{
 			_settings = settings;
-			_maxSpeedSettings = maxSpeedSettings;
+			_maxSpeed = maxSpeedSettings;
 			_body = body;
 
 			SetDesiredVelocity( Vector2.zero );
-		}
-
-		public void SetMaxSpeed( float maxSpeed )
-		{
-			_settings.MaxSpeed = maxSpeed;
 		}
 
 		public void SetDesiredVelocity( Vector2 direction )
@@ -50,11 +43,11 @@ namespace Minipede.Gameplay.Movement
 			float travelDistance = _simluatedVelocity.magnitude;
 			if ( travelDistance > 0 )
 			{
-				_simluatedVelocity /= travelDistance * _maxSpeedSettings.MaxSpeed;//_settings.MaxSpeed;
+				_simluatedVelocity /= travelDistance * _maxSpeed.GetMaxSpeed();
 			}
 
 			_lerpTimer = 0;
-			_travelDuration = travelDistance / _maxSpeedSettings.MaxSpeed;//_settings.MaxSpeed;
+			_travelDuration = travelDistance / _maxSpeed.GetMaxSpeed();
 		}
 
 		public void StopMoving()
@@ -80,11 +73,28 @@ namespace Minipede.Gameplay.Movement
 		}
 
 		[System.Serializable]
-		public struct Settings : IMotor.ISettings
+		public struct Settings : IMaxSpeed
 		{
-			float IMotor.ISettings.MaxSpeed => MaxSpeed;
-
 			public float MaxSpeed;
+
+			private float? _currentMaxSpeed;
+
+			public float GetMaxSpeed()
+			{
+				return _currentMaxSpeed.HasValue
+					? _currentMaxSpeed.Value
+					: MaxSpeed;
+			}
+
+			public void SetMaxSpeed( float maxSpeed )
+			{
+				_currentMaxSpeed = maxSpeed;
+			}
+
+			public void RestoreMaxSpeed()
+			{
+				_currentMaxSpeed = null;
+			}
 		}
 	}
 }

@@ -9,10 +9,9 @@ namespace Minipede.Gameplay.Movement
 	{
 		public bool IsMoving => _sineDirection.sqrMagnitude > 0.01f || Velocity.sqrMagnitude > 0.01f;
 		public Vector2 Velocity => _velocity;
-		IMotor.ISettings IMotor.Settings => _settings;
 
-		private Settings _settings;
-		private readonly IMotor.ISettings _maxSpeedSettings;
+		private readonly Settings _settings;
+		private readonly IMaxSpeed _maxSpeed;
 		private readonly Rigidbody2D _body;
 
 		private Vector2 _origin;
@@ -21,19 +20,14 @@ namespace Minipede.Gameplay.Movement
 		private float _sineTimer;
 
 		public SineMotor( Settings settings,
-			IMotor.ISettings maxSpeedSettings,
+			IMaxSpeed maxSpeedSettings,
 			Rigidbody2D body )
 		{
 			_settings = settings;
-			_maxSpeedSettings = maxSpeedSettings;
+			_maxSpeed = maxSpeedSettings;
 			_body = body;
 
 			_origin = body.position;
-		}
-
-		public void SetMaxSpeed( float maxSpeed )
-		{
-			_settings.MaxSpeed = maxSpeed;
 		}
 
 		public void StartMoving( Vector2 direction )
@@ -52,7 +46,7 @@ namespace Minipede.Gameplay.Movement
 		public void SetDesiredVelocity( Vector2 direction )
 		{
 			_sineDirection = direction.Rotate( 90 );
-			_velocity = direction * _maxSpeedSettings.MaxSpeed;//_settings.MaxSpeed;
+			_velocity = direction * _maxSpeed.GetMaxSpeed();
 		}
 
 		public void FixedTick()
@@ -78,14 +72,12 @@ namespace Minipede.Gameplay.Movement
 		{
 			_sineTimer += Time.fixedDeltaTime;
 
-			return _settings.Evaluate( _sineTimer, _maxSpeedSettings.MaxSpeed );
+			return _settings.Evaluate( _sineTimer, _maxSpeed.GetMaxSpeed() );
 		}
 
 		[System.Serializable]
-		public struct Settings : IMotor.ISettings
+		public struct Settings : IMaxSpeed
 		{
-			float IMotor.ISettings.MaxSpeed => MaxSpeed;
-
 			[BoxGroup( "Speed", ShowLabel = false )]
 			public float MaxSpeed;
 
@@ -99,18 +91,28 @@ namespace Minipede.Gameplay.Movement
 			[BoxGroup( "Speed/Wave" ), HideLabel]
 			public WaveDatum Wave;
 
+			private float? _currentMaxSpeed;
+
+			public float GetMaxSpeed()
+			{
+				return _currentMaxSpeed.HasValue
+					? _currentMaxSpeed.Value
+					: MaxSpeed;
+			}
+
+			public void SetMaxSpeed( float maxSpeed )
+			{
+				_currentMaxSpeed = maxSpeed;
+			}
+
+			public void RestoreMaxSpeed()
+			{
+				_currentMaxSpeed = null;
+			}
+
 			public float Evaluate( float timer )
 			{
-				if ( !ScaleBySpeed )
-				{
-					return Wave.Evaluate( timer );
-				}
-
-				float totalWaveDistanceTravelled = Wave.Amplitude * 4;
-				float moveSpeed = MatchLinearSpeed ? MaxSpeed : MaxWaveSpeed;
-				float moveSpeedScalar = totalWaveDistanceTravelled / moveSpeed;
-
-				return Wave.Evaluate( timer / moveSpeedScalar );
+				return Evaluate( timer, GetMaxSpeed() );
 			}
 
 			public float Evaluate( float timer, float maxSpeedOverride )

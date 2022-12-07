@@ -16,6 +16,7 @@ namespace Minipede.Gameplay.Treasures
         private Collider2D _haulTrigger;
 		private TreasureSorter _sorter;
 
+		private float _haulWeight;
 		private bool _isReleasingTreasures;
 		private float _nextReleaseTime;
 		private float _nextCollectTime;
@@ -56,6 +57,7 @@ namespace Minipede.Gameplay.Treasures
 
 		private void ClearHaul()
 		{
+			_haulWeight = 0;
 			_haulingTreasures.Clear();
 			HaulAmountChanged?.Invoke( 0 );
 		}
@@ -123,6 +125,7 @@ namespace Minipede.Gameplay.Treasures
 				_treasuresWithinRange.RemoveAt( lastIndex );
 				closestTreasure.Follow( _body );
 
+				_haulWeight += closestTreasure.Weight;
 				HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
 			}
 
@@ -153,21 +156,16 @@ namespace Minipede.Gameplay.Treasures
 			var treasure = enumerator.Current;
 			treasure.StopFollowing();
 
+			_haulWeight = Mathf.Max( 0, _haulWeight - treasure.Weight );
 			_haulingTreasures.Remove( treasure );
 			HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
 
 			_nextReleaseTime = Time.timeSinceLevelLoad + _settings.HoldReleaseDelay;
 		}
 
-		private float GetHauledTreasureWeight()
+		public float GetHauledTreasureWeight()
 		{
-			float weight = 0;
-			foreach ( var treasure in _haulingTreasures )
-			{
-				weight += treasure.Weight;
-			}
-
-			return weight * _settings.WeightScalar;
+			return _haulWeight * _settings.WeightScalar;
 		}
 
 		[System.Serializable]

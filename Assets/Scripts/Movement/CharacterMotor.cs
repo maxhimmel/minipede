@@ -7,25 +7,21 @@ namespace Minipede.Gameplay.Movement
     {
 		public bool IsMoving => _velocity.sqrMagnitude > 0.01f;
 		public Vector2 Velocity => _body.velocity;
-		IMotor.ISettings IMotor.Settings => _settings;
 
-		private Settings _settings;
+		private readonly Settings _settings;
+		private readonly IMaxSpeed _maxSpeed;
 		private readonly Rigidbody2D _body;
 
 		private Vector2 _velocity;
 		private Vector2 _desiredVelocity;
 
 		public CharacterMotor( Settings settings,
+			IMaxSpeed maxSpeedSettings,
 			Rigidbody2D body )
 		{
 			_settings = settings;
+			_maxSpeed = maxSpeedSettings;
 			_body = body;
-		}
-
-		public void SetMaxSpeed( float maxSpeed )
-		{
-			maxSpeed = Mathf.Max( maxSpeed, _settings.MinSpeed );
-			_settings.MaxSpeed = maxSpeed;
 		}
 
 		public void StartMoving( Vector2 direction )
@@ -40,7 +36,7 @@ namespace Minipede.Gameplay.Movement
 
 		public void SetDesiredVelocity( Vector2 direction )
 		{
-			_desiredVelocity = direction * _settings.MaxSpeed;
+			_desiredVelocity = direction * _maxSpeed.GetMaxSpeed();
 		}
 
 		public void FixedTick()
@@ -54,13 +50,30 @@ namespace Minipede.Gameplay.Movement
 		}
 
 		[System.Serializable]
-		public struct Settings : IMotor.ISettings
+		public struct Settings : IMaxSpeed
 		{
-			float IMotor.ISettings.MaxSpeed => MaxSpeed;
-
 			public float MaxSpeed;
 			public float MinSpeed;
 			public float Acceleration;
+
+			private float? _currentMaxSpeed;
+
+			public float GetMaxSpeed()
+			{
+				return _currentMaxSpeed.HasValue
+					? _currentMaxSpeed.Value
+					: MaxSpeed;
+			}
+
+			public void SetMaxSpeed( float maxSpeed )
+			{
+				_currentMaxSpeed = maxSpeed;
+			}
+
+			public void RestoreMaxSpeed()
+			{
+				_currentMaxSpeed = null;
+			}
 		}
 	}
 }

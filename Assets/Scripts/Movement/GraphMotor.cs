@@ -11,9 +11,10 @@ namespace Minipede.Gameplay.Movement
 		public event EventHandler<Vector2Int> Arrived;
 
 		public bool IsMoving => _travelDuration > 0;
-		public Vector2 Velocity => (_endPos - _startPos).normalized * _settings.MaxSpeed;
+		public Vector2 Velocity => (_endPos - _startPos).normalized * _maxSpeed.GetMaxSpeed();
 
 		private readonly Settings _settings;
+		private readonly IMaxSpeed _maxSpeed;
 		private readonly Rigidbody2D _body;
 		private readonly LevelGraph _graph;
 
@@ -24,10 +25,12 @@ namespace Minipede.Gameplay.Movement
 		private bool _cancelMoveLoop;
 
 		public GraphMotor( Settings settings,
+			IMaxSpeed maxSpeedSettings,
 			Rigidbody2D body,
 			LevelGraph graph )
 		{
 			_settings = settings;
+			_maxSpeed = maxSpeedSettings;
 			_body = body;
 			_graph = graph;
 		}
@@ -57,7 +60,7 @@ namespace Minipede.Gameplay.Movement
 			_endPos = _graph.CellCoordToWorldPos( destCoord );
 
 			_lerpTimer = 0;
-			_travelDuration = (_startPos - _endPos).magnitude / _settings.MaxSpeed;
+			_travelDuration = (_startPos - _endPos).magnitude / _maxSpeed.GetMaxSpeed();
 
 			while ( _lerpTimer < 1 )
 			{
@@ -96,9 +99,28 @@ namespace Minipede.Gameplay.Movement
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public struct Settings : IMaxSpeed
 		{
 			public float MaxSpeed;
+
+			private float? _currentMaxSpeed;
+
+			public float GetMaxSpeed()
+			{
+				return _currentMaxSpeed.HasValue
+					? _currentMaxSpeed.Value
+					: MaxSpeed;
+			}
+
+			public void SetMaxSpeed( float maxSpeed )
+			{
+				_currentMaxSpeed = maxSpeed;
+			}
+
+			public void RestoreMaxSpeed()
+			{
+				_currentMaxSpeed = null;
+			}
 		}
 	}
 }

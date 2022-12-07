@@ -17,7 +17,7 @@ namespace Minipede.Installers
 		[Space, FoldoutGroup( "Shared" )]
 		[SerializeField] private string _speedScalarId = "EnemySpeedScalar";
 
-		[InlineEditor, LabelText( "Specialized" )]
+		[InlineEditor, LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
 		[SerializeField] private EnemyInstaller[] _enemyInstallers;
 
 		[FoldoutGroup( "Wave Spawning" )]
@@ -95,7 +95,7 @@ namespace Minipede.Installers
 
 			/* --- */
 
-			Container.Bind<MinipedePlayerZoneSpawner>()
+			Container.BindInterfacesAndSelfTo<MinipedePlayerZoneSpawner>()
 				.AsSingle()
 				.WithArguments( _playerZone );
 		}

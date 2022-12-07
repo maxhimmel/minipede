@@ -17,6 +17,7 @@ namespace Minipede.Gameplay.Movement
 		private Vector2 _origin;
 		private Vector2 _sineDirection;
 		private Vector2 _velocity;
+		private Vector2 _currentDirection;
 		private float _sineTimer;
 
 		public SineMotor( Settings settings,
@@ -43,8 +44,14 @@ namespace Minipede.Gameplay.Movement
 			SetDesiredVelocity( Vector2.zero );
 		}
 
+		public void RecalibrateVelocity()
+		{
+			SetDesiredVelocity( _currentDirection );
+		}
+
 		public void SetDesiredVelocity( Vector2 direction )
 		{
+			_currentDirection = direction;
 			_sineDirection = direction.Rotate( 90 );
 			_velocity = direction * _maxSpeed.GetMaxSpeed();
 		}

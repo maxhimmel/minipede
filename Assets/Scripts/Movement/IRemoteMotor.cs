@@ -10,5 +10,7 @@ namespace Minipede.Gameplay.Movement
         void StopMoving();
 
         void FixedTick();
+
+        void RecalibrateVelocity();
     }
 }

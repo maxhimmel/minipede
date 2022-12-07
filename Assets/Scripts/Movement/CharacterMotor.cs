@@ -14,6 +14,7 @@ namespace Minipede.Gameplay.Movement
 
 		private Vector2 _velocity;
 		private Vector2 _desiredVelocity;
+		private Vector2 _currentDirection;
 
 		public CharacterMotor( Settings settings,
 			IMaxSpeed maxSpeedSettings,
@@ -34,8 +35,14 @@ namespace Minipede.Gameplay.Movement
 			SetDesiredVelocity( Vector2.zero );
 		}
 
+		public void RecalibrateVelocity()
+		{
+			SetDesiredVelocity( _currentDirection );
+		}
+
 		public void SetDesiredVelocity( Vector2 direction )
 		{
+			_currentDirection = direction;
 			_desiredVelocity = direction * _maxSpeed.GetMaxSpeed();
 		}
 

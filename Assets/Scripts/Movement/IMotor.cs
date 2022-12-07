@@ -7,6 +7,9 @@ namespace Minipede.Gameplay.Movement
 		Vector2 Velocity { get; }
 
 		void SetDesiredVelocity( Vector2 direction );
+
 		void FixedTick();
+
+		void RecalibrateVelocity();
 	}
 }

@@ -85,6 +85,11 @@ namespace Minipede.Gameplay.Movement
 			_cancelMoveLoop = true;
 		}
 
+		public void RecalibrateVelocity()
+		{
+			_travelDuration = (_startPos - _endPos).magnitude / _maxSpeed.GetMaxSpeed();
+		}
+
 		public void FixedTick()
 		{
 			if ( !IsMoving )

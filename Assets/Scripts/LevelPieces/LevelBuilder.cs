@@ -133,6 +133,13 @@ namespace Minipede.Gameplay.LevelPieces
 			{
 				return false;
 			}
+
+			// Prevent any blocks from spawning on the very first row ...
+			if ( row <= 0 )
+			{
+				return false;
+			}
+
 			return true;
 		}
 

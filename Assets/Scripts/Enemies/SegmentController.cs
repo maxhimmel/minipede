@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
 using Minipede.Utility;
@@ -10,15 +11,18 @@ namespace Minipede.Gameplay.Enemies
 	public class SegmentController : EnemyController
 	{
 		private GraphMotor _motor;
+		private MinipedePlayerZoneSpawner _playerZoneSpawner;
 
 		private Rigidbody2D _target;
 		private Vector2Int _moveDir;
 		private bool _canRecalibrate;
 
 		[Inject]
-		public void Construct( GraphMotor motor )
+		public void Construct( GraphMotor motor,
+			MinipedePlayerZoneSpawner playerZoneSpawner )
 		{
 			_motor = motor;
+			_playerZoneSpawner = playerZoneSpawner;
 		}
 
 		public void StartFollowing( Rigidbody2D target )
@@ -38,6 +42,11 @@ namespace Minipede.Gameplay.Enemies
 				Vector2Int currentCoord = _levelGraph.WorldPosToCellCoord( _body.position );
 				Vector2Int targetCoord = _levelGraph.WorldPosToCellCoord( _target.position );
 				_motor.SetDestination( targetCoord, _onDestroyCancelToken ).Forget();
+
+				if ( IsWithinShipZone( targetCoord ) )
+				{
+					_playerZoneSpawner.NotifyEnteredZone( this );
+				}
 
 				_moveDir = targetCoord - currentCoord;
 			}

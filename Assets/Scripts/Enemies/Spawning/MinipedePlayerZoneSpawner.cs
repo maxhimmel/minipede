@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -17,6 +18,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private readonly HashSet<EnemyController> _enemiesWithinZone;
 
 		private bool _isSpawnCountdownRunning;
+		private CancellationTokenSource _countdownCancelSource;
 
 		public MinipedePlayerZoneSpawner( Settings settings,
 			EnemySpawnBuilder spawnBuilder,
@@ -49,6 +51,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			if ( _enemiesWithinZone.Count <= 0 )
 			{
 				_isSpawnCountdownRunning = false;
+				_countdownCancelSource.Cancel();
+				_countdownCancelSource.Dispose();
 			}
 		}
 
@@ -63,6 +67,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			if ( !_isSpawnCountdownRunning )
 			{
 				_isSpawnCountdownRunning = true;
+				if ( _countdownCancelSource == null || _countdownCancelSource.IsCancellationRequested )
+				{
+					_countdownCancelSource = new CancellationTokenSource();
+				}
+
 				UpdateSpawnCountdown()
 					.Cancellable( AppHelper.AppQuittingToken )
 					.Forget();
@@ -71,18 +80,14 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		private async UniTask UpdateSpawnCountdown()
 		{
-			float nextSpawnTime = Time.timeSinceLevelLoad + _settings.Countdown;
+			float nextSpawnTime = _settings.Countdown;
 
 			while ( _isSpawnCountdownRunning )
 			{
-				if ( nextSpawnTime <= Time.timeSinceLevelLoad )
-				{
-					nextSpawnTime = Time.timeSinceLevelLoad + _settings.ConsecutiveDelay;
+				await TaskHelpers.DelaySeconds( nextSpawnTime, _countdownCancelSource.Token );
 
-					CreateMinipedeHead();
-				}
-
-				await UniTask.Yield( PlayerLoopTiming.FixedUpdate );
+				nextSpawnTime = _settings.ConsecutiveDelay;
+				CreateMinipedeHead();
 			}
 		}
 

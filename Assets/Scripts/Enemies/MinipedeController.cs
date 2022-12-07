@@ -42,7 +42,7 @@ namespace Minipede.Gameplay.Enemies
 			_columnDir.x = -1 * side;
 
 			_motor.Arrived += OnHorizontalArrival;
-			_motor.StartMoving( _columnDir, _onDestroyCancelToken ).Forget();
+			_motor.StartMoving( _columnDir ).Forget();
 		}
 
 		public override void OnSpawned()
@@ -75,7 +75,7 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			_motor.Arrived += OnHorizontalArrival;
-			_motor.StartMoving( _columnDir, _onDestroyCancelToken ).Forget();
+			_motor.StartMoving( _columnDir ).Forget();
 		}
 
 		private async UniTask<Vector2Int> PerformRowTransition()
@@ -92,7 +92,7 @@ namespace Minipede.Gameplay.Enemies
 				_rowDir.y *= -1;
 			}
 			nextRowCoord += _rowDir.ToRowCol();
-			await _motor.SetDestination( nextRowCoord, _onDestroyCancelToken );
+			await _motor.SetDestination( nextRowCoord );
 
 			if ( IsWithinShipZone( nextRowCoord ) )
 			{
@@ -107,7 +107,7 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			Vector2Int nextColCoord = nextRowCoord + _columnDir.ToRowCol();
-			await _motor.SetDestination( nextColCoord, _onDestroyCancelToken );
+			await _motor.SetDestination( nextColCoord );
 
 			return nextColCoord;
 		}
@@ -168,7 +168,7 @@ namespace Minipede.Gameplay.Enemies
 			// TODO: VFX for exiting poisoned/angered ...
 
 			_motor.Arrived += OnHorizontalArrival;
-			_motor.StartMoving( _columnDir, _onDestroyCancelToken ).Forget();
+			_motor.StartMoving( _columnDir ).Forget();
 		}
 
 		private bool WillCollideWithNextColumn( Vector2Int currentCoords, out LevelForeman.DemolishInstructions instructions )
@@ -283,7 +283,7 @@ namespace Minipede.Gameplay.Enemies
 			newHead._columnDir = _columnDir;
 
 			Vector2Int destCoord = _levelGraph.WorldPosToCellCoord( newHeadPosition );
-			newHead._motor.SetDestination( destCoord, _onDestroyCancelToken )
+			newHead._motor.SetDestination( destCoord )
 				.ContinueWith( newHead.UpdateRowTransition )
 				.Cancellable( newHead._onDestroyCancelToken )
 				.Forget();

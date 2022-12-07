@@ -50,7 +50,16 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 			if ( _enemiesWithinZone.Count <= 0 )
 			{
-				_isSpawnCountdownRunning = false;
+				Reset();
+			}
+		}
+
+		private void Reset()
+		{
+			_isSpawnCountdownRunning = false;
+
+			if ( !_countdownCancelSource.IsCancellationRequested )
+			{
 				_countdownCancelSource.Cancel();
 				_countdownCancelSource.Dispose();
 			}
@@ -58,7 +67,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		public void NotifyEnteredZone( EnemyController enemy )
 		{
-			if ( !_enemiesWithinZone.Add( enemy ) )
+			if ( !enemy.IsAlive || !_enemiesWithinZone.Add( enemy ) )
 			{
 				// This enemy has already been registered within the player-zone ...
 				return;

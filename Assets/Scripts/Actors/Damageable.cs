@@ -46,6 +46,13 @@ namespace Minipede.Gameplay
 						direction:	(_body.position - causer.position.ToVector2()).normalized
 					) );
 				}
+				else
+				{
+					_signalBus.TryFireId( "Healed", new FxSignal(
+						position: _body.position,
+						direction: (_body.position - causer.position.ToVector2()).normalized
+					) );
+				}
 			}
 
 			if ( !_health.IsAlive )

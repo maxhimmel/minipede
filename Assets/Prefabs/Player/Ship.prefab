@@ -161,7 +161,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 41702
+  m_InstanceId: 41474
 --- !u!1 &6378720964115801298
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,4 +324,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.45

@@ -56,6 +56,11 @@ namespace Minipede.Gameplay.Enemies
 			return !_motor.IsMoving && _target != null;
 		}
 
+		public override void RecalibrateVelocity()
+		{
+			_motor.RecalibrateVelocity();
+		}
+
 		private void UpdateFacingRotation()
 		{
 			Vector3 velocity = _motor.Velocity;

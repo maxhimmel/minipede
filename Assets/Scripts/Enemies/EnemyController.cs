@@ -129,6 +129,8 @@ namespace Minipede.Gameplay.Enemies
 
 		}
 
+		public abstract void RecalibrateVelocity();
+
 		protected void FixedUpdate()
 		{
 			if ( !IsReady )

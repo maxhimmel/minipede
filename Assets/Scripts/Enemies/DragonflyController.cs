@@ -29,6 +29,11 @@ namespace Minipede.Gameplay.Enemies
 			_motor.StartMoving( transform.up );
 		}
 
+		public override void RecalibrateVelocity()
+		{
+			_motor.RecalibrateVelocity();
+		}
+
 		protected override void FixedTick()
 		{
 			base.FixedTick();

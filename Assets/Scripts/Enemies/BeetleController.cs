@@ -86,6 +86,11 @@ namespace Minipede.Gameplay.Enemies
 			return position - _body.position;
 		}
 
+		public override void RecalibrateVelocity()
+		{
+			_motor.RecalibrateVelocity();
+		}
+
 		protected override void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
 			base.OnDied( victimBody, health );

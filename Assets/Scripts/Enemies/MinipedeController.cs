@@ -199,6 +199,11 @@ namespace Minipede.Gameplay.Enemies
 			transform.rotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
 		}
 
+		public override void RecalibrateVelocity()
+		{
+			_motor.RecalibrateVelocity();
+		}
+
 		protected override void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
 			base.OnDied( victimBody, health );

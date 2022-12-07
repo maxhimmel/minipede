@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
@@ -35,7 +36,7 @@ namespace Minipede.Gameplay.Movement
 			_graph = graph;
 		}
 
-		public async UniTask StartMoving( Vector2Int direction )
+		public async UniTask StartMoving( Vector2Int direction, CancellationToken cancelToken = default )
 		{
 			_cancelMoveLoop = false;
 
@@ -44,17 +45,17 @@ namespace Minipede.Gameplay.Movement
 				Vector2Int currentCoord = _graph.WorldPosToCellCoord( _body.position );
 				currentCoord += direction.ToRowCol();
 
-				await SetDestination( currentCoord, true );
+				await SetDestination( currentCoord, true, cancelToken );
 
 			} while ( IsMoving && !_cancelMoveLoop && _body != null );
 		}
 
-		public async UniTask SetDestination( Vector2Int destCoord )
+		public async UniTask SetDestination( Vector2Int destCoord, CancellationToken cancelToken = default )
 		{
-			await SetDestination( destCoord, false );
+			await SetDestination( destCoord, false, cancelToken );
 		}
 
-		private async UniTask SetDestination( Vector2Int destCoord, bool isContinuing )
+		private async UniTask SetDestination( Vector2Int destCoord, bool isContinuing, CancellationToken cancelToken = default )
 		{
 			_startPos = _body.position;
 			_endPos = _graph.CellCoordToWorldPos( destCoord );
@@ -64,7 +65,7 @@ namespace Minipede.Gameplay.Movement
 
 			while ( _lerpTimer < 1 )
 			{
-				await TaskHelpers.WaitForFixedUpdate();
+				await TaskHelpers.WaitForFixedUpdate( cancelToken );
 			}
 
 			if ( !isContinuing )

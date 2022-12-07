@@ -37,7 +37,7 @@ namespace Minipede.Gameplay.Enemies
 
 				Vector2Int currentCoord = _levelGraph.WorldPosToCellCoord( _body.position );
 				Vector2Int targetCoord = _levelGraph.WorldPosToCellCoord( _target.position );
-				_motor.SetDestination( targetCoord ).Forget();
+				_motor.SetDestination( targetCoord, _onDestroyCancelToken ).Forget();
 
 				_moveDir = targetCoord - currentCoord;
 			}

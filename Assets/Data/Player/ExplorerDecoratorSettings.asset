@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c13dca93cd5ad86478e4ad736035bb91, type: 3}
   m_Name: ExplorerDecoratorSettings
   m_EditorClassIdentifier: 
+  _hauling:
+    MinSpeed: 0.25

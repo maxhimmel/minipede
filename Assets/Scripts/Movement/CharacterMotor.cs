@@ -60,7 +60,6 @@ namespace Minipede.Gameplay.Movement
 		public struct Settings : IMaxSpeed
 		{
 			public float MaxSpeed;
-			public float MinSpeed;
 			public float Acceleration;
 
 			private float? _currentMaxSpeed;

@@ -1,22 +1,27 @@
 ﻿using Minipede.Gameplay.Movement;
+using UnityEngine;
 
 namespace Minipede.Gameplay.Treasures
 {
 	public class TreasureHaulDecorator : IMaxSpeed
 	{
+		private readonly Settings _settings;
 		private readonly IMaxSpeed _maxSpeed;
 		private readonly TreasureHauler _hauler;
 
-		public TreasureHaulDecorator( IMaxSpeed maxSpeedSettings,
+		public TreasureHaulDecorator( Settings settings,
+			IMaxSpeed maxSpeedSettings,
 			TreasureHauler hauler )
 		{
+			_settings = settings;
 			_maxSpeed = maxSpeedSettings;
 			_hauler = hauler;
 		}
 
 		public float GetMaxSpeed()
 		{
-			return _maxSpeed.GetMaxSpeed() - _hauler.GetHauledTreasureWeight();
+			float maxSpeed = _maxSpeed.GetMaxSpeed() - _hauler.GetHauledTreasureWeight();
+			return Mathf.Max( maxSpeed, _settings.MinSpeed );
 		}
 
 		public void SetMaxSpeed( float maxSpeed )
@@ -27,6 +32,12 @@ namespace Minipede.Gameplay.Treasures
 		public void RestoreMaxSpeed()
 		{
 			_maxSpeed.RestoreMaxSpeed();
+		}
+
+		[System.Serializable]
+		public struct Settings
+		{
+			public float MinSpeed;
 		}
 	}
 }

@@ -8,10 +8,13 @@ namespace Minipede.Installers
     [CreateAssetMenu( menuName = "Player/Explorer Decorators" )]
     public class ExplorerDecoratorSettings : ScriptableObjectInstaller
     {
+		[SerializeField] private TreasureHaulDecorator.Settings _hauling;
+
 		public override void InstallBindings()
 		{
 			Container.Decorate<IMaxSpeed>()
-				.With<TreasureHaulDecorator>();
+				.With<TreasureHaulDecorator>()
+				.WithArguments( _hauling );
 		}
 	}
 }

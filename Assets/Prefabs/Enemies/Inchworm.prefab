@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5517295395955825210
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3006518857079507361, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_Name
+      value: Inchworm
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: f6b1ac8cfb13511479d6df8f3a322c72, type: 2}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: b3b7cf48936fd8148874cb1ee0a33f35, type: 2}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8851014196010823000, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6320754
+      objectReference: {fileID: 0}
+    - target: {fileID: 8851014196010823000, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_Color.r
+      value: 0.03913731
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+--- !u!1 &7289095886395970459 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3006518857079507361, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+  m_PrefabInstance: {fileID: 5517295395955825210}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2684825897360372887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7289095886395970459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e2a550155aace40aa06a514e6404bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

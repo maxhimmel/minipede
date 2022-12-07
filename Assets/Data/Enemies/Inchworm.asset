@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53af151d09203704aacfc6a9d5b38c56, type: 3}
+  m_Name: Inchworm
+  m_EditorClassIdentifier: 
+  _prefab: {fileID: 2684825897360372887, guid: 906229d1d0f1153438a4708e901ffaa4, type: 3}
+  _spawnPlacement:
+  - Area:
+      RowCol: {x: 18, y: 0}
+      Size: {x: -1, y: 8}
+    Rotation:
+      _allowEmptyRolls: 0
+      _items:
+      - _normalizedWeight: 100
+        Item: -90
+  - Area:
+      RowCol: {x: 18, y: 30}
+      Size: {x: 1, y: 8}
+    Rotation:
+      _allowEmptyRolls: 0
+      _items:
+      - _normalizedWeight: 100
+        Item: 90
+  _settings:
+    SlowDownRatio: 0.409
+    SlowDownDuration: 10

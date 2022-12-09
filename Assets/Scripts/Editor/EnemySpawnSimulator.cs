@@ -24,9 +24,10 @@ namespace Minipede.Editor
             Beetle = 1 << 1,
             Dragonfly = 1 << 2,
             Earwig = 1 << 3,
-            Minipede = 1 << 4,
-            Mosquito = 1 << 5,
-            Segment = 1 << 6
+            Inchworm = 1 << 4,
+            Minipede = 1 << 5,
+            Mosquito = 1 << 6,
+            Segment = 1 << 7
         }
 
         private Dictionary<Type, EnemyType> _typeLookup = new Dictionary<Type, EnemyType>()
@@ -35,6 +36,7 @@ namespace Minipede.Editor
             { typeof( BeetleController ), EnemyType.Beetle },
             { typeof( DragonflyController ), EnemyType.Dragonfly },
             { typeof( EarwigController ), EnemyType.Earwig },
+            { typeof( InchwormController ), EnemyType.Inchworm },
             { typeof( MinipedeController ), EnemyType.Minipede },
             { typeof( MosquitoController ), EnemyType.Mosquito },
             { typeof( SegmentController ), EnemyType.Segment }

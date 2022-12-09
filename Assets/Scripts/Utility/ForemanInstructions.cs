@@ -26,6 +26,8 @@ namespace Minipede.Utility
 			{
 			}
 
+			// TODO: Rename to Remove() and then create a Kill() method which will utilize the IDamageable API.
+				// This will allow for gems to spawn from Killed blocks when spiders pass them over.
 			public RefurbishInstructions Destroy()
 			{
 				var cellCoord = _currentCell.CellCoord;

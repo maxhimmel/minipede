@@ -191,26 +191,38 @@ namespace Minipede.Gameplay.Audio
 
 			public void Stop()
 			{
-				_source.Stop();
+				if ( _source != null )
+				{
+					_source.Stop();
+				}
 			}
 
 			public void Pause()
 			{
-				_source.Pause();
+				if ( _source != null )
+				{
+					_source.Pause();
+				}
 			}
 
 			public void Resume()
 			{
-				_source.UnPause();
+				if ( _source != null )
+				{
+					_source.UnPause();
+				}
 			}
 
 			public void SetOrientation( IOrientation orientation )
 			{
-				_source.transform.SetPositionAndRotation(
-					orientation.Position,
-					orientation.Rotation
-				);
-				//_source.transform.SetParent( orientation.Parent );
+				if ( _source != null )
+				{
+					_source.transform.SetPositionAndRotation(
+						orientation.Position,
+						orientation.Rotation
+					);
+					//_source.transform.SetParent( orientation.Parent );
+				}
 			}
 		}
 	}

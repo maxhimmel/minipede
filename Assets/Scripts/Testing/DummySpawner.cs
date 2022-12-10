@@ -1,3 +1,4 @@
+using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
@@ -17,8 +18,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			if ( Input.GetKeyDown( KeyCode.Return ) )
 			{
-				_spawnBuilder.Build<MinipedeController>()
-					.WithRandomPlacement()
+				_spawnBuilder.Build<SpiderController>()
+					.WithPlacement( transform.ToData() )
 					.WithSpawnBehavior()
 					.Create();
 			}

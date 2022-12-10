@@ -16,6 +16,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private readonly PlayerController _playerSpawnController;
 		private readonly IEnemyWave _mainWave;
 		private readonly IEnemyWave[] _bonusWaves;
+		private readonly SpiderSpawnController _spiderSpawnController;
 
 		private bool _autoPlay;
 		private int _mainWaveRepeatCount;
@@ -25,7 +26,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		public EnemyWaveController( Settings settings,
 			PlayerController playerSpawnController,
 			[Inject( Id = Settings.MainWaveId )] IEnemyWave mainWave,
-			[Inject( Id = Settings.BonusWaveId )] IEnemyWave[] bonusWaves )
+			[Inject( Id = Settings.BonusWaveId )] IEnemyWave[] bonusWaves,
+			SpiderSpawnController spiderSpawnController )
 		{
 			_settings = settings;
 			_playerSpawnController = playerSpawnController;
@@ -33,6 +35,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 			bonusWaves.FisherYatesShuffle();
 			_bonusWaves = bonusWaves;
+
+			_spiderSpawnController = spiderSpawnController;
 		}
 
 		public void Play()
@@ -48,6 +52,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			KickOffWave( _currentWave )
 				.Cancellable( _playerSpawnController.PlayerDiedCancelToken )
 				.Forget();
+
+			_spiderSpawnController.Play();
 		}
 
 		private IEnemyWave GetNextWave()
@@ -111,6 +117,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 				$"Attempting interrupt of '<b>{_currentWave}</b>'." );
 
 			_currentWave.Interrupt();
+
+			_spiderSpawnController.Stop();
 		}
 
 		[System.Serializable]

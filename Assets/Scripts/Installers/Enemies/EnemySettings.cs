@@ -24,6 +24,8 @@ namespace Minipede.Installers
 		[SerializeField, HideLabel] private EnemyWaveController.Settings _wave;
 		[Space, FoldoutGroup( "Wave Spawning" )]
 		[SerializeField] private EnemyWaveInstaller[] _waves;
+		[FoldoutGroup( "Wave Spawning/Spider Spawning" ), HideLabel]
+		[SerializeField] private SpiderSpawnController.Settings _spiderWave;
 
 		[FoldoutGroup( "Player Zone" )]
 		[SerializeField, HideLabel] private MinipedePlayerZoneSpawner.Settings _playerZone;
@@ -101,6 +103,10 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<MinipedePlayerZoneSpawner>()
 				.AsSingle()
 				.WithArguments( _playerZone );
+
+			Container.BindInterfacesAndSelfTo<SpiderSpawnController>()
+				.AsSingle()
+				.WithArguments( _spiderWave );
 		}
 	}
 }

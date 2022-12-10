@@ -36,6 +36,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1f738527c268c86418a011cab8ff7f41, type: 2}
   - {fileID: 11400000, guid: 0551070950644bb48a4f14086f9e279b, type: 2}
   - {fileID: 11400000, guid: 6e93caea736d0fb47a6a10033949c474, type: 2}
+  _spiderWave:
+    SpawnRateRange: {x: 3.0084748, y: 10}
+    MaxEnemyCount: 1
   _playerZone:
     SpawnPointId: MinipedePlayerZoneSpawner
     Countdown: 10

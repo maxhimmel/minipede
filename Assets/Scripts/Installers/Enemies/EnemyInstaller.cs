@@ -51,6 +51,7 @@ namespace Minipede.Installers
 
 	public abstract class EnemyWithSettingsInstaller<TSettings> : EnemyInstaller
 	{
+		[FoldoutGroup( "Settings" ), HideLabel]
 		[SerializeField, PropertyOrder( 1 )] protected TSettings _settings;
 
 		public override void InstallBindings()

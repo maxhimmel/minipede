@@ -138,8 +138,7 @@ namespace Minipede.Gameplay.Enemies
 
 			if ( _motor.IsMoving && _levelForeman.TryQueryFilledBlock( _body.position, out var instructions ) )
 			{
-				// TODO: Implement a Kill() method for blocks ...
-				instructions.Destroy();
+				instructions.Kill( transform, transform, DamageDatum.Kill );
 			}
 		}
 

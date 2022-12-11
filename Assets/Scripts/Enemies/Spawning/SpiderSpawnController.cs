@@ -50,6 +50,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		public void Play()
 		{
+			if ( !_settings.IsEnabled )
+			{
+				return;
+			}
+
 			if ( !_isPlaying )
 			{
 				_isPlaying = true;
@@ -116,10 +121,12 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		[System.Serializable]
 		public struct Settings
 		{
-			[MinMaxSlider( 1, 10 )]
+			public bool IsEnabled;
+
+			[MinMaxSlider( 1, 10 ), ShowIf( "IsEnabled" )]
 			public Vector2 SpawnRateRange;
 
-			[PropertyRange( 1, 5 )]
+			[PropertyRange( 1, 5 ), ShowIf( "IsEnabled" )]
 			public int MaxEnemyCount;
 		}
 	}

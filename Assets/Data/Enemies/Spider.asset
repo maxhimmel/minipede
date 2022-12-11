@@ -31,7 +31,7 @@ MonoBehaviour:
       - _normalizedWeight: 100
         Item: 0
   _settings:
-    ColumnStepRange: {x: 1, y: 6}
+    ColumnStepRange: {x: 3, y: 7}
     RowRange: {x: 0, y: 13}
     PingPongChance: 0.153
     PingPongDurationRange: {x: 1, y: 3}

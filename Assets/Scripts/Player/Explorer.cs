@@ -137,6 +137,17 @@ namespace Minipede.Gameplay.Player
 		private void FixedUpdate()
 		{
 			_motor.FixedTick();
+
+			RotateTowardsVelocity();
+		}
+
+		private void RotateTowardsVelocity()
+		{
+			Vector2 velocity = _motor.Velocity;
+			if ( velocity.sqrMagnitude >= 0.01f )
+			{
+				_body.MoveRotation( velocity.ToLookRotation() );
+			}
 		}
 
 		public class Factory : UnityFactory<Explorer> { }

@@ -123,7 +123,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			public bool IsEnabled;
 
-			[MinMaxSlider( 1, 10 ), ShowIf( "IsEnabled" )]
+			[MinMaxSlider( 1, 60 ), ShowIf( "IsEnabled" )]
 			public Vector2 SpawnRateRange;
 
 			[PropertyRange( 1, 5 ), ShowIf( "IsEnabled" )]

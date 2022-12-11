@@ -43,6 +43,11 @@ namespace Minipede.Gameplay.LevelPieces
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
+		public void ForceKill( Transform instigator, Transform causer, DamageDatum data )
+		{
+			_damageController.ForceKill( instigator, causer, data );
+		}
+
 		private void HandleDeath( Rigidbody2D victimBody, HealthController health )
 		{
 			_lootBox.Open( victimBody.position );

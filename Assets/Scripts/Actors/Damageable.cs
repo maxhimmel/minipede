@@ -57,15 +57,32 @@ namespace Minipede.Gameplay
 
 			if ( !_health.IsAlive )
 			{
-				Died?.Invoke( _body, _health );
-
-				_signalBus.TryFireId( "Died", new FxSignal(
-					position: _body.position,
-					direction: (_body.position - causer.position.ToVector2()).normalized
-				) );
+				InvokeDeathEvents( causer );
 			}
 
 			return dmgTaken;
+		}
+
+		public void ForceKill( Transform instigator, Transform causer, DamageDatum data )
+		{
+			_health.ForceKill( data );
+
+			if ( _logDamage )
+			{
+				Debug.Log( $"'<b>{_body.name}</b>' has been force-killed from '<b>{instigator?.name}</b>' using '<b>{causer?.name}</b>'." );
+			}
+
+			InvokeDeathEvents( causer );
+		}
+
+		private void InvokeDeathEvents( Transform causer )
+		{
+			Died?.Invoke( _body, _health );
+
+			_signalBus.TryFireId( "Died", new FxSignal(
+				position: _body.position,
+				direction: (_body.position - causer.position.ToVector2()).normalized
+			) );
 		}
 	}
 }

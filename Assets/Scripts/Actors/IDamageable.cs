@@ -8,11 +8,14 @@ namespace Minipede.Gameplay
         /// <param name="causer">The object that actually deals damage, i.e. the bullet.</param>
         /// <returns>The amount of damage taken.</returns>
         int TakeDamage( Transform instigator, Transform causer, DamageDatum data );
+        void ForceKill( Transform instigator, Transform causer, DamageDatum data );
     }
 
     [System.Serializable]
     public struct DamageDatum
 	{
+        public static readonly DamageDatum Kill = new DamageDatum( int.MaxValue );
+
         public int Damage;
 
         public DamageDatum( int damage )

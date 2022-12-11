@@ -9,8 +9,14 @@ namespace Minipede.Installers
     {
 		[SerializeField] private bool _logDamage;
 
+		private HealthController.Settings _health;
+
 		public override void InstallBindings()
 		{
+			Container.Bind<HealthController>()
+				.AsSingle()
+				.WithArguments( _health );
+
 			Container.Bind<IDamageController>()
 				.To<Invincible>()
 				.AsTransient()

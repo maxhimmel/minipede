@@ -1,3 +1,4 @@
+using Minipede.Gameplay;
 using Minipede.Gameplay.LevelPieces;
 using UnityEngine;
 
@@ -26,14 +27,32 @@ namespace Minipede.Utility
 			{
 			}
 
-			// TODO: Rename to Remove() and then create a Kill() method which will utilize the IDamageable API.
-				// This will allow for gems to spawn from Killed blocks when spiders pass them over.
+			/// <summary>
+			/// Simple removal of a block.
+			/// </summary>
 			public RefurbishInstructions Destroy()
 			{
-				var cellCoord = _currentCell.CellCoord;
+				var nextInstruction = RemoveBlock( out var block );				
+				block.Cleanup();
 
-				_currentCell.Block.Cleanup();
-				_builder.RemoveBlock( cellCoord.Row(), cellCoord.Col() );
+				return nextInstruction;
+			}
+
+			/// <summary>
+			/// Removal of a block through the <see cref="IDamageable"/> API.
+			/// </summary>
+			public RefurbishInstructions Kill( Transform instigator, Transform causer, DamageDatum data )
+			{
+				var nextInstruction = RemoveBlock( out var block );
+				block.ForceKill( instigator, causer, data );
+				
+				return nextInstruction;
+			}
+
+			private RefurbishInstructions RemoveBlock( out Block removedBlock )
+			{
+				var cellCoord = _currentCell.CellCoord;
+				removedBlock = _builder.RemoveBlock( cellCoord.Row(), cellCoord.Col() );
 
 				return new RefurbishInstructions( _builder, _currentCell );
 			}

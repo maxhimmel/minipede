@@ -90,19 +90,21 @@ namespace Minipede.Gameplay.LevelPieces
 			RemoveBlock( blockCoords.Row(), blockCoords.Col() );
 		}
 
-		public void RemoveBlock( int row, int column )
+		public Block RemoveBlock( int row, int column )
 		{
 			if ( !IsCellCoordValid( row, column ) )
 			{
-				return;
+				return null;
 			}
 
 			var cellData = GetCellData( row, column );
-			
-			cellData.Block.Died -= OnBlockDestroyed;
-			_levelBlocks.Remove( cellData.Block );
+			var removedBlock = cellData.Block;
+
+			removedBlock.Died -= OnBlockDestroyed;
+			_levelBlocks.Remove( removedBlock );
 
 			cellData.Block = null;
+			return removedBlock;
 		}
 
 		public bool TryGetCellData( Vector2 worldPosition, out LevelCell cellData )

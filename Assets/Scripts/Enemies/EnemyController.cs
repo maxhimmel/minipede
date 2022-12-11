@@ -2,9 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Treasures;
-using Minipede.Gameplay.Fx;
 using Minipede.Utility;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 using Minipede.Installers;
@@ -73,6 +71,11 @@ namespace Minipede.Gameplay.Enemies
 
 		protected virtual void OnDamaged( Rigidbody2D victimBody, HealthController health )
 		{
+		}
+
+		public void ForceKill( Transform instigator, Transform causer, DamageDatum data )
+		{
+			_damageController.ForceKill( instigator, causer, data );
 		}
 
 		protected virtual void OnDied( Rigidbody2D victimBody, HealthController health )

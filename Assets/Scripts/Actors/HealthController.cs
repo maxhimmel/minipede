@@ -28,6 +28,11 @@ namespace Minipede.Gameplay
 			return prevHealth - _health;
 		}
 
+		public void ForceKill( DamageDatum data )
+		{
+			_health = 0;
+		}
+
         [System.Serializable]
 		public struct Settings
 		{

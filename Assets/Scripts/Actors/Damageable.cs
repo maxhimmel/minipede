@@ -5,15 +5,15 @@ using Zenject;
 
 namespace Minipede.Gameplay
 {
-	public class Damageable : IDamageController,
-		ITickable
+	public class Damageable : IDamageController
+		//ITickable
 	{
 		public event IDamageController.OnHit Damaged;
 		public event IDamageController.OnHit Died;
 
 		public HealthController Health { get; }
 
-		private readonly StatusEffectController _statusEffectController;
+		//private readonly StatusEffectController _statusEffectController;
 		private readonly Rigidbody2D _body;
 		private readonly SignalBus _signalBus;
 		private readonly bool _logDamage;
@@ -25,7 +25,7 @@ namespace Minipede.Gameplay
 			bool logDamage )
 		{
 			Health = health;
-			_statusEffectController = new StatusEffectController( this );//statusEffectController;
+			//_statusEffectController = new StatusEffectController( this );//statusEffectController;
 			_body = body;
 			_signalBus = signalBus;
 			_logDamage = logDamage;
@@ -37,11 +37,11 @@ namespace Minipede.Gameplay
 			// child class can then do all of what the status effect controller is doing???
 
 			DamageResult result;
-			if ( data is IStatusEffect status )
-			{
-				result = _statusEffectController.Apply( new StatusEffect( status, instigator, causer ) );
-			}
-			else
+			//if ( data is IStatusEffect status )
+			//{
+			//	result = _statusEffectController.Apply( new StatusEffect( status, instigator, causer ) );
+			//}
+			//else
 			{
 				result = data.Apply( this );
 			}
@@ -77,10 +77,10 @@ namespace Minipede.Gameplay
 			return result.DamageTaken;
 		}
 
-		// TODO: Remove me? It seems like the damageable shouldn't be controlling the status effects ...
-		public void Tick()
-		{
-			_statusEffectController.Tick();
-		}
+		//// TODO: Remove me? It seems like the damageable shouldn't be controlling the status effects ...
+		//public void Tick()
+		//{
+		//	_statusEffectController.Tick();
+		//}
 	}
 }

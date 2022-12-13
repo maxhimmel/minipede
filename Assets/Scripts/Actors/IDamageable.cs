@@ -119,37 +119,6 @@ namespace Minipede.Gameplay
         float Duration { get; }
 	}
 
-	public class StatusEffect : IStatusEffect
-    {
-        public IStatusEffect Effect { get; }
-        public Transform Instigator { get; }
-        public Transform Causer { get; }
-        public bool CanApply => _nextApplyTime <= Time.timeSinceLevelLoad;
-        public bool IsExpired => CanExpire && _expirationTime <= Time.timeSinceLevelLoad;
-
-        public float ApplyRate => Effect.ApplyRate;
-        public bool CanExpire => Effect.CanExpire;
-        public float Duration => Effect.Duration;
-
-        private float _expirationTime;
-        private float _nextApplyTime;
-
-		public StatusEffect( IStatusEffect effect, Transform instigator, Transform causer )
-		{
-            Effect = effect;
-            Instigator = instigator;
-            Causer = causer;
-
-            _expirationTime = Time.timeSinceLevelLoad + Duration;
-        }
-
-		public DamageResult Apply( IDamageable damageable )
-        {
-            _nextApplyTime = Time.timeSinceLevelLoad + ApplyRate;
-            return Effect.Apply( damageable );
-		}
-	}
-
 	public class StatusEffectController : ITickable
     {
 		private readonly IDamageable _owner;
@@ -163,17 +132,34 @@ namespace Minipede.Gameplay
             _expiredStatuses = new List<StatusEffect>();
 		}
 
-        public DamageResult Apply( StatusEffect newStatus )
-		{
-            var type = newStatus.Effect.GetType();
-            if ( !_statuses.TryGetValue( type, out var status ) )
-            {
-				_statuses.Add( type, newStatus );
-                status = newStatus;
-			}
-
+        //public DamageResult Apply( StatusEffect newStatus )
+        public DamageResult Apply( Transform instigator, Transform causer, IStatusEffect newStatus )
+        {
+            //         var type = newStatus.Effect.GetType();
+            //         if ( !_statuses.TryGetValue( type, out var status ) )
+            //         {
+            //	_statuses.Add( type, newStatus );
+            //             status = newStatus;
+            //}
+            var status = TryAdd( instigator, causer, newStatus );
             return status.Apply( _owner );
 		}
+
+        public IStatusEffect TryAdd( Transform instigator, Transform causer, IStatusEffect newStatus )
+        {
+            var type = newStatus.GetType();
+            if ( !_statuses.TryGetValue( type, out var status ) )
+            {
+                status = new StatusEffect( instigator, causer, newStatus );
+                _statuses.Add( type, status );
+            }
+            else
+			{
+                // Extend status expiration time?
+			}
+
+            return status;
+        }
 
         public void Remove<TStatusEffect>()
             where TStatusEffect : IStatusEffect
@@ -208,6 +194,37 @@ namespace Minipede.Gameplay
                 _statuses.Remove( status.Effect.GetType() );
                 _expiredStatuses.RemoveAt( idx );
 			}
-		}
-	}
+        }
+
+        private class StatusEffect : IStatusEffect
+        {
+            public IStatusEffect Effect { get; }
+            public Transform Instigator { get; }
+            public Transform Causer { get; }
+            public bool CanApply => _nextApplyTime <= Time.timeSinceLevelLoad;
+            public bool IsExpired => CanExpire && _expirationTime <= Time.timeSinceLevelLoad;
+
+            public float ApplyRate => Effect.ApplyRate;
+            public bool CanExpire => Effect.CanExpire;
+            public float Duration => Effect.Duration;
+
+            private float _expirationTime;
+            private float _nextApplyTime;
+
+            public StatusEffect( Transform instigator, Transform causer, IStatusEffect effect )
+            {
+                Instigator = instigator;
+                Causer = causer;
+                Effect = effect;
+
+                _expirationTime = Time.timeSinceLevelLoad + Duration;
+            }
+
+            public DamageResult Apply( IDamageable damageable )
+            {
+                _nextApplyTime = Time.timeSinceLevelLoad + ApplyRate;
+                return Effect.Apply( damageable );
+            }
+        }
+    }
 }

@@ -41,10 +41,10 @@ namespace Minipede.Utility
 			/// <summary>
 			/// Removal of a block through the <see cref="IDamageable"/> API.
 			/// </summary>
-			public RefurbishInstructions Kill( Transform instigator, Transform causer, DamageDatum data )
+			public RefurbishInstructions Kill( Transform instigator, Transform causer )
 			{
 				var nextInstruction = RemoveBlock( out var block );
-				block.ForceKill( instigator, causer, data );
+				block.TakeDamage( instigator, causer, KillDatum.Kill );
 				
 				return nextInstruction;
 			}

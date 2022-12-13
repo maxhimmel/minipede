@@ -138,7 +138,7 @@ namespace Minipede.Gameplay.Enemies
 
 			if ( _motor.IsMoving && _levelForeman.TryQueryFilledBlock( _body.position, out var instructions ) )
 			{
-				instructions.Kill( transform, transform, DamageDatum.Kill );
+				instructions.Kill( transform, transform );
 			}
 		}
 

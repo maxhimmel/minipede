@@ -119,46 +119,48 @@ namespace Minipede.Gameplay
         float Duration { get; }
 	}
 
-	public class StatusEffectController : ITickable
+	public class StatusEffectController //: ITickable
     {
-		private readonly IDamageable _owner;
+		//private readonly IDamageable _owner;
         private readonly Dictionary<System.Type, StatusEffect> _statuses;
         private readonly List<StatusEffect> _expiredStatuses;
 
-        public StatusEffectController( IDamageable owner )
+        public StatusEffectController()// IDamageable owner )
 		{
-			_owner = owner;
+			//_owner = owner;
             _statuses = new Dictionary<System.Type, StatusEffect>();
             _expiredStatuses = new List<StatusEffect>();
 		}
 
-        //public DamageResult Apply( StatusEffect newStatus )
-        public DamageResult Apply( Transform instigator, Transform causer, IStatusEffect newStatus )
+        //public DamageResult Apply( Transform instigator, Transform causer, IStatusEffect newStatus )
+        public DamageResult Apply( IDamageable owner, Transform instigator, Transform causer, IStatusEffect newStatus )
         {
-            //         var type = newStatus.Effect.GetType();
-            //         if ( !_statuses.TryGetValue( type, out var status ) )
-            //         {
-            //	_statuses.Add( type, newStatus );
-            //             status = newStatus;
-            //}
             var status = TryAdd( instigator, causer, newStatus );
-            return status.Apply( _owner );
+            return status.Apply( owner, instigator, causer );
 		}
 
         public IStatusEffect TryAdd( Transform instigator, Transform causer, IStatusEffect newStatus )
         {
             var type = newStatus.GetType();
-            if ( !_statuses.TryGetValue( type, out var status ) )
+            if ( !_statuses.TryGetValue( type, out var existingStatus ) )
             {
-                status = new StatusEffect( instigator, causer, newStatus );
-                _statuses.Add( type, status );
+                existingStatus = new StatusEffect( instigator, causer, newStatus );
+                _statuses.Add( type, existingStatus );
             }
             else
 			{
                 // Extend status expiration time?
+                // ...
+
+                if ( !existingStatus.CanApply )
+				{
+                    // We're returning the newStatus instead of the existingStatus
+                        // so we can bypass the cooldown on the cached/existing status effect ...
+                    return newStatus;
+				}
 			}
 
-            return status;
+            return existingStatus;
         }
 
         public void Remove<TStatusEffect>()
@@ -173,7 +175,7 @@ namespace Minipede.Gameplay
             _statuses.Clear();
 		}
 
-        public void Tick()
+        public void Tick( IDamageable owner )
 		{
             foreach ( var status in _statuses.Values )
 			{
@@ -183,7 +185,7 @@ namespace Minipede.Gameplay
 				}
                 else if ( status.CanApply )
 				{
-                    _owner.TakeDamage( status.Instigator, status.Causer, status.Effect );
+                    owner.TakeDamage( status.Instigator, status.Causer, status.Effect );
 				}
 			}
 
@@ -220,10 +222,15 @@ namespace Minipede.Gameplay
                 _expirationTime = Time.timeSinceLevelLoad + Duration;
             }
 
-            public DamageResult Apply( IDamageable damageable )
+            public DamageResult Apply( IDamageable damageable, Transform instigator, Transform causer )
             {
                 _nextApplyTime = Time.timeSinceLevelLoad + ApplyRate;
-                return Effect.Apply( damageable );
+
+                // this might be out of date:
+                    // cast damageable into a "status effected damageable"
+                    // statusEffectDamageable.ApplyStatusEffect( this );
+
+                return Effect.Apply( damageable, instigator, causer );
             }
         }
     }

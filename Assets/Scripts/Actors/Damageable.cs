@@ -36,15 +36,17 @@ namespace Minipede.Gameplay
 			// virtual Apply( data ) here
 			// child class can then do all of what the status effect controller is doing???
 
-			DamageResult result;
-			//if ( data is IStatusEffect status )
+			var result = Apply( instigator, causer, data );
+
+			//DamageResult result;
+			////if ( data is IStatusEffect status )
+			////{
+			////	result = _statusEffectController.Apply( new StatusEffect( status, instigator, causer ) );
+			////}
+			////else
 			//{
-			//	result = _statusEffectController.Apply( new StatusEffect( status, instigator, causer ) );
+			//	result = data.Apply( this );
 			//}
-			//else
-			{
-				result = data.Apply( this );
-			}
 
 			if ( _logDamage )
 			{
@@ -75,6 +77,11 @@ namespace Minipede.Gameplay
 			}
 
 			return result.DamageTaken;
+		}
+
+		protected virtual DamageResult Apply( Transform instigator, Transform causer, IDamageType data )
+		{
+			return data.Apply( this, instigator, causer );
 		}
 
 		//// TODO: Remove me? It seems like the damageable shouldn't be controlling the status effects ...

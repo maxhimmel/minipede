@@ -34,7 +34,7 @@ namespace Minipede.Gameplay.Weapons
 
 			if ( IsHittable( otherBody ) )
 			{
-				damageable.TakeDamage( _owner, _body.transform, _settings.Damage );
+				damageable.TakeDamage( _owner, _body.transform, _settings.Type );
 				NotifyDamageListeners( otherBody );
 			}
 		}
@@ -47,12 +47,11 @@ namespace Minipede.Gameplay.Weapons
 
 		private void NotifyDamageListeners( Rigidbody2D victim )
 		{
-			_signalBus.Fire( new DamagedSignal()
+			_signalBus.TryFire( new DamagedSignal()
 			{
 				Victim			= victim,
 				Instigator		= _owner,
 				Causer			= _body.transform,
-				Data			= _settings.Damage,
 				HitDirection	= (victim.position - _body.position).normalized
 			} );
 		}
@@ -62,8 +61,7 @@ namespace Minipede.Gameplay.Weapons
 		{
 			public LayerMask HitMask;
 
-			[HideLabel]
-			public DamageDatum Damage;
+			[SerializeReference] public IDamageType Type;
 		}
 	}
 }

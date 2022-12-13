@@ -5,84 +5,82 @@ using Zenject;
 
 namespace Minipede.Gameplay
 {
-	public class Damageable : IDamageController
+	public class Damageable : IDamageController,
+		ITickable
 	{
 		public event IDamageController.OnHit Damaged;
 		public event IDamageController.OnHit Died;
 
-		private readonly HealthController _health;
+		public HealthController Health { get; }
+
+		private readonly StatusEffectController _statusEffectController;
 		private readonly Rigidbody2D _body;
 		private readonly SignalBus _signalBus;
 		private readonly bool _logDamage;
 
 		public Damageable( HealthController health,
+			//StatusEffectController statusEffectController, // circular dependency - injection not possible
 			Rigidbody2D body,
 			SignalBus signalBus,
 			bool logDamage )
 		{
-			_health = health;
+			Health = health;
+			_statusEffectController = new StatusEffectController( this );//statusEffectController;
 			_body = body;
 			_signalBus = signalBus;
 			_logDamage = logDamage;
 		}
 
-		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
+		public int TakeDamage( Transform instigator, Transform causer, IDamageType data )
 		{
-			int dmgTaken = _health.TakeDamage( data );
+			// virtual Apply( data ) here
+			// child class can then do all of what the status effect controller is doing???
+
+			DamageResult result;
+			if ( data is IStatusEffect status )
+			{
+				result = _statusEffectController.Apply( new StatusEffect( status, instigator, causer ) );
+			}
+			else
+			{
+				result = data.Apply( this );
+			}
 
 			if ( _logDamage )
 			{
-				Debug.LogFormat( data.LogFormat(), _body.name, dmgTaken, instigator?.name, causer?.name );
+				//Debug.LogFormat( data.LogFormat(), _body.name, result.DamageTaken, instigator?.name, causer?.name );
 			}
 
-			if ( dmgTaken != 0 )
+			if ( result.DamageTaken != 0 )
 			{
-				Damaged?.Invoke( _body, _health );
+				Damaged?.Invoke( _body, Health );
 
-				if ( dmgTaken > 0 )
+				if ( !string.IsNullOrEmpty( result.FxEventName ) )
 				{
-					_signalBus.TryFireId( "Damaged", new FxSignal(
-						position:	_body.position,
-						direction:	(_body.position - causer.position.ToVector2()).normalized
-					) );
-				}
-				else
-				{
-					_signalBus.TryFireId( "Healed", new FxSignal(
+					_signalBus.TryFireId( result.FxEventName, new FxSignal(
 						position: _body.position,
 						direction: (_body.position - causer.position.ToVector2()).normalized
 					) );
 				}
 			}
 
-			if ( !_health.IsAlive )
+			if ( !Health.IsAlive )
 			{
-				InvokeDeathEvents( causer );
+				Died?.Invoke( _body, Health );
+
+				_signalBus.TryFireId( "Died", new FxSignal(
+					position: _body.position,
+					direction: (_body.position - causer.position.ToVector2()).normalized
+				) );
 			}
 
-			return dmgTaken;
+			return result.DamageTaken;
 		}
 
-		public void ForceKill( Transform instigator, Transform causer, DamageDatum data )
+		// TODO: Remove me? It seems like the damageable shouldn't be controlling the status effects ...
+		public void Tick()
 		{
-			_health.ForceKill( data );
-
-			if ( _logDamage )
-			{
-				Debug.Log( $"'<b>{_body.name}</b>' has been force-killed from '<b>{instigator?.name}</b>' using '<b>{causer?.name}</b>'." );
-			}
-
-			InvokeDeathEvents( causer );
-		}
-
-		private void InvokeDeathEvents( Transform causer )
-		{
-			Died?.Invoke( _body, _health );
-
-			_signalBus.TryFireId( "Died", new FxSignal(
-				position: _body.position,
-				direction: (_body.position - causer.position.ToVector2()).normalized
-			) );
+			_statusEffectController.Tick();
 		}
 	}
 }

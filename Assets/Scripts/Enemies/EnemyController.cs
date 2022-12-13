@@ -22,6 +22,7 @@ namespace Minipede.Gameplay.Enemies
 			remove => _damageController.Died -= value;
 		}
 
+		public HealthController Health => _damageController.Health;
 		public bool IsReady => _gameController.IsReady;
 		public bool IsAlive => !_onDestroyCancelToken.IsCancellationRequested;
 		public Rigidbody2D Body => _body;
@@ -64,18 +65,13 @@ namespace Minipede.Gameplay.Enemies
 			damageController.Died += OnDied;
 		}
 
-		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
+		public int TakeDamage( Transform instigator, Transform causer, IDamageType data )
 		{
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
 		protected virtual void OnDamaged( Rigidbody2D victimBody, HealthController health )
 		{
-		}
-
-		public void ForceKill( Transform instigator, Transform causer, DamageDatum data )
-		{
-			_damageController.ForceKill( instigator, causer, data );
 		}
 
 		protected virtual void OnDied( Rigidbody2D victimBody, HealthController health )

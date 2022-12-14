@@ -48,11 +48,6 @@ MonoBehaviour:
         Item: 2
       - _normalizedWeight: 10
         Item: 3
-  _treasureSettings:
-    Hauling:
-      HoldCollectDelay: 0.25
-      HoldReleaseDelay: 0.25
-      WeightScalar: 1
   _audioSettings:
     Banks:
       LoadBanks:

@@ -32,4 +32,4 @@ MonoBehaviour:
         Item: 90
   _settings:
     ColumnMovementRange: {x: 5, y: 24}
-    ExitRow: 14
+    ExitRow: 13

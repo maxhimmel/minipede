@@ -31,7 +31,6 @@ namespace Minipede.Gameplay.Player
 		private Gun _gun;
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
-		//private StatusEffectController _statusEffectController;
 		private PlayerController _playerController;
 		private Wallet _wallet;
 		private SpriteRenderer _renderer;
@@ -52,7 +51,6 @@ namespace Minipede.Gameplay.Player
 		{
 			_motor = motor;
 			_damageController = damageController;
-			//_statusEffectController = new StatusEffectController( this );
 			_gun = gun;
 			_body = body;
 			_playerController = playerController;
@@ -63,20 +61,9 @@ namespace Minipede.Gameplay.Player
 			damageController.Died += OnDied;
 		}
 
-		public int TakeDamage( Transform instigator, Transform causer, IDamageType data )
+		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
-			//if ( data is IStatusEffect status )
-			//{
-			//	data = _statusEffectController.TryAdd( instigator, causer, status );
-			//}
-
 			return _damageController.TakeDamage( instigator, causer, data );
-		}
-
-		public int TakeDamage<TDamage, TSettings>( Transform instigator, Transform causer, TSettings data )
-			where TDamage : IDamageType<TSettings>
-		{
-			return _damageController.TakeDamage<TDamage, TSettings>( instigator, causer, data );
 		}
 
 		private void OnDied( Rigidbody2D victimBody, HealthController health )
@@ -123,9 +110,6 @@ namespace Minipede.Gameplay.Player
 
 		private void Update()
 		{
-			_statusEffectController.Tick();
-			//_statusEffectController.Tick();
-
 			ConsumeDesiredVelocity();
 		}
 

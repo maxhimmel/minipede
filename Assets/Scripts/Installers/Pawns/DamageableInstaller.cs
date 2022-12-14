@@ -18,26 +18,12 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _settings );
 
-			// circular dependency - injection not possible
-			Container.BindInterfacesAndSelfTo<StatusEffectController>()
-				.AsSingle();
-
-			Container.BindInterfacesAndSelfTo<PoisonDamage>()
-				.AsTransient();
-
-			Container.BindInterfacesAndSelfTo<IDamageType.Factory>()
+			Container.Bind<IDamageInvoker.Factory>()
 				.AsSingle();
 
 			Container.BindInterfacesAndSelfTo<Damageable>()
 				.AsSingle()
 				.WithArguments( _logDamage );
-
-			//Container.BindInterfacesAndSelfTo<StatusEffectController>()
-			//	.AsSingle();
-
-			//Container.BindInterfacesAndSelfTo<StatusEffectedDamageable>()
-			//	.AsSingle()
-			//	.WithArguments( _logDamage );
 		}
 	}
 }

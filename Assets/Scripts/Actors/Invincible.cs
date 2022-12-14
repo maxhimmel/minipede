@@ -28,7 +28,7 @@ namespace Minipede.Gameplay
 			_logDamage = logDamage;
 		}
 
-		public int TakeDamage( Transform instigator, Transform causer, IDamageType data )
+		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
 			if ( TryHandleForceKill( instigator, causer, data ) )
 			{
@@ -50,9 +50,9 @@ namespace Minipede.Gameplay
 			return 0;
 		}
 
-		private bool TryHandleForceKill( Transform instigator, Transform causer, IDamageType data )
+		private bool TryHandleForceKill( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
-			if ( data is KillDatum )
+			if ( data is KillInvoker.Settings )
 			{
 				Died?.Invoke( _body, Health );
 
@@ -65,12 +65,6 @@ namespace Minipede.Gameplay
 			}
 
 			return false;
-		}
-
-		public int TakeDamage<TDamage, TSettings>( Transform instigator, Transform causer, TSettings data )
-			where TDamage : IDamageType<TSettings>
-		{
-			throw new NotImplementedException();
 		}
 	}
 }

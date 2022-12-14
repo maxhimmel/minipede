@@ -61,7 +61,7 @@ namespace Minipede.Gameplay.Weapons
 		{
 			public LayerMask HitMask;
 
-			[SerializeReference] public IDamageType Type;
+			[SerializeReference] public IDamageInvoker.ISettings Type;
 		}
 	}
 }

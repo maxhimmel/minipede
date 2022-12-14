@@ -44,7 +44,7 @@ namespace Minipede.Utility
 			public RefurbishInstructions Kill( Transform instigator, Transform causer )
 			{
 				var nextInstruction = RemoveBlock( out var block );
-				block.TakeDamage( instigator, causer, KillDatum.Kill );
+				block.TakeDamage( instigator, causer, KillInvoker.Kill );
 				
 				return nextInstruction;
 			}

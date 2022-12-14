@@ -1,4 +1,3 @@
-using System;
 using Minipede.Gameplay.Fx;
 using Minipede.Utility;
 using UnityEngine;
@@ -7,57 +6,34 @@ using Zenject;
 namespace Minipede.Gameplay
 {
 	public class Damageable : IDamageController
-		//ITickable
 	{
 		public event IDamageController.OnHit Damaged;
 		public event IDamageController.OnHit Died;
 
 		public HealthController Health { get; }
 
-		//private readonly StatusEffectController _statusEffectController;
-		private readonly IDamageType.Factory _dmgFactory;
+		private readonly IDamageInvoker.Factory _damageFactory;
 		private readonly Rigidbody2D _body;
 		private readonly SignalBus _signalBus;
 		private readonly bool _logDamage;
 
 		public Damageable( HealthController health,
-			IDamageType.Factory dmgFactory,
-			//StatusEffectController statusEffectController, // circular dependency - injection not possible
+			IDamageInvoker.Factory damageFactory,
 			Rigidbody2D body,
 			SignalBus signalBus,
 			bool logDamage )
 		{
 			Health = health;
-			_dmgFactory = dmgFactory;
-			//_statusEffectController = new StatusEffectController( this );//statusEffectController;
+			_damageFactory = damageFactory;
 			_body = body;
 			_signalBus = signalBus;
 			_logDamage = logDamage;
 		}
 
-		public int TakeDamage<TDamage, TSettings>( Transform instigator, Transform causer, TSettings data )
-			where TDamage : IDamageType<TSettings>
+		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
-			var damage = _dmgFactory.Create<TDamage, TSettings>( data );
-			return TakeDamage( instigator, causer, damage );
-		}
-
-		public int TakeDamage( Transform instigator, Transform causer, IDamageType data )
-		{
-			// virtual Apply( data ) here
-			// child class can then do all of what the status effect controller is doing???
-
-			var result = Apply( instigator, causer, data );
-
-			//DamageResult result;
-			////if ( data is IStatusEffect status )
-			////{
-			////	result = _statusEffectController.Apply( new StatusEffect( status, instigator, causer ) );
-			////}
-			////else
-			//{
-			//	result = data.Apply( this );
-			//}
+			IDamageInvoker damage = _damageFactory.Create( data );
+			DamageResult result = damage.Invoke( this, instigator, causer );
 
 			if ( _logDamage )
 			{
@@ -89,16 +65,5 @@ namespace Minipede.Gameplay
 
 			return result.DamageTaken;
 		}
-
-		protected virtual DamageResult Apply( Transform instigator, Transform causer, IDamageType data )
-		{
-			return data.Apply( this, instigator, causer );
-		}
-
-		//// TODO: Remove me? It seems like the damageable shouldn't be controlling the status effects ...
-		//public void Tick()
-		//{
-		//	_statusEffectController.Tick();
-		//}
 	}
 }

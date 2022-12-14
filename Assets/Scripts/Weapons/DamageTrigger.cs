@@ -47,7 +47,7 @@ namespace Minipede.Gameplay.Weapons
 
 		private void NotifyDamageListeners( Rigidbody2D victim )
 		{
-			_signalBus.TryFire( new DamagedSignal()
+			_signalBus.TryFire( new DamageDeliveredSignal()
 			{
 				Victim			= victim,
 				Instigator		= _owner,

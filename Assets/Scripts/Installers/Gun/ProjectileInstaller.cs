@@ -10,7 +10,7 @@ namespace Minipede.Installers
 	{
 		public override void InstallBindings()
 		{
-			Container.DeclareSignal<DamagedSignal>()
+			Container.DeclareSignal<DamageDeliveredSignal>()
 				.OptionalSubscriber();
 
 			Container.BindInterfacesAndSelfTo<Projectile>()

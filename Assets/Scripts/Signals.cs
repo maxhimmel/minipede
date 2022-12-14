@@ -15,7 +15,7 @@ namespace Minipede.Gameplay.Enemies
 
 namespace Minipede.Gameplay
 {
-	public class DamagedSignal
+	public class DamageDeliveredSignal
 	{
 		public Rigidbody2D Victim;
 		public Transform Instigator;

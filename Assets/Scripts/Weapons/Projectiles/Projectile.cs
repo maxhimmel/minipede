@@ -17,7 +17,7 @@ namespace Minipede.Gameplay.Weapons
 			_body = body;
 			_signalBus = signalBus;
 
-			signalBus.Subscribe<DamagedSignal>( OnDamagedOther );
+			signalBus.Subscribe<DamageDeliveredSignal>( OnDamagedOther );
 		}
 
 		public void Launch( Vector2 impulse )
@@ -37,14 +37,14 @@ namespace Minipede.Gameplay.Weapons
 			}
 		}
 
-		public void OnDamagedOther( DamagedSignal message )
+		public void OnDamagedOther( DamageDeliveredSignal message )
 		{
 			Destroy( gameObject );
 		}
 
 		private void OnDestroy()
 		{
-			_signalBus.Unsubscribe<DamagedSignal>( OnDamagedOther );
+			_signalBus.Unsubscribe<DamageDeliveredSignal>( OnDamagedOther );
 			Destroyed?.Invoke( this );
 		}
 	}

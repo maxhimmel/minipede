@@ -100,7 +100,7 @@ namespace Minipede.Gameplay.Player
 			ExplorerDied?.Invoke( deadExplorer );
 
 			// Self-destruct explorer's ship ...
-			_ship.TakeDamage( deadExplorer.transform, deadExplorer.transform, new DamageDatum( 999 ) );
+			_ship.TakeDamage( deadExplorer.transform, deadExplorer.transform, KillInvoker.Kill );
 		}
 
 		public IOrientation GetOrientation()

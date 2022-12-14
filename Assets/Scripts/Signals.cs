@@ -20,7 +20,6 @@ namespace Minipede.Gameplay
 		public Rigidbody2D Victim;
 		public Transform Instigator;
 		public Transform Causer;
-		public DamageDatum Data;
 		public Vector2 HitDirection;
 	}
 }

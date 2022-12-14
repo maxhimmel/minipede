@@ -23,6 +23,7 @@ namespace Minipede.Gameplay.Player
 			remove => _damageController.Died -= value;
 		}
 
+		public HealthController Health => _damageController.Health;
 		public Rigidbody2D Body => _body;
 		public IOrientation Orientation => new Orientation( _body.position, _body.transform.rotation, _body.transform.parent );
 
@@ -60,14 +61,9 @@ namespace Minipede.Gameplay.Player
 			damageController.Died += OnDied;
 		}
 
-		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
+		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
 			return _damageController.TakeDamage( instigator, causer, data );
-		}
-
-		public void ForceKill( Transform instigator, Transform causer, DamageDatum data )
-		{
-			_damageController.ForceKill( instigator, causer, data );
 		}
 
 		private void OnDied( Rigidbody2D victimBody, HealthController health )

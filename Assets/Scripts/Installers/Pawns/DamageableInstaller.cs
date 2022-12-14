@@ -14,15 +14,14 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			Container.DeclareSignal<DamagedSignal>()
-				.OptionalSubscriber();
-
 			Container.Bind<HealthController>()
 				.AsSingle()
 				.WithArguments( _settings );
 
-			Container.Bind<IDamageController>()
-				.To<Damageable>()
+			Container.Bind<IDamageInvoker.Factory>()
+				.AsSingle();
+
+			Container.BindInterfacesAndSelfTo<Damageable>()
 				.AsSingle()
 				.WithArguments( _logDamage );
 		}

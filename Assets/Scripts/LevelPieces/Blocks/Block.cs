@@ -20,6 +20,8 @@ namespace Minipede.Gameplay.LevelPieces
 			remove => _damageController.Died -= value;
 		}
 
+		public HealthController Health => _damageController.Health;
+
 		private Settings _settings;
 		private IDamageController _damageController;
 		private LootBox _lootBox;
@@ -38,14 +40,9 @@ namespace Minipede.Gameplay.LevelPieces
 			damageController.Died += HandleDeath;
 		}
 
-		public int TakeDamage( Transform instigator, Transform causer, DamageDatum data )
+		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
 			return _damageController.TakeDamage( instigator, causer, data );
-		}
-
-		public void ForceKill( Transform instigator, Transform causer, DamageDatum data )
-		{
-			_damageController.ForceKill( instigator, causer, data );
 		}
 
 		private void HandleDeath( Rigidbody2D victimBody, HealthController health )
@@ -69,24 +66,23 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public async UniTask Heal()
 		{
-			int healAmount;
-			do
+			while ( Health.Percentage < 1 )
 			{
-				healAmount = TakeDamage( transform, transform, new DamageDatum( _settings.HealStep ) );
+				int healAmount = TakeDamage( transform, transform, _settings.Heal );
 				if ( healAmount != 0 )
 				{
 					await TaskHelpers.DelaySeconds( _settings.DelayPerHealStep, this.GetCancellationTokenOnDestroy() )
 						.SuppressCancellationThrow();
 				}
-
-			} while ( healAmount != 0 );
+			}
 		}
 
 		[System.Serializable]
 		public struct Settings
 		{
-			[MaxValue( -1 )]
-			public int HealStep;
+			[HideLabel]
+			public HealInvoker.Settings Heal;
+
 			public float DelayPerHealStep;
 		}
 	}

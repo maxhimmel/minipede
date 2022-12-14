@@ -16,10 +16,8 @@ MonoBehaviour:
     HitMask:
       serializedVersion: 2
       m_Bits: 1032
-    Damage:
-      Damage: 1
     Type:
-      rid: 2970565152739426306
+      rid: 2970565195839569930
   _speedScalarId: EnemySpeedScalar
   _enemyInstallers:
   - {fileID: 11400000, guid: e0067d59680a90a43b940c63bc6f09aa, type: 2}
@@ -49,5 +47,5 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 2970565152739426306
-      type: {class: KillDatum, ns: Minipede.Gameplay, asm: Minipede}
+    - rid: 2970565195839569930
+      type: {class: KillInvoker/Settings, ns: Minipede.Gameplay, asm: Minipede}

@@ -23,10 +23,8 @@ MonoBehaviour:
       HitMask:
         serializedVersion: 2
         m_Bits: 257
-      Damage:
-        Damage: 1
       Type:
-        rid: 2970565152739426308
+        rid: 2970565195839569932
     Modules:
     - {fileID: 11400000, guid: 18a15045f73ac2142bd3f194d2eebf74, type: 2}
     - {fileID: 11400000, guid: bd327e647d8551f4d879adccd65d9c8e, type: 2}
@@ -34,7 +32,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 2970565152739426308
-      type: {class: DamageDatum, ns: Minipede.Gameplay, asm: Minipede}
+    - rid: 2970565195839569932
+      type: {class: DamageInvoker/Settings, ns: Minipede.Gameplay, asm: Minipede}
       data:
         Damage: 1

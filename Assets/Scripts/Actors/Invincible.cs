@@ -1,3 +1,4 @@
+using System;
 using Minipede.Gameplay.Fx;
 using Minipede.Utility;
 using UnityEngine;
@@ -64,6 +65,12 @@ namespace Minipede.Gameplay
 			}
 
 			return false;
+		}
+
+		public int TakeDamage<TDamage, TSettings>( Transform instigator, Transform causer, TSettings data )
+			where TDamage : IDamageType<TSettings>
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

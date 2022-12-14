@@ -1,3 +1,4 @@
+using System;
 using Minipede.Gameplay.Fx;
 using Minipede.Utility;
 using UnityEngine;
@@ -14,21 +15,31 @@ namespace Minipede.Gameplay
 		public HealthController Health { get; }
 
 		//private readonly StatusEffectController _statusEffectController;
+		private readonly IDamageType.Factory _dmgFactory;
 		private readonly Rigidbody2D _body;
 		private readonly SignalBus _signalBus;
 		private readonly bool _logDamage;
 
 		public Damageable( HealthController health,
+			IDamageType.Factory dmgFactory,
 			//StatusEffectController statusEffectController, // circular dependency - injection not possible
 			Rigidbody2D body,
 			SignalBus signalBus,
 			bool logDamage )
 		{
 			Health = health;
+			_dmgFactory = dmgFactory;
 			//_statusEffectController = new StatusEffectController( this );//statusEffectController;
 			_body = body;
 			_signalBus = signalBus;
 			_logDamage = logDamage;
+		}
+
+		public int TakeDamage<TDamage, TSettings>( Transform instigator, Transform causer, TSettings data )
+			where TDamage : IDamageType<TSettings>
+		{
+			var damage = _dmgFactory.Create<TDamage, TSettings>( data );
+			return TakeDamage( instigator, causer, damage );
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageType data )

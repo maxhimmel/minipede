@@ -45,6 +45,12 @@ namespace Minipede.Gameplay.LevelPieces
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
+		public int TakeDamage<TDamage, TSettings>( Transform instigator, Transform causer, TSettings data )
+			where TDamage : IDamageType<TSettings>
+		{
+			return _damageController.TakeDamage<TDamage, TSettings>( instigator, causer, data );
+		}
+
 		private void HandleDeath( Rigidbody2D victimBody, HealthController health )
 		{
 			_lootBox.Open( victimBody.position );

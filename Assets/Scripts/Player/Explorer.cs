@@ -87,6 +87,12 @@ namespace Minipede.Gameplay.Player
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
+		public int TakeDamage<TDamage, TSettings>( Transform instigator, Transform causer, TSettings data )
+			where TDamage : IDamageType<TSettings>
+		{
+			return _damageController.TakeDamage<TDamage, TSettings>( instigator, causer, data );
+		}
+
 		private void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
 			Cleanup();

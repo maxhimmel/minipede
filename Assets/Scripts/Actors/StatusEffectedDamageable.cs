@@ -8,12 +8,13 @@ namespace Minipede.Gameplay
 	{
 		private readonly StatusEffectController _controller;
 
-		public StatusEffectedDamageable( StatusEffectController controller, 
+		public StatusEffectedDamageable( StatusEffectController controller,
+			IDamageType.Factory dmgFactory,
 			HealthController health, 
 			Rigidbody2D body, 
 			SignalBus signalBus,
 			bool logDamage )
-			: base( health, body, signalBus, logDamage )
+			: base( health, dmgFactory, body, signalBus, logDamage )
 		{
 			_controller = controller;
 		}

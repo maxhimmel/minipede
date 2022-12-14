@@ -13,14 +13,45 @@ namespace Minipede.Gameplay
         /// <param name="causer">The object that actually deals damage, i.e. the bullet.</param>
         /// <returns>The amount of damage taken.</returns>
         int TakeDamage( Transform instigator, Transform causer, IDamageType data );
+
+        // This could work like so:
+            // The implementor could have some kinda DamageTypeFactory that is in charge of actually utilizing the passed in TSettings data.
+            // It could even potentially throw an error if it can't create the damage type requested.
+            // Why, though?
+                // This truly takes advantage of the IDamageType.Apply() method.
+                // It means that these IDamageTypes created thru the factory method can have things injected into them.
+                    // (Such as a status effect controller)
+        int TakeDamage<TDamage, TSettings>( Transform instigator, Transform causer, TSettings data )
+            where TDamage : IDamageType<TSettings>;
+    }
+
+    public interface IDamageType<TSettings> : IDamageType
+    {
+        //DamageResult Apply( IDamageable damageable, Transform instigator, Transform causer );
     }
 
     public interface IDamageType
 	{
-        DamageResult Apply( IDamageable damageable );
+        DamageResult Apply( IDamageable damageable, Transform instigator, Transform causer );
+
+        public class Factory
+		{
+            private readonly DiContainer _container;
+
+            public Factory( DiContainer container )
+			{
+                _container = container;
+			}
+
+            public TDamage Create<TDamage, TSettings>( TSettings settings )
+                where TDamage : IDamageType<TSettings>
+			{
+                return _container.Instantiate<TDamage>( new object[] { settings } );
+			}
+		}
 	}
 
-    public struct DamageResult
+	public struct DamageResult
 	{
         public static readonly DamageResult Empty = new DamageResult();
 
@@ -29,7 +60,7 @@ namespace Minipede.Gameplay
 	}
 
 	[System.Serializable]
-    public struct DamageDatum : IDamageType
+    public struct DamageDatum : IDamageType//, IDamageable
 	{
         public int Damage;
 
@@ -38,7 +69,7 @@ namespace Minipede.Gameplay
             Damage = damage;
 		}
 
-        public DamageResult Apply( IDamageable damageable )
+		public DamageResult Apply( IDamageable damageable, Transform instigator, Transform causer )
 		{
             return new DamageResult()
             {
@@ -47,11 +78,38 @@ namespace Minipede.Gameplay
 			};
 		}
 
-        ///// <returns>'<b>{victim}</b>' has taken <b>{value}</b> dmg from '<b>{instigator}</b>' using '<b>{causer}</b>'.</returns>
-        //public string LogFormat()
-        //{
-        //    return "'<b>{0}</b>' has taken <b>{1}</b> dmg from '<b>{2}</b>' using '<b>{3}</b>'.";
-        //}
+		//public int TakeDamage<TDamage, TSettings>( Transform instigator, Transform causer, TSettings data ) 
+  //          where TDamage : IDamageType<TSettings>
+		//{
+  //          // get damage type factory
+  //          // create new damage type using typeof(TDamage) and pass in TSettings data
+  //          // boom.
+		//}
+
+		//public class FooType : IDamageType<FooType.Settings>
+		//{
+		//	public DamageResult Apply( IDamageable damageable, Transform instigator, Transform causer )
+		//	{
+		//		throw new System.NotImplementedException();
+		//	}
+
+  //          public struct Settings
+		//	{
+
+		//	}
+		//}
+
+		//void foo()
+		//{
+  //          Transform instigator = null, causer = null;
+  //          TakeDamage<FooType, FooType.Settings>( instigator, causer, new FooType.Settings() );
+		//}
+
+		///// <returns>'<b>{victim}</b>' has taken <b>{value}</b> dmg from '<b>{instigator}</b>' using '<b>{causer}</b>'.</returns>
+		//public string LogFormat()
+		//{
+		//    return "'<b>{0}</b>' has taken <b>{1}</b> dmg from '<b>{2}</b>' using '<b>{3}</b>'.";
+		//}
 	}
 
     [System.Serializable]
@@ -64,7 +122,7 @@ namespace Minipede.Gameplay
             Heal = heal;
         }
 
-        public DamageResult Apply( IDamageable damageable )
+        public DamageResult Apply( IDamageable damageable, Transform instigator, Transform causer )
         {
             return new DamageResult()
             {
@@ -78,13 +136,73 @@ namespace Minipede.Gameplay
 	{
         public static readonly KillDatum Kill = new KillDatum();
 
-		public DamageResult Apply( IDamageable damageable )
+		public DamageResult Apply( IDamageable damageable, Transform instigator, Transform causer )
 		{
             return new DamageResult()
             {
                 DamageTaken = damageable.Health.Reduce( damageable.Health.Current )
             };
 		}
+    }
+
+    public class PoisonDamage : IStatusEffect<PoisonDamage.Settings>
+    {
+        float IStatusEffect.ApplyRate => _settings.ApplyRate;
+        bool IStatusEffect.CanExpire => _settings.CanExpire;
+        float IStatusEffect.Duration => _settings.Duration;
+
+        private readonly Settings _settings;
+        private readonly StatusEffectController _statusController;
+
+        public PoisonDamage( Settings settings, 
+            StatusEffectController statusController )
+		{
+            _settings = settings;
+            _statusController = statusController;
+		}
+
+        public DamageResult Apply( IDamageable damageable, Transform instigator, Transform causer )
+        {
+            // somehow get a status effect controller 
+            // add this effect into it
+
+            // how can we install a status effect controller?
+            // this damage is created from the INSTIGATOR/CAUSER
+            // the status effect controller should be INSTALLED on the VICTIM
+            // obviously - a factory could potentially solve this - but still ...
+            // i can't see a way for the instigator to get the victim's status effect controller
+
+            /// i think we got it?! <see cref="_statusController"/>
+            
+            if ( _statusController.HasStatus<PoisonDamage>() )
+            {
+				return new DamageResult()
+				{
+					DamageTaken = damageable.Health.Reduce( _settings.Damage ),
+					FxEventName = "Poisoned"
+				};
+			}
+
+            return _statusController.Apply( null, instigator, causer, this );
+
+            //return new DamageResult()
+            //{
+            //    DamageTaken = damageable.Health.Reduce( _settings.Damage ),
+            //    FxEventName = "Poisoned"
+            //};
+        }
+
+        [System.Serializable]
+        public struct Settings
+        {
+            public int Damage;
+            public float ApplyRate;
+
+            [HorizontalGroup( GroupID = "Expiration" )]
+            public bool CanExpire;
+            [HorizontalGroup( GroupID = "Expiration" ), EnableIf( "CanExpire" )]
+            public float Duration;
+        }
 	}
 
     [System.Serializable]
@@ -102,8 +220,17 @@ namespace Minipede.Gameplay
         [HorizontalGroup( GroupID = "Expiration" ), EnableIf( "CanExpire" )]
         public float Duration;
 
-		public DamageResult Apply( IDamageable damageable )
+		public DamageResult Apply( IDamageable damageable, Transform instigator, Transform causer )
 		{
+            // somehow get a status effect controller 
+                // add this effect into it
+
+            // how can we install a status effect controller?
+            // this damage is created from the INSTIGATOR/CAUSER
+            // the status effect controller should be INSTALLED on the VICTIM
+            // obviously - a factory could potentially solve this - but still ...
+            // i can't see a way for the instigator to get the victim's status effect controller
+
             return new DamageResult()
             {
                 DamageTaken = damageable.Health.Reduce( Damage ),
@@ -119,16 +246,20 @@ namespace Minipede.Gameplay
         float Duration { get; }
 	}
 
-	public class StatusEffectController //: ITickable
+    public interface IStatusEffect<TSettings> : IStatusEffect, IDamageType<TSettings>
     {
-		//private readonly IDamageable _owner;
-        private readonly Dictionary<System.Type, StatusEffect> _statuses;
+    }
+
+	public class StatusEffectController : ITickable
+    {
+		private readonly IDamageable _owner;
+		private readonly Dictionary<System.Type, StatusEffect> _statuses;
         private readonly List<StatusEffect> _expiredStatuses;
 
-        public StatusEffectController()// IDamageable owner )
+        public StatusEffectController( IDamageable owner )
 		{
-			//_owner = owner;
-            _statuses = new Dictionary<System.Type, StatusEffect>();
+			_owner = owner;
+			_statuses = new Dictionary<System.Type, StatusEffect>();
             _expiredStatuses = new List<StatusEffect>();
 		}
 
@@ -136,7 +267,8 @@ namespace Minipede.Gameplay
         public DamageResult Apply( IDamageable owner, Transform instigator, Transform causer, IStatusEffect newStatus )
         {
             var status = TryAdd( instigator, causer, newStatus );
-            return status.Apply( owner, instigator, causer );
+            return status.Apply( _owner, instigator, causer );
+            //return status.Apply( owner, instigator, causer );
 		}
 
         public IStatusEffect TryAdd( Transform instigator, Transform causer, IStatusEffect newStatus )
@@ -163,6 +295,13 @@ namespace Minipede.Gameplay
             return existingStatus;
         }
 
+        public bool HasStatus<TDamage>()
+			where TDamage : IDamageType
+		{
+            var type = typeof( TDamage );
+            return _statuses.ContainsKey( type );
+		}
+
         public void Remove<TStatusEffect>()
             where TStatusEffect : IStatusEffect
 		{
@@ -173,6 +312,11 @@ namespace Minipede.Gameplay
         public void Clear()
 		{
             _statuses.Clear();
+		}
+
+        public void Tick()
+		{
+            Tick( _owner );
 		}
 
         public void Tick( IDamageable owner )

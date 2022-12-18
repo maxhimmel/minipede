@@ -21,7 +21,6 @@ namespace Minipede.Gameplay.Enemies
 		private PoisonTrailFactory _poisonTrailFactory;
 
 		private List<SegmentController> _segments;
-		// TODO: Combine these fields ...
 		private Vector2Int _rowDir;
 		private Vector2Int _columnDir;
 		private bool _isPoisoned;

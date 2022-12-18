@@ -10,6 +10,9 @@ namespace Minipede.Installers
 		{
 			SignalBusInstaller.Install( Container );
 
+			Container.BindInterfacesAndSelfTo<LifetimerController>()
+				.AsSingle();
+
 			Container.Bind<TimeController>()
 				.AsSingle();
 

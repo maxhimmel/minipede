@@ -1,3 +1,4 @@
+using Minipede.Utility;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Enemies
@@ -35,6 +36,16 @@ namespace Minipede.Gameplay.Fx
 		{
 			Position = position;
 			Direction = direction;
+		}
+
+		public FxSignal( Vector2 origin, Transform other )
+		{
+			Position = origin;
+
+			if ( other != null )
+			{
+				Direction = (other.position.ToVector2() - origin).normalized;
+			}
 		}
 	}
 }

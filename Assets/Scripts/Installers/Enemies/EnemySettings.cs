@@ -1,6 +1,5 @@
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
-using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -11,11 +10,11 @@ namespace Minipede.Installers
 {
 	[CreateAssetMenu]
     public partial class EnemySettings : ScriptableObjectInstaller
-    {
+	{
 		[FoldoutGroup( "Shared" )]
-		[SerializeField] private DamageTrigger.Settings _damage;
-		[Space, FoldoutGroup( "Shared" )]
 		[SerializeField] private string _speedScalarId = "EnemySpeedScalar";
+		[Space, FoldoutGroup( "Shared" )]
+		[SerializeField] private DamageTrigger.Settings _damage;
 
 		[InlineEditor, LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
 		[SerializeField] private EnemyInstaller[] _enemyInstallers;

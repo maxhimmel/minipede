@@ -73,7 +73,7 @@ namespace Minipede.Utility
 
 
 
-		public bool TryQueryAnyBlock( Vector2 worldPosition, out SiteInstructions instructions )
+		public bool TryQueryAnyBlock( Vector2 worldPosition, out AllInstructions instructions )
 		{
 			if ( !TryQueryNewBlock( worldPosition, out _ ) )
 			{
@@ -81,11 +81,11 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new SiteInstructions( _builder, _currentCell );
+			instructions = new AllInstructions( _builder, _currentCell );
 			return true;
 		}
 
-		public bool TryQueryAnyBlock( Vector2Int cellCoord, out SiteInstructions instructions )
+		public bool TryQueryAnyBlock( Vector2Int cellCoord, out AllInstructions instructions )
 		{
 			if ( !TryQueryNewBlock( cellCoord, out _ ) )
 			{
@@ -93,7 +93,7 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new SiteInstructions( _builder, _currentCell );
+			instructions = new AllInstructions( _builder, _currentCell );
 			return true;
 		}
 

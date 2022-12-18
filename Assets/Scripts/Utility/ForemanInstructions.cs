@@ -72,12 +72,25 @@ namespace Minipede.Utility
 			}
 		}
 
-		public class SiteInstructions : InternalInstructions
+		public class AllInstructions : InternalInstructions
 		{
-			public Vector2 Center => _currentCell.Center;
+			public bool IsEmpty => !IsFilled;
+			public bool IsFilled => _currentCell.Block != null;
 
-			public SiteInstructions( LevelBuilder builder, LevelCell currentCell ) : base( builder, currentCell )
+			public AllInstructions( LevelBuilder builder, LevelCell currentCell ) : base( builder, currentCell )
 			{
+			}
+
+			public DemolishInstructions Demolish()
+			{
+				Debug.Assert( IsFilled, $"Cannot create demolish instructions for a cell that isn't filled." );
+				return new DemolishInstructions( _builder, _currentCell );
+			}
+
+			public RefurbishInstructions Refurbish()
+			{
+				Debug.Assert( IsEmpty, $"Cannot create refurbish instructions for a cell that isn't empty." );
+				return new RefurbishInstructions( _builder, _currentCell );
 			}
 		}
 	}

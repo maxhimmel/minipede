@@ -12,8 +12,16 @@ PrefabInstance:
       value: Earwig
       objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _monoInstallers.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _monoInstallers.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[1]
@@ -34,7 +42,11 @@ PrefabInstance:
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: 88a752d0ea2d12c4b8287b04fcc3caf0, type: 2}
+      objectReference: {fileID: 11400000, guid: 0a9b4994404080a40bb2a3d8c05adca6, type: 2}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: e9f452140afe83b4f8b906c0ce815731, type: 2}
     - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: m_RootOrder
       value: 0

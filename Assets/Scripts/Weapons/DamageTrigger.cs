@@ -32,17 +32,11 @@ namespace Minipede.Gameplay.Weapons
 				return;
 			}
 
-			if ( IsHittable( otherBody ) )
+			if ( _settings.IsHittable( otherBody ) )
 			{
 				damageable.TakeDamage( _owner, _body.transform, _settings.Type );
 				NotifyDamageListeners( otherBody );
 			}
-		}
-
-		private bool IsHittable( Rigidbody2D other )
-		{
-			int otherMask = 1 << other.gameObject.layer;
-			return (otherMask & _settings.HitMask) != 0;
 		}
 
 		private void NotifyDamageListeners( Rigidbody2D victim )
@@ -62,6 +56,12 @@ namespace Minipede.Gameplay.Weapons
 			public LayerMask HitMask;
 
 			[SerializeReference] public IDamageInvoker.ISettings Type;
+
+			public bool IsHittable( Rigidbody2D other )
+			{
+				int otherMask = 1 << other.gameObject.layer;
+				return (otherMask & HitMask) != 0;
+			}
 		}
 	}
 }

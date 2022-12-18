@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DamageablePlayer
   m_EditorClassIdentifier: 
   _settings:
-    Health: 1
+    Health: 10
   _logDamage: 1

@@ -46,10 +46,7 @@ namespace Minipede.Gameplay
 
 				if ( !string.IsNullOrEmpty( result.FxEventName ) )
 				{
-					_signalBus.TryFireId( result.FxEventName, new FxSignal(
-						position: _body.position,
-						direction: (_body.position - causer.position.ToVector2()).normalized
-					) );
+					_signalBus.TryFireId( result.FxEventName, new FxSignal( _body.position, causer ) );
 				}
 			}
 
@@ -57,10 +54,7 @@ namespace Minipede.Gameplay
 			{
 				Died?.Invoke( _body, Health );
 
-				_signalBus.TryFireId( "Died", new FxSignal(
-					position: _body.position,
-					direction: (_body.position - causer.position.ToVector2()).normalized
-				) );
+				_signalBus.TryFireId( "Died", new FxSignal( _body.position, causer ) );
 			}
 
 			return result.DamageTaken;

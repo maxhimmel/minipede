@@ -3,6 +3,8 @@ using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
+using Minipede.Gameplay.Weapons;
+using Minipede.Installers;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -16,21 +18,26 @@ namespace Minipede.Gameplay.Enemies
 		private GraphMotor _motor;
 		private EnemySpawnBuilder _enemyBuilder;
 		private MinipedePlayerZoneSpawner _playerZoneSpawner;
+		private PoisonTrailFactory _poisonTrailFactory;
 
 		private List<SegmentController> _segments;
+		// TODO: Combine these fields ...
 		private Vector2Int _rowDir;
 		private Vector2Int _columnDir;
+		private bool _isPoisoned;
 
 		[Inject]
 		public void Construct( Settings settings,
 			GraphMotor motor,
 			EnemySpawnBuilder enemyBuilder,
-			MinipedePlayerZoneSpawner playerZoneSpawner )
+			MinipedePlayerZoneSpawner playerZoneSpawner,
+			PoisonTrailFactory poisonTrailFactory )
 		{
 			_settings = settings;
 			_motor = motor;
 			_enemyBuilder = enemyBuilder;
 			_playerZoneSpawner = playerZoneSpawner;
+			_poisonTrailFactory = poisonTrailFactory;
 
 			_rowDir = Vector2Int.down;
 			_columnDir = new Vector2Int( RandomExtensions.Sign(), 0 );
@@ -122,6 +129,7 @@ namespace Minipede.Gameplay.Enemies
 				if ( IsBlockPoisoned( data ) )
 				{
 					// TODO: VFX for poisoned/angered ...
+					_isPoisoned = true;
 
 					RushBottomRow()
 						.Cancellable( _onDestroyCancelToken )
@@ -166,6 +174,7 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			// TODO: VFX for exiting poisoned/angered ...
+			_isPoisoned = false;
 
 			_motor.Arrived += OnHorizontalArrival;
 			_motor.StartMoving( _columnDir ).Forget();
@@ -186,6 +195,12 @@ namespace Minipede.Gameplay.Enemies
 
 			_motor.FixedTick();
 			UpdateFacingRotation();
+
+			if ( _isPoisoned && _levelForeman.TryQueryEmptyBlock( _body.position, out var instructions ) )
+			{
+				var spawnPos = instructions.Cell.Center;
+				_poisonTrailFactory.Create( spawnPos );
+			}
 		}
 
 		private void UpdateFacingRotation()

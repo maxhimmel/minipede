@@ -1,5 +1,6 @@
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
+using Minipede.Gameplay.Weapons;
 using Zenject;
 
 namespace Minipede.Gameplay.Enemies
@@ -7,11 +8,14 @@ namespace Minipede.Gameplay.Enemies
     public class EarwigController : EnemyController
 	{
 		private IMotor _motor;
+		private PoisonTrailFactory _poisonTrailFactory;
 
 		[Inject]
-		public void Construct( IMotor motor )
+		public void Construct( IMotor motor,
+			PoisonTrailFactory poisonTrailFactory )
 		{
 			_motor = motor;
+			_poisonTrailFactory = poisonTrailFactory;
 		}
 
 		public override void OnSpawned()
@@ -32,11 +36,20 @@ namespace Minipede.Gameplay.Enemies
 
 			_motor.FixedTick();
 
-			if ( _levelForeman.TryQueryFilledBlock( _body.position, out var instructions ) )
+			if ( _levelForeman.TryQueryAnyBlock( _body.position, out var instructions ) )
 			{
-				instructions
-					.Destroy()
-					.Create( Block.Type.Poison );
+				if ( instructions.IsFilled )
+				{
+					instructions
+						.Demolish()
+						.Destroy()
+						.Create( Block.Type.Poison );
+				}
+				else
+				{
+					var spawnPos = instructions.Cell.Center;
+					_poisonTrailFactory.Create( spawnPos );
+				}
 			}
 		}
 	}

@@ -1,24 +1,16 @@
 ﻿using UnityEngine;
-using Zenject;
 
 namespace Minipede.Utility
 {
 	public class Lifetimer : MonoBehaviour
 	{
-		private float _lifetime;
 		private bool _canExpire;
 		private float _expirationTime;
 
-		[Inject]
-		public void Construct( float lifetime )
-		{
-			_lifetime = lifetime;
-		}
-
-		public void StartLifetime()
+		public void StartLifetime( float duration )
 		{
 			_canExpire = true;
-			_expirationTime = Time.timeSinceLevelLoad + _lifetime;
+			_expirationTime = Time.timeSinceLevelLoad + duration;
 		}
 
 		private void Update()

@@ -7,14 +7,12 @@ namespace Minipede.Gameplay.Weapons
 	{
 		private readonly PoisonVolume _settings;
 		private readonly Lifetimer.Factory _lifetimerFactory;
-		private readonly object[] _lifetimerArgs;
 
 		public PoisonTrailFactory( PoisonVolume settings,
 			Lifetimer.Factory lifetimerFactory )
 		{
 			_settings = settings;
 			_lifetimerFactory = lifetimerFactory;
-			_lifetimerArgs = new object[] { settings.Lifetime };
 		}
 
 		/// <summary>
@@ -25,11 +23,10 @@ namespace Minipede.Gameplay.Weapons
 		{
 			var result = _lifetimerFactory.Create(
 				_settings.Prefab,
-				new Orientation( position ),
-				_lifetimerArgs 
+				new Orientation( position )
 			);
 
-			result.StartLifetime();
+			result.StartLifetime( _settings.Lifetime );
 			return result;
 		}
 	}

@@ -155,6 +155,7 @@ namespace Minipede.Gameplay.LevelPieces
 			for ( int idx = _levelBlocks.Count - 1; idx >= 0; --idx )
 			{
 				Block block = _levelBlocks[idx];
+				block.OnMoving();
 
 				Vector2Int startCoord = _levelGraph.WorldPosToCellCoord( block.transform.position );
 				var startCell = GetCellData( startCoord.Row(), startCoord.Col() );

@@ -77,6 +77,10 @@ namespace Minipede.Gameplay.LevelPieces
 			}
 		}
 
+		public virtual void OnMoving()
+		{
+		}
+
 		[System.Serializable]
 		public struct Settings
 		{

@@ -19,6 +19,12 @@ namespace Minipede.Utility
 				_builder = builder;
 				_currentCell = currentCell;
 			}
+
+			public bool IsBlockOfType( Block.Type type )
+			{
+				var block = _currentCell.Block;
+				return block.name.Contains( type.ToString() );
+			}
 		}
 
 		public class DemolishInstructions : InternalInstructions

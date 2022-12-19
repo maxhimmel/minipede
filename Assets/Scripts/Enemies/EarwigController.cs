@@ -40,10 +40,13 @@ namespace Minipede.Gameplay.Enemies
 			{
 				if ( instructions.IsFilled )
 				{
-					instructions
-						.Demolish()
-						.Destroy()
-						.Create( Block.Type.Poison );
+					if ( !instructions.IsBlockOfType( Block.Type.Poison ) )
+					{
+						instructions
+							.Demolish()
+							.Destroy()
+							.Create( Block.Type.Poison );
+					}
 				}
 				else
 				{

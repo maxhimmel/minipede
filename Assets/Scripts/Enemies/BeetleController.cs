@@ -75,9 +75,12 @@ namespace Minipede.Gameplay.Enemies
 		{
 			if ( _levelForeman.TryQueryFilledBlock( _body.position, out var instructions ) )
 			{
-				instructions
-					.Destroy()
-					.Create( Block.Type.Flower );
+				if ( !instructions.IsBlockOfType( Block.Type.Flower ) )
+				{
+					instructions
+						.Destroy()
+						.Create( Block.Type.Flower );
+				}
 			}
 		}
 

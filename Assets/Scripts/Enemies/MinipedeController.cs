@@ -150,10 +150,10 @@ namespace Minipede.Gameplay.Enemies
 				return false;
 			}
 
-			// TODO: Can we do better than a crummy string comparison?
-			// The interface here isn't explicit or descriptive.
-			// Actually, it's non-existant. This is essentially hardcoded.
-			return instructions.Cell.Block.name.Contains( "Poison" );
+			// TODO: Can we do better than a crummy type comparison?
+				// The interface here isn't explicit or descriptive.
+				// Actually, it's non-existant.
+			return instructions.Cell.Block is PoisonBlock;
 		}
 
 		private async UniTask RushBottomRow()

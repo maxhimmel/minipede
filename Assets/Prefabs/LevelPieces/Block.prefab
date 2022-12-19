@@ -105,6 +105,7 @@ MonoBehaviour:
   _components:
   - {fileID: 6093263636819055865}
   - {fileID: 6093263637641906255}
+  - {fileID: 6093263636819055864}
   _identifier: 
   _useSceneContext: 0
   _context: {fileID: 0}
@@ -220,7 +221,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 160822549
   m_Mesh: {fileID: 0}
-  m_InstanceId: 58810
+  m_InstanceId: 41526
 --- !u!1 &6093263638259769376
 GameObject:
   m_ObjectHideFlags: 0

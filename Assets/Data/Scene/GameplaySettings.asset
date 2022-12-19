@@ -28,7 +28,7 @@ MonoBehaviour:
       DelayPerHealStep: 1
     Prefabs:
       Regular: {fileID: 6093263636819055870, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
-      Poison: {fileID: 7901060816210389742, guid: b365f0d28be7fa44989337593a66181c, type: 3}
+      Poison: {fileID: 7223752588216721313, guid: b365f0d28be7fa44989337593a66181c, type: 3}
       Flower: {fileID: 8470412232020281501, guid: d6bf6258b2770a04f98a69588242b66b, type: 3}
   _levelSettings:
     Graph:

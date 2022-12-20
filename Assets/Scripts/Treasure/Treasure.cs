@@ -18,8 +18,8 @@ namespace Minipede.Gameplay.Treasures
 		private SignalBus _signalBus;
 
 		private bool _isCleanedUp;
-		private CancellationTokenSource _cleanupCancelSource;
-		private CancellationToken _cleanupCancelToken;
+		private float _lifetimer;
+		private float _lifetimeDuration;
 		private FollowMode _followMode;
 		private Rigidbody2D _followTarget;
 		private LineRenderer _tetherRenderer;
@@ -34,8 +34,7 @@ namespace Minipede.Gameplay.Treasures
             _body = body;
 			_signalBus = signalBus;
 
-			_cleanupCancelSource = new CancellationTokenSource();
-			_cleanupCancelToken = _cleanupCancelSource.Token;
+			_lifetimeDuration = settings.LifetimeRange.Random();
 
 			SetupTether();
 		}
@@ -53,17 +52,6 @@ namespace Minipede.Gameplay.Treasures
 		{
 			_body.velocity = impulse;
 			_body.angularVelocity = _settings.TorqueRange.Random();
-
-			StartLifetime()
-				.Cancellable( _cleanupCancelToken )
-				.Forget();
-		}
-
-		private async UniTask StartLifetime()
-		{
-			// TODO: Pause this when being hauled/snapping ...
-			await TaskHelpers.DelaySeconds( _settings.LifetimeRange.Random(), _cleanupCancelToken );
-			Cleanup();
 		}
 
 		public void Cleanup()
@@ -74,9 +62,6 @@ namespace Minipede.Gameplay.Treasures
 			}
 
 			StopFollowing();
-
-			_cleanupCancelSource.Cancel();
-			_cleanupCancelSource.Dispose();
 
 			Destroy( gameObject );
 			_isCleanedUp = true;
@@ -104,8 +89,14 @@ namespace Minipede.Gameplay.Treasures
 		{
 			_followTarget = null;
 			_tetherRenderer.enabled = false;
+			_lifetimer = 0;
 
 			SetFollowMode( FollowMode.None );
+		}
+
+		private void SetFollowMode( FollowMode mode )
+		{
+			_followMode = mode;
 		}
 
 		private void FixedUpdate()
@@ -176,9 +167,23 @@ namespace Minipede.Gameplay.Treasures
 			}
 		}
 
-		private void SetFollowMode( FollowMode mode )
+		private void Update()
 		{
-			_followMode = mode;
+			CountdownLifetime();
+		}
+
+		private void CountdownLifetime()
+		{
+			if ( _followMode != FollowMode.None )
+			{
+				return;
+			}
+
+			_lifetimer += Time.deltaTime / _lifetimeDuration;
+			if ( _lifetimer >= 1 )
+			{
+				Cleanup();
+			}
 		}
 
 		[System.Serializable]

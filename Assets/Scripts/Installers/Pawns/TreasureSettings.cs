@@ -10,9 +10,7 @@ namespace Minipede.Installers
     public class TreasureSettings : ScriptableObjectInstaller
     {
 		[BoxGroup( "Treasure" ), HideLabel]
-        [SerializeField] private Treasure.Settings _settings;
-		[BoxGroup( "Follow Behavior" ), HideLabel]
-		[SerializeField] private Follower.Settings _follower;
+		[SerializeField] private Haulable.Settings _settings;
 
 		public override void InstallBindings()
 		{
@@ -21,7 +19,7 @@ namespace Minipede.Installers
 			Container.Bind<IFollower>()
 				.To<Follower>()
 				.AsSingle()
-				.WithArguments( _follower );
+				.WithArguments( _settings.Follow );
 		}
 	}
 }

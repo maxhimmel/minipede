@@ -1,12 +1,10 @@
-﻿using Sirenix.OdinInspector;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Minipede.Gameplay
 {
 	public class Follower : IFollower
 	{
 		public Rigidbody2D Body => _body;
-		public float Weight => _settings.Weight;
 		public bool IsFollowing => _followMode != FollowMode.None && _followTarget != null;
 		public Vector2 Target => _followTarget.position;
 
@@ -97,7 +95,6 @@ namespace Minipede.Gameplay
 			public float FollowForce;
 			public float SnapToCollectorSpeed;
 			public float MinFollowDistance;
-			public float Weight;
 		}
 
 		private enum FollowMode

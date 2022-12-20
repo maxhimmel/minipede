@@ -1,7 +1,7 @@
 namespace Minipede.Gameplay.Treasures
 {
-    public interface ICollector
-    {
-        void Collect( Treasure treasure );
-    }
+    public interface ICollector<TCollectable>
+	{
+		void Collect( TCollectable collectable );
+	}
 }

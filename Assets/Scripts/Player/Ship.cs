@@ -12,7 +12,7 @@ namespace Minipede.Gameplay.Player
     public class Ship : MonoBehaviour,
 		IPawn<Ship, ShipController>,
 		IDamageController,
-		ICollector
+		ICollector<Treasure>
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;

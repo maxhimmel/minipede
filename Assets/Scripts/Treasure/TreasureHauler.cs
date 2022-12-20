@@ -14,8 +14,8 @@ namespace Minipede.Gameplay.Treasures
 		private Rigidbody2D _body;
         private Collider2D _haulTrigger;
 		private TreasureSorter _sorter;
-		private HashSet<IFollower> _haulingTreasures;
-		private List<IFollower> _treasuresWithinRange;
+		private HashSet<Haulable> _haulingTreasures;
+		private List<Haulable> _treasuresWithinRange;
 
 		private float _haulWeight;
 		private bool _isReleasingTreasures;
@@ -35,8 +35,8 @@ namespace Minipede.Gameplay.Treasures
 
 			_sorter = new TreasureSorter( body );
 
-			_haulingTreasures = new HashSet<IFollower>();
-			_treasuresWithinRange = new List<IFollower>();
+			_haulingTreasures = new HashSet<Haulable>();
+			_treasuresWithinRange = new List<Haulable>();
 		}
 
 		public void CollectAll( Rigidbody2D collector )
@@ -94,7 +94,7 @@ namespace Minipede.Gameplay.Treasures
 		private void OnTriggerEnter2D( Collider2D collision )
 		{
             var otherBody = collision.attachedRigidbody;
-            var treasure = otherBody?.GetComponent<IFollower>();
+            var treasure = otherBody?.GetComponent<Haulable>();
             if ( treasure != null )
 			{
                 _treasuresWithinRange.Add( treasure );

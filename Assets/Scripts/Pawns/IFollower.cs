@@ -6,7 +6,6 @@ namespace Minipede.Gameplay
 	public interface IFollower : IFixedTickable
 	{
 		Rigidbody2D Body { get; }
-		float Weight { get; }
 		bool IsFollowing { get; }
 		Vector2 Target { get; }
 

@@ -10,6 +10,12 @@ namespace Minipede.Utility
 		private float _duration;
 		private float _lifetimer;
 
+		public Lifetimer() { }
+		public Lifetimer( float duration )
+		{
+			_duration = duration;
+		}
+
 		/// <summary>
 		/// Resets counter to zero and starts count down.
 		/// </summary>

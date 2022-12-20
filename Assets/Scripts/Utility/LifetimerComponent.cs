@@ -4,7 +4,7 @@ namespace Minipede.Utility
 {
 	public class LifetimerComponent : MonoBehaviour
 	{
-		private Lifetimer _lifetimer;
+		private Lifetimer _lifetimer = new Lifetimer();
 
 		public void StartLifetime( float duration )
 		{

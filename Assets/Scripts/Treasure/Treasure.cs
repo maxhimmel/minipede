@@ -19,10 +19,9 @@ namespace Minipede.Gameplay.Treasures
 		private Rigidbody2D _body;
 		private SignalBus _signalBus;
 		private IFollower _followController;
+		private Lifetimer _lifetimer;
 
 		private bool _isCleanedUp;
-		private float _lifetimer;
-		private float _lifetimeDuration;
 		private LineRenderer _tetherRenderer;
 		private Vector3[] _tetherPositions;
 
@@ -37,7 +36,7 @@ namespace Minipede.Gameplay.Treasures
 			_signalBus = signalBus;
 			_followController = followController;
 
-			_lifetimeDuration = settings.LifetimeRange.Random();
+			_lifetimer = new Lifetimer( settings.LifetimeRange.Random() );
 
 			SetupTether();
 		}
@@ -55,6 +54,8 @@ namespace Minipede.Gameplay.Treasures
 		{
 			_body.velocity = impulse;
 			_body.angularVelocity = _settings.TorqueRange.Random();
+
+			_lifetimer.Reset();
 		}
 
 		public void Cleanup()
@@ -73,6 +74,8 @@ namespace Minipede.Gameplay.Treasures
 		public void SnapToCollector( Rigidbody2D collector )
 		{
 			StopFollowing();
+
+			_lifetimer.Pause();
 			_followController.SnapToCollector( collector );
 		}
 
@@ -81,6 +84,7 @@ namespace Minipede.Gameplay.Treasures
 			UpdateTether();
 			_tetherRenderer.enabled = true;
 
+			_lifetimer.Pause();
 			_followController.Follow( target );
 		}
 
@@ -88,6 +92,7 @@ namespace Minipede.Gameplay.Treasures
 		{
 			_tetherRenderer.enabled = false;
 
+			_lifetimer.Reset();
 			_followController.StopFollowing();
 		}
 
@@ -98,12 +103,12 @@ namespace Minipede.Gameplay.Treasures
 
 		public void FixedTick()
 		{
-			_followController.FixedTick();
-
 			if ( IsFollowing )
 			{
 				UpdateTether();
 			}
+
+			_followController.FixedTick();
 		}
 
 		private void UpdateTether()
@@ -133,18 +138,7 @@ namespace Minipede.Gameplay.Treasures
 
 		private void Update()
 		{
-			CountdownLifetime();
-		}
-
-		private void CountdownLifetime()
-		{
-			if ( IsFollowing )
-			{
-				return;
-			}
-
-			_lifetimer += Time.deltaTime / _lifetimeDuration;
-			if ( _lifetimer >= 1 )
+			if ( !_lifetimer.Tick() )
 			{
 				Cleanup();
 			}

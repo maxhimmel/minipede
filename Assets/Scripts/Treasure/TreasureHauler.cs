@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -15,13 +14,13 @@ namespace Minipede.Gameplay.Treasures
 		private Rigidbody2D _body;
         private Collider2D _haulTrigger;
 		private TreasureSorter _sorter;
+		private HashSet<IFollower> _haulingTreasures;
+		private List<IFollower> _treasuresWithinRange;
 
 		private float _haulWeight;
 		private bool _isReleasingTreasures;
 		private float _nextReleaseTime;
 		private float _nextCollectTime;
-		private HashSet<Treasure> _haulingTreasures = new HashSet<Treasure>();
-		private List<Treasure> _treasuresWithinRange = new List<Treasure>();
 
 		[Inject]
         public void Construct( Settings settings,
@@ -35,6 +34,9 @@ namespace Minipede.Gameplay.Treasures
             haulTrigger.enabled = false;
 
 			_sorter = new TreasureSorter( body );
+
+			_haulingTreasures = new HashSet<IFollower>();
+			_treasuresWithinRange = new List<IFollower>();
 		}
 
 		public void CollectAll( Rigidbody2D collector )
@@ -92,7 +94,7 @@ namespace Minipede.Gameplay.Treasures
 		private void OnTriggerEnter2D( Collider2D collision )
 		{
             var otherBody = collision.attachedRigidbody;
-            var treasure = otherBody?.GetComponent<Treasure>();
+            var treasure = otherBody?.GetComponent<IFollower>();
             if ( treasure != null )
 			{
                 _treasuresWithinRange.Add( treasure );
@@ -178,7 +180,7 @@ namespace Minipede.Gameplay.Treasures
 			public float WeightScalar;
 		}
 
-		private class TreasureSorter : IComparer<Treasure>
+		private class TreasureSorter : IComparer<IFollower>
 		{
 			private readonly Rigidbody2D _owner;
 
@@ -187,10 +189,10 @@ namespace Minipede.Gameplay.Treasures
 				_owner = owner;
 			}
 
-			public int Compare( Treasure lhs, Treasure rhs )
+			public int Compare( IFollower lhs, IFollower rhs )
 			{
-				float lhsDistSqr = (lhs.transform.position.ToVector2() - _owner.position).sqrMagnitude;
-				float rhsDistSqr = (rhs.transform.position.ToVector2() - _owner.position).sqrMagnitude;
+				float lhsDistSqr = (lhs.Body.position - _owner.position).sqrMagnitude;
+				float rhsDistSqr = (rhs.Body.position - _owner.position).sqrMagnitude;
 
 				return lhsDistSqr > rhsDistSqr
 					? -1

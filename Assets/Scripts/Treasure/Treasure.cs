@@ -10,6 +10,7 @@ namespace Minipede.Gameplay.Treasures
 		IFollower,
 		ICleanup
     {
+		public Rigidbody2D Body => _body;
 		public float Weight => _followController.Weight;
 		public bool IsFollowing => _followController.IsFollowing;
 		public Vector2 Target => _followController.Target;

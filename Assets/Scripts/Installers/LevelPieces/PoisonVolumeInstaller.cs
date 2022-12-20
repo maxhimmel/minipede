@@ -14,7 +14,7 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			Container.Bind<Lifetimer.Factory>()
+			Container.Bind<LifetimerComponent.Factory>()
 				.AsSingle();
 
 			Container.BindInstances( 

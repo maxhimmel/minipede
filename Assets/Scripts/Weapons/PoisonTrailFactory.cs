@@ -6,20 +6,20 @@ namespace Minipede.Gameplay.Weapons
 	public class PoisonTrailFactory
 	{
 		private readonly PoisonVolume _settings;
-		private readonly Lifetimer.Factory _lifetimerFactory;
+		private readonly LifetimerComponent.Factory _lifetimerFactory;
 
 		public PoisonTrailFactory( PoisonVolume settings,
-			Lifetimer.Factory lifetimerFactory )
+			LifetimerComponent.Factory lifetimerFactory )
 		{
 			_settings = settings;
 			_lifetimerFactory = lifetimerFactory;
 		}
 
 		/// <summary>
-		/// Creates a <see cref="Lifetimer"/> instance <b>and</b> starts the lifetime countdown.
+		/// Creates a <see cref="LifetimerComponent"/> instance <b>and</b> starts the lifetime countdown.
 		/// </summary>
 		/// <param name="position"></param>
-		public Lifetimer Create( Vector2 position )
+		public LifetimerComponent Create( Vector2 position )
 		{
 			var result = _lifetimerFactory.Create(
 				_settings.Prefab,

@@ -1,10 +1,12 @@
 ﻿using Minipede.Gameplay.Fx;
+using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.Treasures
 {
 	public abstract class Collectable<TCollectable> : Haulable
+		where TCollectable : MonoBehaviour
 	{
 		private SignalBus _signalBus;
 
@@ -30,5 +32,7 @@ namespace Minipede.Gameplay.Treasures
 		}
 
 		protected abstract TCollectable GetCollectable();
+
+		public class Factory : UnityPrefabFactory<TCollectable> { }
 	}
 }

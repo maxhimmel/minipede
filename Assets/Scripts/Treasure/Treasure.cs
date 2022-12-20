@@ -8,7 +8,5 @@ namespace Minipede.Gameplay.Treasures
 		{
 			return this;
 		}
-
-		public class Factory : UnityPrefabFactory<Treasure> { }
 	}
 }

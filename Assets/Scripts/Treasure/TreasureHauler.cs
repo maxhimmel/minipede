@@ -109,11 +109,7 @@ namespace Minipede.Gameplay.Treasures
 
 		private void TryHaulTreasuresWithinRange()
 		{
-			if ( _treasuresWithinRange.Count <= 0 )
-			{
-				return;
-			}
-			if ( _nextCollectTime > Time.timeSinceLevelLoad )
+			if ( !CanHaulTreasure() )
 			{
 				return;
 			}
@@ -134,17 +130,15 @@ namespace Minipede.Gameplay.Treasures
 			_nextCollectTime = Time.timeSinceLevelLoad + _settings.HoldCollectDelay;
 		}
 
+		private bool CanHaulTreasure()
+		{
+			return _treasuresWithinRange.Count > 0
+				&& _nextCollectTime <= Time.timeSinceLevelLoad;
+		}
+
 		private void TryReleaseHauledTreasure()
 		{
-			if ( !_isReleasingTreasures )
-			{
-				return;
-			}
-			if ( _haulingTreasures.Count <= 0 )
-			{
-				return;
-			}
-			if ( _nextReleaseTime > Time.timeSinceLevelLoad )
+			if ( !CanReleaseTreasure() )
 			{
 				return;
 			}
@@ -163,6 +157,13 @@ namespace Minipede.Gameplay.Treasures
 			HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
 
 			_nextReleaseTime = Time.timeSinceLevelLoad + _settings.HoldReleaseDelay;
+		}
+
+		private bool CanReleaseTreasure()
+		{
+			return _isReleasingTreasures
+				&& _haulingTreasures.Count > 0
+				&& _nextReleaseTime <= Time.timeSinceLevelLoad;
 		}
 
 		public float GetHauledTreasureWeight()

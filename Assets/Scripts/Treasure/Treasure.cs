@@ -103,6 +103,12 @@ namespace Minipede.Gameplay.Treasures
 
 		public void FixedTick()
 		{
+			if ( !_lifetimer.Tick() )
+			{
+				Cleanup();
+				return;
+			}
+
 			if ( IsFollowing )
 			{
 				UpdateTether();
@@ -129,18 +135,10 @@ namespace Minipede.Gameplay.Treasures
 			{
 				_signalBus.FireId( "Collected", new FxSignal(
 					_body.position,
-					(otherBody.position - _body.position).normalized
+					otherBody.transform
 				) );
 
 				collector.Collect( this );
-			}
-		}
-
-		private void Update()
-		{
-			if ( !_lifetimer.Tick() )
-			{
-				Cleanup();
 			}
 		}
 

@@ -7,30 +7,34 @@ using Zenject;
 namespace Minipede.Gameplay.Treasures
 {
     public abstract class Treasure : MonoBehaviour,
+		IFollower,
 		ICleanup
     {
-		public float Weight => _settings.Weight;
+		public float Weight => _followController.Weight;
+		public bool IsFollowing => _followController.IsFollowing;
+		public Vector2 Target => _followController.Target;
 
 		private Settings _settings;
 		private Rigidbody2D _body;
 		private SignalBus _signalBus;
+		private IFollower _followController;
 
 		private bool _isCleanedUp;
 		private float _lifetimer;
 		private float _lifetimeDuration;
-		private FollowMode _followMode;
-		private Rigidbody2D _followTarget;
 		private LineRenderer _tetherRenderer;
 		private Vector3[] _tetherPositions;
 
 		[Inject]
 		public void Construct( Settings settings,
 			Rigidbody2D body,
-			SignalBus signalBus )
+			SignalBus signalBus,
+			IFollower followController )
 		{
 			_settings = settings;
             _body = body;
 			_signalBus = signalBus;
+			_followController = followController;
 
 			_lifetimeDuration = settings.LifetimeRange.Random();
 
@@ -68,86 +72,47 @@ namespace Minipede.Gameplay.Treasures
 		public void SnapToCollector( Rigidbody2D collector )
 		{
 			StopFollowing();
-
-			_followTarget = collector;
-			SetFollowMode( FollowMode.Collect );
+			_followController.SnapToCollector( collector );
 		}
 
 		public void Follow( Rigidbody2D target )
 		{
-			_followTarget = target;
-
 			UpdateTether();
 			_tetherRenderer.enabled = true;
 
-			SetFollowMode( FollowMode.Haul );
+			_followController.Follow( target );
 		}
 
 		public void StopFollowing()
 		{
-			_followTarget = null;
 			_tetherRenderer.enabled = false;
-			_lifetimer = 0;
 
-			SetFollowMode( FollowMode.None );
-		}
-
-		private void SetFollowMode( FollowMode mode )
-		{
-			_followMode = mode;
+			_followController.StopFollowing();
 		}
 
 		private void FixedUpdate()
 		{
-			if ( !CanFollow() )
-			{
-				return;
-			}
-
-			switch ( _followMode )
-			{
-				case FollowMode.Haul:
-					MoveIntoTargetRadius();
-					UpdateTether();
-					break;
-
-				case FollowMode.Collect:
-					SnapToTarget();
-					break;
-			}
+			FixedTick();
 		}
 
-		private bool CanFollow()
+		public void FixedTick()
 		{
-			return _followMode != FollowMode.None 
-				&& _followTarget != null;
-		}
+			_followController.FixedTick();
 
-		private void MoveIntoTargetRadius()
-		{
-			Vector2 selfToTarget = _followTarget.position - _body.position;
-			if ( selfToTarget.sqrMagnitude < _settings.MinFollowDistance * _settings.MinFollowDistance )
+			if ( IsFollowing )
 			{
-				return;
+				UpdateTether();
 			}
-
-			_body.AddForce( selfToTarget.normalized * _settings.FollowForce, ForceMode2D.Force );
 		}
 
 		private void UpdateTether()
 		{
-			_tetherPositions[0] = _body.position;
-			_tetherPositions[1] = _followTarget.position;
-			_tetherRenderer.SetPositions( _tetherPositions );
-		}
-
-		private void SnapToTarget()
-		{
-			float moveDelta = Time.deltaTime * _settings.SnapToCollectorSpeed;
-			Vector2 newPos = Vector2.MoveTowards( _body.position, _followTarget.position, moveDelta );
-
-			_body.velocity = Vector2.zero;
-			_body.MovePosition( newPos );
+			if ( _tetherRenderer.enabled )
+			{
+				_tetherPositions[0] = _body.position;
+				_tetherPositions[1] = Target;
+				_tetherRenderer.SetPositions( _tetherPositions );
+			}
 		}
 
 		private void OnCollisionEnter2D( Collision2D collision )
@@ -172,7 +137,7 @@ namespace Minipede.Gameplay.Treasures
 
 		private void CountdownLifetime()
 		{
-			if ( _followMode != FollowMode.None )
+			if ( IsFollowing )
 			{
 				return;
 			}
@@ -187,29 +152,13 @@ namespace Minipede.Gameplay.Treasures
 		[System.Serializable]
 		public struct Settings
 		{
-			[BoxGroup( "Spawning" ), MinMaxSlider( 5, 120 )]
+			[MinMaxSlider( 5, 120 )]
 			public Vector2 LifetimeRange;
-			[BoxGroup( "Spawning" ), MinMaxSlider( 0, 1080 )]
+			[MinMaxSlider( 0, 1080 )]
 			public Vector2 TorqueRange;
 
-			[BoxGroup( "Hauling" )]
+			[Space]
 			public LineRenderer TetherPrefab;
-			[BoxGroup( "Hauling" )]
-			public float FollowForce;
-			[BoxGroup( "Hauling" )]
-			public float SnapToCollectorSpeed;
-			[BoxGroup( "Hauling" )]
-			public float MinFollowDistance;
-			[BoxGroup( "Hauling" )]
-			public float Weight;
-		}
-
-		private enum FollowMode
-		{
-			None,
-
-			Haul,
-			Collect
 		}
 
 		public class Factory : UnityPrefabFactory<Treasure> { }

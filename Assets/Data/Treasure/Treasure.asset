@@ -20,3 +20,8 @@ MonoBehaviour:
     SnapToCollectorSpeed: 20
     MinFollowDistance: 1.75
     Weight: 0.5
+  _follower:
+    FollowForce: 2
+    SnapToCollectorSpeed: 20
+    MinFollowDistance: 1.75
+    Weight: 0.5

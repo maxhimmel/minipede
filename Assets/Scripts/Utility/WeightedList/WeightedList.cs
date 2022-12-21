@@ -1,4 +1,3 @@
-
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -22,11 +21,12 @@ namespace Minipede.Utility
 		[SerializeField] private bool _allowEmptyRolls = true;
 		[SerializeField] private T[] _items = default;
 
+		[System.NonSerialized]
 		private int _maxWeight = 0;
 
 		public void Init()
 		{
-			if ( _items == null ) { return; }
+			if ( _items == null || _maxWeight > 0 ) { return; }
 
 			int weightSum = 0;
 			foreach ( T node in _items )

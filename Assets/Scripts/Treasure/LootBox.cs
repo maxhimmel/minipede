@@ -13,12 +13,14 @@ namespace Minipede.Gameplay.Treasures
 			Treasure.Factory treasureFactory )
 		{
 			_settings = settings;
+			_settings.Spawns.Init();
+
 			_treasureFactory = treasureFactory;
 		}
 
 		public void Open( Vector2 position )
 		{
-			int treasureCount = _settings.Spawns.Random( false );
+			int treasureCount = _settings.Spawns.GetRandomItem();
 			for ( int idx = 0; idx < treasureCount; ++idx )
 			{
 				float boundsRadius = 0.5f; //TODO: Get proper collider bounds
@@ -39,10 +41,10 @@ namespace Minipede.Gameplay.Treasures
 		{
 			public Treasure Prefab;
 
-			[Space, MinMaxSlider( 0, 20 )]
-			public Vector2Int Spawns;
 			[MinMaxSlider( 1, 10 )]
 			public Vector2 LaunchImpulse;
+			[Space, BoxGroup]
+			public WeightedListInt Spawns;
 		}
 	}
 }

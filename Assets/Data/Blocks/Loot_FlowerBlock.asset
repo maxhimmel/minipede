@@ -14,5 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings:
     Prefab: {fileID: 8546183382302003348, guid: 54bd9159dfc4860448afec72c809f6e2, type: 3}
-    Spawns: {x: 1, y: 2}
     LaunchImpulse: {x: 2.0064018, y: 4.3468695}
+    Spawns:
+      _allowEmptyRolls: 0
+      _items:
+      - _normalizedWeight: 50
+        Item: 1
+      - _normalizedWeight: 50
+        Item: 2

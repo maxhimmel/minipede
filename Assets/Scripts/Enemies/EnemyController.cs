@@ -58,7 +58,7 @@ namespace Minipede.Gameplay.Enemies
 			_lootBox = lootBox;
 			_levelSettings = levelSettings;
 
-			_onDestroyCancelSource = new CancellationTokenSource();
+			_onDestroyCancelSource = AppHelper.GetLinkedCTS();
 			_onDestroyCancelToken = _onDestroyCancelSource.Token;
 
 			damageController.Damaged += OnDamaged;

@@ -1,13 +1,14 @@
-﻿using System;
-using Minipede.Gameplay.Cameras;
+﻿using Minipede.Gameplay.Cameras;
 using Minipede.Utility;
 using Rewired;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Player
 {
 	public class ExplorerController : IController<Explorer>
 	{
+		private readonly Settings _settings;
 		private readonly Rewired.Player _input;
 		private readonly ICameraToggler<Explorer> _cameraToggler;
 
@@ -15,9 +16,11 @@ namespace Minipede.Gameplay.Player
 		private Ship _ship;
 		private ShipController _shipController;
 
-		public ExplorerController( Rewired.Player input,
+		public ExplorerController( Settings settings,
+			Rewired.Player input,
 			ICameraToggler<Explorer> cameraToggler )
 		{
+			_settings = settings;
 			_input = input;
 			_cameraToggler = cameraToggler;
 		}
@@ -59,6 +62,11 @@ namespace Minipede.Gameplay.Player
 
 		private void OnStartGrabbing( InputActionEventData obj )
 		{
+			if ( CanInteractWithShip() )
+			{
+				_ship.UnEquipBeacon();
+			}
+
 			_explorer.StartGrabbing();
 		}
 
@@ -79,7 +87,7 @@ namespace Minipede.Gameplay.Player
 
 		private void OnEnterShip( InputActionEventData obj )
 		{
-			if ( !CanEnterShip() )
+			if ( !CanInteractWithShip() )
 			{
 				return;
 			}
@@ -91,11 +99,10 @@ namespace Minipede.Gameplay.Player
 			UnPossess();
 		}
 
-		private bool CanEnterShip()
+		private bool CanInteractWithShip()
 		{
-			const float enterRange = 1;
 			Vector2 explorerToShip = _ship.Orientation.Position - _explorer.Orientation.Position;
-			return explorerToShip.sqrMagnitude <= enterRange * enterRange;
+			return explorerToShip.sqrMagnitude <= _settings.ShipInteractRange * _settings.ShipInteractRange;
 		}
 
 		private void OnMoveHorizontal( InputActionEventData data )
@@ -112,6 +119,13 @@ namespace Minipede.Gameplay.Player
 		{
 			_ship = ship;
 			_shipController = controller;
+		}
+
+		[System.Serializable]
+		public struct Settings
+		{
+			[MinValue( 1 )]
+			public float ShipInteractRange;
 		}
 	}
 }

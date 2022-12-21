@@ -12,7 +12,8 @@ namespace Minipede.Gameplay.Player
     public class Ship : MonoBehaviour,
 		IPawn<Ship, ShipController>,
 		IDamageController,
-		ICollector<Treasure>
+		ICollector<Treasure>,
+		ICollector<Beacon>
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -38,6 +39,7 @@ namespace Minipede.Gameplay.Player
 
 		private bool _isMoveInputConsumed;
 		private Vector2 _moveInput;
+		private Beacon _equippedBeacon;
 
 		[Inject]
         public void Construct( IMotor motor,
@@ -68,6 +70,8 @@ namespace Minipede.Gameplay.Player
 
 		private void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
+			UnEquipBeacon();
+
 			_damageController.Died -= OnDied;
 			Destroy( gameObject );
 		}
@@ -137,6 +141,31 @@ namespace Minipede.Gameplay.Player
 		{
 			_wallet.CollectTreasure( treasure );
 			treasure.Cleanup();
+		}
+
+		public void Collect( Beacon beacon )
+		{
+			beacon.StopFollowing();
+
+			if ( !IsBeaconEquipped() )
+			{
+				beacon.Equip( _body );
+				_equippedBeacon = beacon;
+			}
+		}
+
+		public void UnEquipBeacon()
+		{
+			if ( IsBeaconEquipped() )
+			{
+				_equippedBeacon.UnEquip();
+				_equippedBeacon = null;
+			}
+		}
+
+		private bool IsBeaconEquipped()
+		{
+			return _equippedBeacon != null;
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

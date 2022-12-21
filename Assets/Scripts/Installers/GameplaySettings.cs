@@ -66,7 +66,8 @@ namespace Minipede.Installers
 			Container.Bind<ShipController>()
 				.AsSingle();
 			Container.Bind<ExplorerController>()
-				.AsSingle();
+				.AsSingle()
+				.WithArguments( _playerSettings.Explorer );
 
 
 			// Spawning ...
@@ -136,12 +137,15 @@ namespace Minipede.Installers
 			public Ship ShipPrefab;
 			[FoldoutGroup( "Initialization" )]
 			public Explorer ExplorerPrefab;
-			[Space, FoldoutGroup( "Initialization" )]
-			public string SpawnPointId;
 
-			[FoldoutGroup( "Gameplay" )]
+			[FoldoutGroup( "Spawning" )]
+			public string SpawnPointId;
+			[FoldoutGroup( "Spawning" )]
 			public float RespawnDelay;
-			[FoldoutGroup( "Gameplay" )]
+
+			[FoldoutGroup( "Explorer" ), HideLabel]
+			public ExplorerController.Settings Explorer;
+			[FoldoutGroup( "Explorer" )]
 			public TreasureHauler.Settings Hauling;
 		}
 

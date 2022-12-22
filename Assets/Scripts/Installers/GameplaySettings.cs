@@ -108,6 +108,9 @@ namespace Minipede.Installers
 
 		private void BindTreasure()
 		{
+			Container.DeclareSignal<CollectedTreasureSignal>()
+				.OptionalSubscriber();
+
 			Container.BindInstance( _playerSettings.Hauling )
 				.AsSingle()
 				.WhenInjectedInto<TreasureHauler>();

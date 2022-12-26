@@ -12,3 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5f9456c21fbd094e99f63a2178ebf78, type: 3}
   m_Name: EnemyResource
   m_EditorClassIdentifier: 
+  _color: {r: 0.9490197, g: 0.9960785, b: 0, a: 1}

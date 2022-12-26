@@ -6,8 +6,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
-    public class GemCountItem<TTreasure> : MonoBehaviour
-		where TTreasure : Treasure
+    public class GemCountItem : MonoBehaviour
     {
 		[SerializeField] private string _format = "x{0}";
 
@@ -15,38 +14,53 @@ namespace Minipede.Gameplay.UI
         [SerializeField] private Image _border;
         [SerializeField] private TMP_Text _count;
 		[SerializeField] private Button _button;
+		[SerializeField] private CanvasGroup _group;
 
-		private GemCountModel _model;
+		private ResourceType _resource;
+		private SignalBus _signalBus;
 
 		[Inject]
-		public void Construct( GemCountModel model )
+		public void Construct( ResourceType resource,
+			SignalBus signalBus )
 		{
-			_model = model;
+			_resource = resource;
+			_signalBus = signalBus;
+
+			_button.onClick.AddListener( () =>
+			{
+				_signalBus.TryFire( new BeaconTypeSelectedSignal()
+				{
+					ResourceType = _resource
+				} );
+			} );
 		}
 
 		private void OnEnable()
 		{
-			_model.Listen( OnCollectedTreasure );
+			_signalBus.Subscribe<ResourceAmountChangedSignal>( OnCollectedTreasure );
+			_signalBus.Subscribe<BeaconCreationStateChangedSignal>( OnBeaconCreationStateChanged );
 		}
 
 		private void OnDisable()
 		{
-			_model.Cleanup();
+			_signalBus.TryUnsubscribe<ResourceAmountChangedSignal>( OnCollectedTreasure );
+			_signalBus.TryUnsubscribe<BeaconCreationStateChangedSignal>( OnBeaconCreationStateChanged );
 		}
 
-		private void OnCollectedTreasure( CollectedTreasureSignal signal )
+		private void OnCollectedTreasure( ResourceAmountChangedSignal signal )
 		{
-			if ( signal.TreasureType == typeof( TTreasure ) )
+			if ( signal.ResourceType == _resource )
 			{
 				_count.text = string.Format( _format, signal.TotalAmount );
 			}
 		}
-	}
 
-	public class GemCountModel : Model<CollectedTreasureSignal>
-	{
-		public GemCountModel( SignalBus signalBus ) : base( signalBus )
+		private void OnBeaconCreationStateChanged( BeaconCreationStateChangedSignal signal )
 		{
+			if ( signal.ResourceType == _resource )
+			{
+				_group.interactable = signal.IsUnlocked;
+			}
 		}
 	}
 }

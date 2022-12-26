@@ -1,4 +1,3 @@
-using Minipede.Gameplay.UI;
 using UnityEngine;
 using Zenject;
 
@@ -9,8 +8,6 @@ namespace Minipede.Installers
     {
 		public override void InstallBindings()
 		{
-			Container.Bind<GemCountModel>()
-				.AsTransient();
 		}
 	}
 }

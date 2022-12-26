@@ -17,7 +17,7 @@ namespace Minipede.Gameplay.Treasures
 		private Settings _settings;
 		protected Rigidbody2D _body;
 		private IFollower _followController;
-		private Lifetimer _lifetimer;
+		protected Lifetimer _lifetimer;
 
 		private bool _isCleanedUp;
 		private LineRenderer _tetherRenderer;

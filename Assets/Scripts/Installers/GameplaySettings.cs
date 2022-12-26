@@ -11,6 +11,7 @@ using UnityEngine;
 using Zenject;
 
 using BlockActor = Minipede.Gameplay.LevelPieces.Block;
+using BeaconActor = Minipede.Gameplay.Treasures.Beacon;
 
 namespace Minipede.Installers
 {
@@ -19,6 +20,7 @@ namespace Minipede.Installers
 	{
 		[SerializeField] private Player _playerSettings;
 		[SerializeField] private Block _blockSettings;
+		[SerializeField] private Beacon _beaconSettings;
 		[SerializeField] private Level _levelSettings;
 		[SerializeField] private Audio _audioSettings;
 
@@ -66,7 +68,8 @@ namespace Minipede.Installers
 			Container.Bind<ShipController>()
 				.AsSingle();
 			Container.Bind<ExplorerController>()
-				.AsSingle();
+				.AsSingle()
+				.WithArguments( _playerSettings.Explorer );
 
 
 			// Spawning ...
@@ -80,7 +83,12 @@ namespace Minipede.Installers
 
 			// Resource Management ...
 			Container.Bind<Wallet>()
-				.AsSingle();
+				.AsSingle()
+				.WhenInjectedInto<Inventory>();
+
+			Container.BindInterfacesAndSelfTo<Inventory>()
+				.AsSingle()
+				.WithArguments( _playerSettings.Inventory );
 		}
 
 		private void BindLevelGeneration()
@@ -107,11 +115,36 @@ namespace Minipede.Installers
 
 		private void BindTreasure()
 		{
+			Container.DeclareSignal<ResourceAmountChangedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconEquippedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconUnequippedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<CreateBeaconSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconTypeSelectedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconCreationStateChangedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<ToggleInventorySignal>()
+				.OptionalSubscriber();
+
 			Container.BindInstance( _playerSettings.Hauling )
 				.AsSingle()
 				.WhenInjectedInto<TreasureHauler>();
 
 			Container.Bind<Treasure.Factory>()
+				.AsSingle();
+
+			foreach ( var beaconFactory in _beaconSettings.Factories )
+			{
+				Container.Bind<BeaconActor.Factory>()
+					.AsCached()
+					.WithArguments( beaconFactory.Prefab, beaconFactory.ResourceType );
+			}
+
+			Container.Bind<BeaconFactoryBus>()
 				.AsSingle();
 		}
 
@@ -136,13 +169,19 @@ namespace Minipede.Installers
 			public Ship ShipPrefab;
 			[FoldoutGroup( "Initialization" )]
 			public Explorer ExplorerPrefab;
-			[Space, FoldoutGroup( "Initialization" )]
-			public string SpawnPointId;
 
-			[FoldoutGroup( "Gameplay" )]
+			[FoldoutGroup( "Spawning" )]
+			public string SpawnPointId;
+			[FoldoutGroup( "Spawning" )]
 			public float RespawnDelay;
-			[FoldoutGroup( "Gameplay" )]
+
+			[FoldoutGroup( "Explorer" ), HideLabel]
+			public ExplorerController.Settings Explorer;
+			[FoldoutGroup( "Explorer" )]
 			public TreasureHauler.Settings Hauling;
+
+			[FoldoutGroup( "Upgrading" )]
+			public Inventory.Settings Inventory;
 		}
 
 		[System.Serializable]
@@ -166,6 +205,13 @@ namespace Minipede.Installers
 			public BlockActor.Settings Settings;
 			[BoxGroup( "Prefabs" ), HideLabel]
 			public BlockProvider.Settings Prefabs;
+		}
+
+		[System.Serializable]
+		public struct Beacon
+		{
+			[TableList( AlwaysExpanded = true )]
+			public BeaconFactoryBus.Settings[] Factories;
 		}
 
 		[System.Serializable]

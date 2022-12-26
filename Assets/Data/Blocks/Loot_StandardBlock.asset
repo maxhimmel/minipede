@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Loot_StandardBlock
   m_EditorClassIdentifier: 
   _settings:
-    Prefab: {fileID: 1006850469227034484, guid: 43166c5a202509b46ad64760a3f1e6a6, type: 3}
+    Prefab: {fileID: 2615201194833307321, guid: 43166c5a202509b46ad64760a3f1e6a6, type: 3}
     LaunchImpulse: {x: 2.0064018, y: 4.3468695}
     Spawns:
       _allowEmptyRolls: 0

@@ -12,7 +12,8 @@ namespace Minipede.Gameplay.Player
     public class Ship : MonoBehaviour,
 		IPawn<Ship, ShipController>,
 		IDamageController,
-		ICollector<Treasure>
+		ICollector<Treasure>,
+		ICollector<Beacon>
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -32,12 +33,14 @@ namespace Minipede.Gameplay.Player
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
 		private PlayerController _playerController;
-		private Wallet _wallet;
+		private Inventory _inventory;
 		private SpriteRenderer _renderer;
 		private TargetGroupAttachment _audioListenerTarget;
+		private SignalBus _signalBus;
 
 		private bool _isMoveInputConsumed;
 		private Vector2 _moveInput;
+		private Beacon _equippedBeacon;
 
 		[Inject]
         public void Construct( IMotor motor,
@@ -45,18 +48,20 @@ namespace Minipede.Gameplay.Player
 			Gun gun,
 			Rigidbody2D body,
 			PlayerController playerController,
-			Wallet wallet,
+			Inventory inventory,
 			SpriteRenderer renderer,
-			List<TargetGroupAttachment> targetGroups )
+			List<TargetGroupAttachment> targetGroups,
+			SignalBus signalBus )
 		{
 			_motor = motor;
 			_damageController = damageController;
 			_gun = gun;
 			_body = body;
 			_playerController = playerController;
-			_wallet = wallet;
+			_inventory = inventory;
 			_renderer = renderer;
 			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
+			_signalBus = signalBus;
 
 			damageController.Died += OnDied;
 		}
@@ -68,6 +73,8 @@ namespace Minipede.Gameplay.Player
 
 		private void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
+			UnequipBeacon();
+
 			_damageController.Died -= OnDied;
 			Destroy( gameObject );
 		}
@@ -135,8 +142,45 @@ namespace Minipede.Gameplay.Player
 
 		public void Collect( Treasure treasure )
 		{
-			_wallet.CollectTreasure( treasure );
+			_inventory.CollectTreasure( treasure );
 			treasure.Cleanup();
+		}
+
+		public void Collect( Beacon beacon )
+		{
+			beacon.StopFollowing();
+
+			if ( !IsBeaconEquipped() )
+			{
+				beacon.Equip( _body );
+				_equippedBeacon = beacon;
+
+				_signalBus.TryFire( new BeaconEquippedSignal()
+				{
+					Beacon = beacon
+				} );
+			}
+		}
+
+		public void UnequipBeacon()
+		{
+			if ( IsBeaconEquipped() )
+			{
+				_equippedBeacon.Unequip();
+				_equippedBeacon = null;
+
+				_signalBus.TryFire( new BeaconUnequippedSignal() );
+			}
+		}
+
+		private bool IsBeaconEquipped()
+		{
+			return _equippedBeacon != null;
+		}
+
+		public bool ToggleInventory()
+		{
+			return _inventory.ToggleVisibility();
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

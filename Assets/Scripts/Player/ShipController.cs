@@ -8,6 +8,8 @@ namespace Minipede.Gameplay.Player
 {
 	public class ShipController : IController<Ship>
 	{
+		public Ship Pawn => _ship;
+
 		private readonly Rewired.Player _input;
 		private readonly ICameraToggler<Ship> _cameraToggler;
 

@@ -1,4 +1,4 @@
-﻿using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.Cameras;
 using Minipede.Utility;
 using Rewired;
 using Sirenix.OdinInspector;
@@ -8,6 +8,8 @@ namespace Minipede.Gameplay.Player
 {
 	public class ExplorerController : IController<Explorer>
 	{
+		public Explorer Pawn => _explorer;
+
 		private readonly Settings _settings;
 		private readonly Rewired.Player _input;
 		private readonly ICameraToggler<Explorer> _cameraToggler;

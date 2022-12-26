@@ -83,7 +83,12 @@ namespace Minipede.Installers
 
 			// Resource Management ...
 			Container.Bind<Wallet>()
-				.AsSingle();
+				.AsSingle()
+				.WhenInjectedInto<Inventory>();
+
+			Container.BindInterfacesAndSelfTo<Inventory>()
+				.AsSingle()
+				.WithArguments( _playerSettings.Inventory );
 		}
 
 		private void BindLevelGeneration()
@@ -110,7 +115,19 @@ namespace Minipede.Installers
 
 		private void BindTreasure()
 		{
-			Container.DeclareSignal<CollectedTreasureSignal>()
+			Container.DeclareSignal<ResourceAmountChangedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconEquippedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconUnequippedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<CreateBeaconSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconTypeSelectedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconCreationStateChangedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<ToggleInventorySignal>()
 				.OptionalSubscriber();
 
 			Container.BindInstance( _playerSettings.Hauling )
@@ -162,6 +179,9 @@ namespace Minipede.Installers
 			public ExplorerController.Settings Explorer;
 			[FoldoutGroup( "Explorer" )]
 			public TreasureHauler.Settings Hauling;
+
+			[FoldoutGroup( "Upgrading" )]
+			public Inventory.Settings Inventory;
 		}
 
 		[System.Serializable]

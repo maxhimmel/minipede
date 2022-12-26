@@ -23,6 +23,8 @@ MonoBehaviour:
       HoldCollectDelay: 0.25
       HoldReleaseDelay: 0.25
       WeightScalar: 1
+    Inventory:
+      GemsToBeacon: 3
   _blockSettings:
     Settings:
       Heal:

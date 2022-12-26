@@ -33,7 +33,7 @@ namespace Minipede.Gameplay.Player
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
 		private PlayerController _playerController;
-		private Wallet _wallet;
+		private Inventory _inventory;
 		private SpriteRenderer _renderer;
 		private TargetGroupAttachment _audioListenerTarget;
 		private SignalBus _signalBus;
@@ -48,7 +48,7 @@ namespace Minipede.Gameplay.Player
 			Gun gun,
 			Rigidbody2D body,
 			PlayerController playerController,
-			Wallet wallet,
+			Inventory inventory,
 			SpriteRenderer renderer,
 			List<TargetGroupAttachment> targetGroups,
 			SignalBus signalBus )
@@ -58,7 +58,7 @@ namespace Minipede.Gameplay.Player
 			_gun = gun;
 			_body = body;
 			_playerController = playerController;
-			_wallet = wallet;
+			_inventory = inventory;
 			_renderer = renderer;
 			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
 			_signalBus = signalBus;
@@ -142,7 +142,7 @@ namespace Minipede.Gameplay.Player
 
 		public void Collect( Treasure treasure )
 		{
-			_wallet.CollectTreasure( treasure );
+			_inventory.CollectTreasure( treasure );
 			treasure.Cleanup();
 		}
 
@@ -176,6 +176,11 @@ namespace Minipede.Gameplay.Player
 		private bool IsBeaconEquipped()
 		{
 			return _equippedBeacon != null;
+		}
+
+		public bool ToggleInventory()
+		{
+			return _inventory.ToggleVisibility();
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

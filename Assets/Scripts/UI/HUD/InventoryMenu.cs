@@ -14,7 +14,12 @@ namespace Minipede.Gameplay.UI
 		[SerializeField] private CanvasGroup _beaconContainer;
 		[SerializeField] private Button _createBeaconButton;
 
-        private SignalBus _signalBus;
+		[Space]
+		[SerializeField] private Image _gemBorder;
+		[SerializeField] private Image _enabledConnector;
+		[SerializeField] private Image _disabledConnector;
+
+		private SignalBus _signalBus;
 
         [Inject]
         public void Construct( SignalBus signalBus )
@@ -26,9 +31,9 @@ namespace Minipede.Gameplay.UI
 				_signalBus.TryFire( new CreateBeaconSignal() );
 			} );
 
-			OnShowInventory( new ToggleInventorySignal() { IsVisible = false } );
 			OnBeaconUnequipped( new BeaconUnequippedSignal() );
 			OnBeaconTypeSelected( new BeaconTypeSelectedSignal() );
+			OnShowInventory( new ToggleInventorySignal() { IsVisible = false } );
 		}
 
 		private void OnEnable()
@@ -51,6 +56,9 @@ namespace Minipede.Gameplay.UI
 		{
 			_gemGroup.interactable = signal.IsVisible;
 			_beaconContainer.alpha = signal.IsVisible ? 1 : 0;
+
+			_disabledConnector.gameObject.SetActive( signal.IsVisible );
+			_enabledConnector.gameObject.SetActive( signal.IsVisible );
 		}
 
 		private void OnBeaconEquipped( BeaconEquippedSignal signal )
@@ -65,9 +73,23 @@ namespace Minipede.Gameplay.UI
 
 		private void OnBeaconTypeSelected( BeaconTypeSelectedSignal signal )
 		{
-			_createBeaconButton.interactable = signal.ResourceType != null;
+			bool isSelected = signal.ResourceType != null;
+			
+			_createBeaconButton.interactable = isSelected;
 
 			/// TODO: Change <see cref="_createBeaconButton"/> color to match <see cref="BeaconTypeSelectedSignal.ResourceType"/>
+			/// ...
+
+			_disabledConnector.enabled = !isSelected;
+			_enabledConnector.enabled = isSelected;
+			if ( isSelected )
+			{
+				_enabledConnector.color = signal.ResourceType.Color;
+			}
+
+			_gemBorder.color = isSelected
+				? signal.ResourceType.Color
+				: _disabledConnector.color;
 		}
 	}
 }

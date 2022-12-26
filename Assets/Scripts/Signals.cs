@@ -52,9 +52,39 @@ namespace Minipede.Gameplay.Fx
 
 namespace Minipede.Gameplay.Treasures
 {
-	public class CollectedTreasureSignal
+	public class ResourceAmountChangedSignal
 	{
-		public System.Type TreasureType;
+		public ResourceType ResourceType;
 		public int TotalAmount;
+	}
+
+	public class BeaconEquippedSignal
+	{
+		public Beacon Beacon;
+	}
+	public class BeaconUnequippedSignal
+	{
+	}
+
+	public class BeaconTypeSelectedSignal
+	{
+		public ResourceType ResourceType;
+	}
+	public class CreateBeaconSignal
+	{
+	}
+
+	public class BeaconCreationStateChangedSignal
+	{
+		public ResourceType ResourceType;
+		public bool IsUnlocked;
+	}
+}
+
+namespace Minipede.Gameplay.Player
+{
+	public class ToggleInventorySignal
+	{
+		public bool IsVisible;
 	}
 }

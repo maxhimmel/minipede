@@ -36,6 +36,7 @@ namespace Minipede.Gameplay.Player
 		private Wallet _wallet;
 		private SpriteRenderer _renderer;
 		private TargetGroupAttachment _audioListenerTarget;
+		private SignalBus _signalBus;
 
 		private bool _isMoveInputConsumed;
 		private Vector2 _moveInput;
@@ -49,7 +50,8 @@ namespace Minipede.Gameplay.Player
 			PlayerController playerController,
 			Wallet wallet,
 			SpriteRenderer renderer,
-			List<TargetGroupAttachment> targetGroups )
+			List<TargetGroupAttachment> targetGroups,
+			SignalBus signalBus )
 		{
 			_motor = motor;
 			_damageController = damageController;
@@ -59,6 +61,7 @@ namespace Minipede.Gameplay.Player
 			_wallet = wallet;
 			_renderer = renderer;
 			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
+			_signalBus = signalBus;
 
 			damageController.Died += OnDied;
 		}
@@ -70,7 +73,7 @@ namespace Minipede.Gameplay.Player
 
 		private void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
-			UnEquipBeacon();
+			UnequipBeacon();
 
 			_damageController.Died -= OnDied;
 			Destroy( gameObject );
@@ -151,15 +154,22 @@ namespace Minipede.Gameplay.Player
 			{
 				beacon.Equip( _body );
 				_equippedBeacon = beacon;
+
+				_signalBus.TryFire( new BeaconEquippedSignal()
+				{
+					Beacon = beacon
+				} );
 			}
 		}
 
-		public void UnEquipBeacon()
+		public void UnequipBeacon()
 		{
 			if ( IsBeaconEquipped() )
 			{
-				_equippedBeacon.UnEquip();
+				_equippedBeacon.Unequip();
 				_equippedBeacon = null;
+
+				_signalBus.TryFire( new BeaconUnequippedSignal() );
 			}
 		}
 

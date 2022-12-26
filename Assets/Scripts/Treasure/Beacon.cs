@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Rendering.Universal;
@@ -18,7 +18,10 @@ namespace Minipede.Gameplay.Treasures
 		{
 			_constraint = constraint;
 			_light = light;
+		}
 
+		private void Awake()
+		{
 			_body.GetAttachedColliders( _colliders );
 		}
 
@@ -32,7 +35,7 @@ namespace Minipede.Gameplay.Treasures
 			ClampOrientation( owner );
 		}
 
-		public void UnEquip()
+		public void Unequip()
 		{
 			_light.enabled = true;
 

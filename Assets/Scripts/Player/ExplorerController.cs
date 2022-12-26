@@ -1,4 +1,4 @@
-using Minipede.Gameplay.Cameras;
+﻿using Minipede.Gameplay.Cameras;
 using Minipede.Utility;
 using Rewired;
 using Sirenix.OdinInspector;
@@ -66,7 +66,7 @@ namespace Minipede.Gameplay.Player
 		{
 			if ( CanInteractWithShip() )
 			{
-				_ship.UnEquipBeacon();
+				_ship.UnequipBeacon();
 			}
 
 			_explorer.StartGrabbing();

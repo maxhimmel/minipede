@@ -87,6 +87,11 @@ namespace Minipede.Gameplay.Player
 				IsVisible = _isVisible
 			} );
 
+			if ( !_isVisible )
+			{
+				_signalBus.TryFire( new BeaconTypeSelectedSignal() );
+			}
+
 			return _isVisible;
 		}
 

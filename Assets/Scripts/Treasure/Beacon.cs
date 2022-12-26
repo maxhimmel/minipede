@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Minipede.Utility;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Rendering.Universal;
@@ -82,6 +83,14 @@ namespace Minipede.Gameplay.Treasures
 		protected override Beacon GetCollectable()
 		{
 			return this;
+		}
+
+		public new class Factory : UnityFactory<Beacon> 
+		{
+			public ResourceType Resource => _resource;
+
+			[Inject]
+			private readonly ResourceType _resource;
 		}
 	}
 }

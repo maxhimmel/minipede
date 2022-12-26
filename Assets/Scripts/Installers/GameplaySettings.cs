@@ -11,6 +11,7 @@ using UnityEngine;
 using Zenject;
 
 using BlockActor = Minipede.Gameplay.LevelPieces.Block;
+using BeaconActor = Minipede.Gameplay.Treasures.Beacon;
 
 namespace Minipede.Installers
 {
@@ -19,6 +20,7 @@ namespace Minipede.Installers
 	{
 		[SerializeField] private Player _playerSettings;
 		[SerializeField] private Block _blockSettings;
+		[SerializeField] private Beacon _beaconSettings;
 		[SerializeField] private Level _levelSettings;
 		[SerializeField] private Audio _audioSettings;
 
@@ -117,6 +119,16 @@ namespace Minipede.Installers
 
 			Container.Bind<Treasure.Factory>()
 				.AsSingle();
+
+			foreach ( var beaconFactory in _beaconSettings.Factories )
+			{
+				Container.Bind<BeaconActor.Factory>()
+					.AsCached()
+					.WithArguments( beaconFactory.Prefab, beaconFactory.ResourceType );
+			}
+
+			Container.Bind<BeaconFactoryBus>()
+				.AsSingle();
 		}
 
 		private void BindAudio()
@@ -173,6 +185,13 @@ namespace Minipede.Installers
 			public BlockActor.Settings Settings;
 			[BoxGroup( "Prefabs" ), HideLabel]
 			public BlockProvider.Settings Prefabs;
+		}
+
+		[System.Serializable]
+		public struct Beacon
+		{
+			[TableList( AlwaysExpanded = true )]
+			public BeaconFactoryBus.Settings[] Factories;
 		}
 
 		[System.Serializable]

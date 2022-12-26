@@ -32,6 +32,16 @@ MonoBehaviour:
       Regular: {fileID: 6093263636819055870, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       Poison: {fileID: 7223752588216721313, guid: b365f0d28be7fa44989337593a66181c, type: 3}
       Flower: {fileID: 8470412232020281501, guid: d6bf6258b2770a04f98a69588242b66b, type: 3}
+  _beaconSettings:
+    Factories:
+    - ResourceType: {fileID: 11400000, guid: 54fbab5a5bdc833408683a3ef1c0e611, type: 2}
+      Prefab: {fileID: 2215140198792297263, guid: 39cb19c356a3ef4438769984495682fe, type: 3}
+    - ResourceType: {fileID: 11400000, guid: 98f8c31c61a88ba499c267e6dfb86084, type: 2}
+      Prefab: {fileID: 8871655806179484850, guid: b6ce91a722d1754428d46044ca8ab513, type: 3}
+    - ResourceType: {fileID: 11400000, guid: e4e87e8bad84fa548a7b8bfc583af271, type: 2}
+      Prefab: {fileID: 8475972488907811713, guid: c3156f1b163d35e40a60bc2e5cbdb5f2, type: 3}
+    - ResourceType: {fileID: 11400000, guid: 3f09ebe44330ec042afd5b23b6863464, type: 2}
+      Prefab: {fileID: 7339366993331024085, guid: 7b8884182950aa84b875d8576bbf7e26, type: 3}
   _levelSettings:
     Graph:
       Dimensions: {x: 32, y: 30}

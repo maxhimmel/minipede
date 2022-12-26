@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Loot_PoisonBlock
   m_EditorClassIdentifier: 
   _settings:
-    Prefab: {fileID: 9037908128424353492, guid: 0002196434ec4f74cac3f800346ab4c5, type: 3}
+    Prefab: {fileID: 1912857232853727992, guid: 0002196434ec4f74cac3f800346ab4c5, type: 3}
     LaunchImpulse: {x: 2.0064018, y: 4.3468695}
     Spawns:
       _allowEmptyRolls: 0

@@ -142,7 +142,7 @@ namespace Minipede.Gameplay.Player
 
 		public void Collect( Treasure treasure )
 		{
-			_inventory.CollectTreasure( treasure );
+			_inventory.Collect( treasure.Resource );
 			treasure.Cleanup();
 		}
 

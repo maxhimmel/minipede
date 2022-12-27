@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57aecc61c22605540a0dea73b5ee7261, type: 3}
+  m_Name: CheatSettings
+  m_EditorClassIdentifier: 
+  _settings:
+    UseWalletCheat: 1
+    Wallet:
+    - PreLoad: 6
+      ResourceType: {fileID: 11400000, guid: 3f09ebe44330ec042afd5b23b6863464, type: 2}
+    - PreLoad: 6
+      ResourceType: {fileID: 11400000, guid: 54fbab5a5bdc833408683a3ef1c0e611, type: 2}
+    - PreLoad: 3
+      ResourceType: {fileID: 11400000, guid: e4e87e8bad84fa548a7b8bfc583af271, type: 2}
+    - PreLoad: 0
+      ResourceType: {fileID: 11400000, guid: 98f8c31c61a88ba499c267e6dfb86084, type: 2}

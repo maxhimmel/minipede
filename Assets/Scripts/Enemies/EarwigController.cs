@@ -45,7 +45,7 @@ namespace Minipede.Gameplay.Enemies
 						instructions
 							.Demolish()
 							.Destroy()
-							.Create( Block.Type.Poison );
+							.CreatePoisonMushroom();
 					}
 				}
 				else

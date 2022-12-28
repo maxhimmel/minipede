@@ -97,7 +97,7 @@ namespace Minipede.Gameplay.Enemies
 			_levelForeman.ClearQuery();
 			if ( _levelForeman.TryQueryEmptyBlock( cellCoord, out var instructions ) )
 			{
-				instructions.Create( Block.Type.Regular );
+				instructions.CreateStandardMushroom();
 				return true;
 			}
 

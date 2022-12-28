@@ -153,7 +153,7 @@ namespace Minipede.Gameplay.Enemies
 			// TODO: Can we do better than a crummy type comparison?
 				// The interface here isn't explicit or descriptive.
 				// Actually, it's non-existant.
-			return instructions.Cell.Block is PoisonBlock;
+			return instructions.Cell.Block is PoisonMushroom;
 		}
 
 		private async UniTask RushBottomRow()
@@ -243,7 +243,7 @@ namespace Minipede.Gameplay.Enemies
 			_levelForeman.ClearQuery();
 			if ( _levelForeman.TryQueryEmptyBlock( cellCoord, out var instructions ) )
 			{
-				instructions.Create( Block.Type.Regular );
+				instructions.CreateStandardMushroom();
 				return true;
 			}
 

@@ -44,7 +44,7 @@ namespace Minipede.Gameplay.Enemies
 			{
 				if ( _createBlockChance.DiceRoll() )
 				{
-					instructions.Create( Block.Type.Regular );
+					instructions.CreateStandardMushroom();
 				}
 			}
 		}

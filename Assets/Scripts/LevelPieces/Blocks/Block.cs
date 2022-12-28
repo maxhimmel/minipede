@@ -68,6 +68,8 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			while ( Health.Percentage < 1 )
 			{
+				// TODO: Fix null error breaking player from respawning:
+					// Something about THIS component being null - probably accessing the transforms below is what's breaking.
 				int healAmount = TakeDamage( transform, transform, _settings.Heal );
 				if ( healAmount != 0 )
 				{

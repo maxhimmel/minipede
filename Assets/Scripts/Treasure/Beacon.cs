@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -9,14 +10,18 @@ namespace Minipede.Gameplay.Treasures
 {
 	public class Beacon : Collectable<Beacon>
 	{
+		public CleansedAreaSet CleansedAreaSet { get; private set; }
+
 		private PositionConstraint _constraint;
 		private Light2D _light;
 		private List<Collider2D> _colliders = new List<Collider2D>( 1 );
 
 		[Inject]
-		public void Construct( PositionConstraint constraint,
+		public void Construct( CleansedAreaSet cleansedAreaSet,
+			PositionConstraint constraint,
 			Light2D light )
 		{
+			CleansedAreaSet = cleansedAreaSet;
 			_constraint = constraint;
 			_light = light;
 		}

@@ -19,6 +19,14 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1530993560611149906, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530993560611149906, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1648d9f5c3e7a104186935c7710dcaa2, type: 2}
     - target: {fileID: 1530993560611149909, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: m_RootOrder
       value: 0

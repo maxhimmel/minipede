@@ -32,6 +32,7 @@ namespace Minipede.Installers
 			BindCameraSystems();
 			BindPlayer();
 			BindLevelGeneration();
+			BindCleansing();
 			BindTreasure();
 			BindAudio();
 		}
@@ -130,6 +131,12 @@ namespace Minipede.Installers
 
 			Container.Bind<LevelForeman>()
 				.AsTransient();
+		}
+
+		private void BindCleansing()
+		{
+			Container.Bind<CleansedArea.Factory>()
+				.AsSingle();
 		}
 
 		private void BindTreasure()

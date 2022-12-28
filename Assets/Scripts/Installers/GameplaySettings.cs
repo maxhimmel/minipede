@@ -93,20 +93,39 @@ namespace Minipede.Installers
 
 		private void BindLevelGeneration()
 		{
+			Container.DeclareSignal<BlockSpawnedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BlockDestroyedSignal>()
+				.OptionalSubscriber();
+
+			/* --- */
+
 			Container.BindInstance( _levelSettings );
 
 			Container.BindInstance( _blockSettings.Settings )
-				.WhenInjectedInto<BlockActor>();
+				.WhenInjectedInto<Mushroom>();
 
-			Container.Bind<IBlockProvider>()
-				.To<BlockProvider>()
+			/* --- */
+
+			Container.BindInterfacesAndSelfTo<LevelMushroomHealer>()
+				.AsSingle();
+
+			Container.BindInterfacesAndSelfTo<LevelMushroomShifter>()
+				.AsSingle();
+
+			/* --- */
+
+			Container.Bind<BlockActor.Factory>()
 				.AsSingle()
-				.WithArguments( _blockSettings.Prefabs );
+				.WhenInjectedInto<LevelGraph>();
 
-			Container.BindFactory<BlockActor.Type, Vector2, Quaternion, BlockActor, BlockActor.Factory>()
-				.FromFactory<BlockActor.CustomFactory>();
+			Container.Bind<MushroomProvider>()
+				.AsSingle()
+				.WithArguments( _blockSettings.Mushrooms );
 
-			Container.Bind<LevelBuilder>()
+			/* --- */
+
+			Container.Bind<LevelGenerator>()
 				.AsSingle();
 
 			Container.Bind<LevelForeman>()
@@ -190,7 +209,7 @@ namespace Minipede.Installers
 			[TabGroup( "Setup" )]
 			public LevelGraph.Settings Graph;
 			[TabGroup( "Setup" )]
-			public LevelBuilder.Settings Builder;
+			public LevelGenerator.Settings Builder;
 
 			[TabGroup( "Spawning" ), Min( 0 )]
 			public float SpawnRate;
@@ -202,9 +221,9 @@ namespace Minipede.Installers
 		public struct Block
 		{
 			[HideLabel, FoldoutGroup( "Gameplay" )]
-			public BlockActor.Settings Settings;
+			public Mushroom.Settings Settings;
 			[BoxGroup( "Prefabs" ), HideLabel]
-			public BlockProvider.Settings Prefabs;
+			public MushroomProvider.Settings Mushrooms;
 		}
 
 		[System.Serializable]

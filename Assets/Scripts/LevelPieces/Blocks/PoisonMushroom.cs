@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces
 {
-    public class PoisonBlock : Block
+    public class PoisonMushroom : Mushroom
 	{
 		private PoisonTrailFactory _poisonTrailFactory;
 

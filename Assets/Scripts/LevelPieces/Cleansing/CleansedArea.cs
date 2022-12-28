@@ -21,6 +21,9 @@ namespace Minipede.Gameplay.LevelPieces
 			{
 				collider.enabled = true;
 			}
+
+			// TODO: What about the sprites?
+			// ...
 		}
 
 		public void Deactivate()
@@ -29,6 +32,9 @@ namespace Minipede.Gameplay.LevelPieces
 			{
 				collider.enabled = false;
 			}
+
+			// TODO: What about the sprites?
+			// ...
 		}
 
 		public class Factory : UnityPrefabFactory<CleansedArea>

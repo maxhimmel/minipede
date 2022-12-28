@@ -75,7 +75,7 @@ namespace Minipede.Gameplay.Enemies
 		{
 			if ( _levelForeman.TryQueryFilledBlock( _body.position, out var instructions ) )
 			{
-				if ( !instructions.IsBlockOfType( Block.Type.Flower ) )
+				if ( !instructions.IsFlower() )
 				{
 					instructions
 						.Destroy()

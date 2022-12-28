@@ -23,11 +23,17 @@ namespace Minipede.Utility
 				_mushroomProvider = mushroomProvider;
 			}
 
-			//public bool IsBlockOfType( Block.Type type )
-			//{
-			//	var block = _currentCell.Block;
-			//	return block.name.Contains( type.ToString() );
-			//}
+			public bool IsPoisoned()
+			{
+				var block = _currentCell.Block;
+				return block is PoisonMushroom;
+			}
+
+			public bool IsFlower()
+			{
+				var block = _currentCell.Block;
+				return block.name.Contains( "Flower" );
+			}
 		}
 
 		public class DemolishInstructions : InternalInstructions

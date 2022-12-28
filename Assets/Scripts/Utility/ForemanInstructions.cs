@@ -10,26 +10,30 @@ namespace Minipede.Utility
 		{
 			public LevelCell Cell => _currentCell;
 
-			protected readonly LevelBuilder _builder;
+			protected readonly LevelGraph _levelGraph;
 			protected readonly LevelCell _currentCell;
+			protected readonly MushroomProvider _mushroomProvider;
 
-			public InternalInstructions( LevelBuilder builder,
-				LevelCell currentCell )
+			public InternalInstructions( LevelGraph levelGraph,
+				LevelCell currentCell,
+				MushroomProvider mushroomProvider )
 			{
-				_builder = builder;
+				_levelGraph = levelGraph;
 				_currentCell = currentCell;
+				_mushroomProvider = mushroomProvider;
 			}
 
-			public bool IsBlockOfType( Block.Type type )
-			{
-				var block = _currentCell.Block;
-				return block.name.Contains( type.ToString() );
-			}
+			//public bool IsBlockOfType( Block.Type type )
+			//{
+			//	var block = _currentCell.Block;
+			//	return block.name.Contains( type.ToString() );
+			//}
 		}
 
 		public class DemolishInstructions : InternalInstructions
 		{
-			public DemolishInstructions( LevelBuilder builder, LevelCell currentCell ) : base( builder, currentCell )
+			public DemolishInstructions( LevelGraph levelGraph, LevelCell currentCell, MushroomProvider mushroomProvider ) 
+				: base( levelGraph, currentCell, mushroomProvider )
 			{
 			}
 
@@ -38,10 +42,8 @@ namespace Minipede.Utility
 			/// </summary>
 			public RefurbishInstructions Destroy()
 			{
-				var nextInstruction = RemoveBlock( out var block );				
-				block.Cleanup();
-
-				return nextInstruction;
+				_currentCell.Block.Cleanup();
+				return new RefurbishInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			}
 
 			/// <summary>
@@ -49,32 +51,40 @@ namespace Minipede.Utility
 			/// </summary>
 			public RefurbishInstructions Kill( Transform instigator, Transform causer )
 			{
-				var nextInstruction = RemoveBlock( out var block );
-				block.TakeDamage( instigator, causer, KillInvoker.Kill );
-				
-				return nextInstruction;
-			}
-
-			private RefurbishInstructions RemoveBlock( out Block removedBlock )
-			{
-				var cellCoord = _currentCell.CellCoord;
-				removedBlock = _builder.RemoveBlock( cellCoord.Row(), cellCoord.Col() );
-
-				return new RefurbishInstructions( _builder, _currentCell );
+				_currentCell.Block.TakeDamage( instigator, causer, KillInvoker.Kill );
+				return new RefurbishInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			}
 		}
 
 		public class RefurbishInstructions : InternalInstructions
 		{
-			public RefurbishInstructions( LevelBuilder builder, LevelCell currentCell ) : base( builder, currentCell )
+			public RefurbishInstructions( LevelGraph levelGraph, LevelCell currentCell, MushroomProvider mushroomProvider )
+				: base( levelGraph, currentCell, mushroomProvider )
 			{
 			}
 
-			public DemolishInstructions Create( Block.Type type )
+			public DemolishInstructions CreateStandardMushroom()
 			{
-				_builder.CreateBlock( type, _currentCell );
+				var mushroomPrefab = _mushroomProvider.GetStandardAsset();
+				_levelGraph.CreateBlock( mushroomPrefab, _currentCell.CellCoord.Row(), _currentCell.CellCoord.Col() );
 
-				return new DemolishInstructions( _builder, _currentCell );
+				return new DemolishInstructions( _levelGraph, _currentCell, _mushroomProvider );
+			}
+
+			public DemolishInstructions CreatePoisonMushroom()
+			{
+				var mushroomPrefab = _mushroomProvider.GetPoisonAsset();
+				_levelGraph.CreateBlock( mushroomPrefab, _currentCell.CellCoord.Row(), _currentCell.CellCoord.Col() );
+
+				return new DemolishInstructions( _levelGraph, _currentCell, _mushroomProvider );
+			}
+
+			public DemolishInstructions CreateFlowerMushroom()
+			{
+				var mushroomPrefab = _mushroomProvider.GetFlowerAsset();
+				_levelGraph.CreateBlock( mushroomPrefab, _currentCell.CellCoord.Row(), _currentCell.CellCoord.Col() );
+
+				return new DemolishInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			}
 		}
 
@@ -83,20 +93,21 @@ namespace Minipede.Utility
 			public bool IsEmpty => !IsFilled;
 			public bool IsFilled => _currentCell.Block != null;
 
-			public AllInstructions( LevelBuilder builder, LevelCell currentCell ) : base( builder, currentCell )
+			public AllInstructions( LevelGraph levelGraph, LevelCell currentCell, MushroomProvider mushroomProvider )
+				: base( levelGraph, currentCell, mushroomProvider )
 			{
 			}
 
 			public DemolishInstructions Demolish()
 			{
 				Debug.Assert( IsFilled, $"Cannot create demolish instructions for a cell that isn't filled." );
-				return new DemolishInstructions( _builder, _currentCell );
+				return new DemolishInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			}
 
 			public RefurbishInstructions Refurbish()
 			{
 				Debug.Assert( IsEmpty, $"Cannot create refurbish instructions for a cell that isn't empty." );
-				return new RefurbishInstructions( _builder, _currentCell );
+				return new RefurbishInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			}
 		}
 	}

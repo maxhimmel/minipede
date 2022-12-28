@@ -5,13 +5,16 @@ namespace Minipede.Utility
 {
     public partial class LevelForeman
 	{
-		private readonly LevelBuilder _builder;
+		private readonly LevelGraph _levelGraph;
+		private readonly MushroomProvider _mushroomProvider;
 
 		private LevelCell _currentCell;
 
-		public LevelForeman( LevelBuilder levelBuilder )
+		public LevelForeman( LevelGraph levelGraph,
+			MushroomProvider mushroomProvider )
 		{
-			_builder = levelBuilder;
+			_levelGraph = levelGraph;
+			_mushroomProvider = mushroomProvider;
 		}
 
 		public void ClearQuery()
@@ -29,7 +32,7 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new DemolishInstructions( _builder, _currentCell );
+			instructions = new DemolishInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			return true;
 		}
 
@@ -41,7 +44,7 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new DemolishInstructions( _builder, _currentCell );
+			instructions = new DemolishInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			return true;
 		}
 
@@ -55,7 +58,7 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new RefurbishInstructions( _builder, _currentCell );
+			instructions = new RefurbishInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			return true;
 		}
 
@@ -67,7 +70,7 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new RefurbishInstructions( _builder, _currentCell );
+			instructions = new RefurbishInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			return true;
 		}
 
@@ -81,7 +84,7 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new AllInstructions( _builder, _currentCell );
+			instructions = new AllInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			return true;
 		}
 
@@ -93,7 +96,7 @@ namespace Minipede.Utility
 				return false;
 			}
 
-			instructions = new AllInstructions( _builder, _currentCell );
+			instructions = new AllInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			return true;
 		}
 
@@ -101,7 +104,7 @@ namespace Minipede.Utility
 
 		private bool TryQueryNewBlock( Vector2 worldPosition, out LevelCell data )
 		{
-			if ( _builder.TryGetCellData( worldPosition, out data ) && _currentCell != data )
+			if ( _levelGraph.TryGetCellData( worldPosition, out data ) && _currentCell != data )
 			{
 				_currentCell = data;
 				return true;
@@ -112,7 +115,7 @@ namespace Minipede.Utility
 
 		private bool TryQueryNewBlock( Vector2Int cellCoord, out LevelCell data )
 		{
-			data = _builder.GetCellData( cellCoord.Row(), cellCoord.Col() );
+			data = _levelGraph.GetCellData( cellCoord.Row(), cellCoord.Col() );
 			if ( data != null && _currentCell != data )
 			{
 				_currentCell = data;

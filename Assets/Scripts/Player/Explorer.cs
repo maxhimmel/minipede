@@ -82,6 +82,16 @@ namespace Minipede.Gameplay.Player
 			_treasureHauler.CollectAll( collector );
 		}
 
+		public bool TryGetHauledBeacon( out Beacon beacon )
+		{
+			return _treasureHauler.TryGetFirst( out beacon );
+		}
+
+		public void ReleaseTreasure( Haulable haulable )
+		{
+			_treasureHauler.ReleaseTreasure( haulable );
+		}
+
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
 			return _damageController.TakeDamage( instigator, causer, data );

@@ -203,7 +203,7 @@ namespace Minipede.Installers
 
 			[FoldoutGroup( "Explorer" ), HideLabel]
 			public ExplorerController.Settings Explorer;
-			[FoldoutGroup( "Explorer" )]
+			[FoldoutGroup( "Explorer" ), Space]
 			public TreasureHauler.Settings Hauling;
 
 			[FoldoutGroup( "Upgrading" )]

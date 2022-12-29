@@ -69,7 +69,7 @@ namespace Minipede.Gameplay.LevelPieces
 				var startCell = _levelGraph.GetCellData( startCoord.Row(), startCoord.Col() );
 
 				Vector2Int destCoord = startCoord + direction.ToRowCol();
-				if ( _levelGraph.IsCellCoordValid( destCoord.Row(), destCoord.Col() ) )
+				if ( CanShiftToCoord( destCoord.Row(), destCoord.Col() ) )
 				{
 					var destCell = _levelGraph.GetCellData( destCoord.Row(), destCoord.Col() );
 					destCell.Block = mushroom;
@@ -93,6 +93,18 @@ namespace Minipede.Gameplay.LevelPieces
 					mushroom.Cleanup();
 				}
 			}
+		}
+
+		private bool CanShiftToCoord( int row, int col )
+		{
+			var cell = _levelGraph.GetCellData( row, col );
+			if ( cell == null )
+			{
+				return false;
+			}
+
+			bool isLighthouse = cell.Block is Lighthouse;
+			return !isLighthouse;
 		}
 	}
 }

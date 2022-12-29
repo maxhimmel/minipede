@@ -64,6 +64,14 @@ namespace Minipede.Gameplay.Treasures
 			HaulAmountChanged?.Invoke( 0 );
 		}
 
+		public void ReleaseTreasure( Haulable haulable )
+		{
+			if ( _haulingTreasures.Remove( haulable ) )
+			{
+				_treasuresWithinRange.Remove( haulable );
+			}
+		}
+
 		public void StartReleasingTreasure()
 		{
 			_isReleasingTreasures = true;
@@ -169,6 +177,36 @@ namespace Minipede.Gameplay.Treasures
 		public float GetHauledTreasureWeight()
 		{
 			return _haulWeight * _settings.WeightScalar;
+		}
+
+		public bool TryGetFirst<THaulable>( out THaulable result )
+			where THaulable : Haulable
+		{
+			foreach ( var haulable in _haulingTreasures )
+			{
+				if ( haulable is THaulable first )
+				{
+					result = first;
+					return true;
+				}
+			}
+
+			result = null;
+			return false;
+		}
+
+		public bool IsHaulingType<THaulable>()
+			where THaulable : Haulable
+		{
+			foreach ( var haulable in _haulingTreasures )
+			{
+				if ( haulable is THaulable )
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		[System.Serializable]

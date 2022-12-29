@@ -7,10 +7,13 @@ namespace Minipede.Cheats
 		[System.Serializable]
 		public struct Settings
 		{
-			[ToggleGroup( "UseWalletCheat", "Wallet" )]
+			[ToggleGroup( "UseWalletCheat", "Wallet", CollapseOthersOnExpand = false )]
 			public bool UseWalletCheat;
 			[ToggleGroup( "UseWalletCheat" ), TableList( AlwaysExpanded = true ), HideLabel]
 			public WalletCheat.Settings[] Wallet;
+
+			[ToggleGroup( "UseMushroomShifterCheat", "Mushroom Shifter (use arrow keys)", CollapseOthersOnExpand = false )]
+			public bool UseMushroomShifterCheat;
 		}
 	}
 }

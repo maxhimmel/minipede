@@ -34,6 +34,12 @@ namespace Minipede.Utility
 				var block = _currentCell.Block;
 				return block.name.Contains( "Flower" );
 			}
+
+			public bool IsMushroom()
+			{
+				var block = _currentCell.Block;
+				return block is Mushroom;
+			}
 		}
 
 		public class DemolishInstructions : InternalInstructions

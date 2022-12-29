@@ -40,7 +40,7 @@ namespace Minipede.Gameplay.Enemies
 			{
 				if ( instructions.IsFilled )
 				{
-					if ( !instructions.IsPoisoned() )
+					if ( instructions.IsMushroom() && !instructions.IsPoisoned() )
 					{
 						instructions
 							.Demolish()

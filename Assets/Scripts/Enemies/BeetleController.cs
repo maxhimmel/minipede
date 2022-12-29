@@ -75,7 +75,7 @@ namespace Minipede.Gameplay.Enemies
 		{
 			if ( _levelForeman.TryQueryFilledBlock( _body.position, out var instructions ) )
 			{
-				if ( !instructions.IsFlower() )
+				if ( instructions.IsMushroom() && !instructions.IsFlower() )
 				{
 					instructions
 						.Destroy()

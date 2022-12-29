@@ -10,18 +10,18 @@ namespace Minipede.Gameplay.Treasures
 {
 	public class Beacon : Collectable<Beacon>
 	{
-		public CleansedAreaSet CleansedAreaSet { get; private set; }
+		public ICleansedAreaProvider CleansedAreaProvider { get; private set; }
 
 		private PositionConstraint _constraint;
 		private Light2D _light;
 		private List<Collider2D> _colliders = new List<Collider2D>( 1 );
 
 		[Inject]
-		public void Construct( CleansedAreaSet cleansedAreaSet,
+		public void Construct( ICleansedAreaProvider cleansedAreaProvider,
 			PositionConstraint constraint,
 			Light2D light )
 		{
-			CleansedAreaSet = cleansedAreaSet;
+			CleansedAreaProvider = cleansedAreaProvider;
 			_constraint = constraint;
 			_light = light;
 		}

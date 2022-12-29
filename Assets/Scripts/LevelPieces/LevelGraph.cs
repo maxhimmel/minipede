@@ -189,17 +189,19 @@ namespace Minipede.Gameplay.LevelPieces
 			return _graph.GetCell( row, col );
 		}
 
-		public Block CreateBlock( Block prefab, Vector2 position )
+		public TBlock CreateBlock<TBlock>( TBlock prefab, Vector2 position )
+			where TBlock : Block
 		{
 			var cellCoord = WorldPosToCellCoord( position );
 			return CreateBlock( prefab, cellCoord.Row(), cellCoord.Col() );
 		}
 
-		public Block CreateBlock( Block prefab, int row, int column )
+		public TBlock CreateBlock<TBlock>( TBlock prefab, int row, int column )
+			where TBlock : Block
 		{
 			var cell = GetCellData( row, column );
 
-			var newBlock = _blockFactory.Create( prefab, new Orientation( cell.Center ) );
+			var newBlock = _blockFactory.Create( prefab, new Orientation( cell.Center ) ) as TBlock;
 			newBlock.transform.SetParent( transform );
 
 			cell.Block = newBlock;

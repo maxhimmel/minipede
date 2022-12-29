@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces
 {
-	public partial class Block : MonoBehaviour,
+	public class Block : MonoBehaviour,
 		IDamageController,
 		ICleanup
 	{

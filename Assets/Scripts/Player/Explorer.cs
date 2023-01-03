@@ -10,7 +10,7 @@ namespace Minipede.Gameplay.Player
 		IPawn,
 		IDamageController,
 		ICleanup
-    {
+	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
 			remove => _damageController.Damaged -= value;
@@ -23,11 +23,13 @@ namespace Minipede.Gameplay.Player
 		public HealthController Health => _damageController.Health;
 		public Rigidbody2D Body => _body;
 		public IOrientation Orientation => new Orientation( _body.position, _body.transform.rotation, _body.transform.parent );
+		public ISelectable CurrentInteractable => _interactionSelector.Selectable;
 
 		private IDamageController _damageController;
 		private IMotor _motor;
 		private Rigidbody2D _body;
 		private TreasureHauler _treasureHauler;
+		private InteractionSelector _interactionSelector;
 
 		private Vector2 _moveInput;
 		private bool _isMoveInputConsumed;
@@ -37,18 +39,21 @@ namespace Minipede.Gameplay.Player
 		public void Construct( IDamageController damageController,
 			IMotor motor,
 			Rigidbody2D body,
-			TreasureHauler treasureHauler )
+			TreasureHauler treasureHauler,
+			InteractionSelector interactionSelector )
 		{
             _damageController = damageController;
 			_motor = motor;
 			_body = body;
 			_treasureHauler = treasureHauler;
+			_interactionSelector = interactionSelector;
 
 			damageController.Died += OnDied;
 		}
 
-		public void EnterShip()
+		public void EnterShip( Ship ship )
 		{
+			_treasureHauler.CollectAll( ship.Body );
 			Cleanup();
 		}
 
@@ -75,11 +80,6 @@ namespace Minipede.Gameplay.Player
 		public void StopReleasingTreasure()
 		{
 			_treasureHauler.StopReleasingTreasure();
-		}
-
-		public void CollectAllTreasure( Rigidbody2D collector )
-		{
-			_treasureHauler.CollectAll( collector );
 		}
 
 		public bool TryGetHauledBeacon( out Beacon beacon )

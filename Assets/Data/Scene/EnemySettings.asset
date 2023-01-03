@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64222a241a1f1a440b2509a86331700e, type: 3}
   m_Name: EnemySettings
   m_EditorClassIdentifier: 
+  _speedScalarId: EnemySpeedScalar
   _damage:
     HitMask:
       serializedVersion: 2
       m_Bits: 1032
     Type:
       rid: 2970565195839569930
-  _speedScalarId: EnemySpeedScalar
   _enemyInstallers:
   - {fileID: 11400000, guid: e0067d59680a90a43b940c63bc6f09aa, type: 2}
   - {fileID: 11400000, guid: 7056a500decee1c498b91f099097c896, type: 2}

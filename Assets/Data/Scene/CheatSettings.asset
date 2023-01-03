@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CheatSettings
   m_EditorClassIdentifier: 
   _settings:
-    UseWalletCheat: 0
+    UseWalletCheat: 1
     Wallet:
     - PreLoad: 6
       ResourceType: {fileID: 11400000, guid: 3f09ebe44330ec042afd5b23b6863464, type: 2}
@@ -23,3 +23,4 @@ MonoBehaviour:
       ResourceType: {fileID: 11400000, guid: e4e87e8bad84fa548a7b8bfc583af271, type: 2}
     - PreLoad: 0
       ResourceType: {fileID: 11400000, guid: 98f8c31c61a88ba499c267e6dfb86084, type: 2}
+    UseMushroomShifterCheat: 1

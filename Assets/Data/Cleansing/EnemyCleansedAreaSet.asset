@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ebfd9ad8560fed41bd153f1c9cb6153, type: 3}
+  m_Name: EnemyCleansedAreaSet
+  m_EditorClassIdentifier: 
+  _sampler:
+    Prefabs:
+    - {fileID: 1901888739773532990, guid: 559ad98a7f959f94a8472ac8733c76c2, type: 3}

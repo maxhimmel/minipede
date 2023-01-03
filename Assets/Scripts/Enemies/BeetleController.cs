@@ -12,16 +12,16 @@ namespace Minipede.Gameplay.Enemies
 	{
 		private Settings _settings;
 		private IRemoteMotor _motor;
-		private LevelBuilder _levelBuilder;
+		private LevelMushroomShifter _blockShifter;
 
 		[Inject]
 		public void Construct( Settings settings,
 			IRemoteMotor motor,
-			LevelBuilder levelBuilder )
+			LevelMushroomShifter blockShifter )
 		{
 			_settings = settings;
 			_motor = motor;
-			_levelBuilder = levelBuilder;
+			_blockShifter = blockShifter;
 		}
 
 		public override async void OnSpawned()
@@ -75,11 +75,11 @@ namespace Minipede.Gameplay.Enemies
 		{
 			if ( _levelForeman.TryQueryFilledBlock( _body.position, out var instructions ) )
 			{
-				if ( !instructions.IsBlockOfType( Block.Type.Flower ) )
+				if ( instructions.IsMushroom() && !instructions.IsFlower() )
 				{
 					instructions
 						.Destroy()
-						.Create( Block.Type.Flower );
+						.CreateFlowerMushroom();
 				}
 			}
 		}
@@ -98,7 +98,7 @@ namespace Minipede.Gameplay.Enemies
 		{
 			base.OnDied( victimBody, health );
 
-			_levelBuilder.MoveBlocks( Vector2Int.down );
+			_blockShifter.ShiftAll( Vector2Int.down );
 		}
 
 		protected override void FixedTick()

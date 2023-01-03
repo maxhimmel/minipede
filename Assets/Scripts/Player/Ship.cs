@@ -13,7 +13,8 @@ namespace Minipede.Gameplay.Player
 		IPawn<Ship, ShipController>,
 		IDamageController,
 		ICollector<Treasure>,
-		ICollector<Beacon>
+		ICollector<Beacon>,
+		ISelectable
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -35,12 +36,14 @@ namespace Minipede.Gameplay.Player
 		private PlayerController _playerController;
 		private Inventory _inventory;
 		private SpriteRenderer _renderer;
+		private SpriteRenderer _selector;
 		private TargetGroupAttachment _audioListenerTarget;
 		private SignalBus _signalBus;
 
 		private bool _isMoveInputConsumed;
 		private Vector2 _moveInput;
 		private Beacon _equippedBeacon;
+		private bool _isPiloted;
 
 		[Inject]
         public void Construct( IMotor motor,
@@ -50,6 +53,7 @@ namespace Minipede.Gameplay.Player
 			PlayerController playerController,
 			Inventory inventory,
 			SpriteRenderer renderer,
+			[Inject( Id = "Selector" )] SpriteRenderer selector,
 			List<TargetGroupAttachment> targetGroups,
 			SignalBus signalBus )
 		{
@@ -60,6 +64,7 @@ namespace Minipede.Gameplay.Player
 			_playerController = playerController;
 			_inventory = inventory;
 			_renderer = renderer;
+			_selector = selector;
 			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
 			_signalBus = signalBus;
 
@@ -68,6 +73,11 @@ namespace Minipede.Gameplay.Player
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
+			if ( !_isPiloted )
+			{
+				return 0;
+			}
+
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
@@ -81,14 +91,14 @@ namespace Minipede.Gameplay.Player
 
 		public void PossessedBy( ShipController controller )
 		{
-			_body.simulated = true;
+			_isPiloted = true;
 			_renderer.color = Color.white;
 			_audioListenerTarget.enabled = true;
 		}
 
 		public void UnPossess()
 		{
-			_body.simulated = false;
+			_isPiloted = false;
 			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
 			_audioListenerTarget.enabled = false;
 
@@ -140,26 +150,40 @@ namespace Minipede.Gameplay.Player
 			_gun.FixedTick();
 		}
 
-		public void Collect( Treasure treasure )
+		public bool Collect( Treasure treasure )
 		{
+			if ( !_isPiloted )
+			{
+				return false;
+			}
+
 			_inventory.Collect( treasure.Resource );
 			treasure.Cleanup();
+
+			return true;
 		}
 
-		public void Collect( Beacon beacon )
+		public bool Collect( Beacon beacon )
 		{
-			beacon.StopFollowing();
-
-			if ( !IsBeaconEquipped() )
+			if ( _isPiloted )
 			{
-				beacon.Equip( _body );
-				_equippedBeacon = beacon;
+				beacon.StopFollowing();
 
-				_signalBus.TryFire( new BeaconEquippedSignal()
+				if ( !IsBeaconEquipped() )
 				{
-					Beacon = beacon
-				} );
+					beacon.Equip( _body );
+					_equippedBeacon = beacon;
+
+					_signalBus.TryFire( new BeaconEquippedSignal()
+					{
+						Beacon = beacon
+					} );
+
+					return true;
+				}
 			}
+
+			return false;
 		}
 
 		public void UnequipBeacon()
@@ -181,6 +205,21 @@ namespace Minipede.Gameplay.Player
 		public bool ToggleInventory()
 		{
 			return _inventory.ToggleVisibility();
+		}
+
+		public bool CanBeInteracted()
+		{
+			return !_isPiloted;
+		}
+
+		public void Select()
+		{
+			_selector.enabled = true;
+		}
+
+		public void Deselect()
+		{
+			_selector.enabled = false;
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

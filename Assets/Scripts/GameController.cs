@@ -18,29 +18,35 @@ namespace Minipede.Gameplay
 
 		private readonly GameplaySettings.Player _playerSettings;
 		private readonly PlayerController _playerSpawnController;
-		private readonly LevelBuilder _levelBuilder;
+		private readonly LevelGenerator _levelGenerator;
 		private readonly EnemyWaveController _enemyWaveController;
 		private readonly AudioBankLoader _audioBankLoader;
+		private readonly LevelMushroomHealer _mushroomHealer;
 
 		public GameController( GameplaySettings.Player playerSettings,
 			PlayerController playerSpawnController,
-			LevelBuilder levelBuilder,
+			LevelGenerator levelGenerator,
 			EnemyWaveController enemyWaveController,
-			AudioBankLoader audioBankLoader )
+			AudioBankLoader audioBankLoader,
+			LevelMushroomHealer mushroomHealer )
 		{
 			_playerSettings = playerSettings;
 			_playerSpawnController = playerSpawnController;
-			_levelBuilder = levelBuilder;
+			_levelGenerator = levelGenerator;
 			_enemyWaveController = enemyWaveController;
 			_audioBankLoader = audioBankLoader;
+			_mushroomHealer = mushroomHealer;
 
 			playerSpawnController.ShipDied += OnPlayerDead;
 		}
 
 		public async void Initialize()
 		{
+			// Let's wait a single frame to allow other initializables to subscribe ...
+			await UniTask.Yield();
+
 			await _audioBankLoader.LoadBanks();
-			await _levelBuilder.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
+			await _levelGenerator.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
 
 			_playerSpawnController.CreateShip();
 			_enemyWaveController.Play();
@@ -52,7 +58,7 @@ namespace Minipede.Gameplay
 		{
 			_enemyWaveController.Interrupt();
 
-			await _levelBuilder.HealBlocks();
+			await _mushroomHealer.HealAll();
 			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay );
 
 			_playerSpawnController.CreateShip();

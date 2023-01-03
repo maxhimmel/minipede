@@ -20,6 +20,12 @@ namespace Minipede.Installers
 					.WithArguments( _settings.Wallet );
 			}
 
+			if ( _settings.UseMushroomShifterCheat )
+			{
+				Container.BindInterfacesAndSelfTo<MushroomShifterCheat>()
+					.AsSingle();
+			}
+
 			Container.BindInterfacesAndSelfTo<CheatController>()
 				.AsSingle()
 				.WithArguments( _settings );

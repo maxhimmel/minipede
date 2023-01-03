@@ -75,7 +75,7 @@ namespace Minipede.Utility
 		[Inject]
 		private readonly DiContainer _container;
 
-		public TValue Create( Object prefab, IOrientation placement, IEnumerable<object> extraArgs = null )
+		public virtual TValue Create( Object prefab, IOrientation placement, IEnumerable<object> extraArgs = null )
 		{
 			if ( extraArgs == null )
 			{

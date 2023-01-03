@@ -10,13 +10,28 @@ namespace Minipede.Gameplay.LevelPieces
 	{
 		public Settings Data { get; private set; }
 
+		private Block.Factory _blockFactory;
+		private Graph<LevelCell> _graph;
+
 		private Vector2 _initialOrigin;
 		private Vector2 _localOrigin;
 
 		[Inject]
-		public void Construct( GameplaySettings.Level settings )
+		public void Construct( GameplaySettings.Level settings,
+			Block.Factory blockFactory )
 		{
 			Data = settings.Graph;
+			_blockFactory = blockFactory;
+
+			_graph = new Graph<LevelCell>(
+				settings.Graph.Dimensions.Row(),
+				settings.Graph.Dimensions.Col(),
+				( row, col ) =>
+				{
+					Vector2Int rowCol = VectorExtensions.CreateRowCol( row, col );
+					Vector2 worldPos = CellCoordToWorldPos( rowCol );
+					return new LevelCell( rowCol, worldPos );
+				} );
 
 			TryUpdateLocalOriginCache( forceUpdate: true );
 		}
@@ -109,7 +124,7 @@ namespace Minipede.Gameplay.LevelPieces
 			return (int)Mathf.Sign( dot );
 		}
 
-		public Vector2 GetCenter()
+		private Vector2 GetCenter()
 		{
 			Vector2 pivot = transform.position;
 			Vector2 extents = 0.5f * new Vector2( 
@@ -118,6 +133,80 @@ namespace Minipede.Gameplay.LevelPieces
 			);
 
 			return pivot + extents + Data.Offset;
+		}
+
+		public void RemoveBlock( Block block )
+		{
+			var blockCoords = WorldPosToCellCoord( block.transform.position );
+			var cellData = GetCellData( blockCoords.Row(), blockCoords.Col() );
+
+			if ( cellData != null )
+			{
+				cellData.Block = null;
+			}
+		}
+
+		public bool TryGetCellData( Vector2 worldPosition, out LevelCell cellData )
+		{
+			Vector2Int cellCoord = WorldPosToCellCoord( worldPosition );
+			cellData = GetCellData( cellCoord.Row(), cellCoord.Col() );
+
+			return cellData != null;
+		}
+
+		public LevelCell GetCellData( int row, int col )
+		{
+			if ( !IsCellCoordValid( row, col ) )
+			{
+				return null;
+			}
+
+			return GetCell( row, col ).Item;
+		}
+
+		public bool IsCellCoordValid( int row, int col )
+		{
+			if ( row < 0 || row >= Data.Dimensions.Row() )
+			{
+				return false;
+			}
+			if ( col < 0 || col >= Data.Dimensions.Col() )
+			{
+				return false;
+			}
+
+			// Prevent any blocks from spawning on the very first row ...
+			if ( row <= 0 )
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public Graph<LevelCell>.Cell GetCell( int row, int col )
+		{
+			return _graph.GetCell( row, col );
+		}
+
+		public TBlock CreateBlock<TBlock>( TBlock prefab, Vector2 position )
+			where TBlock : Block
+		{
+			var cellCoord = WorldPosToCellCoord( position );
+			return CreateBlock( prefab, cellCoord.Row(), cellCoord.Col() );
+		}
+
+		public TBlock CreateBlock<TBlock>( TBlock prefab, int row, int column )
+			where TBlock : Block
+		{
+			var cell = GetCellData( row, column );
+
+			var newBlock = _blockFactory.Create( prefab, new Orientation( cell.Center ) ) as TBlock;
+			newBlock.transform.SetParent( transform );
+
+			cell.Block = newBlock;
+
+			return newBlock;
 		}
 
 		[System.Serializable]

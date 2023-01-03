@@ -4,9 +4,9 @@ namespace Minipede.Utility
 {
     public struct Orientation : IOrientation
     {
-        public Vector2 Position { get; }
-        public Quaternion Rotation { get; }
-        public Transform Parent { get; }
+        public Vector2 Position { get; set; }
+        public Quaternion Rotation { get; set; }
+        public Transform Parent { get; set; }
 
         public Orientation( Vector2 position, Quaternion rotation, Transform parent )
         {

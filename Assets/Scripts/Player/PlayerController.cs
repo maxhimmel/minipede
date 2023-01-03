@@ -80,7 +80,6 @@ namespace Minipede.Gameplay.Player
 			_explorer.Died += OnExplorerDied;
 
 			_explorerController.Possess( _explorer );
-			_explorerController.SetShip( _ship, _shipController );
 
 			return _explorer;
 		}

@@ -22,12 +22,13 @@ namespace Minipede.Gameplay.Treasures
 			var collector = otherBody?.GetComponent<ICollector<TCollectable>>();
 			if ( collector != null )
 			{
-				_signalBus.FireId( "Collected", new FxSignal(
-					_body.position,
-					collision.rigidbody.transform
-				) );
-
-				collector.Collect( GetCollectable() );
+				if ( collector.Collect( GetCollectable() ) )
+				{
+					_signalBus.FireId( "Collected", new FxSignal(
+						_body.position,
+						collision.rigidbody.transform
+					) );
+				}
 			}
 		}
 

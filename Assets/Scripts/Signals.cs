@@ -1,6 +1,19 @@
 using Minipede.Utility;
 using UnityEngine;
 
+namespace Minipede.Gameplay.LevelPieces
+{
+	public class BlockSpawnedSignal
+	{
+		public Block NewBlock;
+	}
+
+	public class BlockDestroyedSignal
+	{
+		public Block Victim;
+	}
+}
+
 namespace Minipede.Gameplay.Enemies
 {
 	public class EnemyDestroyedSignal

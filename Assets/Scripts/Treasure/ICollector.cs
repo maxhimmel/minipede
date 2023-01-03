@@ -2,6 +2,7 @@ namespace Minipede.Gameplay.Treasures
 {
     public interface ICollector<TCollectable>
 	{
-		void Collect( TCollectable collectable );
+		/// <returns>True if collected.</returns>
+		bool Collect( TCollectable collectable );
 	}
 }

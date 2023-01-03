@@ -1,13 +1,12 @@
-using Cysharp.Threading.Tasks;
-using Minipede.Gameplay.Treasures;
+using Minipede.Installers;
 using Minipede.Utility;
-using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces
 {
-	public partial class Block : MonoBehaviour,
+	public class Block : MonoBehaviour,
 		IDamageController,
 		ICleanup
 	{
@@ -22,32 +21,36 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public HealthController Health => _damageController.Health;
 
-		private Settings _settings;
 		private IDamageController _damageController;
-		private LootBox _lootBox;
+		private LevelGraph _levelGraph;
+		private SignalBus _signalBus;
 
 		private bool _isCleanedUp;
 
 		[Inject]
-		public void Construct( Settings settings,
-			IDamageController damageController,
-			LootBox lootBox )
+		public void Construct( IDamageController damageController,
+			LevelGraph levelGraph,
+			SignalBus signalBus )
 		{
-			_settings = settings;
 			_damageController = damageController;
-			_lootBox = lootBox;
+			_levelGraph = levelGraph;
+			_signalBus = signalBus;
 
 			damageController.Died += HandleDeath;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
+			OnTakeDamage( instigator, causer, data );
 			return _damageController.TakeDamage( instigator, causer, data );
+		}
+
+		protected virtual void OnTakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
+		{
 		}
 
 		protected virtual void HandleDeath( Rigidbody2D victimBody, HealthController health )
 		{
-			_lootBox.Open( victimBody.position );
 			Cleanup();
 		}
 
@@ -58,38 +61,47 @@ namespace Minipede.Gameplay.LevelPieces
 				return;
 			}
 
+			_isCleanedUp = true;
+
+			HandleCleanup();
+
 			_damageController.Died -= HandleDeath;
 
+			_levelGraph.RemoveBlock( this );
+
+			_signalBus.TryFire( new BlockDestroyedSignal() { Victim = this } );
+		}
+
+		protected virtual void HandleCleanup()
+		{
 			Destroy( gameObject );
-			_isCleanedUp = true;
 		}
 
-		public async UniTask Heal()
+		public class Factory : UnityPrefabFactory<Block>
 		{
-			while ( Health.Percentage < 1 )
+			[Inject]
+			private readonly GameplaySettings.Level _settings;
+
+			[Inject]
+			private readonly SignalBus _signalBus;
+
+			public override Block Create( Object prefab, IOrientation placement, IEnumerable<object> extraArgs = null )
 			{
-				// TODO: Fix null error breaking player from respawning:
-					// Something about THIS component being null - probably accessing the transforms below is what's breaking.
-				int healAmount = TakeDamage( transform, transform, _settings.Heal );
-				if ( healAmount != 0 )
+				var newBlock = base.Create( prefab, placement, extraArgs );
+
+				newBlock.transform.localScale = new Vector3(
+					_settings.Graph.Size.x,
+					_settings.Graph.Size.y,
+					1
+				);
+
+				_signalBus.TryFire( new BlockSpawnedSignal()
 				{
-					await TaskHelpers.DelaySeconds( _settings.DelayPerHealStep, this.GetCancellationTokenOnDestroy() )
-						.SuppressCancellationThrow();
-				}
+					NewBlock = newBlock
+				} );
+
+				return newBlock;
 			}
-		}
-
-		public virtual void OnMoving()
-		{
-		}
-
-		[System.Serializable]
-		public struct Settings
-		{
-			[HideLabel]
-			public HealInvoker.Settings Heal;
-
-			public float DelayPerHealStep;
 		}
 	}
 }

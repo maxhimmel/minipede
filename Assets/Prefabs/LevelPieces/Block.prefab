@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6093263636819055864}
-  - component: {fileID: 6093263636819055870}
   - component: {fileID: 6093263636819055865}
   - component: {fileID: 6093263636819055871}
   - component: {fileID: 2530257933576413001}
@@ -37,18 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6093263636819055870
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6093263636819055866}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9a6e531a0c5c6c49ad76fcac672148c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &6093263636819055865
 Rigidbody2D:
   serializedVersion: 4
@@ -185,7 +172,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.6415094, g: 0.14536601, b: 0.021181926, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -221,7 +208,7 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 160822549
   m_Mesh: {fileID: 0}
-  m_InstanceId: 41526
+  m_InstanceId: 32560
 --- !u!1 &6093263638259769376
 GameObject:
   m_ObjectHideFlags: 0

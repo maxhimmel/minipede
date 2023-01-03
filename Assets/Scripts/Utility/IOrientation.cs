@@ -4,8 +4,8 @@ namespace Minipede.Utility
 {
     public interface IOrientation
     {
-        Vector2 Position { get; }
-        Quaternion Rotation { get; }
-        Transform Parent { get; }
+        Vector2 Position { get; set; }
+        Quaternion Rotation { get; set; }
+        Transform Parent { get; set; }
     }
 }

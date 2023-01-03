@@ -35,7 +35,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 			// TODO: This wouldn't be checked here:
 				// It'd be placed within the FluffyEnemyINVOKER.
-				// Then within there it could do some casting to see if something can be "disabled."
+				// Then within there it could do some casting to some interface to see if it can be "disabled."
 			//if ( data is FluffyEnemy )
 			//{
 			//	_cleansedArea.Deactivate();

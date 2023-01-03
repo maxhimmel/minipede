@@ -19,9 +19,6 @@ namespace Minipede.Cheats
 
 		public void Initialize()
 		{
-			Debug.LogWarning( $"<color=orange>[Cheat]</color> " +
-				$"Initializing wallet cheat." );
-
 			foreach ( var setting in _settings )
 			{
 				for ( int idx = 0; idx < setting.PreLoad; ++idx )

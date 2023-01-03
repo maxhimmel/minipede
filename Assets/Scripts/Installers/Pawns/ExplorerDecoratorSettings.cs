@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = "Player/Explorer Decorators" )]
+    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Player/Explorer Decorators" )]
     public class ExplorerDecoratorSettings : ScriptableObjectInstaller
     {
 		[SerializeField] private TreasureHaulDecorator.Settings _hauling;

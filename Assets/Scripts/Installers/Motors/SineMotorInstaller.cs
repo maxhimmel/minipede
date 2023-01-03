@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Motors/" + nameof( SineMotor ) )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Motors/" + nameof( SineMotor ) )]
 	public class SineMotorInstaller :
 		ConfigurableInstaller<SineMotor, SineMotor.Settings>
 	{

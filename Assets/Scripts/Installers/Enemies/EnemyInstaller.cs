@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Enemies/Enemy" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Enemy" )]
     public class EnemyInstaller : ScriptableObjectInstaller
     {
 		protected System.Type EnemyType => _prefab.GetType();

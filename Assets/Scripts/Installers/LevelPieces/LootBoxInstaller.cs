@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Loot Box" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Collectables/LootBox" )]
 	public class LootBoxInstaller : ScriptableObjectInstaller
 	{
 		[HideLabel, BoxGroup]

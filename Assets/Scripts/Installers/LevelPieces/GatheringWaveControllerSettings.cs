@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Gathering Wave Settings" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/Gathering Wave Settings" )]
 	public class GatheringWaveControllerSettings : ScriptableObjectInstaller
 	{
 		[SerializeField] private GatheringWaveController.Settings _settings;

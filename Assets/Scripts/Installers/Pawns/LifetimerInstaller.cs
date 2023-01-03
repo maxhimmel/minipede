@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/LifetimerInstaller" )]
 	public class LifetimerInstaller : ScriptableObjectInstaller
 	{
 		public override void InstallBindings()

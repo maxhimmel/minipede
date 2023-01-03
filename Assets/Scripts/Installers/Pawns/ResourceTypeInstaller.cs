@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Resources/ResourceTypeInstaller" )]
 	public class ResourceTypeInstaller : ScriptableObjectInstaller
 	{
 		[SerializeField] private ResourceType _resource;

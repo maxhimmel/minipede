@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = "Target Group Attachment" )]
+    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/TargetGroupAttachment" )]
     public class TargetGroupAttachmentInstaller : ScriptableObjectInstaller
     {
         [SerializeField] private TargetGroupAttachment.Settings _settings;

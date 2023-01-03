@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Gun/Safety/Fire Rate" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Weapons/Gun/Safety/Fire Rate" )]
 	public class FireRateSafetyInstaller : GunModuleInstaller
 	{
         [SerializeField] private FireRateSafety.Settings _settings;

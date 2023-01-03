@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/CheatSettings" )]
     public class CheatSettings : ScriptableObjectInstaller
     {
 		[HideLabel]

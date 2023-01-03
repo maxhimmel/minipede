@@ -15,7 +15,7 @@ using BeaconActor = Minipede.Gameplay.Treasures.Beacon;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/GameplaySettings" )]
     public class GameplaySettings : ScriptableObjectInstaller
 	{
 		[SerializeField] private Player _playerSettings;

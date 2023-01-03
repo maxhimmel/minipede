@@ -2,7 +2,7 @@
 
 namespace Minipede.Gameplay.Treasures
 {
-	[CreateAssetMenu]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Resources/ResourceType" )]
 	public class ResourceType : ScriptableObject
 	{
 		public Color Color => _color;

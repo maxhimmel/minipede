@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Haulable" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Collectables/Haulable" )]
 	public class HaulableSettings : ScriptableObjectInstaller
 	{
 		[BoxGroup( "Hauling" ), HideLabel]

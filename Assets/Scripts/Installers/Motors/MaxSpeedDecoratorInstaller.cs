@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = "Motors/Decorators/Max Speed" )]
+    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Motors/Decorators/Max Speed" )]
     public class MaxSpeedDecoratorInstaller : ScriptableObjectInstaller
     {
 		[SerializeField] private string _id;

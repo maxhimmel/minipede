@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Gun/Safety/None" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Weapons/Gun/Safety/None" )]
 	public class NoSafetyInstaller : GunModuleInstaller
 	{
 		public override void InstallBindings()

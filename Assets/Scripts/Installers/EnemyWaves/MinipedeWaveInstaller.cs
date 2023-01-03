@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Waves/Minipede Wave" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Waves/Minipede Wave" )]
 	public class MinipedeWaveInstaller : EnemyWaveInstaller
     {
 		[SerializeField] private MinipedeWave.Settings _settings;

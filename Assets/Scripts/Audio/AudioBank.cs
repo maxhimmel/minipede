@@ -12,7 +12,7 @@ using Sirenix.Utilities.Editor;
 
 namespace Minipede.Gameplay.Audio
 {
-    [CreateAssetMenu( menuName = "Audio/Bank" )]
+    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Audio/Bank" )]
     public class AudioBank : ScriptableObject
     {
         public string Category => _category;

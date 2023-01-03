@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Gun/Gun" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Weapons/Gun/Gun" )]
     public class GunInstaller : ScriptableObjectInstaller
     {
 		[HideLabel]

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Gun/Safety/Limit Projectiles" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Weapons/Gun/Safety/Limit Projectiles" )]
 	public class LimitProjectilesSafetyInstaller : GunModuleInstaller
 	{
         [SerializeField] private LimitProjectilesSafety.Settings _settings;

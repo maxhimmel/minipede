@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = "Enemies/Minipede" )]
+    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Minipede" )]
     public class MinipedeInstaller : EnemyWithSettingsAndBehaviorInstaller
         <MinipedeController.Settings, MinipedeSpawnBehavior>
     {

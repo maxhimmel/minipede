@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Weapons/PoisonTrailInstaller" )]
 	public class PoisonTrailInstaller : PoisonVolumeInstaller
 	{
 		public override void InstallBindings()

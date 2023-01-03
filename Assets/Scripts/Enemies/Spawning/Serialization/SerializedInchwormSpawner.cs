@@ -2,7 +2,7 @@
 
 namespace Minipede.Gameplay.Enemies.Spawning.Serialization
 {
-	[CreateAssetMenu( menuName = "Enemies/Serialization/Inchworm Spawner" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Serialization/Inchworm Spawner" )]
 	public class SerializedInchwormSpawner : SerializedEnemySpawner<InchwormController>
 	{
 	}

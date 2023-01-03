@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = "Waves/Bee Stampede" )]
+    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Waves/Bee Stampede" )]
     public class BeeStampede : StampedeWaveInstaller<BeeController>
     {
     }

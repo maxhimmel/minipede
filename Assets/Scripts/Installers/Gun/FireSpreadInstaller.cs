@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Gun/Fire Spread" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Weapons/Gun/Fire Spread" )]
 	public class FireSpreadInstaller : GunModuleInstaller
 	{
 		[SerializeField] private FireSpread.Settings _settings;

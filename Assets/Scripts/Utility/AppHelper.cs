@@ -5,6 +5,8 @@ namespace Minipede
 {
 	public static class AppHelper
 	{
+		public const string MenuNamePrefix = "Minipede/";
+
 		public static bool IsQuitting => _isQuitting || !Application.isPlaying;
 		public static CancellationToken AppQuittingToken { get; private set; }
 

@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/SelectableMushroomInstaller" )]
 	public class SelectableMushroomInstaller : ScriptableObjectInstaller
 	{
 		public override void InstallBindings()

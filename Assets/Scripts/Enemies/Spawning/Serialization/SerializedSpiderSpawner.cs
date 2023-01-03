@@ -2,7 +2,7 @@
 
 namespace Minipede.Gameplay.Enemies.Spawning.Serialization
 {
-	[CreateAssetMenu( menuName = "Enemies/Serialization/Spider Spawner" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Serialization/Spider Spawner" )]
 	public class SerializedSpiderSpawner : SerializedEnemySpawner<SpiderController>
 	{
 	}

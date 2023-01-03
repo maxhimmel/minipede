@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Weapons/PoisonVolumeInstaller" )]
 	public class PoisonVolumeInstaller : ScriptableObjectInstaller
 	{
 		[HideLabel]

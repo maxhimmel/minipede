@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Damageables/DamageableInstaller" )]
     public class DamageableInstaller : ScriptableObjectInstaller
     {
 		[HideLabel]

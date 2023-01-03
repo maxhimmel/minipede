@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "FX Listener" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/FX Listener" )]
 	public class FxListenerSettings : ScriptableObjectInstaller
 	{
 		private bool IsFxIdValid => !string.IsNullOrEmpty( _fxId );

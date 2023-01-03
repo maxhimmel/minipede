@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/StatusEffectReceiverInstaller" )]
 	public class StatusEffectReceiverInstaller : ScriptableObjectInstaller
 	{
 		public override void InstallBindings()

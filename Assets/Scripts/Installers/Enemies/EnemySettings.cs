@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/EnemySettings" )]
     public partial class EnemySettings : ScriptableObjectInstaller
 	{
 		[FoldoutGroup( "Shared" )]

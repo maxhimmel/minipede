@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = "Gun/Accuracy/Angle Adjuster" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Weapons/Gun/Accuracy/Angle Adjuster" )]
 	public class AngleDirectionAdjusterInstaller : GunModuleInstaller
 	{
 		[SerializeField] private AngleDirectionAdjuster.Settings _settings;

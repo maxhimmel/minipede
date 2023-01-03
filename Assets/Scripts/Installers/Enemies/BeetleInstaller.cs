@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = "Enemies/Beetle" )]
+    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Beetle" )]
     public class BeetleInstaller : EnemyWithSettingsInstaller<BeetleController.Settings>
     {
     }

@@ -14,6 +14,9 @@ namespace Minipede.Cheats
 
 			[ToggleGroup( "UseMushroomShifterCheat", "Mushroom Shifter (use arrow keys)", CollapseOthersOnExpand = false )]
 			public bool UseMushroomShifterCheat;
+
+			[ToggleGroup( "DisableEnemies", "Disable Enemies", CollapseOthersOnExpand = false )]
+			public bool DisableEnemies;
 		}
 	}
 }

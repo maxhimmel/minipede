@@ -39,7 +39,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_spiderSpawnController = spiderSpawnController;
 		}
 
-		public void Play()
+		public virtual void Play()
 		{
 			_autoPlay = true;
 
@@ -105,7 +105,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			wave.StartSpawning();
 		}
 
-		public void Interrupt()
+		public virtual void Interrupt()
 		{
 			_autoPlay = false;
 			if ( _currentWave == null )

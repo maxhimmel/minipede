@@ -24,3 +24,6 @@ MonoBehaviour:
     - PreLoad: 0
       ResourceType: {fileID: 11400000, guid: 98f8c31c61a88ba499c267e6dfb86084, type: 2}
     UseMushroomShifterCheat: 1
+    DisableEnemies: 1
+    EnemySpawn:
+      DummyPrefab: {fileID: -1829202905928104995, guid: ab8460df5536ad84399420654ea65097, type: 3}

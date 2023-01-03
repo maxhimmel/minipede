@@ -19,6 +19,7 @@ MonoBehaviour:
     RespawnDelay: 1
     Explorer:
       ShipInteractRange: 1.5
+      LighthousePrefab: {fileID: 1717750769360294968, guid: dba92f41fcdafff42981a668cf65b33e, type: 3}
     Hauling:
       HoldCollectDelay: 0.25
       HoldReleaseDelay: 0.25

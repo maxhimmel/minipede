@@ -69,9 +69,9 @@ namespace Minipede.Installers
 			Container.Bind<ShipController>()
 				.AsSingle();
 			Container.Bind<ExplorerController>()
-				.AsSingle()
-				.WithArguments( _playerSettings.Explorer );
+				.AsSingle();
 
+			BindExplorerModules();
 
 			// Spawning ...
 			Container.Bind<ShipSpawner>()
@@ -90,6 +90,22 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<Inventory>()
 				.AsSingle()
 				.WithArguments( _playerSettings.Inventory );
+		}
+
+		private void BindExplorerModules()
+		{
+			Container.BindInterfacesAndSelfTo<ShipInteractionHandler>()
+				.AsCached()
+				.WhenInjectedInto<InteractionHandlerBus<ExplorerController>>();
+
+			Container.BindInterfacesAndSelfTo<MushroomInteractionHandler>()
+				.AsCached()
+				.WithArguments( _playerSettings.Explorer )
+				.WhenInjectedInto<InteractionHandlerBus<ExplorerController>>();
+
+			Container.Bind<InteractionHandlerBus<ExplorerController>>()
+				.AsSingle()
+				.WhenInjectedInto<ExplorerController>();
 		}
 
 		private void BindLevelGeneration()
@@ -202,7 +218,7 @@ namespace Minipede.Installers
 			public float RespawnDelay;
 
 			[FoldoutGroup( "Explorer" ), HideLabel]
-			public ExplorerController.Settings Explorer;
+			public MushroomInteractionHandler.Settings Explorer;
 			[FoldoutGroup( "Explorer" ), Space]
 			public TreasureHauler.Settings Hauling;
 

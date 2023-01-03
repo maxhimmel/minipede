@@ -7,8 +7,9 @@ namespace Minipede.Gameplay.LevelPieces
 {
     public class ShipSpawner
 	{
+		public IOrientation SpawnPoint { get; }
+
 		private readonly Ship.Factory _factory;
-		private readonly IOrientation _spawnPoint;
 
 		public ShipSpawner( 
 			DiContainer container,
@@ -16,14 +17,14 @@ namespace Minipede.Gameplay.LevelPieces
 			GameplaySettings.Player settings )
 		{
 			_factory = factory;
-			_spawnPoint = container.ResolveId<IOrientation>( settings.SpawnPointId );
+			SpawnPoint = container.ResolveId<IOrientation>( settings.SpawnPointId );
 		}
 
 		public Ship Create()
 		{
 			var newPlayer = _factory.Create();
-			newPlayer.transform.SetParent( _spawnPoint.Parent );
-			newPlayer.transform.SetPositionAndRotation( _spawnPoint.Position, _spawnPoint.Rotation );
+			newPlayer.transform.SetParent( SpawnPoint.Parent );
+			newPlayer.transform.SetPositionAndRotation( SpawnPoint.Position, SpawnPoint.Rotation );
 
 			return newPlayer;
 		}

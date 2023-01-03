@@ -8,8 +8,7 @@ namespace Minipede.Gameplay.Player
     public class PlayerController
 	{
 		public event System.Action<Ship> PlayerSpawned;
-		public event System.Action<Ship> ShipDied;
-		public event System.Action<Explorer> ExplorerDied;
+		public event System.Action PlayerDied;
 
 		public CancellationToken PlayerDiedCancelToken { get; private set; }
 		public bool IsExploring => _explorer != null;
@@ -33,25 +32,26 @@ namespace Minipede.Gameplay.Player
 			_explorerFactory = explorerFactory;
 			_explorerController = explorerController;
 
-			_playerDiedCancelSource = new CancellationTokenSource();
+			_playerDiedCancelSource = AppHelper.CreateLinkedCTS();
 			PlayerDiedCancelToken = _playerDiedCancelSource.Token;
 		}
 
-		public Ship CreateShip()
+		public void RespawnPlayer()
 		{
-			if ( _ship != null )
+			if ( _ship == null )
 			{
-				throw new System.NotSupportedException( "Cannot have multiple ships active." );
+				_ship = _shipSpawner.Create();
+				_ship.Died += OnShipDied;
 			}
-
-			_ship = _shipSpawner.Create();
-			_ship.Died += OnShipDied;
+			else
+			{
+				_ship.Body.MovePosition( _shipSpawner.SpawnPoint.Position );
+				_ship.Body.MoveRotation( 0 );
+			}
 
 			_shipController.Possess( _ship );
 
 			PlayerSpawned?.Invoke( _ship );
-
-			return _ship;
 		}
 
 		private void OnShipDied( Rigidbody2D victimBody, HealthController health )
@@ -61,12 +61,13 @@ namespace Minipede.Gameplay.Player
 
 			_playerDiedCancelSource.Cancel();
 			_playerDiedCancelSource.Dispose();
-			_playerDiedCancelSource = new CancellationTokenSource();
+			_playerDiedCancelSource = AppHelper.CreateLinkedCTS();
 			PlayerDiedCancelToken = _playerDiedCancelSource.Token;
 
 			_ship = null;
 			_shipController.UnPossess();
-			ShipDied?.Invoke( deadShip );
+
+			PlayerDied?.Invoke();
 		}
 
 		public Explorer CreateExplorer()
@@ -96,22 +97,8 @@ namespace Minipede.Gameplay.Player
 
 			_explorer = null;
 			_explorerController.UnPossess();
-			ExplorerDied?.Invoke( deadExplorer );
 
-			// Self-destruct explorer's ship ...
-			_ship.TakeDamage( deadExplorer.transform, deadExplorer.transform, KillInvoker.Kill );
-		}
-
-		public IOrientation GetOrientation()
-		{
-			if ( _ship == null && _explorer == null )
-			{
-				return new Orientation();
-			}
-
-			return IsExploring
-				? _explorer.Orientation
-				: _ship.Orientation;
+			PlayerDied?.Invoke();
 		}
 	}
 }

@@ -37,7 +37,7 @@ namespace Minipede.Gameplay
 			_audioBankLoader = audioBankLoader;
 			_mushroomHealer = mushroomHealer;
 
-			playerSpawnController.ShipDied += OnPlayerDead;
+			playerSpawnController.PlayerDied += OnPlayerDead;
 		}
 
 		public async void Initialize()
@@ -48,20 +48,20 @@ namespace Minipede.Gameplay
 			await _audioBankLoader.LoadBanks();
 			await _levelGenerator.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
 
-			_playerSpawnController.CreateShip();
+			_playerSpawnController.RespawnPlayer();
 			_enemyWaveController.Play();
 
 			IsReady = true;
 		}
 
-		private async void OnPlayerDead( Ship deadPlayer )
+		private async void OnPlayerDead()
 		{
 			_enemyWaveController.Interrupt();
 
 			await _mushroomHealer.HealAll();
 			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay );
 
-			_playerSpawnController.CreateShip();
+			_playerSpawnController.RespawnPlayer();
 			_enemyWaveController.Play();
 		}
 
@@ -69,7 +69,7 @@ namespace Minipede.Gameplay
 		{
 			if ( _playerSpawnController != null )
 			{
-				_playerSpawnController.ShipDied -= OnPlayerDead;
+				_playerSpawnController.PlayerDied -= OnPlayerDead;
 			}
 
 			_audioBankLoader.UnloadBanks().Forget();

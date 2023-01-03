@@ -7,17 +7,26 @@ using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces
 {
-	public class Mushroom : Block
+	public class Mushroom : Block,
+		ISelectable
 	{
+		public IOrientation Orientation => new Orientation( transform.position, transform.rotation, transform.parent );
+
 		private Settings _settings;
 		private LootBox _lootBox;
+		private IInteractable _interactable;
+		private ISelectable _selectable;
 
 		[Inject]
 		public void Construct( Settings settings,
-			LootBox lootBox )
+			LootBox lootBox,
+			[InjectOptional] IInteractable interactable,
+			[InjectOptional] ISelectable selectable )
 		{
 			_settings = settings;
 			_lootBox = lootBox;
+			_interactable = interactable;
+			_selectable = selectable;
 		}
 
 		protected override void HandleDeath( Rigidbody2D victimBody, HealthController health )
@@ -44,6 +53,26 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public virtual void OnMoving()
 		{
+		}
+
+		public bool CanBeInteracted()
+		{
+			if ( _interactable == null )
+			{
+				return false;
+			}
+
+			return _interactable.CanBeInteracted();
+		}
+
+		public void Select()
+		{
+			_selectable?.Select();
+		}
+
+		public void Deselect()
+		{
+			_selectable?.Deselect();
 		}
 
 		[System.Serializable]

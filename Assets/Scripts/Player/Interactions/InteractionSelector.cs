@@ -16,12 +16,8 @@ namespace Minipede.Gameplay.Player
 			{
 				return;
 			}
-			if ( !otherSelectable.CanBeInteracted() )
-			{
-				return;
-			}
 
-			if ( Selectable == null )
+			if ( Selectable == null && otherSelectable.CanBeInteracted() )
 			{
 				Select( otherSelectable );
 			}
@@ -45,28 +41,26 @@ namespace Minipede.Gameplay.Player
 
 		private void Update()
 		{
-			if ( _selectablesWithinRange.Count <= 1 )
-			{
-				return;
-			}
-
-			if ( TryGetClosestSelectable( out var closest ) )
+			if ( CanSelectNewSelectable() && TryGetClosestNewSelectable( out var closest ) )
 			{
 				Select( closest );
 			}
 		}
 
-		private bool TryGetClosestSelectable( out ISelectable closest )
+		private bool CanSelectNewSelectable()
 		{
-			float distSqrToCurrent = (Selectable.Orientation.Position - transform.position.ToVector2()).sqrMagnitude;
-			float closestDistSqr = distSqrToCurrent;
+			return _selectablesWithinRange.Count > 1 || Selectable == null;
+		}
+
+		private bool TryGetClosestNewSelectable( out ISelectable closest )
+		{
+			float closestDistSqr = Mathf.Infinity;
 			closest = null;
 
 			foreach ( var otherSelectable in _selectablesWithinRange )
 			{
-				if ( otherSelectable == Selectable )
+				if ( !otherSelectable.CanBeInteracted() )
 				{
-					// Skip what's currently selected ...
 					continue;
 				}
 
@@ -79,7 +73,7 @@ namespace Minipede.Gameplay.Player
 				}
 			}
 
-			return closest != null;
+			return closest != null && closest != Selectable;
 		}
 
 		private void Select( ISelectable selectable )

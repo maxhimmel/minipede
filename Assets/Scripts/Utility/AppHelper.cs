@@ -29,7 +29,7 @@ namespace Minipede
 			Application.quitting -= OnAppQuitting;
 		}
 
-		public static CancellationTokenSource GetLinkedCTS()
+		public static CancellationTokenSource CreateLinkedCTS()
 		{
 			return CancellationTokenSource.CreateLinkedTokenSource( AppQuittingToken );
 		}

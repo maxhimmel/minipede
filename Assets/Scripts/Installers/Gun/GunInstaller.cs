@@ -17,7 +17,6 @@ namespace Minipede.Installers
 
 			Container.BindInstances( 
 				_settings.Gun, 
-				_settings.Projectile,
 				_settings.Damage
 			);
 
@@ -43,7 +42,8 @@ namespace Minipede.Installers
 		{
 			Container.Bind<IProjectileProvider>()
 				.To<ProjectileProvider>()
-				.AsSingle();
+				.AsSingle()
+				.WithArguments( _settings.Projectile );
 
 			Container.BindFactory<Vector2, Quaternion, Projectile, Projectile.Factory>()
 				.FromFactory<Projectile.CustomFactory>();

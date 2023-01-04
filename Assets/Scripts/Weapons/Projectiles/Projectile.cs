@@ -1,14 +1,20 @@
+using System;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
-	public partial class Projectile : MonoBehaviour
+	public partial class Projectile : MonoBehaviour,
+		IPoolable<Vector2, Quaternion, IMemoryPool>,
+		IDisposable,
+		ICleanup
 	{
 		public event System.Action<Projectile> Destroyed;
 
 		private Rigidbody2D _body;
 		private SignalBus _signalBus;
+
+		private IMemoryPool _pool;
 
 		[Inject]
 		public void Construct( Rigidbody2D body,
@@ -16,8 +22,6 @@ namespace Minipede.Gameplay.Weapons
 		{
 			_body = body;
 			_signalBus = signalBus;
-
-			signalBus.Subscribe<DamageDeliveredSignal>( OnDamagedOther );
 		}
 
 		public void Launch( Vector2 impulse )
@@ -39,13 +43,40 @@ namespace Minipede.Gameplay.Weapons
 
 		public void OnDamagedOther( DamageDeliveredSignal message )
 		{
-			Destroy( gameObject );
+			//GameObject.Destroy( Body.gameObject );
+			Cleanup();
 		}
 
-		private void OnDestroy()
+		public void Cleanup()
 		{
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			_pool?.Despawn( this );
+		}
+
+		public void OnDespawned()
+		{
+			_pool = null;
+
 			_signalBus.Unsubscribe<DamageDeliveredSignal>( OnDamagedOther );
+
+			_body.velocity = Vector2.zero;
+			_body.angularVelocity = 0;
+
 			Destroyed?.Invoke( this );
+		}
+
+		public void OnSpawned( Vector2 position, Quaternion rotation, IMemoryPool pool )
+		{
+			_pool = pool;
+
+			_signalBus.Subscribe<DamageDeliveredSignal>( OnDamagedOther );
+
+			_body.position = position;
+			_body.SetRotation( rotation );
 		}
 	}
 }

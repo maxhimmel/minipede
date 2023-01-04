@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
-	public partial class Projectile : MonoBehaviour,
+	public class Projectile : MonoBehaviour,
 		IPoolable<Vector2, Quaternion, IMemoryPool>,
 		IDisposable,
 		ICleanup
@@ -78,5 +78,7 @@ namespace Minipede.Gameplay.Weapons
 			_body.position = position;
 			_body.SetRotation( rotation );
 		}
+
+		public class Factory : PlaceholderFactory<Vector2, Quaternion, Projectile> { }
 	}
 }

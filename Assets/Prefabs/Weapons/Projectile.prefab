@@ -197,9 +197,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8989135174480422560}
+  - component: {fileID: -8478961870223082148}
   - component: {fileID: 1830351262087100844}
   - component: {fileID: -4882043722942715668}
-  - component: {fileID: -8478961870223082148}
   - component: {fileID: 9066296986510149754}
   m_Layer: 7
   m_Name: Projectile
@@ -225,6 +225,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-8478961870223082148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8807341101252389148}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c915eb596551a247aa6149eb007dfd3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!50 &1830351262087100844
 Rigidbody2D:
   serializedVersion: 4
@@ -264,18 +276,6 @@ MonoBehaviour:
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &-8478961870223082148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8807341101252389148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c915eb596551a247aa6149eb007dfd3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &9066296986510149754
 MonoBehaviour:
   m_ObjectHideFlags: 0

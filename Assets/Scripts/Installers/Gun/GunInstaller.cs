@@ -43,7 +43,7 @@ namespace Minipede.Installers
 		{
 			Container.BindFactory<Vector2, Quaternion, Projectile, Projectile.Factory>()
 				.FromMonoPoolableMemoryPool( pool => pool
-					.WithInitialSize( 30 )
+					.WithInitialSize( _settings.InitialPoolSize )
 					.FromSubContainerResolve()
 					.ByNewContextPrefab( _settings.Projectile )
 				);
@@ -53,7 +53,10 @@ namespace Minipede.Installers
 		public struct Settings
 		{
 			public Gun.Settings Gun;
+			[Space]
+			public int InitialPoolSize;
 			public GameObject Projectile;
+			[Space]
 			public DamageTrigger.Settings Damage;
 
 			[Space, InlineEditor]

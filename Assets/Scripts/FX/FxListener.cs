@@ -28,7 +28,7 @@ namespace Minipede.Gameplay.Fx
 
 		public void Dispose()
 		{
-			_signalBus.UnsubscribeId<FxSignal>( _vfxId, OnVfxFired );
+			_signalBus.TryUnsubscribeId<FxSignal>( _vfxId, OnVfxFired );
 		}
 
 		private void OnVfxFired( FxSignal vfxSignal )

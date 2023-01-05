@@ -1,7 +1,6 @@
 ﻿using Minipede.Gameplay.Fx;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Minipede.Installers

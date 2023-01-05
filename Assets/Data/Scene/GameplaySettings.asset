@@ -18,7 +18,6 @@ MonoBehaviour:
     SpawnPointId: PlayerSpawn
     RespawnDelay: 1
     Explorer:
-      ShipInteractRange: 1.5
       LighthousePrefab: {fileID: 1717750769360294968, guid: dba92f41fcdafff42981a668cf65b33e, type: 3}
     Hauling:
       HoldCollectDelay: 0.25
@@ -32,9 +31,18 @@ MonoBehaviour:
         Heal: 1
       DelayPerHealStep: 1
     Mushrooms:
-      Standard: {fileID: -1497698299372641502, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
-      Poison: {fileID: 7223752588216721313, guid: b365f0d28be7fa44989337593a66181c, type: 3}
-      Flower: {fileID: 773270202664393196, guid: d6bf6258b2770a04f98a69588242b66b, type: 3}
+      Standard:
+        Prefab: {fileID: -1497698299372641502, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+        InitialSize: 100
+        ExpandMethod: 0
+      Poison:
+        Prefab: {fileID: 7223752588216721313, guid: b365f0d28be7fa44989337593a66181c, type: 3}
+        InitialSize: 10
+        ExpandMethod: 0
+      Flower:
+        Prefab: {fileID: 773270202664393196, guid: d6bf6258b2770a04f98a69588242b66b, type: 3}
+        InitialSize: 10
+        ExpandMethod: 0
   _beaconSettings:
     Factories:
     - ResourceType: {fileID: 11400000, guid: 54fbab5a5bdc833408683a3ef1c0e611, type: 2}

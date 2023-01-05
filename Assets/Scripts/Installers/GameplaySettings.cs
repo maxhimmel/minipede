@@ -134,6 +134,11 @@ namespace Minipede.Installers
 
 			Container.Bind<BlockActor.Factory>()
 				.AsSingle()
+				.WhenInjectedInto<BlockFactoryBus>();
+
+			Container.Bind<BlockFactoryBus>()
+				.AsSingle()
+				.WithArguments( _blockSettings.Mushrooms )
 				.WhenInjectedInto<LevelGraph>();
 
 			Container.Bind<MushroomProvider>()
@@ -245,8 +250,8 @@ namespace Minipede.Installers
 		{
 			[HideLabel, FoldoutGroup( "Gameplay" )]
 			public Mushroom.Settings Settings;
-			[BoxGroup( "Prefabs" ), HideLabel]
-			public MushroomProvider.Settings Mushrooms;
+			[HideLabel, FoldoutGroup( "Mushrooms" )]
+			public BlockFactoryBus.Settings Mushrooms;
 		}
 
 		[System.Serializable]

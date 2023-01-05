@@ -1,5 +1,6 @@
 using Minipede.Installers;
 using Minipede.Utility;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -8,6 +9,8 @@ namespace Minipede.Gameplay.LevelPieces
 {
 	public class Block : MonoBehaviour,
 		IDamageController,
+		IPoolable<IOrientation, IMemoryPool>,
+		IDisposable,
 		ICleanup
 	{
 		public event IDamageController.OnHit Damaged {
@@ -26,7 +29,7 @@ namespace Minipede.Gameplay.LevelPieces
 		private LevelGraph _levelGraph;
 		private SignalBus _signalBus;
 
-		private bool _isCleanedUp;
+		private IMemoryPool _pool;
 
 		[Inject]
 		public void Construct( Rigidbody2D body,
@@ -38,8 +41,6 @@ namespace Minipede.Gameplay.LevelPieces
 			_damageController = damageController;
 			_levelGraph = levelGraph;
 			_signalBus = signalBus;
-
-			damageController.Died += HandleDeath;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
@@ -59,14 +60,24 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public void Cleanup()
 		{
-			if ( _isCleanedUp )
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			if ( _pool != null )
 			{
-				return;
+				_pool.Despawn( this );
 			}
+			else
+			{
+				OnDespawned();
+			}
+		}
 
-			_isCleanedUp = true;
-
-			HandleCleanup();
+		public void OnDespawned()
+		{
+			_pool = null;
 
 			_damageController.Died -= HandleDeath;
 
@@ -75,35 +86,26 @@ namespace Minipede.Gameplay.LevelPieces
 			_signalBus.TryFire( new BlockDestroyedSignal() { Victim = this } );
 		}
 
-		protected virtual void HandleCleanup()
+		public void OnSpawned( IOrientation placement, IMemoryPool pool )
 		{
-			Destroy( gameObject );
+			_pool = pool;
+
+			Health.Replenish();
+			_damageController.Died += HandleDeath;
+
+			_body.transform.position = placement.Position;
+
+			_signalBus.TryFire( new BlockSpawnedSignal()
+			{
+				NewBlock = this
+			} );
 		}
 
 		public class Factory : UnityPrefabFactory<Block>
 		{
-			[Inject]
-			private readonly GameplaySettings.Level _settings;
-
-			[Inject]
-			private readonly SignalBus _signalBus;
-
-			public override Block Create( Object prefab, IOrientation placement, IEnumerable<object> extraArgs = null )
+			public Factory( DiContainer container )
+				: base( container )
 			{
-				var newBlock = base.Create( prefab, placement, extraArgs );
-
-				newBlock.transform.localScale = new Vector3(
-					_settings.Graph.Size.x,
-					_settings.Graph.Size.y,
-					1
-				);
-
-				_signalBus.TryFire( new BlockSpawnedSignal()
-				{
-					NewBlock = newBlock
-				} );
-
-				return newBlock;
 			}
 		}
 	}

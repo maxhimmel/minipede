@@ -17,6 +17,7 @@ MonoBehaviour:
       ShotSpotId: ShotSpot
       ProjectileSpeed: 30
       ProjectileTorque: 0
+    InitialPoolSize: 10
     Projectile: {fileID: 8807341101252389148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
     Damage:
       HitMask:

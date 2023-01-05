@@ -30,10 +30,15 @@ namespace Minipede.Utility
 	{
 		public TValue Prefab => _prefab;
 
-		[Inject]
-		private readonly TValue _prefab;
-		[Inject]
 		private readonly DiContainer _container;
+		private readonly TValue _prefab;
+
+		public UnityFactory( DiContainer container,
+			TValue prefab )
+		{
+			_container = container;
+			_prefab = prefab;
+		}
 
 		public TValue Create( Vector2 position, IEnumerable<object> extraArgs = null )
 		{
@@ -72,8 +77,12 @@ namespace Minipede.Utility
 	public class UnityPrefabFactory<TValue> : IFactory<Object, IOrientation, IEnumerable<object>, TValue>
 		where TValue : MonoBehaviour
 	{
-		[Inject]
 		private readonly DiContainer _container;
+
+		public UnityPrefabFactory( DiContainer container )
+		{
+			_container = container;
+		}
 
 		public virtual TValue Create( Object prefab, IOrientation placement, IEnumerable<object> extraArgs = null )
 		{
@@ -119,6 +128,31 @@ namespace Minipede.Utility
 			{
 				result.transform.SetParent( null );
 			}
+
+			return result;
+		}
+	}
+
+	public class ComponentFromPrefabFactory<TValue> : IFactory<TValue>
+		where TValue : Component
+	{
+		private readonly DiContainer _container;
+		private readonly TValue _prefab;
+		private readonly Transform _parent;
+
+		public ComponentFromPrefabFactory( DiContainer container,
+			TValue prefab,
+			[InjectOptional] Transform parent = null )
+		{
+			_container = container;
+			_prefab = prefab;
+			_parent = parent;
+		}
+
+		public TValue Create()
+		{
+			var result = _container.InstantiatePrefabForComponent<TValue>( _prefab, _parent );
+			result.name = _prefab.name;
 
 			return result;
 		}

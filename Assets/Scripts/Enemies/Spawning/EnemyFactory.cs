@@ -1,11 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using Minipede.Utility;
+using Zenject;
 
 namespace Minipede.Gameplay.Enemies.Spawning
 {
 	public class EnemyFactory : UnityFactory<EnemyController>
 	{
+		public EnemyFactory( DiContainer container, EnemyController prefab ) 
+			: base( container, prefab )
+		{
+		}
 	}
 
 	/// <summary>

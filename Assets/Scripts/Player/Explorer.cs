@@ -156,6 +156,12 @@ namespace Minipede.Gameplay.Player
 			}
 		}
 
-		public class Factory : UnityFactory<Explorer> { }
+		public class Factory : UnityFactory<Explorer>
+		{
+			public Factory( DiContainer container, Explorer prefab ) 
+				: base( container, prefab )
+			{
+			}
+		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Zenject;
 
 namespace Minipede.Utility
 {
@@ -19,6 +20,12 @@ namespace Minipede.Utility
 			}
 		}
 
-		public class Factory : UnityPrefabFactory<LifetimerComponent> { }
+		public class Factory : UnityPrefabFactory<LifetimerComponent>
+		{
+			public Factory( DiContainer container ) 
+				: base( container )
+			{
+			}
+		}
 	}
 }

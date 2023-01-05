@@ -34,6 +34,12 @@ namespace Minipede.Gameplay.Treasures
 
 		protected abstract TCollectable GetCollectable();
 
-		public class Factory : UnityPrefabFactory<TCollectable> { }
+		public class Factory : UnityPrefabFactory<TCollectable>
+		{
+			public Factory( DiContainer container ) 
+				: base( container )
+			{
+			}
+		}
 	}
 }

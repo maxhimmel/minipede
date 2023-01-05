@@ -29,6 +29,15 @@ namespace Minipede.Gameplay
 			return prevHealth - _health;
 		}
 
+		/// <returns>The amount of health restored.</returns>
+		public int Replenish()
+		{
+			int difference = Max - _health;
+			_health = Max;
+
+			return difference;
+		}
+
         [System.Serializable]
 		public struct Settings
 		{

@@ -21,6 +21,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public HealthController Health => _damageController.Health;
 
+		protected Rigidbody2D _body;
 		private IDamageController _damageController;
 		private LevelGraph _levelGraph;
 		private SignalBus _signalBus;
@@ -28,10 +29,12 @@ namespace Minipede.Gameplay.LevelPieces
 		private bool _isCleanedUp;
 
 		[Inject]
-		public void Construct( IDamageController damageController,
+		public void Construct( Rigidbody2D body,
+			IDamageController damageController,
 			LevelGraph levelGraph,
 			SignalBus signalBus )
 		{
+			_body = body;
 			_damageController = damageController;
 			_levelGraph = levelGraph;
 			_signalBus = signalBus;

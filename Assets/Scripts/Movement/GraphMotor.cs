@@ -1,4 +1,5 @@
 using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
@@ -35,7 +36,7 @@ namespace Minipede.Gameplay.Movement
 			_graph = graph;
 		}
 
-		public async UniTask StartMoving( Vector2Int direction )
+		public async UniTask StartMoving( Vector2Int direction, CancellationToken cancelToken = default )
 		{
 			_cancelMoveLoop = false;
 
@@ -44,17 +45,12 @@ namespace Minipede.Gameplay.Movement
 				Vector2Int currentCoord = _graph.WorldPosToCellCoord( _body.position );
 				currentCoord += direction.ToRowCol();
 
-				await SetDestination( currentCoord, true );
+				await SetDestination( currentCoord, cancelToken, true );
 
-			} while ( IsMoving && !_cancelMoveLoop && _body != null );
+			} while ( IsMoving && !_cancelMoveLoop && _body != null && !cancelToken.IsCancellationRequested );
 		}
 
-		public async UniTask SetDestination( Vector2Int destCoord )
-		{
-			await SetDestination( destCoord, false );
-		}
-
-		private async UniTask SetDestination( Vector2Int destCoord, bool isContinuing )
+		public async UniTask SetDestination( Vector2Int destCoord, CancellationToken cancelToken = default, bool isContinuing = false )
 		{
 			_startPos = _body.position;
 			_endPos = _graph.CellCoordToWorldPos( destCoord );
@@ -62,9 +58,13 @@ namespace Minipede.Gameplay.Movement
 			_lerpTimer = 0;
 			_travelDuration = (_startPos - _endPos).magnitude / _maxSpeed.GetMaxSpeed();
 
-			while ( _lerpTimer < 1 )
+			while ( IsMoving && _lerpTimer < 1 )
 			{
-				await TaskHelpers.WaitForFixedUpdate();
+				await TaskHelpers.WaitForFixedUpdate( cancelToken );
+				if ( cancelToken.IsCancellationRequested )
+				{
+					return;
+				}
 			}
 
 			if ( !isContinuing )

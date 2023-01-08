@@ -29,9 +29,12 @@ namespace Minipede.Gameplay.Enemies
 			base.OnSpawned();
 
 			await NavigationRoutine()
-				.Cancellable( _onDestroyCancelToken );
+				.Cancellable( OnDestroyCancelToken );
 
-			Cleanup();
+			if ( IsAlive )
+			{
+				Cleanup();
+			}
 		}
 
 		private async UniTask NavigationRoutine()
@@ -67,7 +70,7 @@ namespace Minipede.Gameplay.Enemies
 			while ( _motor.IsMoving )
 			{
 				TryCreateFlowers();
-				await UniTask.WaitForFixedUpdate( _onDestroyCancelToken );
+				await UniTask.WaitForFixedUpdate( OnDestroyCancelToken );
 			}
 		}
 

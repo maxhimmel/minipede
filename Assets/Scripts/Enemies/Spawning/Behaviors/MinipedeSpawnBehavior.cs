@@ -24,7 +24,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			int segmentCount = _settings.SegmentRange.Random( true );
 			newEnemy.SetSegments(
-				CreateSegmentFollowers( segmentCount, newEnemy.Body, newEnemy.transform.parent )
+				CreateSegmentFollowers( segmentCount, newEnemy.Body, newEnemy.transform.parent ), true
 			);
 		}
 

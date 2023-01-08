@@ -244,25 +244,19 @@ namespace Minipede.Gameplay.Enemies
 				MinipedeController newHead = ReplaceSegmentWithHead( 0, victimBody.position );
 
 				// A new head was chosen from the pool ...
-				if ( newHead != this && _segments.Count > 0 )
+				if ( _segments.Count > 0 )
 				{
-					newHead.SetSegments( _segments );
+					bool isNewHeadFresh = (newHead != this);
 
-					foreach ( var segment in _segments )
-					{
-						segment.Died -= OnSegmentDied;
-					}
-					_segments = null;
-				}
-				// We recycled THIS head from the pool ...
-				else if ( _segments.Count > 0 )
-				{
-					Rigidbody2D leader = _body;
+					newHead.SetSegments( _segments, listenForSegmentDeaths: isNewHeadFresh );
 
-					foreach ( var segment in _segments )
+					if ( isNewHeadFresh )
 					{
-						segment.StartFollowing( leader );
-						leader = segment.Body;
+						foreach ( var segment in _segments )
+						{
+							segment.Died -= OnSegmentDied;
+						}
+						_segments = null;
 					}
 				}
 			}
@@ -291,14 +285,17 @@ namespace Minipede.Gameplay.Enemies
 			base.OnDespawned();
 		}
 
-		public void SetSegments( List<SegmentController> segments )
+		public void SetSegments( List<SegmentController> segments, bool listenForSegmentDeaths )
 		{
 			_segments = segments;
 			Rigidbody2D leader = _body;
 
 			foreach ( var segment in segments )
 			{
-				segment.Died += OnSegmentDied;
+				if ( listenForSegmentDeaths )
+				{
+					segment.Died += OnSegmentDied;
+				}
 
 				segment.StartFollowing( leader );
 				leader = segment.Body;
@@ -314,7 +311,7 @@ namespace Minipede.Gameplay.Enemies
 				if ( _segments.Count > 0 )
 				{
 					List<SegmentController> bottomHalf = _segments.GetRange( victimIndex, _segments.Count - victimIndex );
-					newHead.SetSegments( bottomHalf );
+					newHead.SetSegments( bottomHalf, true );
 				}
 
 				RemoveSegmentRange( _segments.Count - 1, victimIndex );

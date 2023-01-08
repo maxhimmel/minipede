@@ -1,5 +1,6 @@
 using Minipede.Cheats;
 using Minipede.Gameplay.Enemies.Spawning;
+using Minipede.Gameplay.LevelPieces;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -38,6 +39,15 @@ namespace Minipede.Installers
 
 				Container.Decorate<EnemyWaveController>()
 					.With<EnemySpawnCheat>()
+					.AsSingle();
+			}
+
+			if ( _settings.DisableLevelGeneration )
+			{
+				LogCheatActivation<LevelGeneratorCheat>();
+
+				Container.Decorate<LevelGenerator>()
+					.With<LevelGeneratorCheat>()
 					.AsSingle();
 			}
 

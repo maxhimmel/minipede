@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b71e50359a61cd2469644dd52fa4de9d, type: 3}
   m_Name: Spider
   m_EditorClassIdentifier: 
+  _initalPoolSize: 5
   _prefab: {fileID: -3327435351028291628, guid: 704094a55d6a0844197a544fb1bae67e, type: 3}
   _spawnPlacement:
   - Area:

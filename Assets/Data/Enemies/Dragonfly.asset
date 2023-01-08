@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f66dc7e77f9a1f141a81c979d2b70024, type: 3}
   m_Name: Dragonfly
   m_EditorClassIdentifier: 
+  _initalPoolSize: 20
   _prefab: {fileID: 682032874086321491, guid: afe0baf7eada72846901d59c2098c7b2, type: 3}
   _spawnPlacement:
   - Area:

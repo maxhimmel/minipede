@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53aa369252cca1e41853e19a117d8c8e, type: 3}
   m_Name: Mosquito
   m_EditorClassIdentifier: 
+  _initalPoolSize: 20
   _prefab: {fileID: -1829202905928104995, guid: ab8460df5536ad84399420654ea65097, type: 3}
   _spawnPlacement:
   - Area:

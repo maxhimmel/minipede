@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53af151d09203704aacfc6a9d5b38c56, type: 3}
   m_Name: Inchworm
   m_EditorClassIdentifier: 
+  _initalPoolSize: 3
   _prefab: {fileID: 2684825897360372887, guid: 906229d1d0f1153438a4708e901ffaa4, type: 3}
   _spawnPlacement:
   - Area:

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cd0ab72b8020b441a7084b8ec23ecde, type: 3}
   m_Name: Earwig
   m_EditorClassIdentifier: 
+  _initalPoolSize: 5
   _prefab: {fileID: 4363904833267379863, guid: bc7cc110e6ac10b4ebdcb436f6c716f3, type: 3}
   _spawnPlacement:
   - Area:

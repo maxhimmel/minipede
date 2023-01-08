@@ -40,7 +40,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 					(-offsetDir).ToLookRotation(),
 					parent
 				) );
-				newSegment.OnSpawned();
+				newSegment.StartMainBehavior();
 
 				leader = newSegment.Body;
 				segments.Add( newSegment );

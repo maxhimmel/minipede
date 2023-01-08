@@ -115,7 +115,7 @@ namespace Minipede.Gameplay.Enemies
 			_signalBus.Fire( new EnemySpawnedSignal() { Enemy = this } );
 		}
 
-		public virtual void OnSpawned()
+		public virtual void StartMainBehavior()
 		{
 		}
 

@@ -56,9 +56,9 @@ namespace Minipede.Gameplay.Enemies
 				.Forget();
 		}
 
-		public override void OnSpawned()
+		public override void StartMainBehavior()
 		{
-			base.OnSpawned();
+			base.StartMainBehavior();
 
 			_columnDir = new Vector2Int( RandomExtensions.Sign(), 0 );
 

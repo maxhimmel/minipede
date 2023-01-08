@@ -22,9 +22,9 @@ namespace Minipede.Gameplay.Enemies
 			_motor = motor;
 		}
 
-		public override void OnSpawned()
+		public override void StartMainBehavior()
 		{
-			base.OnSpawned();
+			base.StartMainBehavior();
 
 			InitRowColumnDirection();
 

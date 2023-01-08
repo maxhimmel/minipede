@@ -56,7 +56,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 				_enemyBuilder.Build<MinipedeController>()
 					.WithPlacement( spawnOrientation )
 					.Create()
-					.OnSpawned();
+					.StartMainBehavior();
 			}
 
 			SetupRandomSpawningCancellation();

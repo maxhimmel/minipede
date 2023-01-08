@@ -6,7 +6,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		public virtual void Perform( EnemyController enemy )
 		{
-			enemy.OnSpawned();
+			enemy.StartMainBehavior();
 		}
 	}
 }

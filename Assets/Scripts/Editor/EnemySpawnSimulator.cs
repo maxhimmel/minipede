@@ -61,7 +61,7 @@ namespace Minipede.Editor
 
                 if ( (typeId & _enemies) != 0 )
                 {
-                    enemy.OnSpawned();
+                    enemy.StartMainBehavior();
                     Debug.Log( $"<color=orange>[{nameof( EnemySpawnSimulator )}]</color> " +
                         $"Simulated 'OnSpawn' for <b>{enemy.name}</b>.", enemy );
                 }

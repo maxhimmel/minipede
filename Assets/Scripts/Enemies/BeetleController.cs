@@ -24,9 +24,9 @@ namespace Minipede.Gameplay.Enemies
 			_blockShifter = blockShifter;
 		}
 
-		public override async void OnSpawned()
+		public override async void StartMainBehavior()
 		{
-			base.OnSpawned();
+			base.StartMainBehavior();
 
 			await NavigationRoutine()
 				.Cancellable( OnDestroyCancelToken );

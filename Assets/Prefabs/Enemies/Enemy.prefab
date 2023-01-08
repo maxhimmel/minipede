@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 7711212140918325584}
   - component: {fileID: 7584489631275441692}
   - component: {fileID: 5381930393984707178}
-  - component: {fileID: 4830167154107217034}
   - component: {fileID: 8944308047494364963}
   m_Layer: 8
   m_Name: Enemy
@@ -72,25 +71,6 @@ MonoBehaviour:
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &4830167154107217034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3006518857079507361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 8944308047494364963}
-  - {fileID: 7711212140918325584}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 0
 --- !u!50 &8944308047494364963
 Rigidbody2D:
   serializedVersion: 4

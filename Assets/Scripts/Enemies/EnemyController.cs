@@ -1,16 +1,18 @@
 using System.Threading;
-using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 using Minipede.Installers;
+using System;
 
 namespace Minipede.Gameplay.Enemies
 {
-	public abstract class EnemyController : MonoBehaviour,
+	public class EnemyController : MonoBehaviour,
 		IDamageController,
+		IPoolable<IOrientation, IMemoryPool>,
+		IDisposable,
 		ICleanup
 	{
 		public event IDamageController.OnHit Damaged {
@@ -38,7 +40,7 @@ namespace Minipede.Gameplay.Enemies
 		private GameplaySettings.Level _levelSettings;
 
 		private CancellationTokenSource _onDestroyCancelSource;
-		protected CancellationToken _onDestroyCancelToken;
+		private IMemoryPool _memoryPool;
 
 		[Inject]
 		public void Construct( Rigidbody2D body,
@@ -58,21 +60,11 @@ namespace Minipede.Gameplay.Enemies
 			_signalBus = signalBus;
 			_lootBox = lootBox;
 			_levelSettings = levelSettings;
-
-			_onDestroyCancelSource = AppHelper.CreateLinkedCTS();
-			_onDestroyCancelToken = _onDestroyCancelSource.Token;
-
-			damageController.Damaged += OnDamaged;
-			damageController.Died += OnDied;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
 			return _damageController.TakeDamage( instigator, causer, data );
-		}
-
-		protected virtual void OnDamaged( Rigidbody2D victimBody, HealthController health )
-		{
 		}
 
 		protected virtual void OnDied( Rigidbody2D victimBody, HealthController health )
@@ -83,53 +75,54 @@ namespace Minipede.Gameplay.Enemies
 
 		public void Cleanup()
 		{
-			if ( !IsAlive )
-			{
-				return;
-			}
+			Dispose();
+		}
+
+		public void Dispose()
+		{
+			_memoryPool.Despawn( this );
+		}
+
+		public virtual void OnDespawned()
+		{
+			_memoryPool = null;
 
 			_onDestroyCancelSource.Cancel();
 			_onDestroyCancelSource.Dispose();
+			_onDestroyCancelSource = null;
 
-			if ( _damageController != null )
-			{
-				_damageController.Damaged -= OnDamaged;
-				_damageController.Died -= OnDied;
-			}
+			_damageController.Died -= OnDied;
 
 			_signalBus.Fire( new EnemyDestroyedSignal() { Victim = this } );
-
-			Destroy( gameObject );
 		}
 
-		protected async void Start()
+		public virtual void OnSpawned( IOrientation placement, IMemoryPool pool )
 		{
-			OnStart();
+			_memoryPool = pool;
 
-			while ( !IsReady )
-			{
-				await UniTask.WaitForFixedUpdate( _onDestroyCancelToken );
-			}
+			_onDestroyCancelSource = AppHelper.CreateLinkedCTS();
 
-			OnReady();
-		}
+			Health.Replenish();
 
-		protected virtual void OnStart()
-		{
+			_damageController.Died += OnDied;
+
+			// We set the transform's orientation so there isn't any visual blinking when moving from previous spawn position.
+			transform.SetPositionAndRotation( placement.Position, placement.Rotation );
+			// And we set the rigidbody's orientation so the physics engine is up to date.
+			_body.position = placement.Position;
+			_body.SetRotation( placement.Rotation );
+
 			_signalBus.Fire( new EnemySpawnedSignal() { Enemy = this } );
-		}
-
-		protected virtual void OnReady()
-		{
-
 		}
 
 		public virtual void OnSpawned()
 		{
-
 		}
 
-		public abstract void RecalibrateVelocity();
+		public virtual void RecalibrateVelocity()
+		{
+
+		}
 
 		protected void FixedUpdate()
 		{

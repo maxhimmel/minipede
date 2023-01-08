@@ -8,11 +8,5 @@ namespace Minipede.Installers
     public class MinipedeInstaller : EnemyWithSettingsAndBehaviorInstaller
         <MinipedeController.Settings, MinipedeSpawnBehavior>
     {
-		public override void InstallBindings()
-		{
-			base.InstallBindings();
-
-			BindFactory( _settings.SegmentPrefab );
-		}
 	}
 }

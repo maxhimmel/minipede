@@ -337,8 +337,6 @@ namespace Minipede.Gameplay.Enemies
 		{
 			[MinMaxSlider( 0, 10, ShowFields = true )]
 			public Vector2Int SegmentRange;
-
-			public SegmentController SegmentPrefab;
 		}
 	}
 }

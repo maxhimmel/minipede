@@ -9,7 +9,7 @@ using Zenject;
 namespace Minipede.Installers
 {
 	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Enemy" )]
-	public class EnemyInstaller : ScriptableObjectInstaller
+	public class EnemyModuleInstaller : ScriptableObjectInstaller
     {
 		protected System.Type EnemyType => _prefab.GetType();
 
@@ -57,7 +57,7 @@ namespace Minipede.Installers
 		}
 	}
 
-	public abstract class EnemyWithSettingsInstaller<TSettings> : EnemyInstaller
+	public abstract class EnemyModuleWithSettingsInstaller<TSettings> : EnemyModuleInstaller
 	{
 		[FoldoutGroup( "Settings" ), HideLabel]
 		[SerializeField, PropertyOrder( 1 )] protected TSettings _settings;
@@ -70,7 +70,7 @@ namespace Minipede.Installers
 		}
 	}
 
-	public abstract class EnemyWithSettingsAndBehaviorInstaller<TSettings, TBehavior> : EnemyWithSettingsInstaller<TSettings>
+	public abstract class EnemyModuleWithSettingsAndBehaviorInstaller<TSettings, TBehavior> : EnemyModuleWithSettingsInstaller<TSettings>
 		where TBehavior : EnemySpawnBehavior
 	{
 		protected override void BindSpawnBehavior()

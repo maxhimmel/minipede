@@ -17,7 +17,7 @@ namespace Minipede.Installers
 		[SerializeField] private DamageTrigger.Settings _damage;
 
 		[InlineEditor, LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
-		[SerializeField] private EnemyInstaller[] _enemyInstallers;
+		[SerializeField] private EnemyModuleInstaller[] _enemyInstallers;
 
 		[FoldoutGroup( "Wave Spawning" )]
 		[SerializeField, HideLabel] private EnemyWaveController.Settings _wave;

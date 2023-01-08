@@ -4,7 +4,7 @@ using UnityEngine;
 namespace Minipede.Installers
 {
 	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Spider" )]
-	public class SpiderInstaller : EnemyWithSettingsInstaller<SpiderController.Settings>
+	public class SpiderModuleInstaller : EnemyModuleWithSettingsInstaller<SpiderController.Settings>
 	{
 	}
 }

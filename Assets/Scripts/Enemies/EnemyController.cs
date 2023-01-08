@@ -24,7 +24,8 @@ namespace Minipede.Gameplay.Enemies
 
 		public HealthController Health => _damageController.Health;
 		public bool IsReady => _gameController.IsReady;
-		public bool IsAlive => !_onDestroyCancelToken.IsCancellationRequested;
+		public bool IsAlive => _onDestroyCancelSource != null && !OnDestroyCancelToken.IsCancellationRequested;
+		public CancellationToken OnDestroyCancelToken => _onDestroyCancelSource.Token;
 		public Rigidbody2D Body => _body;
 
 		protected Rigidbody2D _body;

@@ -17,6 +17,9 @@ namespace Minipede.Cheats
 
 			[ToggleGroup( "DisableEnemies", "Disable Enemies", CollapseOthersOnExpand = false )]
 			public bool DisableEnemies;
+
+			[ToggleGroup( "DisableLevelGeneration", "Disable Level Generation", CollapseOthersOnExpand = false )]
+			public bool DisableLevelGeneration;
 		}
 	}
 }

@@ -150,5 +150,7 @@ namespace Minipede.Gameplay.Enemies
 		{
 			return rowColCoord.Row() < _levelSettings.Builder.PlayerRows;
 		}
+
+		public class Factory : PlaceholderFactory<IOrientation, EnemyController> { }
 	}
 }

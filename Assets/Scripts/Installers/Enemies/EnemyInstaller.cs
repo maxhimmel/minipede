@@ -1,6 +1,7 @@
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -8,11 +9,12 @@ using Zenject;
 namespace Minipede.Installers
 {
 	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Enemy" )]
-    public class EnemyInstaller : ScriptableObjectInstaller
+	public class EnemyInstaller : ScriptableObjectInstaller
     {
 		protected System.Type EnemyType => _prefab.GetType();
 
 		[Space]
+		[SerializeField, PropertyOrder( -1 )] private int _initalPoolSize = 0;
 		[SerializeField, PropertyOrder( 0 )] private EnemyController _prefab;
 
 		[Space]
@@ -34,9 +36,15 @@ namespace Minipede.Installers
 		protected void BindFactory<TEnemy>( TEnemy prefab )
 			where TEnemy : EnemyController
 		{
-			Container.Bind<EnemyFactory>()
-				.AsTransient()
-				.WithArguments( prefab );
+			Container.BindFactory<IOrientation, EnemyController, EnemyController.Factory>()
+				.WithId( prefab.GetType() )
+				.FromMonoPoolableMemoryPool( pool => pool
+					.WithInitialSize( _initalPoolSize )
+					.FromSubContainerResolve()
+					.ByNewContextPrefab( prefab )
+					.WithGameObjectName( prefab.name )
+					.AsCached()
+			);
 		}
 
 		protected virtual void BindSpawnBehavior()

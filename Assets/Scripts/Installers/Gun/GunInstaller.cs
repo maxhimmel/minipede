@@ -46,6 +46,7 @@ namespace Minipede.Installers
 					.WithInitialSize( _settings.InitialPoolSize )
 					.FromSubContainerResolve()
 					.ByNewContextPrefab( _settings.Projectile )
+					.WithGameObjectName( _settings.Projectile.name )
 				);
 		}
 

@@ -212,7 +212,7 @@ namespace Minipede.Gameplay.Enemies
 			if ( _isPoisoned && _levelForeman.TryQueryEmptyBlock( _body.position, out var instructions ) )
 			{
 				var spawnPos = instructions.Cell.Center;
-				_poisonTrailFactory.Create( spawnPos );
+				_poisonTrailFactory.Create( transform, spawnPos );
 			}
 		}
 

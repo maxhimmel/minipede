@@ -51,7 +51,7 @@ namespace Minipede.Gameplay.Enemies
 				else
 				{
 					var spawnPos = instructions.Cell.Center;
-					_poisonTrailFactory.Create( spawnPos );
+					_poisonTrailFactory.Create( transform, spawnPos );
 				}
 			}
 		}

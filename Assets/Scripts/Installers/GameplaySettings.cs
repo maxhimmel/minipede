@@ -5,6 +5,7 @@ using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.Fx;
+using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -121,6 +122,21 @@ namespace Minipede.Installers
 
 			Container.BindInstance( _blockSettings.Settings )
 				.WhenInjectedInto<Mushroom>();
+
+			/* --- */
+
+			Container.Bind<PoisonTrailFactory>()
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+					PoisonTrailInstaller.Install( subContainer, _blockSettings.Poison )
+				)
+				.WithKernel()
+				.AsCached()
+				.WhenInjectedInto<PoisonMushroom>();
+
+			Container.BindInstance( _levelSettings.PoisonDamage )
+				.AsSingle()
+				.WhenInjectedInto<DamageAOE>();
 
 			/* --- */
 
@@ -243,6 +259,9 @@ namespace Minipede.Installers
 			public float SpawnRate;
 			[Space, TabGroup( "Spawning" )]
 			public WeightedListInt RowGeneration;
+
+			[FoldoutGroup( "Poison" ), HideLabel]
+			public DamageAOE.Settings PoisonDamage;
 		}
 
 		[System.Serializable]
@@ -252,6 +271,8 @@ namespace Minipede.Installers
 			public Mushroom.Settings Settings;
 			[HideLabel, FoldoutGroup( "Mushrooms" )]
 			public BlockFactoryBus.Settings Mushrooms;
+			[HideLabel, FoldoutGroup( "Poison" )]
+			public PoisonTrailInstaller.Settings Poison;
 		}
 
 		[System.Serializable]

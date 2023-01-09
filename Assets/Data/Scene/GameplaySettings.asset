@@ -43,6 +43,10 @@ MonoBehaviour:
         Prefab: {fileID: 773270202664393196, guid: d6bf6258b2770a04f98a69588242b66b, type: 3}
         InitialSize: 10
         ExpandMethod: 0
+    Poison:
+      InitialPoolSize: 20
+      Prefab: {fileID: 709626158554325588, guid: 193b708e9ef52cd40b90d7a83b318a17, type: 3}
+      Lifetime: 5
   _beaconSettings:
     Factories:
     - ResourceType: {fileID: 11400000, guid: 54fbab5a5bdc833408683a3ef1c0e611, type: 2}
@@ -71,6 +75,14 @@ MonoBehaviour:
         Item: 2
       - _normalizedWeight: 10
         Item: 3
+    PoisonDamage:
+      Rate: 0.25
+      Damage:
+        HitMask:
+          serializedVersion: 2
+          m_Bits: 8
+        Type:
+          rid: 1882198100916830219
   _audioSettings:
     Banks:
       LoadBanks:
@@ -78,9 +90,19 @@ MonoBehaviour:
     Music:
       NextTrackDelay: 2
       Tracks:
-      - EventName: Music/Anamnesis of the worlds Sin
-      - EventName: Music/Cosmic Temperance
-      - EventName: Music/Dark Matter Moon
       - EventName: Music/Lich is Unbreakable
       - EventName: Music/Star Judgment
       - EventName: Music/Universes Storm
+      - EventName: Music/Cosmic Temperance
+      - EventName: Music/Anamnesis of the worlds Sin
+      - EventName: Music/Dark Matter Moon
+  references:
+    version: 2
+    RefIds:
+    - rid: 1882198100916830219
+      type: {class: PoisonInvoker/Settings, ns: Minipede.Gameplay, asm: Minipede}
+      data:
+        Damage: 1
+        ApplyRate: 1
+        CanExpire: 0
+        Duration: 0

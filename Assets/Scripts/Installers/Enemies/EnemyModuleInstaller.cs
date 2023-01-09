@@ -10,7 +10,12 @@ namespace Minipede.Installers
 {
 	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Enemy" )]
 	public class EnemyModuleInstaller : ScriptableObjectInstaller
-    {
+	{
+		/// <summary>
+		/// This ID should match a <see cref="Transform"/> within the scene being bound using a <see cref="ZenjectBinding"/>.
+		/// </summary>
+		private const string _containerId = "EnemyPool";
+
 		protected System.Type EnemyType => _prefab.GetType();
 
 		[Space]
@@ -43,6 +48,9 @@ namespace Minipede.Installers
 					.FromSubContainerResolve()
 					.ByNewContextPrefab( prefab )
 					.WithGameObjectName( prefab.name )
+					.UnderTransform( context => context
+						.Container.ResolveId<Transform>( _containerId )
+					)
 					.AsCached()
 				);
 		}

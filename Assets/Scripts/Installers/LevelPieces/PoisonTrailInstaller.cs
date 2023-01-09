@@ -6,6 +6,11 @@ namespace Minipede.Installers
 {
 	public class PoisonTrailInstaller : Installer<PoisonTrailInstaller.Settings, PoisonTrailInstaller>
 	{
+		/// <summary>
+		/// This ID should match a <see cref="Transform"/> within the scene being bound using a <see cref="ZenjectBinding"/>.
+		/// </summary>
+		private const string _containerId = "PoisonPool";
+
 		[Inject]
 		private readonly Settings _settings;
 
@@ -23,6 +28,9 @@ namespace Minipede.Installers
 						PoisonVolumeInstaller.Install( container )
 					)
 					.WithGameObjectName( _settings.Prefab.name )
+					.UnderTransform( context => context
+						.Container.ResolveId<Transform>( _containerId ) 
+					)
 				);
 		}
 

@@ -44,7 +44,7 @@ namespace Minipede.Installers
 					.ByNewContextPrefab( prefab )
 					.WithGameObjectName( prefab.name )
 					.AsCached()
-			);
+				);
 		}
 
 		protected virtual void BindSpawnBehavior()

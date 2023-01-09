@@ -1,3 +1,4 @@
+using System;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
@@ -9,7 +10,7 @@ namespace Minipede.Gameplay.Player
     public class Explorer : MonoBehaviour,
 		IPawn,
 		IDamageController,
-		ICleanup
+		IDisposable
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -54,7 +55,7 @@ namespace Minipede.Gameplay.Player
 		public void EnterShip( Ship ship )
 		{
 			_treasureHauler.CollectAll( ship.Body );
-			Cleanup();
+			Dispose();
 		}
 
 		public void StartGrabbing()
@@ -99,10 +100,10 @@ namespace Minipede.Gameplay.Player
 
 		private void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
-			Cleanup();
+			Dispose();
 		}
 
-		public void Cleanup()
+		public void Dispose()
 		{
 			if ( _isCleanedUp )
 			{

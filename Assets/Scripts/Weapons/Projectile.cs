@@ -6,8 +6,7 @@ namespace Minipede.Gameplay.Weapons
 {
 	public class Projectile : MonoBehaviour,
 		IPoolable<Vector2, Quaternion, IMemoryPool>,
-		IDisposable,
-		ICleanup
+		IDisposable
 	{
 		public event System.Action<Projectile> Destroyed;
 
@@ -42,12 +41,6 @@ namespace Minipede.Gameplay.Weapons
 		}
 
 		public void OnDamagedOther( DamageDeliveredSignal message )
-		{
-			//GameObject.Destroy( Body.gameObject );
-			Cleanup();
-		}
-
-		public void Cleanup()
 		{
 			Dispose();
 		}

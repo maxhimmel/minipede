@@ -10,8 +10,7 @@ namespace Minipede.Gameplay.LevelPieces
 	public class Block : MonoBehaviour,
 		IDamageController,
 		IPoolable<IOrientation, IMemoryPool>,
-		IDisposable,
-		ICleanup
+		IDisposable
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -54,11 +53,6 @@ namespace Minipede.Gameplay.LevelPieces
 		}
 
 		protected virtual void HandleDeath( Rigidbody2D victimBody, HealthController health )
-		{
-			Cleanup();
-		}
-
-		public void Cleanup()
 		{
 			Dispose();
 		}

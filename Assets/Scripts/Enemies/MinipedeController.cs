@@ -362,7 +362,7 @@ namespace Minipede.Gameplay.Enemies
 				} )
 				.Forget();
 
-			segment.Cleanup();
+			segment.Dispose();
 
 			return newHead;
 		}

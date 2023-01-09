@@ -1,4 +1,4 @@
-using Minipede.Gameplay;
+using System;
 using UnityEngine;
 
 namespace Minipede.Utility
@@ -10,10 +10,10 @@ namespace Minipede.Utility
 			var attachedBody = collision.attachedRigidbody;
 			if ( attachedBody != null )
 			{
-				ICleanup cleanup = attachedBody.GetComponent<ICleanup>();
-				if ( cleanup != null )
+				var disposable = attachedBody.GetComponent<IDisposable>();
+				if ( disposable != null )
 				{
-					cleanup.Cleanup();
+					disposable.Dispose();
 				}
 				else
 				{

@@ -33,7 +33,7 @@ namespace Minipede.Gameplay.Enemies
 
 			if ( IsAlive )
 			{
-				Cleanup();
+				Dispose();
 			}
 		}
 

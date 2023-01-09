@@ -54,7 +54,7 @@ namespace Minipede.Utility
 			/// </summary>
 			public RefurbishInstructions Destroy()
 			{
-				_currentCell.Block.Cleanup();
+				_currentCell.Block.Dispose();
 				return new RefurbishInstructions( _levelGraph, _currentCell, _mushroomProvider );
 			}
 

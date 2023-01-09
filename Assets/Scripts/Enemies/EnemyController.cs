@@ -12,8 +12,7 @@ namespace Minipede.Gameplay.Enemies
 	public class EnemyController : MonoBehaviour,
 		IDamageController,
 		IPoolable<IOrientation, IMemoryPool>,
-		IDisposable,
-		ICleanup
+		IDisposable
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -70,11 +69,6 @@ namespace Minipede.Gameplay.Enemies
 		protected virtual void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
 			_lootBox.Open( victimBody.position );
-			Cleanup();
-		}
-
-		public void Cleanup()
-		{
 			Dispose();
 		}
 

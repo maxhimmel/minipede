@@ -1,32 +1,27 @@
-﻿using Minipede.Utility;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Minipede.Gameplay.Weapons
 {
 	public class PoisonTrailFactory
 	{
-		private readonly PoisonVolume _settings;
-		private readonly LifetimerComponent.Factory _lifetimerFactory;
+		private readonly PoisonVolume.Factory _factory;
+		private readonly float _lifetime;
 
-		public PoisonTrailFactory( PoisonVolume settings,
-			LifetimerComponent.Factory lifetimerFactory )
+		public PoisonTrailFactory( PoisonVolume.Factory factory,
+			float lifetime )
 		{
-			_settings = settings;
-			_lifetimerFactory = lifetimerFactory;
+			_factory = factory;
+			_lifetime = lifetime;
 		}
 
 		/// <summary>
-		/// Creates a <see cref="LifetimerComponent"/> instance <b>and</b> starts the lifetime countdown.
+		/// Creates a <see cref="PoisonVolume"/> instance <b>and</b> starts the lifetime countdown.
 		/// </summary>
-		/// <param name="position"></param>
-		public LifetimerComponent Create( Vector2 position )
+		public PoisonVolume Create( Transform owner, Vector2 position )
 		{
-			var result = _lifetimerFactory.Create(
-				_settings.Prefab,
-				new Orientation( position )
-			);
+			var result = _factory.Create( owner, position, _lifetime );
+			result.StartExpiring();
 
-			result.StartLifetime( _settings.Lifetime );
 			return result;
 		}
 	}

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9159f4409177ad24988a416cc75ab26d, type: 3}
   m_Name: Beetle
   m_EditorClassIdentifier: 
+  _initalPoolSize: 5
   _prefab: {fileID: 1652218027726842911, guid: 065c4eaca3d2a5e44b302bae233886d4, type: 3}
   _spawnPlacement:
   - Area:

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db42f4389aa77284aacd2307356b0a47, type: 3}
   m_Name: Bee
   m_EditorClassIdentifier: 
+  _initalPoolSize: 20
   _prefab: {fileID: 1177213487019694021, guid: 23f4588b3553ac14c85f96c327827397, type: 3}
   _spawnPlacement:
   - Area:

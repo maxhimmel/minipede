@@ -24,7 +24,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			int segmentCount = _settings.SegmentRange.Random( true );
 			newEnemy.SetSegments(
-				CreateSegmentFollowers( segmentCount, newEnemy.Body, newEnemy.transform.parent )
+				CreateSegmentFollowers( segmentCount, newEnemy.Body, newEnemy.transform.parent ), true
 			);
 		}
 
@@ -40,7 +40,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 					(-offsetDir).ToLookRotation(),
 					parent
 				) );
-				newSegment.OnSpawned();
+				newSegment.StartMainBehavior();
 
 				leader = newSegment.Body;
 				segments.Add( newSegment );

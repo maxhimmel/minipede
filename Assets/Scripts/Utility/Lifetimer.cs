@@ -13,7 +13,7 @@ namespace Minipede.Utility
 		public Lifetimer() { }
 		public Lifetimer( float duration )
 		{
-			_duration = duration;
+			SetDuration( duration );
 		}
 
 		/// <summary>
@@ -27,8 +27,14 @@ namespace Minipede.Utility
 		public void StartLifetime( float duration )
 		{
 			_canExpire = true;
-			_duration = duration;
 			_lifetimer = 0;
+
+			SetDuration( duration );
+		}
+
+		public void SetDuration( float duration )
+		{
+			_duration = duration;
 		}
 
 		public void Pause()

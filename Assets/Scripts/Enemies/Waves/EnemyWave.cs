@@ -116,7 +116,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			foreach ( var enemy in _livingEnemies )
 			{
-				enemy.Cleanup();
+				enemy.Dispose();
 			}
 			_livingEnemies.Clear();
 		}

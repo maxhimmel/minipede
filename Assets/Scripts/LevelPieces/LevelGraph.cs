@@ -10,7 +10,7 @@ namespace Minipede.Gameplay.LevelPieces
 	{
 		public Settings Data { get; private set; }
 
-		private Block.Factory _blockFactory;
+		private BlockFactoryBus _blockFactoryBus;
 		private Graph<LevelCell> _graph;
 
 		private Vector2 _initialOrigin;
@@ -18,10 +18,10 @@ namespace Minipede.Gameplay.LevelPieces
 
 		[Inject]
 		public void Construct( GameplaySettings.Level settings,
-			Block.Factory blockFactory )
+			BlockFactoryBus blockFactoryBus )
 		{
 			Data = settings.Graph;
-			_blockFactory = blockFactory;
+			_blockFactoryBus = blockFactoryBus;
 
 			_graph = new Graph<LevelCell>(
 				settings.Graph.Dimensions.Row(),
@@ -201,8 +201,10 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			var cell = GetCellData( row, column );
 
-			var newBlock = _blockFactory.Create( prefab, new Orientation( cell.Center ) ) as TBlock;
-			newBlock.transform.SetParent( transform );
+			TBlock newBlock = _blockFactoryBus.Create( 
+				prefab, 
+				new Orientation( cell.Center, Quaternion.identity, transform ) 
+			) as TBlock;
 
 			cell.Block = newBlock;
 

@@ -158,7 +158,7 @@ namespace Minipede.Gameplay.Player
 			}
 
 			_inventory.Collect( treasure.Resource );
-			treasure.Cleanup();
+			treasure.Dispose();
 
 			return true;
 		}

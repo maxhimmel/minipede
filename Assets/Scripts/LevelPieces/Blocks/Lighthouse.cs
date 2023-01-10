@@ -7,16 +7,13 @@ namespace Minipede.Gameplay.LevelPieces
 {
 	public class Lighthouse : Block
 	{
-		private Rigidbody2D _body;
 		private CleansedArea.Factory _cleansedAreaFactory;
 
 		private CleansedArea _cleansedArea;
 
 		[Inject]
-		public void Construct( Rigidbody2D body,
-			CleansedArea.Factory cleansedAreaFactory )
+		public void Construct( CleansedArea.Factory cleansedAreaFactory )
 		{
-			_body = body;
 			_cleansedAreaFactory = cleansedAreaFactory;
 		}
 

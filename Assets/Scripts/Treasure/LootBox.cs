@@ -7,10 +7,10 @@ namespace Minipede.Gameplay.Treasures
     public class LootBox
     {
 		private readonly Settings _settings;
-		private readonly Treasure.Factory _treasureFactory;
+		private readonly TreasureFactoryBus _treasureFactory;
 
 		public LootBox( Settings settings,
-			Treasure.Factory treasureFactory )
+			TreasureFactoryBus treasureFactory )
 		{
 			_settings = settings;
 			_settings.Spawns.Init();

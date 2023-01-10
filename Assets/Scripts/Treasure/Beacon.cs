@@ -90,12 +90,17 @@ namespace Minipede.Gameplay.Treasures
 			return this;
 		}
 
-		public new class Factory : UnityFactory<Beacon> 
+		public class Factory : UnityFactory<Beacon> 
 		{
-			public ResourceType Resource => _resource;
+			public ResourceType Resource { get; }
 
-			[Inject]
-			private readonly ResourceType _resource;
+			public Factory( DiContainer container, 
+				Beacon prefab,
+				ResourceType resource ) 
+				: base( container, prefab )
+			{
+				Resource = resource;
+			}
 		}
 	}
 }

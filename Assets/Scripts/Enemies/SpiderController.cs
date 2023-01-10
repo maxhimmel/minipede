@@ -22,14 +22,14 @@ namespace Minipede.Gameplay.Enemies
 			_motor = motor;
 		}
 
-		public override void OnSpawned()
+		public override void StartMainBehavior()
 		{
-			base.OnSpawned();
+			base.StartMainBehavior();
 
 			InitRowColumnDirection();
 
 			NavigationRoutine()
-				.Cancellable( _onDestroyCancelToken )
+				.Cancellable( OnDestroyCancelToken )
 				.Forget();
 		}
 
@@ -74,7 +74,7 @@ namespace Minipede.Gameplay.Enemies
 				_motor.StartMoving( GetMoveDirection( destination ) );
 				while ( _motor.IsMoving )
 				{
-					await UniTask.WaitForFixedUpdate( _onDestroyCancelToken );
+					await UniTask.WaitForFixedUpdate( OnDestroyCancelToken );
 				}
 
 				bool canPingPong = _settings.PingPongChance.DiceRoll();
@@ -102,7 +102,7 @@ namespace Minipede.Gameplay.Enemies
 					_motor.StartMoving( GetMoveDirection( destination ) );
 				}
 
-				await UniTask.WaitForFixedUpdate( _onDestroyCancelToken );
+				await UniTask.WaitForFixedUpdate( OnDestroyCancelToken );
 			}
 		}
 

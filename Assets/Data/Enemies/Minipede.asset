@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6d3a4568f0562249b93d05a3987347d, type: 3}
   m_Name: Minipede
   m_EditorClassIdentifier: 
+  _initalPoolSize: 20
   _prefab: {fileID: -5776135086835103509, guid: cccfaedb81881644fbeb3e858069e0a7, type: 3}
   _spawnPlacement:
   - Area:
@@ -24,4 +25,3 @@ MonoBehaviour:
         Item: 180
   _settings:
     SegmentRange: {x: 2, y: 6}
-    SegmentPrefab: {fileID: -1147648705226150016, guid: b4e3ef860a2523d4480d166b5e447b42, type: 3}

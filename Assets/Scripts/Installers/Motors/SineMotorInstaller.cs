@@ -10,7 +10,8 @@ namespace Minipede.Installers
 	public class SineMotorInstaller :
 		ConfigurableInstaller<SineMotor, SineMotor.Settings>
 	{
-		[Inject] private DragonflyController.Settings _dragonfly;
+		[Inject] 
+		private DragonflyController.Settings _dragonfly;
 
 		public override SineMotor.Settings GetSettings()
 		{

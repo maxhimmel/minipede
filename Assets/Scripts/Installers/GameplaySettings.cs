@@ -5,6 +5,7 @@ using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.Fx;
+using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -12,6 +13,7 @@ using Zenject;
 
 using BlockActor = Minipede.Gameplay.LevelPieces.Block;
 using BeaconActor = Minipede.Gameplay.Treasures.Beacon;
+using System.Collections.Generic;
 
 namespace Minipede.Installers
 {
@@ -124,6 +126,21 @@ namespace Minipede.Installers
 
 			/* --- */
 
+			Container.Bind<PoisonTrailFactory>()
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+					PoisonTrailInstaller.Install( subContainer, _blockSettings.Poison )
+				)
+				.WithKernel()
+				.AsCached()
+				.WhenInjectedInto<PoisonMushroom>();
+
+			Container.BindInstance( _levelSettings.PoisonDamage )
+				.AsSingle()
+				.WhenInjectedInto<DamageAOE>();
+
+			/* --- */
+
 			Container.BindInterfacesAndSelfTo<LevelMushroomHealer>()
 				.AsSingle();
 
@@ -134,6 +151,15 @@ namespace Minipede.Installers
 
 			Container.Bind<BlockActor.Factory>()
 				.AsSingle()
+				.WhenInjectedInto<BlockFactoryBus>();
+
+			Container.Bind<BlockFactoryBus>()
+				.AsSingle()
+				.WithArguments( new List<BlockFactoryBus.PoolSettings>() {
+					_blockSettings.Mushrooms.Standard,
+					_blockSettings.Mushrooms.Poison,
+					_blockSettings.Mushrooms.Flower
+				} )
 				.WhenInjectedInto<LevelGraph>();
 
 			Container.Bind<MushroomProvider>()
@@ -175,9 +201,6 @@ namespace Minipede.Installers
 			Container.BindInstance( _playerSettings.Hauling )
 				.AsSingle()
 				.WhenInjectedInto<TreasureHauler>();
-
-			Container.Bind<Treasure.Factory>()
-				.AsSingle();
 
 			foreach ( var beaconFactory in _beaconSettings.Factories )
 			{
@@ -238,6 +261,9 @@ namespace Minipede.Installers
 			public float SpawnRate;
 			[Space, TabGroup( "Spawning" )]
 			public WeightedListInt RowGeneration;
+
+			[FoldoutGroup( "Poison" ), HideLabel]
+			public DamageAOE.Settings PoisonDamage;
 		}
 
 		[System.Serializable]
@@ -245,8 +271,10 @@ namespace Minipede.Installers
 		{
 			[HideLabel, FoldoutGroup( "Gameplay" )]
 			public Mushroom.Settings Settings;
-			[BoxGroup( "Prefabs" ), HideLabel]
-			public MushroomProvider.Settings Mushrooms;
+			[HideLabel, FoldoutGroup( "Mushrooms" )]
+			public BlockFactoryBus.Settings Mushrooms;
+			[HideLabel, FoldoutGroup( "Poison" )]
+			public PoisonTrailInstaller.Settings Poison;
 		}
 
 		[System.Serializable]

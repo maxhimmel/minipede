@@ -24,7 +24,7 @@ namespace Minipede.Gameplay.Player
 			}
 			explorer.ReleaseTreasure( beacon );
 
-			mushroom.Cleanup();
+			mushroom.Dispose();
 
 			var newLighthouse = _levelGraph.CreateBlock( _settings.LighthousePrefab, mushroom.transform.position );
 			newLighthouse.Equip( beacon );

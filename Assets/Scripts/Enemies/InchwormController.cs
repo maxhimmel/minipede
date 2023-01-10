@@ -23,9 +23,9 @@ namespace Minipede.Gameplay.Enemies
 			_debuffController = debuffController;
 		}
 
-		public override void OnSpawned()
+		public override void StartMainBehavior()
 		{
-			base.OnSpawned();
+			base.StartMainBehavior();
 
 			_motor.SetDesiredVelocity( transform.up );
 		}

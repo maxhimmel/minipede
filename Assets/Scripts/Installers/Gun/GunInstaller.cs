@@ -1,3 +1,4 @@
+using System;
 using Minipede.Gameplay.Weapons;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -40,20 +41,23 @@ namespace Minipede.Installers
 
 		private void BindProjectileFactory()
 		{
-			Container.Bind<IProjectileProvider>()
-				.To<ProjectileProvider>()
-				.AsSingle()
-				.WithArguments( _settings.Projectile );
-
 			Container.BindFactory<Vector2, Quaternion, Projectile, Projectile.Factory>()
-				.FromFactory<Projectile.CustomFactory>();
+				.FromMonoPoolableMemoryPool( pool => pool
+					.WithInitialSize( _settings.InitialPoolSize )
+					.FromSubContainerResolve()
+					.ByNewContextPrefab( _settings.Projectile )
+					.WithGameObjectName( _settings.Projectile.name )
+				);
 		}
 
 		[System.Serializable]
 		public struct Settings
 		{
 			public Gun.Settings Gun;
-			public ProjectileProvider.Settings Projectile;
+			[Space]
+			public int InitialPoolSize;
+			public GameObject Projectile;
+			[Space]
 			public DamageTrigger.Settings Damage;
 
 			[Space, InlineEditor]

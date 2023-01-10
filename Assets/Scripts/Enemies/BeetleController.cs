@@ -24,14 +24,17 @@ namespace Minipede.Gameplay.Enemies
 			_blockShifter = blockShifter;
 		}
 
-		public override async void OnSpawned()
+		public override async void StartMainBehavior()
 		{
-			base.OnSpawned();
+			base.StartMainBehavior();
 
 			await NavigationRoutine()
-				.Cancellable( _onDestroyCancelToken );
+				.Cancellable( OnDestroyCancelToken );
 
-			Cleanup();
+			if ( IsAlive )
+			{
+				Dispose();
+			}
 		}
 
 		private async UniTask NavigationRoutine()
@@ -67,7 +70,7 @@ namespace Minipede.Gameplay.Enemies
 			while ( _motor.IsMoving )
 			{
 				TryCreateFlowers();
-				await UniTask.WaitForFixedUpdate( _onDestroyCancelToken );
+				await UniTask.WaitForFixedUpdate( OnDestroyCancelToken );
 			}
 		}
 

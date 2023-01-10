@@ -21,7 +21,7 @@ namespace Minipede.Gameplay.LevelPieces
 			_mushroomProvider = mushroomProvider;
 		}
 
-		public async UniTask GenerateLevel()
+		public virtual async UniTask GenerateLevel()
 		{
 			_settings.RowGeneration.Init();
 

@@ -4,7 +4,6 @@ using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Weapons;
-using Minipede.Installers;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -37,9 +36,14 @@ namespace Minipede.Gameplay.Enemies
 			_enemyBuilder = enemyBuilder;
 			_playerZoneSpawner = playerZoneSpawner;
 			_poisonTrailFactory = poisonTrailFactory;
+		}
 
+		public override void OnSpawned( IOrientation placement, IMemoryPool pool )
+		{
+			_isPoisoned = false;
 			_rowDir = Vector2Int.down;
-			_columnDir = new Vector2Int( RandomExtensions.Sign(), 0 );
+
+			base.OnSpawned( placement, pool );
 		}
 
 		public void StartSidewaysTransition()
@@ -48,45 +52,54 @@ namespace Minipede.Gameplay.Enemies
 			_columnDir.x = -1 * side;
 
 			_motor.Arrived += OnHorizontalArrival;
-			_motor.StartMoving( _columnDir ).Forget();
+			_motor.StartMoving( _columnDir, OnDestroyCancelToken )
+				.Forget();
 		}
 
-		public override void OnSpawned()
+		public override void StartMainBehavior()
 		{
-			base.OnSpawned();
+			base.StartMainBehavior();
+
+			_columnDir = new Vector2Int( RandomExtensions.Sign(), 0 );
 
 			UpdateRowTransition()
-				.Cancellable( _onDestroyCancelToken )
+				.Cancellable( OnDestroyCancelToken )
 				.Forget();
 		}
 
 		private async UniTask UpdateRowTransition()
 		{
-			Vector2Int arrivalCoord = await PerformRowTransition();
+			var results = await PerformRowTransition()
+					.AttachExternalCancellation( OnDestroyCancelToken )
+					.SuppressCancellationThrow();
+
+			if ( results.IsCanceled )
+			{
+				return;
+			}
 
 			// We're on top of a block or will collide with a block in front of us ...
-			while ( WillCollideWithNextColumn( arrivalCoord, out _ ) ||
+			while ( WillCollideWithNextColumn( results.Result, out _ ) ||
 				 _levelForeman.TryQueryFilledBlock( _body.position, out _ ) )
 			{
-				var results = await PerformRowTransition()
-					.AttachExternalCancellation( _onDestroyCancelToken )
+				results = await PerformRowTransition()
+					.AttachExternalCancellation( OnDestroyCancelToken )
 					.SuppressCancellationThrow();
 
 				if ( results.IsCanceled )
 				{
 					return;
 				}
-
-				arrivalCoord = results.Result;
 			}
 
 			_motor.Arrived += OnHorizontalArrival;
-			_motor.StartMoving( _columnDir ).Forget();
+			_motor.StartMoving( _columnDir, OnDestroyCancelToken )
+				.Forget();
 		}
 
 		private async UniTask<Vector2Int> PerformRowTransition()
 		{
-			if ( _body == null )
+			if ( !IsAlive )
 			{
 				return Vector2Int.one * -1;
 			}
@@ -98,7 +111,7 @@ namespace Minipede.Gameplay.Enemies
 				_rowDir.y *= -1;
 			}
 			nextRowCoord += _rowDir.ToRowCol();
-			await _motor.SetDestination( nextRowCoord );
+			await _motor.SetDestination( nextRowCoord, OnDestroyCancelToken );
 
 			if ( IsWithinShipZone( nextRowCoord ) )
 			{
@@ -113,7 +126,7 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			Vector2Int nextColCoord = nextRowCoord + _columnDir.ToRowCol();
-			await _motor.SetDestination( nextColCoord );
+			await _motor.SetDestination( nextColCoord, OnDestroyCancelToken );
 
 			return nextColCoord;
 		}
@@ -131,13 +144,13 @@ namespace Minipede.Gameplay.Enemies
 					_isPoisoned = true;
 
 					RushBottomRow()
-						.Cancellable( _onDestroyCancelToken )
+						.Cancellable( OnDestroyCancelToken )
 						.Forget();
 				}
 				else
 				{
 					UpdateRowTransition()
-						.Cancellable( _onDestroyCancelToken )
+						.Cancellable( OnDestroyCancelToken )
 						.Forget();
 				}
 			}
@@ -163,7 +176,7 @@ namespace Minipede.Gameplay.Enemies
 			while ( _rowDir.y < 0 )
 			{
 				var results = await PerformRowTransition()
-					.AttachExternalCancellation( _onDestroyCancelToken )
+					.AttachExternalCancellation( OnDestroyCancelToken )
 					.SuppressCancellationThrow();
 
 				if ( results.IsCanceled )
@@ -176,7 +189,8 @@ namespace Minipede.Gameplay.Enemies
 			_isPoisoned = false;
 
 			_motor.Arrived += OnHorizontalArrival;
-			_motor.StartMoving( _columnDir ).Forget();
+			_motor.StartMoving( _columnDir, OnDestroyCancelToken )
+				.Forget();
 		}
 
 		private bool WillCollideWithNextColumn( Vector2Int currentCoords, out LevelForeman.DemolishInstructions instructions )
@@ -198,7 +212,7 @@ namespace Minipede.Gameplay.Enemies
 			if ( _isPoisoned && _levelForeman.TryQueryEmptyBlock( _body.position, out var instructions ) )
 			{
 				var spawnPos = instructions.Cell.Center;
-				_poisonTrailFactory.Create( spawnPos );
+				_poisonTrailFactory.Create( transform, spawnPos );
 			}
 		}
 
@@ -228,9 +242,22 @@ namespace Minipede.Gameplay.Enemies
 			if ( _segments != null && _segments.Count > 0 )
 			{
 				MinipedeController newHead = ReplaceSegmentWithHead( 0, victimBody.position );
+
+				// A new head was chosen from the pool ...
 				if ( _segments.Count > 0 )
 				{
-					newHead.SetSegments( _segments );
+					bool isNewHeadFresh = (newHead != this);
+
+					newHead.SetSegments( _segments, listenForSegmentDeaths: isNewHeadFresh );
+
+					if ( isNewHeadFresh )
+					{
+						foreach ( var segment in _segments )
+						{
+							segment.Died -= OnSegmentDied;
+						}
+						_segments = null;
+					}
 				}
 			}
 		}
@@ -250,6 +277,31 @@ namespace Minipede.Gameplay.Enemies
 			return false;
 		}
 
+		public override void OnDespawned()
+		{
+			_motor.Arrived -= OnHorizontalArrival;
+			_motor.StopMoving();
+
+			base.OnDespawned();
+		}
+
+		public void SetSegments( List<SegmentController> segments, bool listenForSegmentDeaths )
+		{
+			_segments = segments;
+			Rigidbody2D leader = _body;
+
+			foreach ( var segment in segments )
+			{
+				if ( listenForSegmentDeaths )
+				{
+					segment.Died += OnSegmentDied;
+				}
+
+				segment.StartFollowing( leader );
+				leader = segment.Body;
+			}
+		}
+
 		private void OnSegmentDied( Rigidbody2D victimBody, HealthController health )
 		{
 			int victimIndex = RemoveDeadSegment( victimBody );
@@ -259,7 +311,7 @@ namespace Minipede.Gameplay.Enemies
 				if ( _segments.Count > 0 )
 				{
 					List<SegmentController> bottomHalf = _segments.GetRange( victimIndex, _segments.Count - victimIndex );
-					newHead.SetSegments( bottomHalf );
+					newHead.SetSegments( bottomHalf, true );
 				}
 
 				RemoveSegmentRange( _segments.Count - 1, victimIndex );
@@ -280,6 +332,7 @@ namespace Minipede.Gameplay.Enemies
 			if ( victimIndex >= 0 )
 			{
 				_segments.RemoveAt( victimIndex );
+				victimSegment.Died -= OnSegmentDied;
 			}
 
 			return victimIndex;
@@ -289,6 +342,7 @@ namespace Minipede.Gameplay.Enemies
 		{
 			SegmentController segment = _segments[segmentIndex];
 			_segments.RemoveAt( segmentIndex );
+			segment.Died -= OnSegmentDied;
 
 			MinipedeController newHead = _enemyBuilder.Build<MinipedeController>()
 				.WithPlacement( segment.transform.ToData() )
@@ -297,28 +351,20 @@ namespace Minipede.Gameplay.Enemies
 			newHead._columnDir = _columnDir;
 
 			Vector2Int destCoord = _levelGraph.WorldPosToCellCoord( newHeadPosition );
-			newHead._motor.SetDestination( destCoord )
-				.ContinueWith( newHead.UpdateRowTransition )
-				.Cancellable( newHead._onDestroyCancelToken )
+			newHead._motor.SetDestination( destCoord, newHead.OnDestroyCancelToken )
+				.ContinueWith( () => {
+					if ( newHead.IsAlive )
+					{
+						newHead.UpdateRowTransition()
+							.Cancellable( newHead.OnDestroyCancelToken )
+							.Forget();
+					}
+				} )
 				.Forget();
 
-			segment.Cleanup();
+			segment.Dispose();
 
 			return newHead;
-		}
-
-		public void SetSegments( List<SegmentController> segments )
-		{
-			_segments = segments;
-			Rigidbody2D leader = _body;
-
-			foreach ( var segment in segments )
-			{
-				segment.Died += OnSegmentDied;
-
-				segment.StartFollowing( leader );
-				leader = segment.Body;
-			}
 		}
 
 		private void RemoveSegmentRange( int startIndex, int endIndex )
@@ -326,9 +372,9 @@ namespace Minipede.Gameplay.Enemies
 			for ( int idx = startIndex; idx >= endIndex; --idx )
 			{
 				var segment = _segments[idx];
-				segment.Died -= OnSegmentDied;
 
 				_segments.RemoveAt( idx );
+				segment.Died -= OnSegmentDied;
 			}
 		}
 
@@ -337,8 +383,6 @@ namespace Minipede.Gameplay.Enemies
 		{
 			[MinMaxSlider( 0, 10, ShowFields = true )]
 			public Vector2Int SegmentRange;
-
-			public SegmentController SegmentPrefab;
 		}
 	}
 }

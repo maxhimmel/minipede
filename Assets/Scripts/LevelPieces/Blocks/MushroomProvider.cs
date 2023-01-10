@@ -2,34 +2,26 @@
 {
 	public class MushroomProvider
 	{
-		private readonly Settings _settings;
+		private readonly BlockFactoryBus.Settings _settings;
 
-		public MushroomProvider( Settings settings )
+		public MushroomProvider( BlockFactoryBus.Settings settings )
 		{
 			_settings = settings;
 		}
 
 		public Mushroom GetStandardAsset()
 		{
-			return _settings.Standard;
+			return _settings.Standard.Prefab as Mushroom;
 		}
 
 		public Mushroom GetPoisonAsset()
 		{
-			return _settings.Poison;
+			return _settings.Poison.Prefab as Mushroom;
 		}
 
 		public Mushroom GetFlowerAsset()
 		{
-			return _settings.Flower;
-		}
-
-		[System.Serializable]
-		public struct Settings
-		{
-			public Mushroom Standard;
-			public PoisonMushroom Poison;
-			public Mushroom Flower;
+			return _settings.Flower.Prefab as Mushroom;
 		}
 	}
 }

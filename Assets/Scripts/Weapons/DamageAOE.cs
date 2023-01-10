@@ -5,22 +5,27 @@ using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
-    public class DamageAOE : MonoBehaviour
+    public class DamageAOE : MonoBehaviour,
+		IAttack
 	{
 		private Settings _settings;
-		private Transform _owner;
 		private Dictionary<IDamageable, DamageTick> _damageables;
 		private List<IDamageable> _expiredDamageables;
 
+		private Transform _owner;
+
 		[Inject]
-		public void Construct( Settings settings,
-			Transform owner )
+		public void Construct( Settings settings )
 		{
 			_settings = settings;
-			_owner = owner;
 
 			_damageables = new Dictionary<IDamageable, DamageTick>();
 			_expiredDamageables = new List<IDamageable>();
+		}
+
+		public void SetOwner( Transform owner )
+		{
+			_owner = owner;
 		}
 
 		private void OnTriggerEnter2D( Collider2D collision )

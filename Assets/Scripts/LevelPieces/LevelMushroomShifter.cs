@@ -90,7 +90,7 @@ namespace Minipede.Gameplay.LevelPieces
 					_ignoreNextCleanup = true;
 					_mushrooms.RemoveAt( idx );
 
-					mushroom.Cleanup();
+					mushroom.Dispose();
 				}
 			}
 		}

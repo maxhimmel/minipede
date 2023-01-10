@@ -39,8 +39,14 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public class Factory : UnityPrefabFactory<CleansedArea>
 		{
-			[Inject( Id = "CleansedAreaContainer" )]
 			private readonly Transform _areaContainer;
+
+			public Factory( DiContainer container,
+				[Inject( Id = "CleansedAreaContainer" )] Transform areaContainer )
+				: base( container )
+			{
+				_areaContainer = areaContainer;
+			}
 
 			public override CleansedArea Create( Object prefab, IOrientation placement, IEnumerable<object> extraArgs = null )
 			{

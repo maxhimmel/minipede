@@ -12,7 +12,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		}
 
 		/// <summary>
-		/// This is called after <see cref="EnemyController.OnSpawned"/> has been invoked.
+		/// This is called after <see cref="EnemyController.StartMainBehavior"/> has been invoked.
 		/// </summary>
 		protected abstract void HandleSpecialtySpawn( TEnemy newEnemy );
 	}

@@ -15,9 +15,11 @@ namespace Minipede.Installers
 		[SerializeField] private string _speedScalarId = "EnemySpeedScalar";
 		[Space, FoldoutGroup( "Shared" )]
 		[SerializeField] private DamageTrigger.Settings _damage;
+		[Space, FoldoutGroup( "Shared" )]
+		[SerializeField] private PoisonTrailInstaller.Settings _poisonTrail;
 
 		[InlineEditor, LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
-		[SerializeField] private EnemyInstaller[] _enemyInstallers;
+		[SerializeField] private EnemyModuleInstaller[] _enemyInstallers;
 
 		[FoldoutGroup( "Wave Spawning" )]
 		[SerializeField, HideLabel] private EnemyWaveController.Settings _wave;
@@ -52,6 +54,19 @@ namespace Minipede.Installers
 
 			Container.BindInterfacesAndSelfTo<EnemyDebuffController>()
 				.AsSingle();
+
+			/* --- */
+
+			Container.Bind<PoisonTrailFactory>()
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+					PoisonTrailInstaller.Install( subContainer, _poisonTrail )
+				)
+				.WithKernel()
+				.AsCached()
+				.WhenInjectedInto<EnemyController>();
+
+			/* --- */
 		}
 
 		private void BindEnemies()

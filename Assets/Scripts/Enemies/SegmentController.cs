@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Enemies.Spawning;
-using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
 using Minipede.Utility;
 using UnityEngine;
@@ -102,6 +101,13 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			return false;
+		}
+
+		public override void OnDespawned()
+		{
+			base.OnDespawned();
+
+			_motor.StopMoving();
 		}
 	}
 }

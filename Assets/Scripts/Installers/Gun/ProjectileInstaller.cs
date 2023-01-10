@@ -5,19 +5,19 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[RequireComponent( typeof( Projectile ), typeof( Rigidbody2D ) )]
 	public class ProjectileInstaller : MonoInstaller
 	{
 		public override void InstallBindings()
 		{
+			Container.BindInterfacesAndSelfTo<Projectile>()
+				.FromComponentOnRoot()
+				.AsSingle();
+
 			Container.DeclareSignal<DamageDeliveredSignal>()
 				.OptionalSubscriber();
 
-			Container.BindInterfacesAndSelfTo<Projectile>()
-				.AsSingle();
-
 			Container.Bind<Rigidbody2D>()
-				.FromMethod( GetComponent<Rigidbody2D> );
+				.FromComponentOnRoot();
 		}
 	}
 }

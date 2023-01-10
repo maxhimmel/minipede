@@ -16,7 +16,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 		protected override void HandleDeath( Rigidbody2D victimBody, HealthController health )
 		{
-			_poisonTrailFactory.Create( transform.position );
+			_poisonTrailFactory.Create( transform, transform.position );
 
 			base.HandleDeath( victimBody, health );
 		}
@@ -25,7 +25,7 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			base.OnMoving();
 
-			_poisonTrailFactory.Create( transform.position );
+			_poisonTrailFactory.Create( transform, transform.position );
 		}
 	}
 }

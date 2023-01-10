@@ -1,4 +1,5 @@
-﻿using Minipede.Utility;
+﻿using System;
+using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -7,7 +8,7 @@ namespace Minipede.Gameplay.Treasures
 {
 	public class Haulable : MonoBehaviour,
 		IFollower,
-		ICleanup
+		IDisposable
 	{
 		public Rigidbody2D Body => _body;
 		public bool IsFollowing => _followController.IsFollowing;
@@ -19,7 +20,6 @@ namespace Minipede.Gameplay.Treasures
 		private IFollower _followController;
 		protected Lifetimer _lifetimer;
 
-		private bool _isCleanedUp;
 		private LineRenderer _tetherRenderer;
 		private Vector3[] _tetherPositions;
 
@@ -54,17 +54,16 @@ namespace Minipede.Gameplay.Treasures
 			_lifetimer.Reset();
 		}
 
-		public void Cleanup()
+		public void Dispose()
 		{
-			if ( _isCleanedUp )
-			{
-				return;
-			}
-
 			StopFollowing();
 
+			HandleDisposal();
+		}
+
+		protected virtual void HandleDisposal()
+		{
 			Destroy( gameObject );
-			_isCleanedUp = true;
 		}
 
 		public void SnapToCollector( Rigidbody2D collector )
@@ -101,7 +100,7 @@ namespace Minipede.Gameplay.Treasures
 		{
 			if ( !_lifetimer.Tick() )
 			{
-				Cleanup();
+				Dispose();
 				return;
 			}
 

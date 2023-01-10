@@ -20,7 +20,6 @@ namespace Minipede.Gameplay.Treasures
 		private IFollower _followController;
 		protected Lifetimer _lifetimer;
 
-		private bool _isCleanedUp;
 		private LineRenderer _tetherRenderer;
 		private Vector3[] _tetherPositions;
 
@@ -57,15 +56,14 @@ namespace Minipede.Gameplay.Treasures
 
 		public void Dispose()
 		{
-			if ( _isCleanedUp )
-			{
-				return;
-			}
-
 			StopFollowing();
 
+			HandleDisposal();
+		}
+
+		protected virtual void HandleDisposal()
+		{
 			Destroy( gameObject );
-			_isCleanedUp = true;
 		}
 
 		public void SnapToCollector( Rigidbody2D collector )

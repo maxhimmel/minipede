@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 757e3b766a3172b45b65c296c1939ded, type: 3}
+  m_Name: TreasurePoolSettings
+  m_EditorClassIdentifier: 
+  _treasures:
+  - Prefab: {fileID: 5201620892933447158, guid: 3cc2ef870756d7940a9b04d9151bfc68, type: 3}
+    InitialSize: 30
+    ExpandMethod: 0
+  - Prefab: {fileID: 2615201194833307321, guid: 43166c5a202509b46ad64760a3f1e6a6, type: 3}
+    InitialSize: 15
+    ExpandMethod: 0
+  - Prefab: {fileID: 1912857232853727992, guid: 0002196434ec4f74cac3f800346ab4c5, type: 3}
+    InitialSize: 15
+    ExpandMethod: 0
+  - Prefab: {fileID: 2136045927195822331, guid: 54bd9159dfc4860448afec72c809f6e2, type: 3}
+    InitialSize: 15
+    ExpandMethod: 0

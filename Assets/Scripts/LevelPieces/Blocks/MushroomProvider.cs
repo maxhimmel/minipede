@@ -11,17 +11,17 @@
 
 		public Mushroom GetStandardAsset()
 		{
-			return _settings.Standard.Prefab;
+			return _settings.Standard.Prefab as Mushroom;
 		}
 
 		public Mushroom GetPoisonAsset()
 		{
-			return _settings.Poison.Prefab;
+			return _settings.Poison.Prefab as Mushroom;
 		}
 
 		public Mushroom GetFlowerAsset()
 		{
-			return _settings.Flower.Prefab;
+			return _settings.Flower.Prefab as Mushroom;
 		}
 	}
 }

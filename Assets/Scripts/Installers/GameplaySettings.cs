@@ -13,6 +13,7 @@ using Zenject;
 
 using BlockActor = Minipede.Gameplay.LevelPieces.Block;
 using BeaconActor = Minipede.Gameplay.Treasures.Beacon;
+using System.Collections.Generic;
 
 namespace Minipede.Installers
 {
@@ -154,7 +155,11 @@ namespace Minipede.Installers
 
 			Container.Bind<BlockFactoryBus>()
 				.AsSingle()
-				.WithArguments( _blockSettings.Mushrooms )
+				.WithArguments( new List<BlockFactoryBus.PoolSettings>() {
+					_blockSettings.Mushrooms.Standard,
+					_blockSettings.Mushrooms.Poison,
+					_blockSettings.Mushrooms.Flower
+				} )
 				.WhenInjectedInto<LevelGraph>();
 
 			Container.Bind<MushroomProvider>()

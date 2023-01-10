@@ -202,9 +202,6 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WhenInjectedInto<TreasureHauler>();
 
-			Container.Bind<Treasure.Factory>()
-				.AsSingle();
-
 			foreach ( var beaconFactory in _beaconSettings.Factories )
 			{
 				Container.Bind<BeaconActor.Factory>()

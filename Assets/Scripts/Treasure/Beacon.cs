@@ -90,7 +90,7 @@ namespace Minipede.Gameplay.Treasures
 			return this;
 		}
 
-		public new class Factory : UnityFactory<Beacon> 
+		public class Factory : UnityFactory<Beacon> 
 		{
 			public ResourceType Resource { get; }
 

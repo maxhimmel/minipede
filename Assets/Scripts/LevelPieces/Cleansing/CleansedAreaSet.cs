@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Minipede.Gameplay.LevelPieces
@@ -29,6 +30,7 @@ namespace Minipede.Gameplay.LevelPieces
 		[System.Serializable]
 		public struct Settings
 		{
+			[AssetSelector]
 			public CleansedArea[] Prefabs;
 		}
 	}

@@ -222,6 +222,28 @@ namespace Minipede.Gameplay.Player
 			_selector.enabled = false;
 		}
 
+		public void SetCollisionActive( bool isActive )
+		{
+			int count = _body.attachedColliderCount;
+			var colliders = new Collider2D[count];
+
+			_body.GetAttachedColliders( colliders );
+
+			for ( int idx = 0; idx < count; ++idx )
+			{
+				var collider = colliders[idx];
+				collider.enabled = isActive;
+			}
+		}
+
+		public void ClearMovement()
+		{
+			_motor.SetDesiredVelocity( Vector2.zero );
+
+			_body.velocity = Vector2.zero;
+			_body.angularVelocity = 0;
+		}
+
 		public class Factory : PlaceholderFactory<Ship> { }
 	}
 }

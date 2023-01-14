@@ -40,6 +40,13 @@ namespace Minipede.Gameplay
 			playerSpawnController.PlayerDied += OnPlayerDead;
 		}
 
+		public void Dispose()
+		{
+			_playerSpawnController.PlayerDied -= OnPlayerDead;
+
+			_audioBankLoader.UnloadBanks().Forget();
+		}
+
 		public async void Initialize()
 		{
 			// Let's wait a single frame to allow other initializables to subscribe ...
@@ -63,16 +70,6 @@ namespace Minipede.Gameplay
 
 			_playerSpawnController.RespawnPlayer();
 			_enemyWaveController.Play();
-		}
-
-		public void Dispose()
-		{
-			if ( _playerSpawnController != null )
-			{
-				_playerSpawnController.PlayerDied -= OnPlayerDead;
-			}
-
-			_audioBankLoader.UnloadBanks().Forget();
 		}
 	}
 }

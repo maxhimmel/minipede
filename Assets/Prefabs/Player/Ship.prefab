@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4338403580910732275}
   - component: {fileID: 2372796182105260919}
+  - component: {fileID: 7732701288245696137}
   m_Layer: 10
   m_Name: Slot
   m_TagString: Untagged
@@ -84,6 +85,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7732701288245696137
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5907523962066270332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd08c5b98b2e0040b27b996b758a283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interaction: 1
 --- !u!1 &6378720963049898104
 GameObject:
   m_ObjectHideFlags: 0
@@ -145,6 +159,7 @@ GameObject:
   - component: {fileID: 6378720963097473949}
   - component: {fileID: 6378720963097473948}
   - component: {fileID: 5189942001726060132}
+  - component: {fileID: 8569649324556357007}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -247,7 +262,20 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   m_ShapePathHash: 0
   m_Mesh: {fileID: 0}
-  m_InstanceId: 44742
+  m_InstanceId: 33930
+--- !u!114 &8569649324556357007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378720963097473946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd08c5b98b2e0040b27b996b758a283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interaction: 1
 --- !u!1 &6378720964115801298
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,6 +450,7 @@ GameObject:
   - component: {fileID: 5248903297680318733}
   - component: {fileID: 1009203128244414980}
   - component: {fileID: 308824403283130322}
+  - component: {fileID: 4212317975138008917}
   m_Layer: 10
   m_Name: Selector
   m_TagString: Untagged
@@ -514,3 +543,16 @@ MonoBehaviour:
   _useSceneContext: 0
   _context: {fileID: 0}
   _bindType: 0
+--- !u!114 &4212317975138008917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7760947009083922744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bd08c5b98b2e0040b27b996b758a283, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interaction: 1

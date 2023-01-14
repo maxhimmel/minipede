@@ -8,6 +8,9 @@ namespace Minipede.Gameplay.Player
 {
 	public class ShipController : IController<Ship>
 	{
+		public event Action<Ship> Possessed;
+		public event Action UnPossessed;
+
 		public Ship Pawn => _ship;
 
 		private readonly Rewired.Player _input;
@@ -37,6 +40,8 @@ namespace Minipede.Gameplay.Player
 			_input.RemoveInputEventDelegate( OnShowInventory );
 
 			_ship = null;
+
+			UnPossessed?.Invoke();
 		}
 
 		public void Possess( Ship pawn )
@@ -52,6 +57,8 @@ namespace Minipede.Gameplay.Player
 
 			pawn.PossessedBy( this );
 			_cameraToggler.Activate( pawn );
+
+			Possessed?.Invoke( pawn );
 		}
 
 		private void OnMoveHorizontal( InputActionEventData data )

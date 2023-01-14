@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Minipede.Gameplay;
 using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.Cameras;
@@ -13,7 +14,6 @@ using Zenject;
 
 using BlockActor = Minipede.Gameplay.LevelPieces.Block;
 using BeaconActor = Minipede.Gameplay.Treasures.Beacon;
-using System.Collections.Generic;
 
 namespace Minipede.Installers
 {
@@ -23,6 +23,7 @@ namespace Minipede.Installers
 		[SerializeField] private Player _playerSettings;
 		[SerializeField] private Block _blockSettings;
 		[SerializeField] private Beacon _beaconSettings;
+		[SerializeField] private PollutedAreaController.Settings _pollutionSettings;
 		[SerializeField] private Level _levelSettings;
 		[SerializeField] private Audio _audioSettings;
 
@@ -37,6 +38,8 @@ namespace Minipede.Installers
 			BindCleansing();
 			BindTreasure();
 			BindAudio();
+
+			DeclareSignals();
 		}
 
 		private void BindCameraSystems()
@@ -112,13 +115,6 @@ namespace Minipede.Installers
 
 		private void BindLevelGeneration()
 		{
-			Container.DeclareSignal<BlockSpawnedSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<BlockDestroyedSignal>()
-				.OptionalSubscriber();
-
-			/* --- */
-
 			Container.BindInstance( _levelSettings );
 
 			Container.BindInstance( _blockSettings.Settings )
@@ -179,25 +175,20 @@ namespace Minipede.Installers
 		{
 			Container.Bind<CleansedArea.Factory>()
 				.AsSingle();
+
+			/* --- */
+
+			Container.Bind( typeof( PollutedAreaController.Settings ), typeof( IPollutionWinPercentage ) )
+				.FromInstance( _pollutionSettings )
+				.AsSingle()
+				.WhenInjectedInto<PollutedAreaController>();
+
+			Container.BindInterfacesAndSelfTo<PollutedAreaController>()
+				.AsSingle();
 		}
 
 		private void BindTreasure()
 		{
-			Container.DeclareSignal<ResourceAmountChangedSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<BeaconEquippedSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<BeaconUnequippedSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<CreateBeaconSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<BeaconTypeSelectedSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<BeaconCreationStateChangedSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<ToggleInventorySignal>()
-				.OptionalSubscriber();
-
 			Container.BindInstance( _playerSettings.Hauling )
 				.AsSingle()
 				.WhenInjectedInto<TreasureHauler>();
@@ -225,6 +216,37 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<MusicPlayer>()
 				.AsSingle()
 				.WithArguments( _audioSettings.Music );
+		}
+
+		private void DeclareSignals()
+		{
+			// Level generation ...
+			Container.DeclareSignal<BlockSpawnedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BlockDestroyedSignal>()
+				.OptionalSubscriber();
+			
+			// Treasure ...
+			Container.DeclareSignal<ResourceAmountChangedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconEquippedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconUnequippedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<CreateBeaconSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconTypeSelectedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconCreationStateChangedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<ToggleInventorySignal>()
+				.OptionalSubscriber();
+
+			// Pollution ...
+			Container.DeclareSignal<PollutionLevelChangedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<IWinStateChangedSignal>()
+				.OptionalSubscriber();
 		}
 
 		[System.Serializable]

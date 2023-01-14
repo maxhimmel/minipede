@@ -15,7 +15,7 @@ namespace Minipede.Installers
 		[SerializeField] private bool _enableCheats = false;
 
 		[HideLabel, ShowIf( "_enableCheats" )]
-		[SerializeField] private CheatController.Settings _settings;
+		[SerializeField] private Settings _settings;
 
 		public override void InstallBindings()
 		{
@@ -68,16 +68,35 @@ namespace Minipede.Installers
 					.AsSingle()
 					.WithArguments( _settings.LevelWonResolver );
 			}
-
-			Container.BindInterfacesAndSelfTo<CheatController>()
-				.AsSingle()
-				.WithArguments( _settings );
 		}
 
 		private void LogCheatActivation<TCheat>()
 		{
 			Debug.LogWarning( $"<color=orange>[Cheat]</color> " +
 				$"Initializing <b>{ typeof( TCheat ).Name.SplitPascalCase()}</b>." );
+		}
+
+		[System.Serializable]
+		public struct Settings
+		{
+			[ToggleGroup( "UseWalletCheat", "Wallet", CollapseOthersOnExpand = false )]
+			public bool UseWalletCheat;
+			[ToggleGroup( "UseWalletCheat", CollapseOthersOnExpand = false ), TableList( AlwaysExpanded = true ), HideLabel]
+			public WalletCheat.Settings[] Wallet;
+
+			[ToggleGroup( "UseMushroomShifterCheat", "Mushroom Shifter (use arrow keys)", CollapseOthersOnExpand = false )]
+			public bool UseMushroomShifterCheat;
+
+			[ToggleGroup( "DisableEnemies", "Disable Enemies", CollapseOthersOnExpand = false )]
+			public bool DisableEnemies;
+
+			[ToggleGroup( "DisableLevelGeneration", "Disable Level Generation", CollapseOthersOnExpand = false )]
+			public bool DisableLevelGeneration;
+
+			[ToggleGroup( "UseFakeWinPercentage", "Fake Pollution Win Percentage", CollapseOthersOnExpand = false )]
+			public bool UseFakeWinPercentage;
+			[ToggleGroup( "UseFakeWinPercentage", CollapseOthersOnExpand = false ), HideLabel]
+			public LevelWonResolverCheat.Settings LevelWonResolver;
 		}
 	}
 }

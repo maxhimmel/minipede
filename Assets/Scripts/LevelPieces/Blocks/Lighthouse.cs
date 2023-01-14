@@ -24,6 +24,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 			var cleansedAreaPrefab = beacon.CleansedAreaProvider.GetAsset();
 			_cleansedArea = _cleansedAreaFactory.Create( cleansedAreaPrefab, new Orientation( _body.position ) );
+			_cleansedArea.Activate();
 		}
 
 		protected override void OnTakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )

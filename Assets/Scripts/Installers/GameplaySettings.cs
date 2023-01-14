@@ -25,12 +25,17 @@ namespace Minipede.Installers
 		[SerializeField] private Beacon _beaconSettings;
 		[SerializeField] private PollutedAreaController.Settings _pollutionSettings;
 		[SerializeField] private Level _levelSettings;
+		[SerializeField] private EndGameController.Settings _endGameSettings;
 		[SerializeField] private Audio _audioSettings;
 
 		public override void InstallBindings()
 		{
 			Container.BindInterfacesAndSelfTo<GameController>()
 				.AsSingle();
+
+			Container.BindInterfacesAndSelfTo<EndGameController>()
+				.AsSingle()
+				.WithArguments( _endGameSettings );
 
 			BindCameraSystems();
 			BindPlayer();

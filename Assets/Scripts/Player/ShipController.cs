@@ -61,6 +61,14 @@ namespace Minipede.Gameplay.Player
 			Possessed?.Invoke( pawn );
 		}
 
+		public void EnterEvacuationMode()
+		{
+			_ship.SetCollisionActive( false );
+			_ship.ClearMovement();
+
+			UnPossess();
+		}
+
 		private void OnMoveHorizontal( InputActionEventData data )
 		{
 			_ship.AddMoveInput( Vector2.right * data.GetAxis() );

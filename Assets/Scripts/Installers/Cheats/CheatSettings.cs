@@ -1,3 +1,4 @@
+using System.Text;
 using Minipede.Cheats;
 using Minipede.Gameplay;
 using Minipede.Gameplay.Enemies.Spawning;
@@ -24,9 +25,12 @@ namespace Minipede.Installers
 				return;
 			}
 
+			var messageBuilder = new StringBuilder($"<color=orange>CHEATS ACTIVATED</color>\n" +
+				$"<i>(select this for details)</i>\n" );
+
 			if ( _settings.UseWalletCheat )
 			{
-				LogCheatActivation<WalletCheat>();
+				LogCheatActivation<WalletCheat>( messageBuilder );
 
 				Container.BindInterfacesAndSelfTo<WalletCheat>()
 					.AsSingle()
@@ -35,7 +39,7 @@ namespace Minipede.Installers
 
 			if ( _settings.UseMushroomShifterCheat )
 			{
-				LogCheatActivation<MushroomShifterCheat>();
+				LogCheatActivation<MushroomShifterCheat>( messageBuilder );
 
 				Container.BindInterfacesAndSelfTo<MushroomShifterCheat>()
 					.AsSingle();
@@ -43,7 +47,7 @@ namespace Minipede.Installers
 
 			if ( _settings.DisableEnemies )
 			{
-				LogCheatActivation<EnemySpawnCheat>();
+				LogCheatActivation<EnemySpawnCheat>( messageBuilder );
 
 				Container.Decorate<EnemyWaveController>()
 					.With<EnemySpawnCheat>()
@@ -52,7 +56,7 @@ namespace Minipede.Installers
 
 			if ( _settings.DisableLevelGeneration )
 			{
-				LogCheatActivation<LevelGeneratorCheat>();
+				LogCheatActivation<LevelGeneratorCheat>( messageBuilder );
 
 				Container.Decorate<LevelGenerator>()
 					.With<LevelGeneratorCheat>()
@@ -61,18 +65,20 @@ namespace Minipede.Installers
 
 			if ( _settings.UseFakeWinPercentage )
 			{
-				LogCheatActivation<LevelWonResolverCheat>();
+				LogCheatActivation<LevelWonResolverCheat>( messageBuilder );
 
 				Container.Decorate<IPollutionWinPercentage>()
 					.With<LevelWonResolverCheat>()
 					.AsSingle()
 					.WithArguments( _settings.LevelWonResolver );
 			}
+
+			Debug.LogWarning( messageBuilder );
 		}
 
-		private void LogCheatActivation<TCheat>()
+		private void LogCheatActivation<TCheat>( StringBuilder messageBuilder )
 		{
-			Debug.LogWarning( $"<color=orange>[Cheat]</color> " +
+			messageBuilder.AppendLine( $"<color=orange>[Cheat]</color> " +
 				$"Initializing <b>{ typeof( TCheat ).Name.SplitPascalCase()}</b>." );
 		}
 

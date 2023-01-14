@@ -1,4 +1,5 @@
 using Minipede.Cheats;
+using Minipede.Gameplay;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
 using Sirenix.OdinInspector;
@@ -11,11 +12,18 @@ namespace Minipede.Installers
     [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/CheatSettings" )]
     public class CheatSettings : ScriptableObjectInstaller
     {
-		[HideLabel]
+		[SerializeField] private bool _enableCheats = false;
+
+		[HideLabel, ShowIf( "_enableCheats" )]
 		[SerializeField] private CheatController.Settings _settings;
 
 		public override void InstallBindings()
 		{
+			if ( !_enableCheats )
+			{
+				return;
+			}
+
 			if ( _settings.UseWalletCheat )
 			{
 				LogCheatActivation<WalletCheat>();
@@ -49,6 +57,16 @@ namespace Minipede.Installers
 				Container.Decorate<LevelGenerator>()
 					.With<LevelGeneratorCheat>()
 					.AsSingle();
+			}
+
+			if ( _settings.UseFakeWinPercentage )
+			{
+				LogCheatActivation<LevelWonResolverCheat>();
+
+				Container.Decorate<IPollutionWinPercentage>()
+					.With<LevelWonResolverCheat>()
+					.AsSingle()
+					.WithArguments( _settings.LevelWonResolver );
 			}
 
 			Container.BindInterfacesAndSelfTo<CheatController>()

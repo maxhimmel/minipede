@@ -20,6 +20,11 @@ namespace Minipede.Cheats
 
 			[ToggleGroup( "DisableLevelGeneration", "Disable Level Generation", CollapseOthersOnExpand = false )]
 			public bool DisableLevelGeneration;
+
+			[ToggleGroup( "UseFakeWinPercentage", "Fake Pollution Win Percentage", CollapseOthersOnExpand = false )]
+			public bool UseFakeWinPercentage;
+			[ToggleGroup( "UseFakeWinPercentage" ), HideLabel]
+			public LevelWonResolverCheat.Settings LevelWonResolver;
 		}
 	}
 }

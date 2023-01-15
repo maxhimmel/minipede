@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings:
     MaxSpeed: 20
-    Acceleration: 100
+    Acceleration: 256.16

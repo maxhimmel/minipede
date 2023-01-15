@@ -12,6 +12,13 @@ namespace Minipede.Gameplay.LevelPieces
 	{
 		public Block Victim;
 	}
+
+	public class PollutionLevelChangedSignal : IWinStateChangedSignal
+	{
+		public bool CanWin { get; set; }
+
+		public float NormalizedLevel;
+	}
 }
 
 namespace Minipede.Gameplay.Enemies
@@ -35,6 +42,11 @@ namespace Minipede.Gameplay
 		public Transform Instigator;
 		public Transform Causer;
 		public Vector2 HitDirection;
+	}
+
+	public interface IWinStateChangedSignal
+	{
+		bool CanWin { get; }
 	}
 }
 

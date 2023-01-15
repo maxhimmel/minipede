@@ -8,11 +8,14 @@ namespace Minipede.Gameplay.LevelPieces
     public class CleansedArea : MonoBehaviour
     {
 		private List<Collider2D> _colliders;
+		private PollutedAreaController _pollutionController;
 
 		[Inject]
-		public void Construct( List<Collider2D> colliders )
+		public void Construct( List<Collider2D> colliders,
+			PollutedAreaController pollutionController )
 		{
 			_colliders = colliders;
+			_pollutionController = pollutionController;
 		}
 
 		public void Activate()
@@ -20,6 +23,11 @@ namespace Minipede.Gameplay.LevelPieces
 			foreach ( var collider in _colliders )
 			{
 				collider.enabled = true;
+
+				_pollutionController.Cleanse( new Bounds(
+					center: collider.transform.position,
+					size:	collider.transform.lossyScale
+				) );
 			}
 
 			// TODO: What about the sprites?
@@ -31,6 +39,8 @@ namespace Minipede.Gameplay.LevelPieces
 			foreach ( var collider in _colliders )
 			{
 				collider.enabled = false;
+
+				// TODO: Re-pollute the previously cleansed bounds?
 			}
 
 			// TODO: What about the sprites?
@@ -41,11 +51,10 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			private readonly Transform _areaContainer;
 
-			public Factory( DiContainer container,
-				[Inject( Id = "CleansedAreaContainer" )] Transform areaContainer )
+			public Factory( DiContainer container )
 				: base( container )
 			{
-				_areaContainer = areaContainer;
+				_areaContainer = container.ResolveId<Transform>( "CleansedAreaContainer" );
 			}
 
 			public override CleansedArea Create( Object prefab, IOrientation placement, IEnumerable<object> extraArgs = null )

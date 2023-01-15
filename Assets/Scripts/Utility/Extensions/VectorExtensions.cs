@@ -123,5 +123,22 @@ namespace Minipede.Utility
 		{
             return self;
 		}
+
+        public static Vector3Int RoundToVector3Int( this Vector3 self )
+		{
+            return new Vector3Int(
+                Mathf.RoundToInt( self.x ),
+                Mathf.RoundToInt( self.y ),
+                Mathf.RoundToInt( self.z )
+            );
+        }
+
+        public static Vector2Int RoundToVector2Int( this Vector2 self )
+        {
+            return new Vector2Int(
+                Mathf.RoundToInt( self.x ),
+                Mathf.RoundToInt( self.y )
+            );
+        }
     }
 }

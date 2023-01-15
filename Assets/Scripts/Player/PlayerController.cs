@@ -1,6 +1,5 @@
 using System.Threading;
 using Minipede.Gameplay.LevelPieces;
-using Minipede.Utility;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Player

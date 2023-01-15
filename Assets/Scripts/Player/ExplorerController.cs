@@ -1,4 +1,5 @@
-﻿using Minipede.Gameplay.Cameras;
+﻿using System;
+using Minipede.Gameplay.Cameras;
 using Minipede.Utility;
 using Rewired;
 using UnityEngine;
@@ -7,6 +8,9 @@ namespace Minipede.Gameplay.Player
 {
 	public class ExplorerController : IController<Explorer>
 	{
+		public event Action<Explorer> Possessed;
+		public event Action UnPossessed;
+
 		public Explorer Pawn => _explorer;
 
 		private readonly Rewired.Player _input;
@@ -38,6 +42,8 @@ namespace Minipede.Gameplay.Player
 			_explorer.ReleaseAllTreasure();
 
 			_explorer = null;
+
+			UnPossessed?.Invoke();
 		}
 
 		public void Possess( Explorer pawn )
@@ -52,6 +58,8 @@ namespace Minipede.Gameplay.Player
 			_input.AddAxisDelegate( OnMoveVertical, ReConsts.Action.Vertical );
 
 			_cameraToggler.Activate( pawn );
+
+			Possessed?.Invoke( pawn );
 		}
 
 		private void OnInteract( InputActionEventData obj )

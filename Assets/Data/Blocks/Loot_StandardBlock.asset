@@ -18,7 +18,7 @@ MonoBehaviour:
     Spawns:
       _allowEmptyRolls: 0
       _items:
-      - _normalizedWeight: 71
+      - _normalizedWeight: 61
         Item: 0
-      - _normalizedWeight: 29
+      - _normalizedWeight: 39
         Item: 1

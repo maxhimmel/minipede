@@ -20,4 +20,4 @@ MonoBehaviour:
       FollowForce: 2
       SnapToCollectorSpeed: 20
       MinFollowDistance: 1.75
-    Weight: 1
+    Weight: 2.32

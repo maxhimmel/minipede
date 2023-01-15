@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sampler:
     Prefabs:
-    - {fileID: 3078455525067892237, guid: 1e0d5c64e76df754286970fef6be9a3e, type: 3}
+    - {fileID: 1901888739773532990, guid: 559ad98a7f959f94a8472ac8733c76c2, type: 3}

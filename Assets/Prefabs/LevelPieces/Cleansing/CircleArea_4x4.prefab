@@ -1,15 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8925991262850251718
+--- !u!1001 &3721174263769492242
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 125507625693801018, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
+      propertyPath: _components.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088157334420838650, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2413806693520163455, guid: 4adeaf2d2b1c7417e89f026626d8264f, type: 3}
     - target: {fileID: 4854634375789856898, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_Name
-      value: CleansedArea_3x3
+      value: CircleArea_4x4
       objectReference: {fileID: 0}
     - target: {fileID: 4854634375789856901, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_RootOrder
@@ -33,15 +41,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4854634375789856901, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4854634375789856901, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4854634375789856901, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4854634375789856901, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -57,47 +65,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7764322449875015769, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7764322449875015769, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7764322449875015769, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_LocalScale.z
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4489545754640025373, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
---- !u!1 &6023944335565153123 stripped
+--- !u!1 &2009274971917251511 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2902047374098274469, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
-  m_PrefabInstance: {fileID: 8925991262850251718}
+  m_PrefabInstance: {fileID: 3721174263769492242}
   m_PrefabAsset: {fileID: 0}
---- !u!61 &433591127811388332
-BoxCollider2D:
+--- !u!58 &6644180282657890039
+CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6023944335565153123}
+  m_GameObject: {fileID: 2009274971917251511}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
+  m_Radius: 0.5

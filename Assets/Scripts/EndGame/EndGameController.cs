@@ -1,6 +1,7 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Player;
+using Minipede.Gameplay.UI;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -13,17 +14,19 @@ namespace Minipede.Gameplay.LevelPieces
 		private readonly Settings _settings;
 		private readonly SignalBus _signalBus;
 		private readonly ShipController _shipController;
+		private readonly ScreenFadeController _screenFader;
 
 		private bool _canWin;
 
 		public EndGameController( Settings settings,
 			SignalBus signalBus,
-			ShipController shipController )
+			ShipController shipController,
+			ScreenFadeController screenFader )
 		{
 			_settings = settings;
 			_signalBus = signalBus;
 			_shipController = shipController;
-
+			_screenFader = screenFader;
 			signalBus.Subscribe<IWinStateChangedSignal>( OnWinStateChanged );
 			shipController.Possessed += OnShipPossessed;
 		}
@@ -65,6 +68,14 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			await StartFlyAwaySequence( ship );
 			await StartTakeoffSequence( ship );
+
+			await _screenFader.FadeOut( _settings.TakeoffDuration * 0.25f );
+			// Unload scene
+			// Load transition scene where ship looks like it's flying over scrolling mushrooms
+			// Fade in
+			// Wait a couple seconds ???
+			// Fade out 
+			// Reload the main gameplay scene
 
 			// Get all lighthouses
 				// Blink each lighthouse once

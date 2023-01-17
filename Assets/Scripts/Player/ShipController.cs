@@ -54,6 +54,7 @@ namespace Minipede.Gameplay.Player
 			_input.AddButtonReleasedDelegate( OnStopFiring, ReConsts.Action.Fire );
 			_input.AddButtonPressedDelegate( OnEjectShip, ReConsts.Action.Interact );
 			_input.AddButtonPressedDelegate( OnShowInventory, ReConsts.Action.Inventory );
+			_input.AddButtonPressedDelegate( OnShowInventory, ReConsts.Action.Loadout );
 
 			pawn.PossessedBy( this );
 			_cameraToggler.Activate( pawn );
@@ -101,7 +102,8 @@ namespace Minipede.Gameplay.Player
 
 			_timeController.SetTimeScale( isVisible ? 0 : 1 );
 
-			// TODO: Disable Gameplay map & enable UI map
+			_input.EnableMapRuleSet( nameof( ReConsts.MapEnablerRuleSet.UI ), isVisible );
+			_input.EnableMapRuleSet( nameof( ReConsts.MapEnablerRuleSet.Gameplay ), !isVisible );
 		}
 	}
 }

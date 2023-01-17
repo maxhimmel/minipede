@@ -44,5 +44,13 @@ namespace Minipede.Utility
 				actionId 
 			);
 		}
+
+		public static void EnableMapRuleSet( this Player input, string ruleSetTag, bool isEnabled )
+		{
+			var ruleSet = input.controllers.maps.mapEnabler.ruleSets.Find( set => set.tag == ruleSetTag );
+			ruleSet.enabled = isEnabled;
+
+			input.controllers.maps.mapEnabler.Apply();
+		}
 	}
 }

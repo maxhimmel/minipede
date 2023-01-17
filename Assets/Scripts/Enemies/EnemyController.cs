@@ -74,6 +74,12 @@ namespace Minipede.Gameplay.Enemies
 
 		public void Dispose()
 		{
+			if ( !IsAlive )
+			{
+				//Debug.LogError( $"Attempted to dispose a dead enemy.\n{name} | {this.GetInstanceID()}", this );
+				return;
+			}
+
 			_memoryPool.Despawn( this );
 		}
 

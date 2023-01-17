@@ -27,6 +27,7 @@ namespace Minipede.Gameplay.LevelPieces
 			_signalBus = signalBus;
 			_shipController = shipController;
 			_screenFader = screenFader;
+
 			signalBus.Subscribe<IWinStateChangedSignal>( OnWinStateChanged );
 			shipController.Possessed += OnShipPossessed;
 		}

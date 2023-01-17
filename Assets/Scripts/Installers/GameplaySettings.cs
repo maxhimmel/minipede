@@ -185,8 +185,7 @@ namespace Minipede.Installers
 
 			Container.Bind( typeof( PollutedAreaController.Settings ), typeof( IPollutionWinPercentage ) )
 				.FromInstance( _pollutionSettings )
-				.AsSingle()
-				.WhenInjectedInto<PollutedAreaController>();
+				.AsSingle();
 
 			Container.BindInterfacesAndSelfTo<PollutedAreaController>()
 				.AsSingle();

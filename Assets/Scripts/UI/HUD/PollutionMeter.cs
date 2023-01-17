@@ -10,6 +10,7 @@ namespace Minipede.Gameplay.UI
     public class PollutionMeter : MonoBehaviour
     {
         [SerializeField] private Slider _slider;
+        [SerializeField] private Image _winRequirementFill;
 
 		[Header( "Animation" )]
 		[SerializeField] private float _animDuration = 0.25f;
@@ -21,11 +22,14 @@ namespace Minipede.Gameplay.UI
 		private CancellationTokenSource _updateSliderCancelSource;
 
 		[Inject]
-		public void Construct( SignalBus signalBus )
+		public void Construct( SignalBus signalBus,
+			IPollutionWinPercentage winPercentage )
 		{
 			_signalBus = signalBus;
 
 			_updateSliderCancelSource = AppHelper.CreateLinkedCTS();
+
+			_winRequirementFill.fillAmount = winPercentage.PollutionWinPercentage;
 		}
 
 		private void OnEnable()

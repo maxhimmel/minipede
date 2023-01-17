@@ -53,7 +53,7 @@ namespace Minipede.Gameplay.Weapons
 		{
 			var body = collision.attachedRigidbody;
 			damageable = body?.GetComponent<IDamageable>();
-			if ( damageable == null )
+			if ( damageable == null || !damageable.Health.IsAlive )
 			{
 				return false;
 			}
@@ -68,10 +68,6 @@ namespace Minipede.Gameplay.Weapons
 				return;
 			}
 
-			// TODO: This can error out when the player dies within a poison AOE ...
-			// Maybe, simply change this method from Update -> LateUpdate ???
-				// InvalidOperationException: Collection was modified; enumeration operation may not execute.
-				// System.Collections.Generic.Dictionary`2+ValueCollection+Enumerator[TKey,TValue].MoveNext ()
 			foreach ( var dmgTick in _damageables.Values )
 			{
 				bool isLiving = dmgTick.Tick( _owner, transform, _settings.Damage.Type );

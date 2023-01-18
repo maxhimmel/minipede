@@ -24,12 +24,12 @@ namespace Minipede.Utility
 			StartLifetime( _duration );
 		}
 
-		public void StartLifetime( float duration )
+		public virtual void StartLifetime( float duration )
 		{
-			_canExpire = true;
 			_lifetimer = 0;
 
 			SetDuration( duration );
+			Resume();
 		}
 
 		public void SetDuration( float duration )
@@ -37,18 +37,18 @@ namespace Minipede.Utility
 			_duration = duration;
 		}
 
-		public void Pause()
-		{
-			_canExpire = false;
-		}
-
-		public void Resume()
+		public virtual void Resume()
 		{
 			_canExpire = true;
 		}
 
+		public virtual void Pause()
+		{
+			_canExpire = false;
+		}
+
 		/// <returns>True while timer is alive.</returns>
-		public bool Tick()
+		public virtual bool Tick()
 		{
 			if ( !_canExpire )
 			{

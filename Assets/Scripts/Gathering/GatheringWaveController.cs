@@ -3,10 +3,12 @@ using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Gathering
 {
-    public class GatheringWaveController : IDisposable
+    public class GatheringWaveController : IInitializable,
+		IDisposable
     {
 		private readonly Settings _settings;
 		private readonly EnemyWaveController _enemyWaveController;
@@ -18,30 +20,22 @@ namespace Minipede.Gameplay.Gathering
 		{
 			_settings = settings;
 			_enemyWaveController = enemyWaveController;
+		}
 
-			enemyWaveController.WaveCompleted += OnWaveCompleted;
+		public void Initialize()
+		{
+			_enemyWaveController.WaveCompleted += OnWaveCompleted;
 
 			ResetCountdown();
 		}
 
 		public void Dispose()
 		{
-			if ( _enemyWaveController != null )
-			{
-				_enemyWaveController.WaveCompleted -= OnWaveCompleted;
-			}
+			_enemyWaveController.WaveCompleted -= OnWaveCompleted;
 		}
 
 		private async void OnWaveCompleted()
 		{
-			// Do some kinda tracking, right?
-			// How many waves have passed?
-			// How many gems have spawned?!
-			// Is now the time to ...
-			// 1. Pause (interrupt) the enemy wave controller.
-			// 2. Delay for N seconds.
-			// 3. Resume (play) the enemy wave controller.
-
 			--_countdown;
 			if ( _countdown <= 0 )
 			{

@@ -92,7 +92,7 @@ MonoBehaviour:
     CenteringDuration: 0.7
     CenteringAnim: 19
     CenteringPosition: {x: 0, y: -8}
-    TakeoffDelay: 0.2
+    TakeoffDelay: 0.1
     TakeoffDuration: 1.3
     TakeoffAnim: 37
     TakeoffDestination: {x: 0, y: 17}

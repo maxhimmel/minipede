@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Audio;
+using Minipede.Gameplay.UI;
 using Minipede.Utility;
 using Zenject;
 
@@ -23,6 +24,10 @@ namespace Minipede.Installers
 
 			Container.Bind<Rewired.Player>()
 				.FromMethod( GetFirstPlayer );
+
+			Container.Bind<ScreenFadeController>()
+				.FromMethod( GetComponentInChildren<ScreenFadeController> )
+				.AsSingle();
 		}
 
 		private Rewired.Player GetFirstPlayer()

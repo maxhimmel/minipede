@@ -13,8 +13,7 @@ namespace Minipede.Installers
 		{
 			Container.BindInterfacesAndSelfTo<GatheringWaveController>()
 				.AsSingle()
-				.WithArguments( _settings )
-				.NonLazy();
+				.WithArguments( _settings );
 		}
 	}
 }

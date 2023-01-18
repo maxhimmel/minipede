@@ -1,26 +1,31 @@
-using System.Threading;
 using Cysharp.Threading.Tasks;
-using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Minipede
+namespace Minipede.Gameplay.Fx
 {
     public class SpriteBlinker
     {
 		private readonly SpriteRenderer _renderer;
 		private readonly Color _initialColor;
-		private readonly CancellationToken _destroyedCancelToken;
+
+		private bool _isPlaying;
 
 		public SpriteBlinker( SpriteRenderer renderer )
 		{
 			_renderer = renderer;
 			_initialColor = renderer.color;
-			_destroyedCancelToken = renderer.GetCancellationTokenOnDestroy();
+		}
+
+		public void Stop()
+		{
+			_isPlaying = false;
 		}
 
 		public async UniTask Blink( Settings data )
 		{
+			_isPlaying = true;
+
 			bool toggle = false;
 			float stepDuration = data.Duration / data.Blinks;
 
@@ -28,16 +33,17 @@ namespace Minipede
 			{
 				toggle = !toggle;
 				_renderer.color = toggle ? data.Color : _initialColor;
-				await TaskHelpers.DelaySeconds( stepDuration, _destroyedCancelToken )
-					.SuppressCancellationThrow();
 
-				if ( _destroyedCancelToken.IsCancellationRequested )
+				float stepTimer = 0;
+				while ( stepTimer < stepDuration && _isPlaying )
 				{
-					return;
+					stepTimer += Time.deltaTime;
+					await UniTask.Yield( PlayerLoopTiming.FixedUpdate );
 				}
 			}
 
 			_renderer.color = _initialColor;
+			_isPlaying = false;
 		}
 
         [System.Serializable]

@@ -18,7 +18,7 @@ namespace Minipede.Gameplay.Treasures
 		private Settings _settings;
 		protected Rigidbody2D _body;
 		private IFollower _followController;
-		protected Lifetimer _lifetimer;
+		protected AnimatedLifetimer _lifetimer;
 
 		private LineRenderer _tetherRenderer;
 		private Vector3[] _tetherPositions;
@@ -26,13 +26,13 @@ namespace Minipede.Gameplay.Treasures
 		[Inject]
 		public void Construct( Settings settings,
 			Rigidbody2D body,
-			IFollower followController )
+			IFollower followController,
+			AnimatedLifetimer lifetimer )
 		{
 			_settings = settings;
 			_body = body;
 			_followController = followController;
-
-			_lifetimer = new Lifetimer( settings.LifetimeRange.Random() );
+			_lifetimer = lifetimer;
 
 			SetupTether();
 		}
@@ -51,7 +51,7 @@ namespace Minipede.Gameplay.Treasures
 			_body.velocity = impulse;
 			_body.angularVelocity = _settings.TorqueRange.Random();
 
-			_lifetimer.Reset();
+			_lifetimer.StartLifetime( _settings.LifetimeRange.Random() );
 		}
 
 		public void Dispose()
@@ -87,7 +87,7 @@ namespace Minipede.Gameplay.Treasures
 		{
 			_tetherRenderer.enabled = false;
 
-			_lifetimer.Reset();
+			_lifetimer.StartLifetime( _settings.LifetimeRange.Random() );
 			_followController.StopFollowing();
 		}
 

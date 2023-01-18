@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Treasure
   m_EditorClassIdentifier: 
   _settings:
-    LifetimeRange: {x: 15.303471, y: 20.289019}
+    LifetimeRange: {x: 14.195572, y: 19.18112}
     TorqueRange: {x: 674.21967, y: 903.12134}
     TetherPrefab: {fileID: 1824722372019756568, guid: 3f9e8fab95fc6e648860996ad417b75f, type: 3}
     Follow:
@@ -21,3 +21,7 @@ MonoBehaviour:
       SnapToCollectorSpeed: 20
       MinFollowDistance: 1.75
     Weight: 0.4
+  _expiration:
+    Color: {r: 0, g: 0, b: 0, a: 0}
+    Blinks: 10
+    Duration: 1

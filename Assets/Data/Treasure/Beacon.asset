@@ -21,3 +21,7 @@ MonoBehaviour:
       SnapToCollectorSpeed: 20
       MinFollowDistance: 1.75
     Weight: 1
+  _expiration:
+    Color: {r: 0, g: 0, b: 0, a: 0}
+    Blinks: 10
+    Duration: 1

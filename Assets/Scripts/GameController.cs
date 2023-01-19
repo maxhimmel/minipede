@@ -36,7 +36,6 @@ namespace Minipede.Gameplay
 			_enemyWaveController = enemyWaveController;
 			_audioBankLoader = audioBankLoader;
 			_mushroomHealer = mushroomHealer;
-			_gatheringWave = gatheringWave;
 		}
 
 		public void Dispose()

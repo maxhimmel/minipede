@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Minipede.Utility;
 using UnityEngine;
 
@@ -31,6 +32,21 @@ namespace Minipede.Gameplay.Enemies
 	public class EnemySpawnedSignal
 	{
 		public EnemyController Enemy;
+	}
+}
+
+namespace Minipede.Gameplay.Enemies.Spawning
+{
+	public class WaveProgressSignal
+	{
+		public string Id;
+		public float NormalizedProgress;
+	}
+
+	public class WaveQueueChangedSignal
+	{
+		public int CurrentWave;
+		public IReadOnlyList<string> IdQueue;
 	}
 }
 

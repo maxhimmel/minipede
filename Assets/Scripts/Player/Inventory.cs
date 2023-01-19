@@ -50,11 +50,9 @@ namespace Minipede.Gameplay.Player
 		private void OnCreateBeacon( CreateBeaconSignal signal )
 		{
 			var spawnOrientation = _shipController.Pawn.Orientation;
-			_beaconFactory.Create( _resourceType, spawnOrientation );
+			var newBeacon = _beaconFactory.Create( _resourceType, spawnOrientation );
 
-			// No need to actually invoke Collect since the beacon is spawned on top of the ship.
-				// The ship/beacon colliders will naturally handle the collecting.
-			//shipPawn.Collect( newBeacon	);
+			_shipController.Pawn.Collect( newBeacon );
 
 			int remainingAmount = _wallet.Spend( _resourceType, _settings.GemsToBeacon );
 			FireBeaconCreationStateChangedSignal( _resourceType, remainingAmount );

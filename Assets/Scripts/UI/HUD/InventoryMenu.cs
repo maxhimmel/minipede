@@ -76,9 +76,7 @@ namespace Minipede.Gameplay.UI
 			bool isSelected = signal.ResourceType != null;
 			
 			_createBeaconButton.interactable = isSelected;
-
-			/// TODO: Change <see cref="_createBeaconButton"/> color to match <see cref="BeaconTypeSelectedSignal.ResourceType"/>
-			/// ...
+			_createBeaconButton.targetGraphic.color = isSelected ? signal.ResourceType.Color : Color.white;
 
 			_disabledConnector.enabled = !isSelected;
 			_enabledConnector.enabled = isSelected;

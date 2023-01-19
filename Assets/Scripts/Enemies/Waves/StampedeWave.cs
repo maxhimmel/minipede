@@ -69,7 +69,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 			--_expectedSpawnCount;
 
-			if ( !IsAnyEnemyAlive && _expectedSpawnCount <= 0 )
+			if ( _expectedSpawnCount <= 0 )
 			{
 				SendCompletedEvent();
 			}

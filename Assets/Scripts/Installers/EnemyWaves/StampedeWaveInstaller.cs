@@ -1,7 +1,6 @@
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
 using UnityEngine;
-using Zenject;
 
 namespace Minipede.Installers
 {

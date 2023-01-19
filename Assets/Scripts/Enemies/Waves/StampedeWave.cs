@@ -58,6 +58,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			}
 		}
 
+		protected override bool CanTrackEnemy( EnemyController enemy )
+		{
+			return enemy is TEnemy;
+		}
+
 		protected override void OnTrackedEnemyDestroyed( EnemyController victim )
 		{
 			base.OnTrackedEnemyDestroyed( victim );

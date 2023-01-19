@@ -30,3 +30,4 @@ MonoBehaviour:
     UseFakeWinPercentage: 1
     LevelWonResolver:
       WinPercentage: 1
+    IsShipGod: 1

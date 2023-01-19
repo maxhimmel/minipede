@@ -73,6 +73,14 @@ namespace Minipede.Installers
 					.WithArguments( _settings.LevelWonResolver );
 			}
 
+			if ( _settings.IsShipGod )
+			{
+				LogCheatActivation<ShipGodModeCheat>( messageBuilder );
+
+				Container.BindInterfacesAndSelfTo<ShipGodModeCheat>()
+					.AsSingle();
+			}
+
 			Debug.LogWarning( messageBuilder );
 		}
 
@@ -103,6 +111,9 @@ namespace Minipede.Installers
 			public bool UseFakeWinPercentage;
 			[ToggleGroup( "UseFakeWinPercentage", CollapseOthersOnExpand = false ), HideLabel]
 			public LevelWonResolverCheat.Settings LevelWonResolver;
+
+			[ToggleGroup( "IsShipGod", "God Mode: Ship", CollapseOthersOnExpand = false )]
+			public bool IsShipGod;
 		}
 	}
 }

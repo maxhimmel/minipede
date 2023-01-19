@@ -121,6 +121,13 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<SpiderSpawnController>()
 				.AsSingle()
 				.WithArguments( _spiderWave );
+
+			/* --- */
+
+			Container.DeclareSignal<WaveProgressSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<WaveQueueChangedSignal>()
+				.OptionalSubscriber();
 		}
 	}
 }

@@ -12,3 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5fa35b8f82aaf740aa7645cc3abf103, type: 3}
   m_Name: UISettings
   m_EditorClassIdentifier: 
+  _waveTimeline:
+    Visuals:
+    - Id: Gathering
+      Color: {r: 1, g: 1, b: 1, a: 1}
+    - Id: MinipedeController
+      Color: {r: 0.99215686, g: 0.5882353, b: 0.21176471, a: 1}
+    - Id: BeeController
+      Color: {r: 0.30588236, g: 0.38039216, b: 1, a: 1}
+    - Id: DragonflyController
+      Color: {r: 0.9529412, g: 1, b: 0.30588236, a: 1}
+    - Id: MosquitoController
+      Color: {r: 0.3254902, g: 0.96862745, b: 1, a: 1}

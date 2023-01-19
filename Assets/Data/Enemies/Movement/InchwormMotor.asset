@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: InchwormMotor
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 10
+    MaxSpeed: 8.5

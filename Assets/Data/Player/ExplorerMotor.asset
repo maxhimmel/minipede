@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: ExplorerMotor
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 2.5
-    MinSpeed: 0.25
-    Acceleration: 100
+    MaxSpeed: 4.51
+    Acceleration: 95.11

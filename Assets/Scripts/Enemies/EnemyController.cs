@@ -24,14 +24,14 @@ namespace Minipede.Gameplay.Enemies
 		}
 
 		public HealthController Health => _damageController.Health;
-		public bool IsReady => _gameController.IsReady;
+		public bool IsReady => _levelInitializer.IsReady;
 		public bool IsAlive => _onDestroyCancelSource != null && !OnDestroyCancelToken.IsCancellationRequested;
 		public CancellationToken OnDestroyCancelToken => _onDestroyCancelSource.Token;
 		public Rigidbody2D Body => _body;
 
 		protected Rigidbody2D _body;
 		private IDamageController _damageController;
-		protected GameController _gameController;
+		protected ILevelInitializer _levelInitializer;
 		protected LevelGraph _levelGraph;
 		protected LevelForeman _levelForeman;
 		protected SignalBus _signalBus;
@@ -44,7 +44,7 @@ namespace Minipede.Gameplay.Enemies
 		[Inject]
 		public void Construct( Rigidbody2D body,
 			IDamageController damageController,
-			GameController gameController, 
+			ILevelInitializer levelInitializer, 
 			LevelGraph levelGraph,
 			LevelForeman foreman,
 			SignalBus signalBus,
@@ -53,7 +53,7 @@ namespace Minipede.Gameplay.Enemies
 		{
 			_body = body;
 			_damageController = damageController;
-			_gameController = gameController;
+			_levelInitializer = levelInitializer;
 			_levelGraph = levelGraph;
 			_levelForeman = foreman;
 			_signalBus = signalBus;

@@ -10,7 +10,7 @@ using Zenject;
 
 namespace Minipede.Gameplay
 {
-	public class GameController : 
+	public class GameController : ILevelInitializer,
 		IInitializable, 
 		IDisposable
 	{
@@ -36,8 +36,7 @@ namespace Minipede.Gameplay
 			_enemyWaveController = enemyWaveController;
 			_audioBankLoader = audioBankLoader;
 			_mushroomHealer = mushroomHealer;
-
-			playerSpawnController.PlayerDied += OnPlayerDead;
+			_gatheringWave = gatheringWave;
 		}
 
 		public void Dispose()
@@ -51,6 +50,8 @@ namespace Minipede.Gameplay
 		{
 			// Let's wait a single frame to allow other initializables to subscribe ...
 			await UniTask.Yield();
+
+			_playerSpawnController.PlayerDied += OnPlayerDead;
 
 			await _audioBankLoader.LoadBanks();
 			await _levelGenerator.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );

@@ -1,39 +1,46 @@
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Enemies;
+using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Player;
+using UnityEngine;
 using Zenject;
 
-namespace Minipede.Gameplay.Enemies.Spawning
+namespace Minipede.Gameplay.Waves
 {
-	public abstract class EnemyWave : IEnemyWave
+	public abstract class EnemyWave : IWave
 	{
-		public event IEnemyWave.CompletedSignature Completed;
-
-		public bool IsRunning { get; protected set; }
+		public abstract string Id { get; }
+		public bool IsRunning { get; private set; }
 		protected bool IsAnyEnemyAlive => _livingEnemies.Count > 0;
 		protected CancellationToken PlayerDiedCancelToken => _playerSpawn.PlayerDiedCancelToken;
 
 		protected readonly EnemySpawnBuilder _enemyBuilder;
 		protected readonly EnemyPlacementResolver _placementResolver;
 		private readonly PlayerController _playerSpawn;
+		private readonly SpiderSpawnController _spiderSpawnController;
 		private readonly SignalBus _signalBus;
 		private readonly HashSet<EnemyController> _livingEnemies;
+
+		private IWave.Result? _waveResult;
 
 		public EnemyWave( EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver,
 			PlayerController playerSpawn,
+			SpiderSpawnController spiderSpawnController,
 			SignalBus signalBus )
 		{
 			_enemyBuilder = enemyBuilder;
 			_placementResolver = placementResolver;
 			_playerSpawn = playerSpawn;
+			_spiderSpawnController = spiderSpawnController;
 			_signalBus = signalBus;
 
 			_livingEnemies = new HashSet<EnemyController>();
 		}
 
-		public void StartSpawning()
+		public async UniTask<IWave.Result> Play()
 		{
 			if ( IsRunning )
 			{
@@ -44,10 +51,26 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 
 			IsRunning = true;
+			_waveResult = null;
+
 			HandleSpawning();
+
+			_spiderSpawnController.Play();
+
+			await UniTask.WaitWhile( () => IsRunning );
+
+			return ConsumeResult();
 		}
 
 		protected abstract void HandleSpawning();
+
+		private IWave.Result ConsumeResult()
+		{
+			var result = _waveResult.Value;
+			_waveResult = null;
+
+			return result;
+		}
 
 		private void OnEnemySpawned( EnemySpawnedSignal signal )
 		{
@@ -67,7 +90,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		private async void OnEnemyDestroyed( EnemyDestroyedSignal signal )
 		{
-			//Debug.Log( $"{signal.Victim.name} was destroyed." );
+			//Debug.Log( $"{signal.Victim.name} was destroyed.", signal.Victim );
 			_livingEnemies.Remove( signal.Victim );
 
 			await EnemyCleanupDelay();
@@ -94,22 +117,30 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			return true;
 		}
 
-		public bool Interrupt()
+		public void Interrupt()
 		{
-			IsRunning = false;
+			CompleteWave( HandleInterruption() );
 
 			_signalBus.TryUnsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
 			_signalBus.TryUnsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 
 			ClearEnemies();
+		}
 
-			if ( ExitWaveRequested() )
-			{
-				Completed?.Invoke( this, false );
-				return true;
-			}
+		protected void CompleteWave( IWave.Result result )
+		{
+			IsRunning = false;
+			_waveResult = result;
 
-			return false;
+			_signalBus.TryUnsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
+			_signalBus.TryUnsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
+
+			_spiderSpawnController.Stop();
+		}
+
+		protected virtual IWave.Result HandleInterruption()
+		{
+			return IWave.Result.Interrupted;
 		}
 
 		private void ClearEnemies()
@@ -119,22 +150,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 				enemy.Dispose();
 			}
 			_livingEnemies.Clear();
-		}
-
-		/// <summary>
-		/// This is called when the player has died.
-		/// </summary>
-		/// <returns>True if the wave should be completed.</returns>
-		protected abstract bool ExitWaveRequested();
-
-		protected void SendCompletedEvent()
-		{
-			IsRunning = false;
-
-			_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
-			_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
-
-			Completed?.Invoke( this, true );
 		}
 	}
 }

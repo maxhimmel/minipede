@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Enemies.Spawning;
+using Minipede.Gameplay.Waves;
 using UnityEngine;
 
 namespace Minipede.Installers
@@ -10,8 +11,8 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			Container.Bind<IEnemyWave>()
-				.WithId( EnemyWaveController.Settings.MainWaveId )
+			Container.Bind<EnemyWave>()
+				.WithId( EnemyWaveController.MainWaveId )
 				.To<MinipedeWave>()
 				.AsSingle()
 				.WithArguments( _settings );

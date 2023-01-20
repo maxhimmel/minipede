@@ -1,16 +1,21 @@
 using System.Linq;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Enemies;
+using Minipede.Gameplay.Enemies.Spawning;
+using Minipede.Gameplay.Enemies.Spawning.Serialization;
 using Minipede.Gameplay.Player;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
-namespace Minipede.Gameplay.Enemies.Spawning
+namespace Minipede.Gameplay.Waves
 {
 	public class MinipedeWave : EnemyWave
 	{
+		public override string Id => typeof( MinipedeController ).Name;
+
 		private readonly Settings _settings;
 
 		private int _completionCount;
@@ -22,8 +27,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver, 
 			PlayerController playerSpawn,
+			SpiderSpawnController spiderSpawnController,
 			SignalBus signalBus ) 
-			: base( enemyBuilder, placementResolver, playerSpawn, signalBus )
+			: base( enemyBuilder, placementResolver, playerSpawn, spiderSpawnController, signalBus )
 		{
 			_settings = settings;
 
@@ -114,26 +120,25 @@ namespace Minipede.Gameplay.Enemies.Spawning
 				_randomSpawningCancelSource.Cancel();
 
 				++_completionCount;
-				SendCompletedEvent();
+				CompleteWave( IWave.Result.Success );
 			}
 		}
 
-		protected override bool ExitWaveRequested()
+		protected override IWave.Result HandleInterruption()
 		{
 			_randomSpawningCancelSource.Cancel();
-			return false;
+
+			return IWave.Result.Restart;
 		}
 
 		[System.Serializable]
 		public struct Settings
 		{
-			public int Repeats;
-
 			[MinMaxSlider( 1f, 10f )]
 			public Vector2 SpawnRateRange;
 
 			[BoxGroup]
-			public Serialization.WeightedListEnemy Enemies;
+			public WeightedListEnemy Enemies;
 		}
 	}
 }

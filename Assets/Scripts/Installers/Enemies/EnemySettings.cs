@@ -1,5 +1,6 @@
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
+using Minipede.Gameplay.Waves;
 using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -21,14 +22,7 @@ namespace Minipede.Installers
 		[InlineEditor, LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
 		[SerializeField] private EnemyModuleInstaller[] _enemyInstallers;
 
-		[FoldoutGroup( "Wave Spawning" )]
-		[SerializeField, HideLabel] private EnemyWaveController.Settings _wave;
-		[Space, FoldoutGroup( "Wave Spawning" )]
-		[SerializeField] private EnemyWaveInstaller[] _waves;
-		[FoldoutGroup( "Wave Spawning/Spider Spawning" ), HideLabel]
-		[SerializeField] private SpiderSpawnController.Settings _spiderWave;
-
-		[FoldoutGroup( "Player Zone" )]
+		[FoldoutGroup( "Minipede Spawning Extras" )]
 		[SerializeField, HideLabel] private MinipedePlayerZoneSpawner.Settings _playerZone;
 
 		public override void InstallBindings()
@@ -99,35 +93,9 @@ namespace Minipede.Installers
 
 		private void BindWaveSystem()
 		{
-			Container.BindInstance( _wave );
-
-			for ( int idx = 0; idx < _waves.Length; ++idx )
-			{
-				var waveInstaller = _waves[idx];
-
-				Container.Inject( waveInstaller );
-				waveInstaller.InstallBindings();
-			}
-
-			Container.Bind<EnemyWaveController>()
-				.AsSingle();
-
-			/* --- */
-
 			Container.BindInterfacesAndSelfTo<MinipedePlayerZoneSpawner>()
 				.AsSingle()
 				.WithArguments( _playerZone );
-
-			Container.BindInterfacesAndSelfTo<SpiderSpawnController>()
-				.AsSingle()
-				.WithArguments( _spiderWave );
-
-			/* --- */
-
-			Container.DeclareSignal<WaveProgressSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<WaveQueueChangedSignal>()
-				.OptionalSubscriber();
 		}
 	}
 }

@@ -1,16 +1,19 @@
 using System.Linq;
-using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Enemies;
+using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Player;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
-namespace Minipede.Gameplay.Enemies.Spawning
+namespace Minipede.Gameplay.Waves
 {
 	public class StampedeWave<TEnemy> : EnemyWave
 		where TEnemy : EnemyController
 	{
+		public override string Id => typeof( TEnemy ).Name;
+
 		private readonly Settings _settings;
 
 		private int _expectedSpawnCount;
@@ -19,8 +22,9 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver, 
 			PlayerController playerSpawn,
+			SpiderSpawnController spiderSpawnController,
 			SignalBus signalBus ) 
-			: base( enemyBuilder, placementResolver, playerSpawn, signalBus )
+			: base( enemyBuilder, placementResolver, playerSpawn, spiderSpawnController, signalBus )
 		{
 			_settings = settings;
 		}
@@ -32,7 +36,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			int spawnCount = _expectedSpawnCount;
 			if ( spawnCount <= 0 )
 			{
-				IsRunning = false;
+				CompleteWave( IWave.Result.Success );
+
 				return;
 			}
 
@@ -54,7 +59,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 					.WithSpawnBehavior()
 					.Create();
 
-				await TaskHelpers.DelaySeconds( _settings.SpawnRate );
+				await TaskHelpers.DelaySeconds( _settings.SpawnRate, PlayerDiedCancelToken )
+					.SuppressCancellationThrow();
 			}
 		}
 
@@ -71,13 +77,8 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 			if ( _expectedSpawnCount <= 0 )
 			{
-				SendCompletedEvent();
+				CompleteWave( IWave.Result.Success );
 			}
-		}
-
-		protected override bool ExitWaveRequested()
-		{
-			return true;
 		}
 
 		[System.Serializable]

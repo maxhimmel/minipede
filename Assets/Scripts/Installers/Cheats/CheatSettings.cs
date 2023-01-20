@@ -3,6 +3,7 @@ using Minipede.Cheats;
 using Minipede.Gameplay;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.Waves;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
 using UnityEngine;
@@ -45,12 +46,12 @@ namespace Minipede.Installers
 					.AsSingle();
 			}
 
-			if ( _settings.DisableEnemies )
+			if ( _settings.DisableWaves )
 			{
-				LogCheatActivation<EnemySpawnCheat>( messageBuilder );
+				LogCheatActivation<WaveControllerCheat>( messageBuilder );
 
-				Container.Decorate<EnemyWaveController>()
-					.With<EnemySpawnCheat>()
+				Container.Decorate<WaveController>()
+					.With<WaveControllerCheat>()
 					.AsSingle();
 			}
 
@@ -101,8 +102,8 @@ namespace Minipede.Installers
 			[ToggleGroup( "UseMushroomShifterCheat", "Mushroom Shifter (use arrow keys)", CollapseOthersOnExpand = false )]
 			public bool UseMushroomShifterCheat;
 
-			[ToggleGroup( "DisableEnemies", "Disable Enemies", CollapseOthersOnExpand = false )]
-			public bool DisableEnemies;
+			[ToggleGroup( "DisableWaves", "Disable Waves", CollapseOthersOnExpand = false )]
+			public bool DisableWaves;
 
 			[ToggleGroup( "DisableLevelGeneration", "Disable Level Generation", CollapseOthersOnExpand = false )]
 			public bool DisableLevelGeneration;

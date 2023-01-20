@@ -8,6 +8,7 @@ using Zenject;
 namespace Minipede.Gameplay.Enemies.Spawning
 {
     public class SpiderSpawnController : ITickable,
+		IInitializable,
 		IDisposable
 	{
 		private readonly Settings _settings;
@@ -28,8 +29,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_livingEnemies = new HashSet<EnemyController>();
 
 			_nextSpawnTime = float.PositiveInfinity;
+		}
 
-			signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
+		public void Initialize()
+		{
+			_signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 		}
 
 		public void Dispose()
@@ -41,44 +45,15 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			if ( signal.Victim is SpiderController deadSpider )
 			{
-				if ( _livingEnemies.Remove( deadSpider ) && _livingEnemies.Count < _settings.MaxEnemyCount )
+				if ( _livingEnemies.Remove( deadSpider ) && CanSpawn() )
 				{
-					Play();
+					RefreshNextSpawnTime();
 				}
 			}
 		}
 
-		public void Play()
-		{
-			if ( !_settings.IsEnabled )
-			{
-				return;
-			}
-
-			if ( !_isPlaying )
-			{
-				_isPlaying = true;
-				_nextSpawnTime = Time.timeSinceLevelLoad + _settings.SpawnRateRange.Random();
-				//Debug.Log( $"<color=orange>Spider</color> spawning in <b>{_nextSpawnTime - Time.timeSinceLevelLoad}s</b>." );
-			}
-		}
-
-		public void Tick()
-		{
-			if ( !CanSpawn() )
-			{
-				return;
-			}
-
-			CreateSpider();
-		}
-
 		private bool CanSpawn()
 		{
-			if ( !_isPlaying )
-			{
-				return false;
-			}
 			if ( _livingEnemies.Count >= _settings.MaxEnemyCount )
 			{
 				return false;
@@ -91,26 +66,37 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			return true;
 		}
 
-		private SpiderController CreateSpider()
+		private void RefreshNextSpawnTime()
 		{
-			var newSpider = _spawnBuilder.Build<SpiderController>()
+			_nextSpawnTime = Time.timeSinceLevelLoad + _settings.SpawnRateRange.Random();
+			//Debug.Log( $"<color=orange>Spider</color> spawning in <b>{_nextSpawnTime - Time.timeSinceLevelLoad}s</b>." );
+		}
+
+		public void Play()
+		{
+			if ( _isPlaying )
+			{
+				throw new NotImplementedException( "Spider spawner is already running." );
+			}
+
+			_isPlaying = true;
+			RefreshNextSpawnTime();
+		}
+
+		public void Tick()
+		{
+			if ( !_isPlaying || !CanSpawn() )
+			{
+				return;
+			}
+
+			_livingEnemies.Add( _spawnBuilder.Build<SpiderController>()
 				.WithRandomPlacement()
 				.WithSpawnBehavior()
-				.Create();
+				.Create() 
+			);
 
-			_livingEnemies.Add( newSpider );
-
-			if ( _livingEnemies.Count >= _settings.MaxEnemyCount )
-			{
-				Stop();
-			}
-			else
-			{
-				_nextSpawnTime = Time.timeSinceLevelLoad + _settings.SpawnRateRange.Random();
-				//Debug.Log( $"<color=orange>Spider</color> spawning in <b>{_nextSpawnTime - Time.timeSinceLevelLoad}s</b>." );
-			}
-
-			return newSpider;
+			RefreshNextSpawnTime();
 		}
 
 		public void Stop()
@@ -121,12 +107,10 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		[System.Serializable]
 		public struct Settings
 		{
-			public bool IsEnabled;
-
-			[MinMaxSlider( 1, 60 ), ShowIf( "IsEnabled" )]
+			[MinMaxSlider( 1, 60 )]
 			public Vector2 SpawnRateRange;
 
-			[PropertyRange( 1, 5 ), ShowIf( "IsEnabled" )]
+			[PropertyRange( 1, 5 )]
 			public int MaxEnemyCount;
 		}
 	}

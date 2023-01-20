@@ -116,11 +116,13 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		{
 			public string SpawnPointId;
 
-			[BoxGroup, InfoBox( "Once a Minipede head makes it into the player area - how long before a new head spawns?" )]
+			[BoxGroup, InfoBox( "Once a Minipede head makes it into the player area - how long before a new head spawns?", 
+				InfoMessageType = InfoMessageType.None )]
 			public float Countdown;
 
 			[Space]
-			[BoxGroup, InfoBox( "Once a new head has spawned - how long before <b>another</b> head spawns?" )]
+			[BoxGroup, InfoBox( "Once a new head has spawned - how long before <b>another</b> head spawns?",
+				InfoMessageType = InfoMessageType.None )]
 			public float ConsecutiveDelay;
 		}
 	}

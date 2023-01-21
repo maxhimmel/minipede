@@ -1,5 +1,6 @@
-﻿using Cysharp.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Waves
 {
@@ -9,10 +10,13 @@ namespace Minipede.Gameplay.Waves
 		public bool IsRunning { get; private set; }
 
 		private readonly Settings _settings;
+		private readonly SignalBus _signalBus;
 
-		public GatheringWave( Settings settings )
+		public GatheringWave( Settings settings,
+			SignalBus signalBus )
 		{
 			_settings = settings;
+			_signalBus = signalBus;
 		}
 
 		public void Interrupt()

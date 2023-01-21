@@ -38,9 +38,7 @@ namespace Minipede.Installers
 			BindEnemyWaveModules();
 
 			// Higher priority wave controllers come last ...
-			Container.BindInterfacesTo<GatheringWaveController>()
-				.AsSingle()
-				.WithArguments( _gathering );
+			BindGatheringWaveModules();
 		}
 
 		private void DeclareSignals()
@@ -69,6 +67,17 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<SpiderSpawnController>()
 				.AsSingle()
 				.WithArguments( _spider );
+		}
+
+		private void BindGatheringWaveModules()
+		{
+			Container.BindInterfacesTo<GatheringWaveController>()
+				.AsSingle()
+				.WithArguments( _gathering );
+
+			Container.Bind<GatheringWave>()
+				.AsSingle()
+				.WithArguments( _gathering.Wave );
 		}
 	}
 }

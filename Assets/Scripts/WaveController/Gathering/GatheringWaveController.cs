@@ -14,12 +14,12 @@ namespace Minipede.Gameplay.Waves
 		private readonly GatheringWave _gatheringWave;
 
 		public GatheringWaveController( Settings settings,
-			WaveController waveController )
+			WaveController waveController,
+			GatheringWave gatheringWave )
 		{
 			_settings = settings;
 			_waveController = waveController;
-
-			_gatheringWave = new GatheringWave( settings.Wave );
+			_gatheringWave = gatheringWave;
 		}
 
 		public void Dispose()

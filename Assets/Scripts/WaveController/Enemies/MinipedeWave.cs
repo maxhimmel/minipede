@@ -20,6 +20,8 @@ namespace Minipede.Gameplay.Waves
 
 		private int _completionCount;
 		private int _livingMinipedeCount;
+		private int _initialMinipedeCount;
+		private bool _isSpawning;
 		private CancellationTokenSource _randomSpawningCancelSource;
 		private CancellationToken _randomSpawningCancelToken;
 
@@ -42,7 +44,9 @@ namespace Minipede.Gameplay.Waves
 
 		protected override void HandleSpawning()
 		{
+			_isSpawning = true;
 			_livingMinipedeCount = 0;
+			_initialMinipedeCount = 0;
 
 			int nextSpawnIndex = 0;
 			var spawnPlacements = _placementResolver.GetSpawnOrientations<MinipedeController>().ToArray();
@@ -70,6 +74,8 @@ namespace Minipede.Gameplay.Waves
 			UpdateRandomSpawning()
 				.Cancellable( _randomSpawningCancelToken )
 				.Forget();
+
+			_isSpawning = false;
 		}
 
 		private void SetupRandomSpawningCancellation()
@@ -108,6 +114,11 @@ namespace Minipede.Gameplay.Waves
 			base.OnTrackedEnemySpawned( enemy );
 
 			++_livingMinipedeCount;
+
+			if ( _isSpawning )
+			{
+				++_initialMinipedeCount;
+			}
 		}
 
 		protected override void OnTrackedEnemyDestroyed( EnemyController victim )
@@ -115,6 +126,13 @@ namespace Minipede.Gameplay.Waves
 			base.OnTrackedEnemyDestroyed( victim );
 
 			--_livingMinipedeCount;
+
+			_signalBus.Fire( new WaveProgressSignal()
+			{
+				Id = Id,
+				NormalizedProgress = 1f - (_livingMinipedeCount / (float)_initialMinipedeCount)
+			} );
+
 			if ( _livingMinipedeCount <= 0 )
 			{
 				_randomSpawningCancelSource.Cancel();

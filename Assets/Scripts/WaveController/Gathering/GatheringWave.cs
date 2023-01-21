@@ -1,4 +1,5 @@
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Enemies.Spawning;
 using UnityEngine;
 using Zenject;
 
@@ -32,6 +33,13 @@ namespace Minipede.Gameplay.Waves
 			while ( timer < _settings.Duration )
 			{
 				timer += Time.deltaTime;
+
+				_signalBus.Fire( new WaveProgressSignal()
+				{
+					Id = Id,
+					NormalizedProgress = timer / _settings.Duration
+				} );
+
 				await UniTask.Yield( PlayerLoopTiming.Update, AppHelper.AppQuittingToken );
 
 				if ( !IsRunning )

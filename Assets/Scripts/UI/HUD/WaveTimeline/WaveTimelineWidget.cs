@@ -56,6 +56,8 @@ namespace Minipede.Gameplay.UI
 
 		private void OnWaveProgressed( WaveProgressSignal signal )
 		{
+			//Debug.Log( $"{signal.Id} : {signal.NormalizedProgress:P1}" );
+
 			var firstChild = _waveContainer.GetChild( 0 );
 			var currentWave = firstChild.GetComponent<WaveItem>();
 

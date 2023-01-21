@@ -16,7 +16,8 @@ namespace Minipede.Gameplay.Waves
 
 		private readonly Settings _settings;
 
-		private int _expectedSpawnCount;
+		private int _livingEnemyCountdown;
+		private int _initialSpawnCount;
 
 		public StampedeWave( Settings settings,
 			EnemySpawnBuilder enemyBuilder,
@@ -31,13 +32,12 @@ namespace Minipede.Gameplay.Waves
 
 		protected override async void HandleSpawning()
 		{
-			_expectedSpawnCount = _settings.SpawnRange.Random( true );
+			_initialSpawnCount = _settings.SpawnRange.Random( true );
+			_livingEnemyCountdown = _initialSpawnCount;
 
-			int spawnCount = _expectedSpawnCount;
-			if ( spawnCount <= 0 )
+			if ( _initialSpawnCount <= 0 )
 			{
 				CompleteWave( IWave.Result.Success );
-
 				return;
 			}
 
@@ -45,7 +45,7 @@ namespace Minipede.Gameplay.Waves
 			IOrientation[] spawnOrientations = _placementResolver.GetSpawnOrientations<TEnemy>().ToArray();
 			spawnOrientations.FisherYatesShuffle();
 
-			for ( int idx = 0; idx < spawnCount; ++idx )
+			for ( int idx = 0; idx < _initialSpawnCount; ++idx )
 			{
 				if ( !IsRunning )
 				{
@@ -73,9 +73,15 @@ namespace Minipede.Gameplay.Waves
 		{
 			base.OnTrackedEnemyDestroyed( victim );
 
-			--_expectedSpawnCount;
+			--_livingEnemyCountdown;
 
-			if ( _expectedSpawnCount <= 0 )
+			_signalBus.Fire( new WaveProgressSignal()
+			{
+				Id = Id,
+				NormalizedProgress = 1f - (_livingEnemyCountdown / (float)_initialSpawnCount)
+			} );
+
+			if ( _livingEnemyCountdown <= 0 )
 			{
 				CompleteWave( IWave.Result.Success );
 			}

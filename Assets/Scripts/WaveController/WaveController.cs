@@ -84,6 +84,12 @@ namespace Minipede.Gameplay.Waves
 				throw new System.NotImplementedException( "Wave is already running." );
 			}
 
+			_signalBus.Fire( new WaveProgressSignal()
+			{
+				Id = CurrentWave.Id,
+				NormalizedProgress = 0
+			} );
+
 			await TaskHelpers.DelaySeconds( _settings.StartDelay, _playerController.PlayerDiedCancelToken );
 
 			var result = await CurrentWave.Play();

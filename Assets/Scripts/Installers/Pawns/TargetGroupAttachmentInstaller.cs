@@ -7,6 +7,7 @@ namespace Minipede.Installers
     [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/TargetGroupAttachment" )]
     public class TargetGroupAttachmentInstaller : ScriptableObjectInstaller
     {
+		[SerializeField] private bool _enableOnStart = true;
         [SerializeField] private TargetGroupAttachment.Settings _settings;
 
 		public override void InstallBindings()
@@ -15,6 +16,10 @@ namespace Minipede.Installers
 				.FromNewComponentOnRoot()
 				.AsCached()
 				.WithArguments( _settings )
+				.OnInstantiated<TargetGroupAttachment>( ( context, attachment ) =>
+				{
+					attachment.enabled = _enableOnStart;
+				} )
 				.NonLazy();
 		}
 	}

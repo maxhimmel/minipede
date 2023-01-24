@@ -16,9 +16,12 @@ namespace Minipede.Installers
 				.FromNewComponentOnRoot()
 				.AsCached()
 				.WithArguments( _settings )
-				.OnInstantiated<TargetGroupAttachment>( ( context, attachment ) =>
+				.OnInstantiated( (context, obj) =>
 				{
-					attachment.enabled = _enableOnStart;
+					if ( obj is TargetGroupAttachment attachment )
+					{
+						attachment.enabled = _enableOnStart;
+					}
 				} )
 				.NonLazy();
 		}

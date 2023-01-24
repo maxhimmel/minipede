@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fcd2fcbab6f47441b4949063e9969b7, type: 3}
   m_Name: ShipGroupAttachment
   m_EditorClassIdentifier: 
+  _enableOnStart: 1
   _settings:
     BindingId: Ship
     Weight: 1
     Radius: 0
+    EaseDuration: 0

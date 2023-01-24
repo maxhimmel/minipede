@@ -35,5 +35,10 @@ namespace Minipede
 		{
 			return CancellationTokenSource.CreateLinkedTokenSource( AppQuittingToken );
 		}
+
+		public static CancellationTokenSource CreateLinkedCTS( CancellationToken other )
+		{
+			return CancellationTokenSource.CreateLinkedTokenSource( AppQuittingToken, other );
+		}
 	}
 }

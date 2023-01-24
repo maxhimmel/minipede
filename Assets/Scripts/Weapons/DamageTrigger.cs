@@ -1,3 +1,4 @@
+using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
@@ -58,8 +59,7 @@ namespace Minipede.Gameplay.Weapons
 
 			public bool IsHittable( Rigidbody2D other )
 			{
-				int otherMask = 1 << other.gameObject.layer;
-				return (otherMask & HitMask) != 0;
+				return other.gameObject.CanCollide( HitMask );
 			}
 		}
 	}

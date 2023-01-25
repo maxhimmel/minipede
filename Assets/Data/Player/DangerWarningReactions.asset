@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffd2415a5aeb8e54fa125ccdcb23fab7, type: 3}
+  m_Name: DangerWarningReactions
+  m_EditorClassIdentifier: 
+  _dangerFilter:
+    serializedVersion: 2
+    m_Bits: 256
+  _useCameraGroups: 1
+  _cameraGroups:
+    BindingId: Explorer
+    Weight: 0.05
+    Radius: 0
+    EaseDuration: 0.25

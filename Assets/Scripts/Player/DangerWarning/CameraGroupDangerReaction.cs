@@ -6,11 +6,11 @@ namespace Minipede.Gameplay.Player
 {
 	public class CameraGroupDangerReaction : IDangerWarningReaction
 	{
-		private readonly Settings _settings;
+		private readonly TargetGroupAttachment.Settings _settings;
 		private readonly TargetGroupAttachment.Factory _groupAttachmentFactory;
 		private readonly Dictionary<EnemyController, TargetGroupAttachment> _attachments;
 
-		public CameraGroupDangerReaction( Settings settings,
+		public CameraGroupDangerReaction( TargetGroupAttachment.Settings settings,
 			TargetGroupAttachment.Factory groupAttachmentFactory )
 		{
 			_settings = settings;
@@ -23,7 +23,7 @@ namespace Minipede.Gameplay.Player
 		{
 			_attachments.Add(
 				enemy,
-				_groupAttachmentFactory.Create( _settings.CameraGrouping, enemy.transform )
+				_groupAttachmentFactory.Create( _settings, enemy.transform )
 			);
 		}
 
@@ -33,12 +33,6 @@ namespace Minipede.Gameplay.Player
 			{
 				attachment.Deactivate( canDispose: true );
 			}
-		}
-
-		[System.Serializable]
-		public struct Settings
-		{
-			public TargetGroupAttachment.Settings CameraGrouping;
 		}
 	}
 }

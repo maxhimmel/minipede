@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Minipede.Utility;
@@ -7,31 +8,62 @@ using Zenject;
 
 namespace Minipede.Gameplay.Cameras
 {
-    public class TargetGroupAttachment : MonoBehaviour
+    public class TargetGroupAttachment : MonoBehaviour,
+		IPoolable<TargetGroupAttachment.Settings, Transform, IMemoryPool>,
+		IDisposable
     {
 		public string Id => _settings.BindingId;
+		public bool IsActive { get; private set; }
 
+		private TargetGroupResolver _targetGroupResolver;
+		private TaskRunner _weightUpdater;
 		private Settings _settings;
 		private CinemachineTargetGroup _targetGroup;
-		private TaskRunner _weightUpdater;
+		private IMemoryPool _pool;
 
 		[Inject]
-		public void Construct( Settings settings,
-			TargetGroupResolver targetGroupResolver )
+		public void Construct( TargetGroupResolver targetGroupResolver )
 		{
-			_settings = settings;
-			_targetGroup = targetGroupResolver.GetTargetGroup( settings.BindingId );
-
+			_targetGroupResolver = targetGroupResolver;
 			_weightUpdater = new TaskRunner( this.GetCancellationTokenOnDestroy() );
 		}
 
-		private void OnEnable()
+		public void Dispose()
 		{
+			_pool.Despawn( this );
+		}
+
+		public void OnDespawned()
+		{
+			_pool = null;
+			_targetGroup = null;
+		}
+
+		public void OnSpawned( Settings settings, Transform parent, IMemoryPool pool )
+		{
+			_settings = settings;
+			_targetGroup = _targetGroupResolver.GetTargetGroup( settings.BindingId );
+			_pool = pool;
+
+			transform.SetParent( parent, false );
+
+			Activate();
+		}
+
+		public void Activate()
+		{
+			if ( IsActive )
+			{
+				throw new System.NotImplementedException( $"{nameof(TargetGroupAttachment)} has already been activated." );
+			}
+
+			IsActive = true;
+
 			_targetGroup.AddMember( transform, 0, _settings.Radius );
 			SetWeight( _settings.Weight, _settings.EaseDuration );
 		}
 
-		private async void OnDisable()
+		public async void Deactivate( bool canDispose )
 		{
 			SetWeight( 0, _settings.EaseDuration );
 
@@ -42,6 +74,13 @@ namespace Minipede.Gameplay.Cameras
 			}
 
 			_targetGroup.RemoveMember( transform );
+
+			IsActive = false;
+
+			if ( canDispose )
+			{
+				Dispose();
+			}
 		}
 
 		public void SetWeight( float weight, float duration )
@@ -93,5 +132,7 @@ namespace Minipede.Gameplay.Cameras
 			[MinValue( 0 ), BoxGroup]
 			public float EaseDuration;
 		}
+
+		public class Factory : PlaceholderFactory<Settings, Transform, TargetGroupAttachment> { }
 	}
 }

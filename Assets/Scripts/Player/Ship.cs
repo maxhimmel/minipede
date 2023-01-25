@@ -38,6 +38,7 @@ namespace Minipede.Gameplay.Player
 		private SpriteRenderer _renderer;
 		private SpriteRenderer _selector;
 		private TargetGroupAttachment _audioListenerTarget;
+		private List<TargetGroupAttachment> _targetGroupAttachments;
 		private SignalBus _signalBus;
 
 		private bool _isMoveInputConsumed;
@@ -66,6 +67,7 @@ namespace Minipede.Gameplay.Player
 			_renderer = renderer;
 			_selector = selector;
 			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
+			_targetGroupAttachments = targetGroups;
 			_signalBus = signalBus;
 
 			damageController.Died += OnDied;
@@ -86,6 +88,12 @@ namespace Minipede.Gameplay.Player
 			UnequipBeacon();
 
 			_damageController.Died -= OnDied;
+
+			foreach ( var targetGroupAttachment in _targetGroupAttachments )
+			{
+				targetGroupAttachment.Deactivate( canDispose: true );
+			}
+
 			Destroy( gameObject );
 		}
 
@@ -93,14 +101,18 @@ namespace Minipede.Gameplay.Player
 		{
 			_isPiloted = true;
 			_renderer.color = Color.white;
-			_audioListenerTarget.enabled = true;
+
+			if ( !_audioListenerTarget.IsActive )
+			{
+				_audioListenerTarget.Activate();
+			}
 		}
 
 		public void UnPossess()
 		{
 			_isPiloted = false;
 			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
-			_audioListenerTarget.enabled = false;
+			_audioListenerTarget.Deactivate( canDispose: false );
 
 			_isMoveInputConsumed = true;
 			_moveInput = Vector2.zero;

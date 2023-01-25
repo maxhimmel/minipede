@@ -27,6 +27,7 @@ namespace Minipede.Installers
 		[SerializeField] private Level _levelSettings;
 		[SerializeField] private EndGameController.Settings _endGameSettings;
 		[SerializeField] private Audio _audioSettings;
+		[SerializeField] private Camera _cameraSettings;
 
 		public override void InstallBindings()
 		{
@@ -57,6 +58,19 @@ namespace Minipede.Installers
 
 			Container.Bind<TargetGroupResolver>()
 				.AsSingle();
+
+			Container.BindFactory<TargetGroupAttachment.Settings, Transform, TargetGroupAttachment, TargetGroupAttachment.Factory>()
+				.FromMonoPoolableMemoryPool( pool => pool
+					.WithInitialSize( _cameraSettings.AttachmentPoolSize )
+					.FromSubContainerResolve()
+					.ByNewGameObjectMethod( subContainer => subContainer
+						.Bind<TargetGroupAttachment>()
+						.FromNewComponentOnRoot()
+						.AsSingle()
+					)
+					.WithGameObjectName( "TargetGroupAttachment" )
+					.UnderTransform( context => context.Container.ResolveId<Transform>( _cameraSettings.AttachmentContainerId ) )
+				);
 
 			Container.BindInterfacesAndSelfTo<CameraController>()
 				.AsSingle();
@@ -318,6 +332,15 @@ namespace Minipede.Installers
 
 			[FoldoutGroup( "Music" ), HideLabel]
 			public MusicPlayer.Settings Music;
+		}
+
+		[System.Serializable]
+		public struct Camera
+		{
+			[BoxGroup( "Target Groups" )]
+			public string AttachmentContainerId;
+			[BoxGroup( "Target Groups" )]
+			public int AttachmentPoolSize;
 		}
 	}
 }

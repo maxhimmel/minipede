@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
@@ -31,6 +33,7 @@ namespace Minipede.Gameplay.Player
 		private Rigidbody2D _body;
 		private TreasureHauler _treasureHauler;
 		private InteractionSelector _interactionSelector;
+		private List<TargetGroupAttachment> _targetGroupAttachments;
 
 		private Vector2 _moveInput;
 		private bool _isMoveInputConsumed;
@@ -41,13 +44,15 @@ namespace Minipede.Gameplay.Player
 			IMotor motor,
 			Rigidbody2D body,
 			TreasureHauler treasureHauler,
-			InteractionSelector interactionSelector )
+			InteractionSelector interactionSelector,
+			List<TargetGroupAttachment> targetGroupAttachments )
 		{
             _damageController = damageController;
 			_motor = motor;
 			_body = body;
 			_treasureHauler = treasureHauler;
 			_interactionSelector = interactionSelector;
+			_targetGroupAttachments = targetGroupAttachments;
 
 			damageController.Died += OnDied;
 		}
@@ -111,6 +116,11 @@ namespace Minipede.Gameplay.Player
 			}
 
 			_damageController.Died -= OnDied;
+
+			foreach ( var targetGroupAttachment in _targetGroupAttachments )
+			{
+				targetGroupAttachment.Deactivate( canDispose: true );
+			}
 
 			Destroy( gameObject );
 			_isCleanedUp = true;

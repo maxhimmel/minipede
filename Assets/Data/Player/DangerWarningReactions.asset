@@ -15,9 +15,23 @@ MonoBehaviour:
   _dangerFilter:
     serializedVersion: 2
     m_Bits: 256
-  _useCameraGroups: 1
-  _cameraGroups:
-    BindingId: Explorer
-    Weight: 0.05
-    Radius: 0
-    EaseDuration: 0.25
+  _reactions:
+  - rid: 1882198485512749068
+  - rid: 1882198492401893376
+  references:
+    version: 2
+    RefIds:
+    - rid: 1882198485512749068
+      type: {class: CameraGroupDangerReaction/Settings, ns: Minipede.Gameplay.Player, asm: Minipede}
+      data:
+        GroupAttachment:
+          BindingId: Explorer
+          Weight: 0.025
+          Radius: 0
+          EaseDuration: 0.25
+    - rid: 1882198492401893376
+      type: {class: MarkerDangerReaction/Settings, ns: Minipede.Gameplay.Player, asm: Minipede}
+      data:
+        PoolContainerId: DangerMarker
+        InitialPoolSize: 10
+        MarkerPrefab: {fileID: 6007397076392963205, guid: 761be7b3fc27837479a095b9a0a7fa60, type: 3}

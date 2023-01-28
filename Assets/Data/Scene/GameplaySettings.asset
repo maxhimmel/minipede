@@ -103,12 +103,15 @@ MonoBehaviour:
     Music:
       NextTrackDelay: 2
       Tracks:
-      - EventName: Music/Lich is Unbreakable
-      - EventName: Music/Star Judgment
-      - EventName: Music/Universes Storm
       - EventName: Music/Cosmic Temperance
+      - EventName: Music/Star Judgment
       - EventName: Music/Anamnesis of the worlds Sin
       - EventName: Music/Dark Matter Moon
+      - EventName: Music/Universes Storm
+      - EventName: Music/Lich is Unbreakable
+  _cameraSettings:
+    AttachmentContainerId: TargetGroupAttachment
+    AttachmentPoolSize: 4
   references:
     version: 2
     RefIds:

@@ -6,5 +6,10 @@ namespace Minipede.Gameplay.Player
     {
         void React( EnemyController enemy );
         void Neglect( EnemyController enemy );
-    }
+
+        public interface ISettings
+		{
+            System.Type InstallerType { get; }
+		}
+	}
 }

@@ -10,6 +10,7 @@ namespace Minipede.Gameplay.Player
 		public event System.Action PlayerDied;
 
 		public CancellationToken PlayerDiedCancelToken { get; private set; }
+		public Vector2 Position => IsExploring ? _explorer.Body.position : _ship.Body.position;
 		public bool IsExploring => _explorer != null;
 
 		private readonly ShipSpawner _shipSpawner;

@@ -24,3 +24,7 @@ MonoBehaviour:
       Color: {r: 0.9529412, g: 1, b: 0.30588236, a: 1}
     - Id: MosquitoController
       Color: {r: 0.3254902, g: 0.96862745, b: 1, a: 1}
+  _minimapMarkers:
+  - Prefab: {fileID: 989791784839115656, guid: 761be7b3fc27837479a095b9a0a7fa60, type: 3}
+    InitialSize: 10
+    ExpandMethod: 0

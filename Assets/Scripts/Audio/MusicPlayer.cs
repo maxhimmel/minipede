@@ -12,6 +12,7 @@ namespace Minipede.Gameplay.Audio
     {
 		private readonly Settings _settings;
 		private readonly IAudioController _audioController;
+		private readonly AudioEventReference[] _trackEvents;
 
 		private float _nextPlayTime;
 		private int _nextTrackIndex;
@@ -22,11 +23,15 @@ namespace Minipede.Gameplay.Audio
 		{
 			_settings = settings;
 			_audioController = audioController;
+
+			int trackCount = settings.Tracks.Length;
+			_trackEvents = new AudioEventReference[trackCount];
+			Array.Copy( settings.Tracks, _trackEvents, trackCount );
 		}
 
 		public void Initialize()
 		{
-			_settings.Tracks.FisherYatesShuffle();
+			_trackEvents.FisherYatesShuffle();
 			_nextPlayTime = Time.timeSinceLevelLoad + _settings.NextTrackDelay;
 		}
 
@@ -64,13 +69,13 @@ namespace Minipede.Gameplay.Audio
 
 		private string GetNextTrack()
 		{
-			if ( _nextTrackIndex >= _settings.Tracks.Length )
+			if ( _nextTrackIndex >= _trackEvents.Length )
 			{
 				_nextTrackIndex = 0;
-				_settings.Tracks.FisherYatesShuffle();
+				_trackEvents.FisherYatesShuffle();
 			}
 
-			var eventRef = _settings.Tracks[_nextTrackIndex++];
+			var eventRef = _trackEvents[_nextTrackIndex++];
 			return eventRef.EventName;
 		}
 

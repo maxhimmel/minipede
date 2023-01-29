@@ -6,6 +6,7 @@ using Zenject;
 namespace Minipede.Gameplay.Audio
 {
     public class MusicPlayer :
+		IInitializable,
 		ITickable,
 		IDisposable
     {
@@ -20,11 +21,13 @@ namespace Minipede.Gameplay.Audio
 			IAudioController audioController )
 		{
 			_settings = settings;
-			_settings.Tracks.FisherYatesShuffle();
-
 			_audioController = audioController;
+		}
 
-			_nextPlayTime = Time.timeSinceLevelLoad + settings.NextTrackDelay;
+		public void Initialize()
+		{
+			_settings.Tracks.FisherYatesShuffle();
+			_nextPlayTime = Time.timeSinceLevelLoad + _settings.NextTrackDelay;
 		}
 
 		public void Dispose()
@@ -46,6 +49,11 @@ namespace Minipede.Gameplay.Audio
 
 		private bool CanPlayNextTrack()
 		{
+			if ( !Application.isFocused && !Application.runInBackground )
+			{
+				return false;
+			}
+
 			if ( _nextPlayTime > Time.timeSinceLevelLoad )
 			{
 				return false;

@@ -1,3 +1,4 @@
+using Minipede.Gameplay;
 using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.UI;
 using Minipede.Utility;
@@ -27,6 +28,8 @@ namespace Minipede.Installers
 				.FromMethod( GetComponentInChildren<AudioController> )
 				.AsSingle();
 
+			BindMenuSystems();
+		}
 
 		private void InstallSignals()
 		{
@@ -45,14 +48,18 @@ namespace Minipede.Installers
 				.FromResolveGetter<PlayerInputResolver>( resolver => resolver.GetInput() );
 		}
 
+		private void BindMenuSystems()
+		{
 			Container.Bind<ScreenFadeController>()
 				.FromMethod( GetComponentInChildren<ScreenFadeController> )
 				.AsSingle();
-		}
 
-		private Rewired.Player GetFirstPlayer()
-		{
-			return Rewired.ReInput.players.GetPlayer( 0 );
+			Container.Bind<MenuStack>()
+				.AsSingle();
+
+			Container.Bind<MenuController>()
+				.FromMethod( GetComponentInChildren<MenuController> )
+				.AsSingle();
 		}
 	}
 }

@@ -9,7 +9,7 @@ namespace Minipede.Gameplay.Player
 		public event System.Action<Ship> PlayerSpawned;
 		public event System.Action PlayerDied;
 
-		public CancellationToken PlayerDiedCancelToken { get; private set; }
+		public CancellationToken PlayerDiedCancelToken => _playerDiedCancelSource.Token;
 		public Vector2 Position => IsExploring ? _explorer.Body.position : _ship.Body.position;
 		public bool IsExploring => _explorer != null;
 
@@ -33,7 +33,7 @@ namespace Minipede.Gameplay.Player
 			_explorerController = explorerController;
 
 			_playerDiedCancelSource = AppHelper.CreateLinkedCTS();
-			PlayerDiedCancelToken = _playerDiedCancelSource.Token;
+
 		}
 
 		public void RespawnPlayer()
@@ -62,7 +62,6 @@ namespace Minipede.Gameplay.Player
 			_playerDiedCancelSource.Cancel();
 			_playerDiedCancelSource.Dispose();
 			_playerDiedCancelSource = AppHelper.CreateLinkedCTS();
-			PlayerDiedCancelToken = _playerDiedCancelSource.Token;
 
 			_ship = null;
 			_shipController.UnPossess();
@@ -93,7 +92,6 @@ namespace Minipede.Gameplay.Player
 			_playerDiedCancelSource.Cancel();
 			_playerDiedCancelSource.Dispose();
 			_playerDiedCancelSource = new CancellationTokenSource();
-			PlayerDiedCancelToken = _playerDiedCancelSource.Token;
 
 			_explorer = null;
 			_explorerController.UnPossess();

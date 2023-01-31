@@ -104,12 +104,15 @@ namespace Minipede.Gameplay.Treasures
 				return;
 			}
 
+			_followController.FixedTick();
+		}
+
+		private void LateUpdate()
+		{
 			if ( IsFollowing )
 			{
 				UpdateTether();
 			}
-
-			_followController.FixedTick();
 		}
 
 		private void UpdateTether()

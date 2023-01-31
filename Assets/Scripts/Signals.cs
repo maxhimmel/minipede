@@ -139,3 +139,12 @@ namespace Minipede.Gameplay.Player
 		public bool IsVisible;
 	}
 }
+
+namespace Minipede.Gameplay.Audio
+{
+	public class MixerVolumeChangedSignal
+	{
+		public string MixerId;
+		public float Volume;
+	}
+}

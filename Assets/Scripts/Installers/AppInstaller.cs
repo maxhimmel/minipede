@@ -37,6 +37,9 @@ namespace Minipede.Installers
 
 			Container.DeclareSignal<PausedSignal>()
 				.OptionalSubscriber();
+
+			Container.DeclareSignal<MixerVolumeChangedSignal>()
+				.OptionalSubscriber();
 		}
 
 		private void BindInput()

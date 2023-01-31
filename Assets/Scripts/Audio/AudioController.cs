@@ -6,6 +6,7 @@ using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.Pool;
+using Zenject;
 
 namespace Minipede.Gameplay.Audio
 {
@@ -23,6 +24,14 @@ namespace Minipede.Gameplay.Audio
         private readonly Dictionary<string, BankEvent> _events = new Dictionary<string, BankEvent>();
 		private readonly Dictionary<string, ObjectPool<AudioSource>> _sourcesByMixer = new Dictionary<string, ObjectPool<AudioSource>>();
 		private readonly List<AudioSource> _playingSources = new List<AudioSource>();
+
+		private SignalBus _signalBus;
+
+		[Inject]
+		public void Construct( SignalBus signalBus )
+		{
+			_signalBus = signalBus;
+		}
 
 		private void Awake()
 		{
@@ -48,6 +57,8 @@ namespace Minipede.Gameplay.Audio
 						maxSize:			30
 				) );
 			}
+
+			_signalBus.Subscribe<MixerVolumeChangedSignal>( OnMixerVolumeChanged );
 		}
 
 		public UniTask LoadBank( string category )
@@ -161,6 +172,13 @@ namespace Minipede.Gameplay.Audio
 			{
 				kvp.Value.Dispose();
 			}
+
+			_signalBus.Unsubscribe<MixerVolumeChangedSignal>( OnMixerVolumeChanged );
+		}
+
+		private void OnMixerVolumeChanged( MixerVolumeChangedSignal signal )
+		{
+			SetVolume( signal.MixerId, signal.Volume );
 		}
 
 

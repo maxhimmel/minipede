@@ -1585,8 +1585,11 @@ MonoBehaviour:
   _backButton: {fileID: 6299312515585501658}
   _reduceSfxButton: {fileID: 5070424756375683670}
   _increaseSfxButton: {fileID: 5745928108344032054}
+  _sfxFill: {fileID: 3319333535563635157}
   _reduceMusicButton: {fileID: 6419152641338367730}
   _increaseMusicButton: {fileID: 1773491303604861434}
+  _musicFill: {fileID: 9075611307421714195}
+  _deltaStep: 0.1
 --- !u!114 &2249062980178053240
 MonoBehaviour:
   m_ObjectHideFlags: 0

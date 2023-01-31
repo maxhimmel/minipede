@@ -64,6 +64,16 @@ namespace Minipede.Gameplay
 	{
 		bool CanWin { get; }
 	}
+
+	public class PausedSignal
+	{
+		public bool IsPaused;
+
+		public PausedSignal( bool isPaused )
+		{
+			IsPaused = isPaused;
+		}
+	}
 }
 
 namespace Minipede.Gameplay.Fx

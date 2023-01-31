@@ -102,7 +102,7 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WhenInjectedInto<PlayerController>();
 
-			Container.Bind<PlayerController>()
+			Container.BindInterfacesAndSelfTo<PlayerController>()
 				.AsSingle();
 
 

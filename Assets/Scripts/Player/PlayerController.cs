@@ -1,10 +1,15 @@
+using System;
 using System.Threading;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Utility;
+using Rewired;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Player
 {
-    public class PlayerController
+    public class PlayerController : IInitializable,
+		IDisposable
 	{
 		public event System.Action<Ship> PlayerSpawned;
 		public event System.Action PlayerDied;
@@ -13,27 +18,54 @@ namespace Minipede.Gameplay.Player
 		public Vector2 Position => IsExploring ? _explorer.Body.position : _ship.Body.position;
 		public bool IsExploring => _explorer != null;
 
+		private readonly Rewired.Player _input;
 		private readonly ShipSpawner _shipSpawner;
 		private readonly ShipController _shipController;
 		private readonly Explorer.Factory _explorerFactory;
 		private readonly ExplorerController _explorerController;
+		private readonly SignalBus _signalBus;
 
 		private Ship _ship;
 		private Explorer _explorer;
 		private CancellationTokenSource _playerDiedCancelSource;
 
-		public PlayerController( ShipSpawner spawner,
+		public PlayerController( Rewired.Player input,
+			ShipSpawner shipSpawner,
 			ShipController shipController,
 			Explorer.Factory explorerFactory,
-			ExplorerController explorerController )
+			ExplorerController explorerController,
+			SignalBus signalBus )
 		{
-			_shipSpawner = spawner;
+			_input = input;
+			_shipSpawner = shipSpawner;
 			_shipController = shipController;
 			_explorerFactory = explorerFactory;
 			_explorerController = explorerController;
+			_signalBus = signalBus;
+		}
 
+		public void Initialize()
+		{
 			_playerDiedCancelSource = AppHelper.CreateLinkedCTS();
 
+			_input.AddButtonPressedDelegate( OnPaused, ReConsts.Action.Pause );
+			_input.AddButtonPressedDelegate( OnResumed, ReConsts.Action.Resume );
+		}
+
+		public void Dispose()
+		{
+			_input.RemoveInputEventDelegate( OnPaused );
+			_input.RemoveInputEventDelegate( OnResumed );
+		}
+
+		private void OnPaused( InputActionEventData obj )
+		{
+			_signalBus.Fire( new PausedSignal( isPaused: true ) );
+		}
+
+		private void OnResumed( InputActionEventData obj )
+		{
+			_signalBus.Fire( new PausedSignal( isPaused: false ) );
 		}
 
 		public void RespawnPlayer()

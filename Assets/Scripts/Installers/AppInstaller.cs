@@ -9,7 +9,8 @@ namespace Minipede.Installers
     {
 		public override void InstallBindings()
 		{
-			SignalBusInstaller.Install( Container );
+			InstallSignals();
+
 			BindInput();
 
 			Container.BindInterfacesAndSelfTo<LifetimerController>()
@@ -18,10 +19,22 @@ namespace Minipede.Installers
 			Container.Bind<TimeController>()
 				.AsSingle();
 
+			Container.BindInterfacesAndSelfTo<PauseController>()
+				.AsSingle();
+
 			Container.Bind<IAudioController>()
 				.To<AudioController>()
 				.FromMethod( GetComponentInChildren<AudioController> )
 				.AsSingle();
+
+
+		private void InstallSignals()
+		{
+			SignalBusInstaller.Install( Container );
+
+			Container.DeclareSignal<PausedSignal>()
+				.OptionalSubscriber();
+		}
 
 		private void BindInput()
 		{

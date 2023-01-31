@@ -220,7 +220,10 @@ MonoBehaviour:
       - _enabled: 1
         _categoryId: 1
         _layoutId: 0
-      _defaultMouseMaps: []
+      _defaultMouseMaps:
+      - _enabled: 1
+        _categoryId: 1
+        _layoutId: 0
       _defaultKeyboardMaps:
       - _enabled: 1
         _categoryId: 0
@@ -1383,8 +1386,8 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
     mouseMaps:
-    - id: 0
-      categoryId: 0
+    - id: 1
+      categoryId: 1
       layoutId: 0
       name: 
       hardwareGuidString: 
@@ -1487,7 +1490,7 @@ MonoBehaviour:
     customControllerLayoutIdCounter: 1
     joystickMapIdCounter: 3
     keyboardMapIdCounter: 3
-    mouseMapIdCounter: 1
+    mouseMapIdCounter: 2
     customControllerMapIdCounter: 0
     customControllerIdCounter: 0
     controllerMapLayoutManagerSetIdCounter: 1

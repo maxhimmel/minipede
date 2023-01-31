@@ -1,5 +1,4 @@
 ﻿using Cysharp.Threading.Tasks;
-using Minipede.Utility;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Audio

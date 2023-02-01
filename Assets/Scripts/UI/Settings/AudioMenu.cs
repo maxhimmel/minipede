@@ -69,7 +69,7 @@ namespace Minipede.Gameplay.UI
 			_signalBus.Fire( new MixerVolumeChangedSignal()
 			{
 				MixerId = mixer,
-				Volume = _mixerVolumes[mixer] + delta
+				Volume = Mathf.Clamp01( _mixerVolumes[mixer] + delta )
 			} );
 		}
 

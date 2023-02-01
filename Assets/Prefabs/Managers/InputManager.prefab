@@ -1564,11 +1564,11 @@ MonoBehaviour:
   usePlayingPlayersOnly: 0
   playerMice: []
   moveOneElementPerAxisPress: 0
-  setActionsById: 0
-  horizontalActionId: -1
-  verticalActionId: -1
-  submitActionId: -1
-  cancelActionId: -1
+  setActionsById: 1
+  horizontalActionId: 0
+  verticalActionId: 1
+  submitActionId: 5
+  cancelActionId: 6
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Confirm
@@ -1576,8 +1576,8 @@ MonoBehaviour:
   m_InputActionsPerSecond: 4.5
   m_RepeatDelay: 0
   m_allowMouseInput: 1
-  m_allowMouseInputIfTouchSupported: 1
-  m_allowTouchInput: 1
+  m_allowMouseInputIfTouchSupported: 0
+  m_allowTouchInput: 0
   m_deselectIfBackgroundClicked: 1
   m_deselectBeforeSelecting: 1
   m_ForceModuleActive: 0

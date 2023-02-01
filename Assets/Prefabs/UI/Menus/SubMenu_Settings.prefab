@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7579149454879063213}
+  - component: {fileID: 6761382153711912628}
   - component: {fileID: 8615359537656838884}
   - component: {fileID: 5592752532355723031}
   - component: {fileID: 5296403632443001874}
@@ -42,6 +43,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &6761382153711912628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618842479700635462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75717eed7279f884086add5b457814d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!222 &8615359537656838884
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -93,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 2
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -398,7 +411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 2
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -530,7 +543,6 @@ MonoBehaviour:
   _title: Settings
   _audioButton: {fileID: 5296403632443001874}
   _backButton: {fileID: 2072036867063005922}
-  _audioMenu: {fileID: 0}
 --- !u!114 &1657545507798512552
 MonoBehaviour:
   m_ObjectHideFlags: 0

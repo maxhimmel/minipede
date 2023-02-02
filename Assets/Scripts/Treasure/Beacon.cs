@@ -13,17 +13,14 @@ namespace Minipede.Gameplay.Treasures
 		public ICleansedAreaProvider CleansedAreaProvider { get; private set; }
 
 		private PositionConstraint _constraint;
-		private Light2D _light;
 		private List<Collider2D> _colliders = new List<Collider2D>( 1 );
 
 		[Inject]
 		public void Construct( ICleansedAreaProvider cleansedAreaProvider,
-			PositionConstraint constraint,
-			Light2D light )
+			PositionConstraint constraint )
 		{
 			CleansedAreaProvider = cleansedAreaProvider;
 			_constraint = constraint;
-			_light = light;
 		}
 
 		private void Awake()
@@ -34,7 +31,6 @@ namespace Minipede.Gameplay.Treasures
 		public void Equip( Rigidbody2D owner )
 		{
 			_lifetimer.Pause();
-			_light.enabled = false;
 
 			SetCollidersEnabled( false );
 			ClearVelocity();
@@ -43,8 +39,6 @@ namespace Minipede.Gameplay.Treasures
 
 		public void Unequip()
 		{
-			_light.enabled = true;
-
 			SetCollidersEnabled( true );
 			ReleaseEquipClamping();
 		}

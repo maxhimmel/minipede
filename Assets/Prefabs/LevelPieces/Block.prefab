@@ -107,7 +107,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6093263637641906248}
   - component: {fileID: 6093263637641906255}
-  - component: {fileID: 9034625440046937602}
   - component: {fileID: 7778159170988954509}
   m_Layer: 0
   m_Name: Sprite
@@ -183,33 +182,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &9034625440046937602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6093263637641906249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 47cbfaa9
-  m_ShapePath:
-  - {x: -0.5, y: -0.5, z: 0}
-  - {x: -0.5, y: 0.5, z: 0}
-  - {x: 0.5, y: 0.5, z: 0}
-  - {x: 0.5, y: -0.5, z: 0}
-  m_ShapePathHash: 160822549
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 33654
 --- !u!114 &7778159170988954509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,7 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd08c5b98b2e0040b27b996b758a283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interaction: 1
+  _defaultInteraction: 1
 --- !u!1 &6093263638259769376
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Minipede.Utility;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -12,12 +13,15 @@ namespace Minipede.Gameplay.UI
         [SerializeField] private Transform _container;
 
         private MenuStack _menuStack;
+        private PlayerInputResolver _inputResolver;
         private Dictionary<System.Type, IMenu> _subMenus;
 
         [Inject]
-		public void Construct( MenuStack menuStack )
+		public void Construct( MenuStack menuStack,
+            PlayerInputResolver inputResolver )
 		{
             _menuStack = menuStack;
+            _inputResolver = inputResolver;
 
             var subMenus = _container.GetComponentsInChildren<IMenu>( includeInactive: true );
             _subMenus = new Dictionary<System.Type, IMenu>( subMenus.Length );
@@ -31,7 +35,7 @@ namespace Minipede.Gameplay.UI
             Clear();
 		}
 
-        public void Open<TMenu>()
+		public void Open<TMenu>()
 			where TMenu : IMenu
 		{
             _canvas.enabled = true;
@@ -65,6 +69,25 @@ namespace Minipede.Gameplay.UI
 			{
                 _canvas.enabled = false;
 			}
-		}
+        }
+
+		#region "Cancel" button returns to previous menu. *BUGGED* This doesn't unpause the game even though it'll close the menus.
+		//      private void Start()
+		//      {
+		//          var input = _inputResolver.GetInput();
+		//          input.AddButtonPressedDelegate( OnBackPressed, ReConsts.Action.Cancel );
+		//      }
+
+		//      private void OnBackPressed( Rewired.InputActionEventData obj )
+		//      {
+		//          Pop();
+		//      }
+
+		//      private void OnDestroy()
+		//{
+		//          var input = _inputResolver.GetInput();
+		//          input.RemoveInputEventDelegate( OnBackPressed );
+		//}
+		#endregion
 	}
 }

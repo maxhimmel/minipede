@@ -1,4 +1,5 @@
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Player;
 using Minipede.Installers;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -9,14 +10,17 @@ namespace Minipede.Gameplay.LevelPieces
 	public class LevelGenerator
 	{
 		private readonly GameplaySettings.Level _settings;
+		private readonly MushroomInteractionHandler.Settings _lighthouse;
 		private readonly LevelGraph _levelGraph;
 		private readonly MushroomProvider _mushroomProvider;
 
 		public LevelGenerator( GameplaySettings.Level settings,
+			MushroomInteractionHandler.Settings lighthouse,
 			LevelGraph levelGraph,
 			MushroomProvider mushroomProvider )
 		{
 			_settings = settings;
+			_lighthouse = lighthouse;
 			_levelGraph = levelGraph;
 			_mushroomProvider = mushroomProvider;
 		}
@@ -25,7 +29,7 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			_settings.RowGeneration.Init();
 
-			var standardMushroomPrefab = _mushroomProvider.GetStandardAsset();
+			var standardMushroomPrefab = _lighthouse.LighthousePrefab;//_mushroomProvider.GetStandardAsset();
 
 			// Go thru each row from top to bottom ...
 			float secondsPerRow = _settings.SpawnRate / _settings.Graph.Dimensions.Row();

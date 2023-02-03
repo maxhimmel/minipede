@@ -10,7 +10,7 @@ namespace Minipede.Cheats
 			LevelGraph levelGraph, 
 			MushroomProvider mushroomProvider,
 			LevelGenerator baseGenerator ) 
-			: base( settings, levelGraph, mushroomProvider )
+			: base( settings, new Gameplay.Player.MushroomInteractionHandler.Settings(), levelGraph, mushroomProvider )
 		{
 		}
 

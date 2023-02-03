@@ -124,8 +124,11 @@ namespace Minipede.Installers
 
 			Container.BindInterfacesAndSelfTo<MushroomInteractionHandler>()
 				.AsCached()
-				.WithArguments( _playerSettings.Explorer )
+				//.WithArguments( _playerSettings.Explorer )
 				.WhenInjectedInto<InteractionHandlerBus<ExplorerController>>();
+
+			Container.BindInstance( _playerSettings.Explorer )
+				.AsSingle();
 
 			Container.Bind<InteractionHandlerBus<ExplorerController>>()
 				.AsSingle()

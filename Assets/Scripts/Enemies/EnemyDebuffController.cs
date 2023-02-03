@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Minipede.Utility;
-using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.Enemies
@@ -12,6 +11,7 @@ namespace Minipede.Gameplay.Enemies
 		private readonly SignalBus _signalBus;
 		private readonly Scalar _speedScalar;
 		private readonly List<EnemyController> _livingEnemies;
+		private readonly Dictionary<Debuff, Stack<float>> _debuffHistory;
 
 		public EnemyDebuffController( SignalBus signalBus,
             [Inject( Id = "EnemySpeedScalar" )] Scalar speedScalar )
@@ -20,8 +20,21 @@ namespace Minipede.Gameplay.Enemies
 			_speedScalar = speedScalar;
 
 			_livingEnemies = new List<EnemyController>();
+
+			_debuffHistory = new Dictionary<Debuff, Stack<float>>();
+			for ( int idx = 0; idx < (int)Debuff.Count; ++idx )
+			{
+				_debuffHistory.Add( (Debuff)idx, new Stack<float>() );
+			}
+
 			signalBus.Subscribe<EnemySpawnedSignal>( OnEnemySpawned );
 			signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDied );
+		}
+
+		public void Dispose()
+		{
+			_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
+			_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDied );
 		}
 
 		private void OnEnemySpawned( EnemySpawnedSignal signal )
@@ -36,10 +49,12 @@ namespace Minipede.Gameplay.Enemies
 
 		public async UniTask DebuffSpeed( float scale, float duration )
 		{
-			float prevScale = _speedScalar.Scale;
+			_debuffHistory[Debuff.Speed].Push( _speedScalar.Scale );
 
 			ApplySpeedDebuff( scale );
 			await TaskHelpers.DelaySeconds( duration );
+
+			float prevScale = _debuffHistory[Debuff.Speed].Pop();
 			ApplySpeedDebuff( prevScale );
 		}
 
@@ -52,10 +67,10 @@ namespace Minipede.Gameplay.Enemies
 			}
 		}
 
-		public void Dispose()
+		private enum Debuff
 		{
-			_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
-			_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDied );
+			Speed,
+			Count
 		}
 	}
 }

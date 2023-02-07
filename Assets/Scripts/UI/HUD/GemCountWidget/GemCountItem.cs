@@ -1,4 +1,6 @@
+using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Treasures;
+using Minipede.Utility;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +13,7 @@ namespace Minipede.Gameplay.UI
 		[SerializeField] private string _format = "x{0}";
 
 		[Space]
-        [SerializeField] private Image _border;
+        [SerializeField] private Image _indicator;
         [SerializeField] private TMP_Text _count;
 		[SerializeField] private Button _button;
 		[SerializeField] private CanvasGroup _group;
@@ -23,6 +25,11 @@ namespace Minipede.Gameplay.UI
 		public void Construct( ResourceType resource,
 			SignalBus signalBus )
 		{
+			if ( !gameObject.activeInHierarchy )
+			{
+				return;
+			}
+
 			_resource = resource;
 			_signalBus = signalBus;
 
@@ -33,6 +40,8 @@ namespace Minipede.Gameplay.UI
 					ResourceType = _resource
 				} );
 			} );
+
+			_indicator.color = resource.Color;
 		}
 
 		private void OnEnable()
@@ -60,7 +69,63 @@ namespace Minipede.Gameplay.UI
 			if ( signal.ResourceType == _resource )
 			{
 				_group.interactable = signal.IsUnlocked;
+
+				if ( signal.IsUnlocked )
+				{
+					if ( !_isBlinking )
+					{
+						_isBlinking = true;
+						BlinkIndicator()
+							.Cancellable( AppHelper.AppQuittingToken )
+							.Forget();
+					}
+				}
+				else
+				{
+					_isBlinking = false;
+				}
 			}
+		}
+
+		private bool _isBlinking;
+
+		[Header( "Animation" )]
+		[SerializeField] private float _indicatorDelay = 1;
+		[SerializeField] private float _burstDuration = 05f;
+		[SerializeField] private int _burstBlinks = 3;
+		[SerializeField] private Color _blinkColor = Color.white;
+
+		private async UniTask BlinkIndicator()
+		{
+			float stepDuration = _burstDuration / _burstBlinks;
+
+			while ( _isBlinking )
+			{
+				await UniTask.Delay( 
+					System.TimeSpan.FromSeconds( _indicatorDelay ), 
+					ignoreTimeScale: true, 
+					cancellationToken: AppHelper.AppQuittingToken 
+				);
+
+				bool toggle = false;
+
+				for ( float timer = 0; timer < _burstDuration; timer += stepDuration )
+				{
+					toggle = !toggle;
+					_indicator.color = toggle ? _blinkColor : _resource.Color;
+
+					float stepTimer = 0;
+					while ( stepTimer < stepDuration && _isBlinking )
+					{
+						stepTimer += Time.unscaledDeltaTime;
+						await UniTask.Yield( PlayerLoopTiming.Update, AppHelper.AppQuittingToken );
+					}
+				}
+
+				_indicator.color = _resource.Color;
+			}
+
+			_isBlinking = false;
 		}
 	}
 }

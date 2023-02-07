@@ -111,6 +111,11 @@ namespace Minipede.Gameplay.Cameras
 				timer += Time.deltaTime;
 
 				index = _targetGroup.FindMember( transform );
+				if ( index < 0 )
+				{
+					return;
+				}
+
 				_targetGroup.m_Targets[index].weight = Mathf.Lerp( start, weight, timer / duration );
 
 				await UniTask.Yield( PlayerLoopTiming.Update );

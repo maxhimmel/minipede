@@ -23,10 +23,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0551070950644bb48a4f14086f9e279b, type: 2}
   - {fileID: 11400000, guid: 6e93caea736d0fb47a6a10033949c474, type: 2}
   _spider:
-    IsEnabled: 1
     SpawnRateRange: {x: 3.2023592, y: 10.157172}
     MaxEnemyCount: 1
   _gathering:
-    WaveDelay: {x: 3, y: 5}
+    WaveDelay: {x: 2, y: 2}
     Wave:
-      Duration: 15
+      Duration: 30

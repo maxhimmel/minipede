@@ -79,7 +79,7 @@ namespace Minipede.Gameplay.Player
 		{
 			if ( _explorer.CurrentInteractable is Ship ship )
 			{
-				ship.UnequipBeacon();
+				ship.TryUnequipBeacon( out _ );
 			}
 
 			_explorer.StartGrabbing();

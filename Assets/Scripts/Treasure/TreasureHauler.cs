@@ -130,16 +130,27 @@ namespace Minipede.Gameplay.Treasures
 			int lastIndex = _treasuresWithinRange.Count - 1;
 			var closestTreasure = _treasuresWithinRange[lastIndex];
 
-			if ( _haulingTreasures.Add( closestTreasure ) )
+			if ( TryHaulTreasure( closestTreasure ) )
 			{
 				_treasuresWithinRange.RemoveAt( lastIndex );
-				closestTreasure.Follow( _body );
-
-				_haulWeight += closestTreasure.Weight;
-				HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
 			}
 
 			_nextCollectTime = Time.timeSinceLevelLoad + _settings.HoldCollectDelay;
+		}
+
+		public bool TryHaulTreasure( Haulable haulable )
+		{
+			if ( !_haulingTreasures.Add( haulable ) )
+			{
+				return false;
+			}
+
+			haulable.Follow( _body );
+
+			_haulWeight += haulable.Weight;
+			HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
+
+			return true;
 		}
 
 		private bool CanHaulTreasure()

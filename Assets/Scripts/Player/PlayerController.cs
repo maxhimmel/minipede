@@ -114,6 +114,11 @@ namespace Minipede.Gameplay.Player
 
 			_explorerController.Possess( _explorer );
 
+			if ( _ship.TryUnequipBeacon( out var beacon ) )
+			{
+				_explorer.TryHaulTreasure( beacon );
+			}
+
 			return _explorer;
 		}
 

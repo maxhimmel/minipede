@@ -85,7 +85,7 @@ namespace Minipede.Gameplay.Player
 
 		private void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
-			UnequipBeacon();
+			TryUnequipBeacon( out _ );
 
 			_damageController.Died -= OnDied;
 
@@ -200,15 +200,21 @@ namespace Minipede.Gameplay.Player
 			return false;
 		}
 
-		public void UnequipBeacon()
+		public bool TryUnequipBeacon( out Beacon beacon )
 		{
-			if ( IsBeaconEquipped() )
-			{
-				_equippedBeacon.Unequip();
-				_equippedBeacon = null;
+			beacon = _equippedBeacon;
 
-				_signalBus.TryFire( new BeaconUnequippedSignal() );
+			if ( !IsBeaconEquipped() )
+			{
+				return false;
 			}
+
+			_equippedBeacon.Unequip();
+			_equippedBeacon = null;
+
+			_signalBus.TryFire( new BeaconUnequippedSignal() );
+
+			return true;
 		}
 
 		private bool IsBeaconEquipped()

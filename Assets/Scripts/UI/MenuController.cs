@@ -38,7 +38,7 @@ namespace Minipede.Gameplay.UI
 		public void Open<TMenu>()
 			where TMenu : IMenu
 		{
-            _canvas.enabled = true;
+			gameObject.SetActive( true );
 
             var subMenu = _subMenus[typeof( TMenu )];
 
@@ -52,7 +52,7 @@ namespace Minipede.Gameplay.UI
 
             if ( _menuStack.IsEmpty )
 			{
-                _canvas.enabled = false;
+				gameObject.SetActive( false );
 			}
             else
 			{
@@ -67,7 +67,7 @@ namespace Minipede.Gameplay.UI
 
             if ( _menuStack.IsEmpty )
 			{
-                _canvas.enabled = false;
+				gameObject.SetActive( false );
 			}
         }
 

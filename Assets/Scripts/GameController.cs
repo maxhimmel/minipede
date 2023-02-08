@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
+using Minipede.Gameplay.UI;
 using Minipede.Gameplay.Waves;
 using Minipede.Installers;
 using Minipede.Utility;
@@ -22,13 +23,15 @@ namespace Minipede.Gameplay
 		private readonly WaveController _waveController;
 		private readonly AudioBankLoader _audioBankLoader;
 		private readonly LevelMushroomHealer _mushroomHealer;
+		private readonly ScreenFadeController _screenFadeController;
 
 		public GameController( GameplaySettings.Player playerSettings,
 			PlayerController playerSpawnController,
 			LevelGenerator levelGenerator,
 			WaveController waveController,
 			AudioBankLoader audioBankLoader,
-			LevelMushroomHealer mushroomHealer )
+			LevelMushroomHealer mushroomHealer,
+			ScreenFadeController screenFadeController )
 		{
 			_playerSettings = playerSettings;
 			_playerSpawnController = playerSpawnController;
@@ -36,6 +39,7 @@ namespace Minipede.Gameplay
 			_waveController = waveController;
 			_audioBankLoader = audioBankLoader;
 			_mushroomHealer = mushroomHealer;
+			_screenFadeController = screenFadeController;
 		}
 
 		public void Dispose()
@@ -47,6 +51,8 @@ namespace Minipede.Gameplay
 
 		public async void Initialize()
 		{
+			await _screenFadeController.FadeIn( 1 );
+
 			// Let's wait a single frame to allow other initializables to subscribe ...
 			await UniTask.Yield();
 

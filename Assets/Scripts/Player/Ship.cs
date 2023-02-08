@@ -118,6 +118,8 @@ namespace Minipede.Gameplay.Player
 			_moveInput = Vector2.zero;
 			_motor.SetDesiredVelocity( Vector2.zero );
 
+			StopFiring();
+
 			_playerController.CreateExplorer();
 		}
 

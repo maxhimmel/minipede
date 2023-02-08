@@ -21,8 +21,8 @@ namespace Minipede.Gameplay.Waves
 
 		public StampedeWave( Settings settings,
 			EnemySpawnBuilder enemyBuilder,
-			EnemyPlacementResolver placementResolver, 
-			PlayerController playerSpawn,
+			EnemyPlacementResolver placementResolver,
+			IPlayerLifetimeHandler playerSpawn,
 			SpiderSpawnController spiderSpawnController,
 			SignalBus signalBus ) 
 			: base( enemyBuilder, placementResolver, playerSpawn, spiderSpawnController, signalBus )

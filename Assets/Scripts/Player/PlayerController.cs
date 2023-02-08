@@ -8,7 +8,8 @@ using Zenject;
 
 namespace Minipede.Gameplay.Player
 {
-    public class PlayerController : IInitializable,
+    public class PlayerController : IPlayerLifetimeHandler,
+		IInitializable,
 		IDisposable
 	{
 		public event System.Action<Ship> PlayerSpawned;

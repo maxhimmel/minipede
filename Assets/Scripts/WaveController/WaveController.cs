@@ -18,12 +18,12 @@ namespace Minipede.Gameplay.Waves
 		public int CurrentWaveIndex { get; private set; }
 
 		private readonly Settings _settings;
-		private readonly PlayerController _playerController;
+		private readonly IPlayerLifetimeHandler _playerController;
 		private readonly SignalBus _signalBus;
 		private readonly SortedList<int, IWave> _waveQueue;
 
 		public WaveController( Settings settings,
-			PlayerController playerController,
+			IPlayerLifetimeHandler playerController,
 			SignalBus signalBus )
 		{
 			_settings = settings;

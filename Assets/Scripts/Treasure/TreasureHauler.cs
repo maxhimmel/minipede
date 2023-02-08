@@ -59,8 +59,9 @@ namespace Minipede.Gameplay.Treasures
 
 		private void ClearHaul()
 		{
-			_haulWeight = 0;
 			_haulingTreasures.Clear();
+
+			_haulWeight = 0;
 			HaulAmountChanged?.Invoke( 0 );
 		}
 
@@ -69,6 +70,9 @@ namespace Minipede.Gameplay.Treasures
 			if ( _haulingTreasures.Remove( haulable ) )
 			{
 				_treasuresWithinRange.Remove( haulable );
+
+				_haulWeight = Mathf.Max( 0, _haulWeight - haulable.Weight );
+				HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
 			}
 		}
 
@@ -160,8 +164,9 @@ namespace Minipede.Gameplay.Treasures
 			var treasure = enumerator.Current;
 			treasure.StopFollowing();
 
-			_haulWeight = Mathf.Max( 0, _haulWeight - treasure.Weight );
 			_haulingTreasures.Remove( treasure );
+
+			_haulWeight = Mathf.Max( 0, _haulWeight - treasure.Weight );
 			HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
 
 			_nextReleaseTime = Time.timeSinceLevelLoad + _settings.HoldReleaseDelay;

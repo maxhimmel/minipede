@@ -22,8 +22,8 @@ namespace Minipede.Gameplay.Player
 			{
 				throw new System.NotSupportedException( $"Cannot interact with a {nameof( Mushroom )} without a beacon." );
 			}
-			explorer.ReleaseTreasure( beacon );
 
+			explorer.ReleaseTreasure( beacon );
 			mushroom.Dispose();
 
 			var newLighthouse = _levelGraph.CreateBlock( _settings.LighthousePrefab, mushroom.transform.position );

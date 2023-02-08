@@ -32,12 +32,22 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_placements = container.ResolveIdAll<IOrientation>( settings.SpawnPointId );
 			_enemiesWithinZone = new HashSet<EnemyController>();
 
-			signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
+			_countdownCancelSource = AppHelper.CreateLinkedCTS();
+
+			if ( settings.IsEnabled )
+			{
+				signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
+			}
 		}
 
 		public void Dispose()
 		{
-			_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
+			if ( _settings.IsEnabled )
+			{
+				_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
+
+				Reset();
+			}
 		}
 
 		private void OnEnemyDestroyed( EnemyDestroyedSignal signal )
@@ -67,6 +77,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		public void NotifyEnteredZone( EnemyController enemy )
 		{
+			if ( !_settings.IsEnabled )
+			{
+				return;
+			}
+
 			if ( !enemy.IsAlive || !_enemiesWithinZone.Add( enemy ) )
 			{
 				// This enemy has already been registered within the player-zone ...
@@ -76,9 +91,10 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			if ( !_isSpawnCountdownRunning )
 			{
 				_isSpawnCountdownRunning = true;
-				if ( _countdownCancelSource == null || _countdownCancelSource.IsCancellationRequested )
+
+				if ( _countdownCancelSource.IsCancellationRequested )
 				{
-					_countdownCancelSource = new CancellationTokenSource();
+					_countdownCancelSource = AppHelper.CreateLinkedCTS();
 				}
 
 				UpdateSpawnCountdown()
@@ -114,14 +130,17 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		[System.Serializable]
 		public struct Settings
 		{
+			public bool IsEnabled;
+
+			[ShowIf( "IsEnabled" )]
 			public string SpawnPointId;
 
-			[BoxGroup, InfoBox( "Once a Minipede head makes it into the player area - how long before a new head spawns?", 
+			[ShowIf( "IsEnabled" ), BoxGroup, InfoBox( "Once a Minipede head makes it into the player area - how long before a new head spawns?", 
 				InfoMessageType = InfoMessageType.None )]
 			public float Countdown;
 
 			[Space]
-			[BoxGroup, InfoBox( "Once a new head has spawned - how long before <b>another</b> head spawns?",
+			[ShowIf( "IsEnabled" ), BoxGroup, InfoBox( "Once a new head has spawned - how long before <b>another</b> head spawns?",
 				InfoMessageType = InfoMessageType.None )]
 			public float ConsecutiveDelay;
 		}

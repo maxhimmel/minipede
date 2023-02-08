@@ -1,0 +1,76 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3d31706472477f499fb1eb06bb294ee, type: 3}
+  m_Name: LevelGenerationSettings
+  m_EditorClassIdentifier: 
+  _levelSettings:
+    Graph:
+      Dimensions: {x: 32, y: 30}
+      Size: {x: 1, y: 1}
+      Offset: {x: 0, y: 0}
+    Builder:
+      PlayerRows: 8
+      PlayerRowDepth: 4
+    SpawnRate: 0.5
+    RowGeneration:
+      _allowEmptyRolls: 1
+      _items:
+      - _normalizedWeight: 70
+        Item: 1
+      - _normalizedWeight: 20
+        Item: 2
+      - _normalizedWeight: 10
+        Item: 3
+    PoisonDamage:
+      Rate: 0.25
+      Damage:
+        HitMask:
+          serializedVersion: 2
+          m_Bits: 8
+        Type:
+          rid: 5904236884060798980
+  _blockSettings:
+    Settings:
+      Heal:
+        Heal: 1
+      DelayPerHealStep: 1
+    Mushrooms:
+      Standard:
+        Prefab: {fileID: 5434983621959152010, guid: 7fcd2de324cb24a41b25e8cc34c6086a, type: 3}
+        InitialSize: 100
+        ExpandMethod: 0
+      Poison:
+        Prefab: {fileID: 7223752588216721313, guid: b365f0d28be7fa44989337593a66181c, type: 3}
+        InitialSize: 10
+        ExpandMethod: 0
+      Flower:
+        Prefab: {fileID: 773270202664393196, guid: d6bf6258b2770a04f98a69588242b66b, type: 3}
+        InitialSize: 10
+        ExpandMethod: 0
+    Poison:
+      InitialPoolSize: 20
+      Prefab: {fileID: 709626158554325588, guid: 193b708e9ef52cd40b90d7a83b318a17, type: 3}
+      Lifetime: 5
+  _pollutionSettings:
+    WinPercentage: 0.3
+    CellCoord: {x: 8, y: 0}
+    Size: {x: 30, y: 24}
+  references:
+    version: 2
+    RefIds:
+    - rid: 5904236884060798980
+      type: {class: PoisonInvoker/Settings, ns: Minipede.Gameplay, asm: Minipede}
+      data:
+        Damage: 1
+        ApplyRate: 1
+        CanExpire: 0
+        Duration: 0

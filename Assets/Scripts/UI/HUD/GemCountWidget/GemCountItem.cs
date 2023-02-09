@@ -112,11 +112,19 @@ namespace Minipede.Gameplay.UI
 
 			while ( _isBlinking )
 			{
-				await UniTask.Delay( 
-					System.TimeSpan.FromSeconds( _indicatorDelay ), 
-					ignoreTimeScale: true, 
-					cancellationToken: AppHelper.AppQuittingToken 
-				);
+				float prevIndicatorDelayTime = 0;
+				float indicatorDelayTimer = Time.unscaledTime % _indicatorDelay;
+				while ( indicatorDelayTimer < _indicatorDelay )
+				{
+					indicatorDelayTimer = Time.unscaledTime % _indicatorDelay;
+					if ( indicatorDelayTimer < prevIndicatorDelayTime )
+					{
+						break;
+					}
+
+					prevIndicatorDelayTime = indicatorDelayTimer;
+					await UniTask.Yield( AppHelper.AppQuittingToken );
+				}
 
 				bool toggle = false;
 

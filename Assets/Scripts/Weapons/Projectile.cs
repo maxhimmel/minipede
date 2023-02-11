@@ -1,17 +1,19 @@
 using System;
+using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
 	public class Projectile : MonoBehaviour,
-		IPoolable<Vector2, Quaternion, IMemoryPool>,
+		IPoolable<float, Vector2, Quaternion, IMemoryPool>,
 		IDisposable
 	{
 		public event System.Action<Projectile> Destroyed;
 
 		private Rigidbody2D _body;
 		private SignalBus _signalBus;
+		private Lifetimer _lifetimer;
 
 		private IMemoryPool _pool;
 
@@ -21,6 +23,8 @@ namespace Minipede.Gameplay.Weapons
 		{
 			_body = body;
 			_signalBus = signalBus;
+
+			_lifetimer = new Lifetimer();
 		}
 
 		public void Launch( Vector2 impulse )
@@ -59,10 +63,12 @@ namespace Minipede.Gameplay.Weapons
 			_body.velocity = Vector2.zero;
 			_body.angularVelocity = 0;
 
+			_lifetimer.Pause();
+
 			Destroyed?.Invoke( this );
 		}
 
-		public void OnSpawned( Vector2 position, Quaternion rotation, IMemoryPool pool )
+		public void OnSpawned( float lifetime, Vector2 position, Quaternion rotation, IMemoryPool pool )
 		{
 			_pool = pool;
 
@@ -70,8 +76,18 @@ namespace Minipede.Gameplay.Weapons
 
 			_body.position = position;
 			_body.SetRotation( rotation );
+
+			_lifetimer.StartLifetime( lifetime );
 		}
 
-		public class Factory : PlaceholderFactory<Vector2, Quaternion, Projectile> { }
+		private void Update()
+		{
+			if ( !_lifetimer.Tick() )
+			{
+				Dispose();
+			}
+		}
+
+		public class Factory : PlaceholderFactory<float, Vector2, Quaternion, Projectile> { }
 	}
 }

@@ -99,7 +99,7 @@ namespace Minipede.Gameplay.Weapons
 				direction = _accuracyAdjuster.Adjust( direction );
 			}
 
-			Projectile newProjectile = _factory.Create( orientation.Position, direction.ToLookRotation() );
+			Projectile newProjectile = _factory.Create( _settings.ProjectileLifetime, orientation.Position, direction.ToLookRotation() );
 
 			Vector2 projectileImpulse = direction * _settings.ProjectileSpeed;
 			newProjectile.Launch( projectileImpulse, _settings.ProjectileTorque );
@@ -120,6 +120,8 @@ namespace Minipede.Gameplay.Weapons
 		{
 			public string ShotSpotId;
 
+			[BoxGroup( "Projectile", ShowLabel = false )]
+			public float ProjectileLifetime;
 			[BoxGroup( "Projectile", ShowLabel = false )]
 			public float ProjectileSpeed;
 			[BoxGroup( "Projectile", ShowLabel = false )]

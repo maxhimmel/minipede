@@ -224,9 +224,6 @@ namespace Minipede.Installers
 
 		private void BindAudio()
 		{
-			Container.BindInterfacesAndSelfTo<MinipedeAudio>()
-				.AsSingle();
-
 			Container.Bind<AudioBankLoader>()
 				.AsSingle()
 				.WithArguments( _audioSettings.Banks );

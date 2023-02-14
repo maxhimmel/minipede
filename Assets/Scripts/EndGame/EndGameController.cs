@@ -5,6 +5,7 @@ using Minipede.Gameplay.UI;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces
@@ -71,6 +72,9 @@ namespace Minipede.Gameplay.LevelPieces
 			await StartTakeoffSequence( ship );
 
 			await _screenFader.FadeOut( _settings.TakeoffDuration * 0.25f );
+
+			SceneManager.LoadScene( "StartMenu" );
+
 			// Unload scene
 			// Load transition scene where ship looks like it's flying over scrolling mushrooms
 			// Fade in

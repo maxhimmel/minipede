@@ -9,6 +9,7 @@ namespace Minipede.Utility
 		public CancellationToken CancelToken => _cancelSource.Token;
 
 		private CancellationTokenSource _cancelSource;
+		private CancellationToken? _outerCancelToken;
 
 		public TaskRunner()
 		{
@@ -16,6 +17,7 @@ namespace Minipede.Utility
 		}
 		public TaskRunner( CancellationToken cancelToken )
 		{
+			_outerCancelToken = cancelToken;
 			_cancelSource = AppHelper.CreateLinkedCTS( cancelToken );
 		}
 
@@ -41,7 +43,9 @@ namespace Minipede.Utility
 
 			_cancelSource.Cancel();
 			_cancelSource.Dispose();
-			_cancelSource = AppHelper.CreateLinkedCTS();
+			_cancelSource = _outerCancelToken.HasValue && _outerCancelToken.Value.CanBeCanceled
+				? AppHelper.CreateLinkedCTS( _outerCancelToken.Value )
+				: AppHelper.CreateLinkedCTS();
 
 			return true;
 		}

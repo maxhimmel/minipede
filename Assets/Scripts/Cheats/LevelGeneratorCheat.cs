@@ -6,7 +6,7 @@ namespace Minipede.Cheats
 {
 	public class LevelGeneratorCheat : LevelGenerator
 	{
-		public LevelGeneratorCheat( GameplaySettings.Level settings, 
+		public LevelGeneratorCheat( LevelGenerationInstaller.Level settings, 
 			LevelGraph levelGraph, 
 			MushroomProvider mushroomProvider,
 			LevelGenerator baseGenerator ) 

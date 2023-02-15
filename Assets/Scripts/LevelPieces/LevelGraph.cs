@@ -17,7 +17,7 @@ namespace Minipede.Gameplay.LevelPieces
 		private Vector2 _localOrigin;
 
 		[Inject]
-		public void Construct( GameplaySettings.Level settings,
+		public void Construct( LevelGenerationInstaller.Level settings,
 			BlockFactoryBus blockFactoryBus )
 		{
 			Data = settings.Graph;

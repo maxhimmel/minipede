@@ -8,11 +8,11 @@ namespace Minipede.Gameplay.LevelPieces
 {
 	public class LevelGenerator
 	{
-		private readonly GameplaySettings.Level _settings;
+		private readonly LevelGenerationInstaller.Level _settings;
 		private readonly LevelGraph _levelGraph;
 		private readonly MushroomProvider _mushroomProvider;
 
-		public LevelGenerator( GameplaySettings.Level settings,
+		public LevelGenerator( LevelGenerationInstaller.Level settings,
 			LevelGraph levelGraph,
 			MushroomProvider mushroomProvider )
 		{

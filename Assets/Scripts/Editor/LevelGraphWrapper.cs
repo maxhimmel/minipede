@@ -8,7 +8,7 @@ namespace Minipede.Editor
     public class LevelGraphWrapper
 	{
 		public LevelGraph LevelGraph { get; private set; }
-		public GameplaySettings GameplaySettings { get; private set; }
+		public LevelGenerationInstaller LevelSettings { get; private set; }
 
 		public LevelGraph.Settings GraphSettings => new LevelGraph.Settings()
 		{
@@ -23,7 +23,7 @@ namespace Minipede.Editor
 		public int PlayerRows => _playerRowsProperty.intValue;
 		public int PlayerRowDepth => _playerRowDepthProperty.intValue;
 
-		private SerializedObject _gameplaySettingsObj;
+		private SerializedObject _levelSettingsObj;
 		private SerializedProperty _levelSettingsProperty;
 		private SerializedProperty _builderSettingsProperty;
 		private SerializedProperty _graphSettingsProperty;
@@ -45,15 +45,15 @@ namespace Minipede.Editor
 				LevelGraph = GameObject.FindObjectOfType<LevelGraph>();
 			}
 
-			if ( GameplaySettings == null )
+			if ( LevelSettings == null )
 			{
-				GameplaySettings = EditorUtility.FindAsset<GameplaySettings>( "GameplaySettings" );
+				LevelSettings = EditorUtility.FindAsset<LevelGenerationInstaller>( "LevelSettings" );
 			}
 
-			if ( _gameplaySettingsObj == null )
+			if ( _levelSettingsObj == null )
 			{
-				_gameplaySettingsObj = new SerializedObject( GameplaySettings );
-				_levelSettingsProperty = _gameplaySettingsObj.FindProperty( "_levelSettings" );
+				_levelSettingsObj = new SerializedObject( LevelSettings );
+				_levelSettingsProperty = _levelSettingsObj.FindProperty( "_levelSettings" );
 				_builderSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Builder" );
 				_graphSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Graph" );
 
@@ -68,9 +68,9 @@ namespace Minipede.Editor
 
 		public bool Update()
 		{
-			if ( _gameplaySettingsObj != null )
+			if ( _levelSettingsObj != null )
 			{
-				return _gameplaySettingsObj.UpdateIfRequiredOrScript();
+				return _levelSettingsObj.UpdateIfRequiredOrScript();
 			}
 
 			return false;

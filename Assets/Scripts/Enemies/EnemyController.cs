@@ -36,7 +36,7 @@ namespace Minipede.Gameplay.Enemies
 		protected LevelForeman _levelForeman;
 		protected SignalBus _signalBus;
 		private LootBox _lootBox;
-		private GameplaySettings.Level _levelSettings;
+		private LevelGenerationInstaller.Level _levelSettings;
 
 		private CancellationTokenSource _onDestroyCancelSource;
 		private IMemoryPool _memoryPool;
@@ -49,7 +49,7 @@ namespace Minipede.Gameplay.Enemies
 			LevelForeman foreman,
 			SignalBus signalBus,
 			LootBox lootBox,
-			GameplaySettings.Level levelSettings )
+			LevelGenerationInstaller.Level levelSettings )
 		{
 			_body = body;
 			_damageController = damageController;

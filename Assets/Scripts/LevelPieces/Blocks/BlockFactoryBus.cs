@@ -8,12 +8,12 @@ namespace Minipede.Gameplay.LevelPieces
 {
 	public class BlockFactoryBus : PooledPrefabFactoryBus<Block>
 	{
-		private readonly GameplaySettings.Level _levelSettings;
+		private readonly LevelGenerationInstaller.Level _levelSettings;
 		private readonly Block.Factory _fallbackFactory;
 
 		public BlockFactoryBus( List<PoolSettings> settings,
 			DiContainer container,
-			GameplaySettings.Level levelSettings,
+			LevelGenerationInstaller.Level levelSettings,
 			Block.Factory fallbackFactory )
 			: base( settings, container )
 		{

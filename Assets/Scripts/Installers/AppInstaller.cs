@@ -2,12 +2,15 @@ using Minipede.Gameplay;
 using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.UI;
 using Minipede.Utility;
+using UnityEngine;
 using Zenject;
 
 namespace Minipede.Installers
 {
     public class AppInstaller : MonoInstaller
     {
+		[SerializeField] private SceneLoader.Settings _sceneLoader;
+
 		public override void InstallBindings()
 		{
 			InstallSignals();
@@ -27,6 +30,10 @@ namespace Minipede.Installers
 				.To<AudioController>()
 				.FromMethod( GetComponentInChildren<AudioController> )
 				.AsSingle();
+
+			Container.Bind<SceneLoader>()
+				.AsSingle()
+				.WithArguments( _sceneLoader );
 
 			BindMenuSystems();
 		}

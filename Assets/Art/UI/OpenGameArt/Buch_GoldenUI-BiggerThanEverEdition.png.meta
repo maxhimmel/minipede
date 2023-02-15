@@ -3883,6 +3883,48 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Buch_GoldenUI-BiggerThanEverEdition_180
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 310
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3468bf91461bc44aaf2c01705612465
+      internalID: 1357475376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Buch_GoldenUI-BiggerThanEverEdition_181
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 310
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68d3d8a777f886c4b95d6b21844cd64d
+      internalID: 1744509742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -3980,6 +4022,7 @@ TextureImporter:
       Buch_GoldenUI-BiggerThanEverEdition_6: 186828876
       Buch_GoldenUI-BiggerThanEverEdition_163: 1276558880
       Buch_GoldenUI-BiggerThanEverEdition_125: 737852580
+      Buch_GoldenUI-BiggerThanEverEdition_181: 1744509742
       Buch_GoldenUI-BiggerThanEverEdition_22: -743551692
       Buch_GoldenUI-BiggerThanEverEdition_54: -1257950598
       Buch_GoldenUI-BiggerThanEverEdition_160: -1211736588
@@ -3992,6 +4035,7 @@ TextureImporter:
       Buch_GoldenUI-BiggerThanEverEdition_15: 1621266429
       Buch_GoldenUI-BiggerThanEverEdition_139: 347055038
       Buch_GoldenUI-BiggerThanEverEdition_42: 336236178
+      Buch_GoldenUI-BiggerThanEverEdition_180: 1357475376
       Buch_GoldenUI-BiggerThanEverEdition_94: -1177151153
       Buch_GoldenUI-BiggerThanEverEdition_12: 322751733
       Buch_GoldenUI-BiggerThanEverEdition_88: 1161327935

@@ -147,7 +147,10 @@ namespace Minipede.Gameplay.Waves
 		{
 			foreach ( var enemy in _livingEnemies )
 			{
-				enemy.Dispose();
+				if ( enemy != null )
+				{
+					enemy.Dispose();
+				}
 			}
 			_livingEnemies.Clear();
 		}

@@ -14,7 +14,7 @@ namespace Minipede.Gameplay.LevelPieces
 		public ShipSpawner( 
 			DiContainer container,
 			Ship.Factory factory,
-			GameplaySettings.Player settings )
+			PlayerSettings.Player settings )
 		{
 			_factory = factory;
 			SpawnPoint = container.ResolveId<IOrientation>( settings.SpawnPointId );

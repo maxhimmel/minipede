@@ -16,14 +16,14 @@ namespace Minipede.Gameplay
 	{
 		public bool IsReady { get; private set; }
 
-		private readonly GameplaySettings.Player _playerSettings;
+		private readonly PlayerSettings.Player _playerSettings;
 		private readonly PlayerController _playerSpawnController;
 		private readonly LevelGenerator _levelGenerator;
 		private readonly WaveController _waveController;
 		private readonly AudioBankLoader _audioBankLoader;
 		private readonly LevelMushroomHealer _mushroomHealer;
 
-		public GameController( GameplaySettings.Player playerSettings,
+		public GameController( PlayerSettings.Player playerSettings,
 			PlayerController playerSpawnController,
 			LevelGenerator levelGenerator,
 			WaveController waveController,

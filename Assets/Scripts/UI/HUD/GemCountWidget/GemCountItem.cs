@@ -11,8 +11,6 @@ namespace Minipede.Gameplay.UI
     public class GemCountItem : MonoBehaviour
     {
 		[SerializeField] private string _format = "x{0}";
-
-		// TODO: Should this data be passed into the signal?
 		[SerializeField] private int _gemsToBeacons = 3; /// <see cref="Player.Inventory.Settings.GemsToBeacon"/>
 
 		[Space]
@@ -67,7 +65,7 @@ namespace Minipede.Gameplay.UI
 				_count.text = string.Format( _format, signal.TotalAmount );
 
 				float percentage = Mathf.Clamp01( signal.TotalAmount / (float)_gemsToBeacons );
-				var offsetMax = _gaugeFill.rectTransform.offsetMax;
+				Vector2 offsetMax = _gaugeFill.rectTransform.offsetMax;
 				offsetMax.x = Mathf.Lerp( _gaugeWidth, 0, percentage );
 				_gaugeFill.rectTransform.offsetMax = offsetMax;
 			}
@@ -78,71 +76,7 @@ namespace Minipede.Gameplay.UI
 			if ( signal.ResourceType == _resource )
 			{
 				_group.interactable = signal.IsUnlocked;
-
-				if ( signal.IsUnlocked )
-				{
-					if ( !_isBlinking )
-					{
-						_isBlinking = true;
-						BlinkIndicator()
-							.Cancellable( AppHelper.AppQuittingToken )
-							.Forget();
-					}
-				}
-				else
-				{
-					_isBlinking = false;
-				}
 			}
-		}
-
-		private bool _isBlinking;
-
-		[Header( "Animation" )]
-		[SerializeField] private float _indicatorDelay = 1;
-		[SerializeField] private float _burstDuration = 05f;
-		[SerializeField] private int _burstBlinks = 3;
-		[SerializeField] private Color _blinkColor = Color.white;
-
-		private async UniTask BlinkIndicator()
-		{
-			float stepDuration = _burstDuration / _burstBlinks;
-
-			while ( _isBlinking )
-			{
-				float prevIndicatorDelayTime = 0;
-				float indicatorDelayTimer = Time.unscaledTime % _indicatorDelay;
-				while ( indicatorDelayTimer < _indicatorDelay )
-				{
-					indicatorDelayTimer = Time.unscaledTime % _indicatorDelay;
-					if ( indicatorDelayTimer < prevIndicatorDelayTime )
-					{
-						break;
-					}
-
-					prevIndicatorDelayTime = indicatorDelayTimer;
-					await UniTask.Yield( AppHelper.AppQuittingToken );
-				}
-
-				bool toggle = false;
-
-				for ( float timer = 0; timer < _burstDuration; timer += stepDuration )
-				{
-					toggle = !toggle;
-					_indicator.color = toggle ? _blinkColor : _resource.Color;
-
-					float stepTimer = 0;
-					while ( stepTimer < stepDuration && _isBlinking )
-					{
-						stepTimer += Time.unscaledDeltaTime;
-						await UniTask.Yield( PlayerLoopTiming.Update, AppHelper.AppQuittingToken );
-					}
-				}
-
-				_indicator.color = _resource.Color;
-			}
-
-			_isBlinking = false;
 		}
 	}
 }

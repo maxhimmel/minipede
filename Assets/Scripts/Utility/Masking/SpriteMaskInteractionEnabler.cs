@@ -7,7 +7,7 @@ namespace Minipede.Utility
     {
 		protected override void SetInteraction( SpriteRenderer maskedComponent, SpriteMaskInteraction interaction )
 		{
-			//maskedComponent.maskInteraction = interaction;
+			maskedComponent.maskInteraction = interaction;
 		}
 	}
 }

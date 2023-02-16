@@ -3362,8 +3362,8 @@ TextureImporter:
       name: Buch_GoldenUI-BiggerThanEverEdition_155
       rect:
         serializedVersion: 2
-        x: 722
-        y: 119
+        x: 616
+        y: 115
         width: 27
         height: 24
       alignment: 0
@@ -3383,8 +3383,8 @@ TextureImporter:
       name: Buch_GoldenUI-BiggerThanEverEdition_156
       rect:
         serializedVersion: 2
-        x: 758
-        y: 106
+        x: 652
+        y: 102
         width: 26
         height: 18
       alignment: 0
@@ -3593,8 +3593,8 @@ TextureImporter:
       name: Buch_GoldenUI-BiggerThanEverEdition_166
       rect:
         serializedVersion: 2
-        x: 721
-        y: 89
+        x: 615
+        y: 85
         width: 28
         height: 28
       alignment: 0
@@ -3614,13 +3614,13 @@ TextureImporter:
       name: Buch_GoldenUI-BiggerThanEverEdition_167
       rect:
         serializedVersion: 2
-        x: 802
-        y: 68
-        width: 44
-        height: 44
+        x: 801
+        y: 67
+        width: 46
+        height: 46
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 9, y: 9, z: 9, w: 9}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -3635,8 +3635,8 @@ TextureImporter:
       name: Buch_GoldenUI-BiggerThanEverEdition_168
       rect:
         serializedVersion: 2
-        x: 722
-        y: 58
+        x: 616
+        y: 54
         width: 27
         height: 24
       alignment: 0
@@ -3740,8 +3740,8 @@ TextureImporter:
       name: Buch_GoldenUI-BiggerThanEverEdition_173
       rect:
         serializedVersion: 2
-        x: 721
-        y: 28
+        x: 615
+        y: 24
         width: 28
         height: 28
       alignment: 0
@@ -3761,8 +3761,8 @@ TextureImporter:
       name: Buch_GoldenUI-BiggerThanEverEdition_174
       rect:
         serializedVersion: 2
-        x: 758
-        y: 45
+        x: 652
+        y: 41
         width: 26
         height: 18
       alignment: 0
@@ -3782,13 +3782,13 @@ TextureImporter:
       name: Buch_GoldenUI-BiggerThanEverEdition_175
       rect:
         serializedVersion: 2
-        x: 802
-        y: 18
-        width: 44
-        height: 44
+        x: 801
+        y: 17
+        width: 46
+        height: 46
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
+      border: {x: 9, y: 9, z: 9, w: 9}
       outline: []
       physicsShape: []
       tessellationDetail: 0
@@ -3850,7 +3850,7 @@ TextureImporter:
         width: 32
         height: 20
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -3858,6 +3858,69 @@ TextureImporter:
       bones: []
       spriteID: a32cc02c2470f834a99bceb094b64cc0
       internalID: -1997560277
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Buch_GoldenUI-BiggerThanEverEdition_179
+      rect:
+        serializedVersion: 2
+        x: 751
+        y: 67
+        width: 46
+        height: 46
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 9, y: 9, z: 9, w: 9}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6256dd40eb7336147b5051093f0159df
+      internalID: -911029496
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Buch_GoldenUI-BiggerThanEverEdition_180
+      rect:
+        serializedVersion: 2
+        x: 592
+        y: 310
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f3468bf91461bc44aaf2c01705612465
+      internalID: 1357475376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Buch_GoldenUI-BiggerThanEverEdition_181
+      rect:
+        serializedVersion: 2
+        x: 601
+        y: 310
+        width: 8
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 68d3d8a777f886c4b95d6b21844cd64d
+      internalID: 1744509742
       vertices: []
       indices: 
       edges: []
@@ -3914,6 +3977,7 @@ TextureImporter:
       Buch_GoldenUI-BiggerThanEverEdition_121: -375747954
       Buch_GoldenUI-BiggerThanEverEdition_106: -1726581891
       Buch_GoldenUI-BiggerThanEverEdition_130: 1742401579
+      Buch_GoldenUI-BiggerThanEverEdition_179: -911029496
       Buch_GoldenUI-BiggerThanEverEdition_151: -1066754101
       Buch_GoldenUI-BiggerThanEverEdition_99: -1353607775
       Buch_GoldenUI-BiggerThanEverEdition_162: 725647469
@@ -3958,6 +4022,7 @@ TextureImporter:
       Buch_GoldenUI-BiggerThanEverEdition_6: 186828876
       Buch_GoldenUI-BiggerThanEverEdition_163: 1276558880
       Buch_GoldenUI-BiggerThanEverEdition_125: 737852580
+      Buch_GoldenUI-BiggerThanEverEdition_181: 1744509742
       Buch_GoldenUI-BiggerThanEverEdition_22: -743551692
       Buch_GoldenUI-BiggerThanEverEdition_54: -1257950598
       Buch_GoldenUI-BiggerThanEverEdition_160: -1211736588
@@ -3970,6 +4035,7 @@ TextureImporter:
       Buch_GoldenUI-BiggerThanEverEdition_15: 1621266429
       Buch_GoldenUI-BiggerThanEverEdition_139: 347055038
       Buch_GoldenUI-BiggerThanEverEdition_42: 336236178
+      Buch_GoldenUI-BiggerThanEverEdition_180: 1357475376
       Buch_GoldenUI-BiggerThanEverEdition_94: -1177151153
       Buch_GoldenUI-BiggerThanEverEdition_12: 322751733
       Buch_GoldenUI-BiggerThanEverEdition_88: 1161327935

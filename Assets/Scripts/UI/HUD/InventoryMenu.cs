@@ -1,6 +1,9 @@
+using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
+using Minipede.Utility;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
@@ -14,16 +17,21 @@ namespace Minipede.Gameplay.UI
 		[SerializeField] private CanvasGroup _beaconContainer;
 		[SerializeField] private Button _createBeaconButton;
 
-		[Space]
-		[SerializeField] private Image _gemBorder;
-		[SerializeField] private Image _enabledConnector;
-		[SerializeField] private Image _disabledConnector;
+		[Header( "Animations" )]
+		[SerializeField] private float _gemSlideDuration = 0.3f;
+		[SerializeField] private Vector2 _gemSlideCloseAnchorPos;
+		[SerializeField] private Tweens.Function _gemSlideAnim = Tweens.Function.BounceEaseOut;
 
 		private SignalBus _signalBus;
 
         [Inject]
         public void Construct( SignalBus signalBus )
 		{
+			if ( !enabled )
+			{
+				return;
+			}
+
             _signalBus = signalBus;
 
 			_createBeaconButton.onClick.AddListener( () =>
@@ -57,8 +65,37 @@ namespace Minipede.Gameplay.UI
 			_gemGroup.interactable = signal.IsVisible;
 			_beaconContainer.alpha = signal.IsVisible ? 1 : 0;
 
-			_disabledConnector.gameObject.SetActive( signal.IsVisible );
-			_enabledConnector.gameObject.SetActive( signal.IsVisible );
+			foreach ( var button in GetComponentsInChildren<Button>() )
+			{
+				if ( button.IsInteractable() )
+				{
+					EventSystem.current.SetSelectedGameObject( button.gameObject );
+					break;
+				}
+			}
+
+			Vector2 endPos = signal.IsVisible ? Vector2.zero : _gemSlideCloseAnchorPos;
+			Tween( _gemGroup.transform as RectTransform, endPos, _gemSlideDuration, _gemSlideAnim )
+				.Cancellable( AppHelper.AppQuittingToken )
+				.Forget();
+		}
+
+		private async UniTask Tween( RectTransform rectTransform, Vector2 anchorPos, float duration, Tweens.Function anim )
+		{
+			Vector2 start = rectTransform.anchoredPosition;
+			float timer = 0;
+
+			while ( timer < duration )
+			{
+				timer += Time.unscaledDeltaTime;
+				float tweenTime = Tweens.Ease( anim, Mathf.Clamp01( timer ), duration );
+
+				rectTransform.anchoredPosition = Vector2.LerpUnclamped( start, anchorPos, tweenTime );
+
+				await UniTask.Yield( PlayerLoopTiming.Update, AppHelper.AppQuittingToken );
+			}
+
+			rectTransform.anchoredPosition = anchorPos;
 		}
 
 		private void OnBeaconEquipped( BeaconEquippedSignal signal )
@@ -77,17 +114,6 @@ namespace Minipede.Gameplay.UI
 			
 			_createBeaconButton.interactable = isSelected;
 			_createBeaconButton.targetGraphic.color = isSelected ? signal.ResourceType.Color : Color.white;
-
-			_disabledConnector.enabled = !isSelected;
-			_enabledConnector.enabled = isSelected;
-			if ( isSelected )
-			{
-				_enabledConnector.color = signal.ResourceType.Color;
-			}
-
-			_gemBorder.color = isSelected
-				? signal.ResourceType.Color
-				: _disabledConnector.color;
 		}
 	}
 }

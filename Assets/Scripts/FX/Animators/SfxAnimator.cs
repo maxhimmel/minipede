@@ -6,10 +6,10 @@ namespace Minipede.Gameplay.Fx
 	public class SfxAnimator : IFxAnimator
 	{
 		private readonly Settings _settings;
-		private readonly IMinipedeAudio _audioController;
+		private readonly IAudioController _audioController;
 
 		public SfxAnimator( Settings settings,
-			IMinipedeAudio audioController )
+			IAudioController audioController )
 		{
 			_settings = settings;
 			_audioController = audioController;

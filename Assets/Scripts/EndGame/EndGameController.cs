@@ -14,19 +14,19 @@ namespace Minipede.Gameplay.LevelPieces
 		private readonly Settings _settings;
 		private readonly SignalBus _signalBus;
 		private readonly ShipController _shipController;
-		private readonly ScreenFadeController _screenFader;
+		private readonly SceneLoader _sceneLoader;
 
 		private bool _canWin;
 
 		public EndGameController( Settings settings,
 			SignalBus signalBus,
 			ShipController shipController,
-			ScreenFadeController screenFader )
+			SceneLoader sceneLoader )
 		{
 			_settings = settings;
 			_signalBus = signalBus;
 			_shipController = shipController;
-			_screenFader = screenFader;
+			_sceneLoader = sceneLoader;
 
 			signalBus.Subscribe<IWinStateChangedSignal>( OnWinStateChanged );
 			shipController.Possessed += OnShipPossessed;
@@ -70,7 +70,8 @@ namespace Minipede.Gameplay.LevelPieces
 			await StartFlyAwaySequence( ship );
 			await StartTakeoffSequence( ship );
 
-			await _screenFader.FadeOut( _settings.TakeoffDuration * 0.25f );
+			_sceneLoader.Load( "StartMenu" ).Forget();
+
 			// Unload scene
 			// Load transition scene where ship looks like it's flying over scrolling mushrooms
 			// Fade in

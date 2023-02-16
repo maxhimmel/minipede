@@ -28,9 +28,9 @@ namespace Minipede.Editor
 		[BoxGroup( GroupID = "Main/_drawGraph/debug" ), ShowIf( "_debugCellCoord" )]
 		[SerializeField] private Color _cellCoordColor = Color.white;
 
-		[FoldoutGroup( "Gameplay Settings" )] 
+		[FoldoutGroup( "Level Settings" )] 
 		[InlineEditor( ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden )]
-		[SerializeField] private GameplaySettings _gameplaySettings;
+		[SerializeField] private LevelGenerationInstaller _levelSettings;
 
 		private readonly string _saveLoadKey = nameof( LevelGraphWindow );
 		private LevelGraphWrapper _levelGraphWrapper;
@@ -98,7 +98,7 @@ namespace Minipede.Editor
 			}
 			_levelGraphWrapper.RefreshReferences();
 
-			_gameplaySettings = _levelGraphWrapper.GameplaySettings;
+			_levelSettings = _levelGraphWrapper.LevelSettings;
 		}
 
 		private void DrawRowsAndColumns( int startRow, int rowCount )

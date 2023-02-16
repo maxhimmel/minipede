@@ -33,19 +33,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 822a2c8cc35004742a4ef1af26eb0075, type: 2}
   - {fileID: 11400000, guid: ab5bc5e51cddac04e9edba6b9fbeb625, type: 2}
   - {fileID: 11400000, guid: edaee04dad0f43c4b94cf32f4425a8eb, type: 2}
-  _wave:
-    StartDelay: 1
-    MainWaveRepeatCount: 2
-  _waves:
-  - {fileID: 11400000, guid: b8568a1d81b04f446a734dc60b2399a8, type: 2}
-  - {fileID: 11400000, guid: 1f738527c268c86418a011cab8ff7f41, type: 2}
-  - {fileID: 11400000, guid: 0551070950644bb48a4f14086f9e279b, type: 2}
-  - {fileID: 11400000, guid: 6e93caea736d0fb47a6a10033949c474, type: 2}
-  _spiderWave:
-    IsEnabled: 1
-    SpawnRateRange: {x: 3.0084748, y: 10}
-    MaxEnemyCount: 1
   _playerZone:
+    IsEnabled: 1
     SpawnPointId: MinipedePlayerZoneSpawner
     Countdown: 10
     ConsecutiveDelay: 3

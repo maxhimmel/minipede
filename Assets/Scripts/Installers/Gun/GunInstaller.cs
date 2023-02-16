@@ -41,7 +41,7 @@ namespace Minipede.Installers
 
 		private void BindProjectileFactory()
 		{
-			Container.BindFactory<Vector2, Quaternion, Projectile, Projectile.Factory>()
+			Container.BindFactory<float, Vector2, Quaternion, Projectile, Projectile.Factory>()
 				.FromMonoPoolableMemoryPool( pool => pool
 					.WithInitialSize( _settings.InitialPoolSize )
 					.FromSubContainerResolve()

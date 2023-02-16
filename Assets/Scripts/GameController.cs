@@ -16,19 +16,21 @@ namespace Minipede.Gameplay
 	{
 		public bool IsReady { get; private set; }
 
-		private readonly GameplaySettings.Player _playerSettings;
+		private readonly PlayerSettings.Player _playerSettings;
 		private readonly PlayerController _playerSpawnController;
 		private readonly LevelGenerator _levelGenerator;
 		private readonly WaveController _waveController;
 		private readonly AudioBankLoader _audioBankLoader;
 		private readonly LevelMushroomHealer _mushroomHealer;
+		private readonly SceneLoader _sceneLoader;
 
-		public GameController( GameplaySettings.Player playerSettings,
+		public GameController( PlayerSettings.Player playerSettings,
 			PlayerController playerSpawnController,
 			LevelGenerator levelGenerator,
 			WaveController waveController,
 			AudioBankLoader audioBankLoader,
-			LevelMushroomHealer mushroomHealer )
+			LevelMushroomHealer mushroomHealer,
+			SceneLoader sceneLoader )
 		{
 			_playerSettings = playerSettings;
 			_playerSpawnController = playerSpawnController;
@@ -36,6 +38,7 @@ namespace Minipede.Gameplay
 			_waveController = waveController;
 			_audioBankLoader = audioBankLoader;
 			_mushroomHealer = mushroomHealer;
+			_sceneLoader = sceneLoader;
 		}
 
 		public void Dispose()
@@ -47,8 +50,7 @@ namespace Minipede.Gameplay
 
 		public async void Initialize()
 		{
-			// Let's wait a single frame to allow other initializables to subscribe ...
-			await UniTask.Yield();
+			await UniTask.WaitWhile( () => _sceneLoader.IsLoading );
 
 			_playerSpawnController.PlayerDied += OnPlayerDead;
 

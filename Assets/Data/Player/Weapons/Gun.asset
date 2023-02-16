@@ -15,6 +15,7 @@ MonoBehaviour:
   _settings:
     Gun:
       ShotSpotId: ShotSpot
+      ProjectileLifetime: 5
       ProjectileSpeed: 30
       ProjectileTorque: 0
     InitialPoolSize: 10

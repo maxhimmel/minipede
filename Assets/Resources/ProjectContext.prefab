@@ -78,6 +78,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27aa40c392cba014fbdea489544da5de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _sceneLoader:
+    FadeDuration: 1
 --- !u!1001 &211998334282719063
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ namespace Minipede.Gameplay.UI
 
             _resumeButton.onClick.AddListener( OnResumed );
             _signalBus.Subscribe<PausedSignal>( OnPaused );
-            _quitButton.onClick.AddListener( OnQuit );
+            _quitButton.onClick.AddListener( AppHelper.Quit );
 
             _settingsButton.onClick.AddListener( _menuController.Open<SettingsMenu> );
         }
@@ -36,15 +36,6 @@ namespace Minipede.Gameplay.UI
 			{
                 _menuController.Clear();
 			}
-        }
-
-        private void OnQuit()
-		{
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
         }
 	}
 }

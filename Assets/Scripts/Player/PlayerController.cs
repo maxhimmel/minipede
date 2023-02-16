@@ -8,7 +8,8 @@ using Zenject;
 
 namespace Minipede.Gameplay.Player
 {
-    public class PlayerController : IInitializable,
+    public class PlayerController : IPlayerLifetimeHandler,
+		IInitializable,
 		IDisposable
 	{
 		public event System.Action<Ship> PlayerSpawned;
@@ -54,6 +55,8 @@ namespace Minipede.Gameplay.Player
 
 		public void Dispose()
 		{
+			_playerDiedCancelSource.Cancel();
+
 			_input.RemoveInputEventDelegate( OnPaused );
 			_input.RemoveInputEventDelegate( OnResumed );
 		}

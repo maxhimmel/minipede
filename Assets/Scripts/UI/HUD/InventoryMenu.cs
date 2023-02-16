@@ -17,11 +17,6 @@ namespace Minipede.Gameplay.UI
 		[SerializeField] private CanvasGroup _beaconContainer;
 		[SerializeField] private Button _createBeaconButton;
 
-		[Space]
-		[SerializeField] private Image _gemBorder;
-		[SerializeField] private Image _enabledConnector;
-		[SerializeField] private Image _disabledConnector;
-
 		[Header( "Animations" )]
 		[SerializeField] private float _gemSlideDuration = 0.3f;
 		[SerializeField] private Vector2 _gemSlideCloseAnchorPos;
@@ -70,10 +65,6 @@ namespace Minipede.Gameplay.UI
 			_gemGroup.interactable = signal.IsVisible;
 			_beaconContainer.alpha = signal.IsVisible ? 1 : 0;
 
-			_disabledConnector?.gameObject.SetActive( signal.IsVisible );
-			_enabledConnector?.gameObject.SetActive( signal.IsVisible );
-
-
 			foreach ( var button in GetComponentsInChildren<Button>() )
 			{
 				if ( button.IsInteractable() )
@@ -83,16 +74,15 @@ namespace Minipede.Gameplay.UI
 				}
 			}
 
-
 			Vector2 endPos = signal.IsVisible ? Vector2.zero : _gemSlideCloseAnchorPos;
-			MoveThing( _gemGroup.transform as RectTransform, endPos, _gemSlideDuration, _gemSlideAnim )
+			Tween( _gemGroup.transform as RectTransform, endPos, _gemSlideDuration, _gemSlideAnim )
 				.Cancellable( AppHelper.AppQuittingToken )
 				.Forget();
 		}
 
-		private async UniTask MoveThing( RectTransform thing, Vector2 anchorPos, float duration, Tweens.Function anim )
+		private async UniTask Tween( RectTransform rectTransform, Vector2 anchorPos, float duration, Tweens.Function anim )
 		{
-			Vector2 start = thing.anchoredPosition;
+			Vector2 start = rectTransform.anchoredPosition;
 			float timer = 0;
 
 			while ( timer < duration )
@@ -100,12 +90,12 @@ namespace Minipede.Gameplay.UI
 				timer += Time.unscaledDeltaTime;
 				float tweenTime = Tweens.Ease( anim, Mathf.Clamp01( timer ), duration );
 
-				thing.anchoredPosition = Vector2.LerpUnclamped( start, anchorPos, tweenTime );
+				rectTransform.anchoredPosition = Vector2.LerpUnclamped( start, anchorPos, tweenTime );
 
 				await UniTask.Yield( PlayerLoopTiming.Update, AppHelper.AppQuittingToken );
 			}
 
-			thing.anchoredPosition = anchorPos;
+			rectTransform.anchoredPosition = anchorPos;
 		}
 
 		private void OnBeaconEquipped( BeaconEquippedSignal signal )
@@ -124,27 +114,6 @@ namespace Minipede.Gameplay.UI
 			
 			_createBeaconButton.interactable = isSelected;
 			_createBeaconButton.targetGraphic.color = isSelected ? signal.ResourceType.Color : Color.white;
-
-			if ( _disabledConnector != null )
-			{
-				_disabledConnector.enabled = !isSelected;
-			}
-			if ( _enabledConnector != null )
-			{
-				_enabledConnector.enabled = isSelected;
-
-				if ( isSelected )
-				{
-					_enabledConnector.color = signal.ResourceType.Color;
-				}
-			}
-
-			if ( _gemBorder != null )
-			{
-				_gemBorder.color = isSelected
-					? signal.ResourceType.Color
-					: _disabledConnector.color;
-			}
 		}
 	}
 }

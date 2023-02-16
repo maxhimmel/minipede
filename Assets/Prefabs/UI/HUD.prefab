@@ -395,10 +395,6 @@ MonoBehaviour:
   _button: {fileID: 866512772568900131}
   _gaugeFill: {fileID: 2573027618684245737}
   _group: {fileID: 3841090425595733835}
-  _indicatorDelay: 1
-  _burstDuration: 0.5
-  _burstBlinks: 6
-  _blinkColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
 --- !u!114 &5776162933865910808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1704,10 +1700,6 @@ MonoBehaviour:
   _button: {fileID: 7671152940717159975}
   _gaugeFill: {fileID: 8153518559940381029}
   _group: {fileID: 3194089805400321770}
-  _indicatorDelay: 1
-  _burstDuration: 0.5
-  _burstBlinks: 6
-  _blinkColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
 --- !u!114 &2021771465644862159
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3310,10 +3302,6 @@ MonoBehaviour:
   _button: {fileID: 5412839838338516921}
   _gaugeFill: {fileID: 7692790701319309578}
   _group: {fileID: 7562560802361089829}
-  _indicatorDelay: 1
-  _burstDuration: 0.5
-  _burstBlinks: 6
-  _blinkColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
 --- !u!114 &3784458470801329035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3549,10 +3537,6 @@ MonoBehaviour:
   _button: {fileID: 4334502730245393083}
   _gaugeFill: {fileID: 5002683645942916544}
   _group: {fileID: 3118614180895072418}
-  _indicatorDelay: 1
-  _burstDuration: 0.5
-  _burstBlinks: 6
-  _blinkColor: {r: 0.6603774, g: 0.6603774, b: 0.6603774, a: 1}
 --- !u!114 &4977223977249050977
 MonoBehaviour:
   m_ObjectHideFlags: 0

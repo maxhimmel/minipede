@@ -11,6 +11,8 @@ namespace Minipede.Gameplay.UI
     public class GemCountItem : MonoBehaviour
     {
 		[SerializeField] private string _format = "x{0}";
+
+		// TODO: Should this data be passed into the signal?
 		[SerializeField] private int _gemsToBeacons = 3; /// <see cref="Player.Inventory.Settings.GemsToBeacon"/>
 
 		[Space]
@@ -29,11 +31,6 @@ namespace Minipede.Gameplay.UI
 		public void Construct( ResourceType resource,
 			SignalBus signalBus )
 		{
-			if ( !gameObject.activeInHierarchy )
-			{
-				return;
-			}
-
 			_resource = resource;
 			_signalBus = signalBus;
 
@@ -46,6 +43,7 @@ namespace Minipede.Gameplay.UI
 			} );
 
 			_indicator.color = resource.Color;
+			_gaugeFill.color = resource.Color;
 
 			_gaugeWidth = _gaugeFill.rectTransform.sizeDelta.x;
 		}

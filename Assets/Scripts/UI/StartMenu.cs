@@ -7,7 +7,10 @@ using Zenject;
 namespace Minipede.Gameplay.UI
 {
     public class StartMenu : MonoBehaviour
-    {
+	{
+		[SerializeField] private string _entryLevel = "Tester";
+
+		[Space]
 		[SerializeField] private CanvasGroup _canvasGroup;
         [SerializeField] private Button _startButton;
         [SerializeField] private Button _settingsButton;
@@ -24,15 +27,28 @@ namespace Minipede.Gameplay.UI
 			_sceneLoader = sceneLoader;
 
 			_startButton.onClick.AddListener( OnStart );
-			_settingsButton.onClick.AddListener( _menuController.Open<SettingsMenu> );
+			_settingsButton.onClick.AddListener( () =>
+			{
+				_menuController.Open<SettingsMenu>();
+				gameObject.SetActive( false );
+			} );
 			_quitButton.onClick.AddListener( AppHelper.Quit );
+
+			_menuController.Closed += OnMainMenuClosed;
 		}
 
 		private void OnStart()
 		{
+			_menuController.Closed -= OnMainMenuClosed;
+
 			_canvasGroup.interactable = false;
 
-			_sceneLoader.Load( "Tester" ).Forget();
+			_sceneLoader.Load( _entryLevel ).Forget();
+		}
+
+		private void OnMainMenuClosed()
+		{
+			gameObject.SetActive( true );
 		}
 	}
 }

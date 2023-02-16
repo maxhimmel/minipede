@@ -8,6 +8,8 @@ namespace Minipede.Gameplay.UI
 {
     public class MenuController : MonoBehaviour
     {
+		public event System.Action Closed;
+
         [SerializeField] private Canvas _canvas;
         [SerializeField] private TMP_Text _title;
         [SerializeField] private Transform _container;
@@ -70,6 +72,11 @@ namespace Minipede.Gameplay.UI
 				gameObject.SetActive( false );
 			}
         }
+
+		private void OnDisable()
+		{
+			Closed?.Invoke();
+		}
 
 		#region "Cancel" button returns to previous menu. *BUGGED* This doesn't unpause the game even though it'll close the menus.
 		//      private void Start()

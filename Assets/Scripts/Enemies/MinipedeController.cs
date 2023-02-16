@@ -19,7 +19,6 @@ namespace Minipede.Gameplay.Enemies
 		private MinipedePlayerZoneSpawner _playerZoneSpawner;
 		private PoisonTrailFactory _poisonTrailFactory;
 
-		private List<SegmentController> _segments;
 		private Vector2Int _rowDir;
 		private Vector2Int _columnDir;
 		private bool _isPoisoned;
@@ -209,6 +208,8 @@ namespace Minipede.Gameplay.Enemies
 			_motor.FixedTick();
 			UpdateFacingRotation();
 
+			MoveSegments();
+
 			if ( _isPoisoned && _levelForeman.TryQueryEmptyBlock( _body.position, out var instructions ) )
 			{
 				var spawnPos = instructions.Cell.Center;
@@ -227,6 +228,19 @@ namespace Minipede.Gameplay.Enemies
 			transform.rotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
 		}
 
+		private void MoveSegments()
+		{
+			if ( _segments == null || _segments.Count <= 0 )
+			{
+				return;
+			}
+
+			for ( int idx = 0; idx < _segments.Count; ++idx )
+			{
+				var segment = _segments[idx];
+			}
+		}
+
 		public override void RecalibrateVelocity()
 		{
 			_motor.RecalibrateVelocity();
@@ -238,28 +252,6 @@ namespace Minipede.Gameplay.Enemies
 
 			/// TODO: Unify w/<see cref="SegmentController.TryCreateBlock"/>
 			TryCreateBlock( victimBody.position );
-
-			if ( _segments != null && _segments.Count > 0 )
-			{
-				MinipedeController newHead = ReplaceSegmentWithHead( 0, victimBody.position );
-
-				// A new head was chosen from the pool ...
-				if ( _segments.Count > 0 )
-				{
-					bool isNewHeadFresh = (newHead != this);
-
-					newHead.SetSegments( _segments, listenForSegmentDeaths: isNewHeadFresh );
-
-					if ( isNewHeadFresh )
-					{
-						foreach ( var segment in _segments )
-						{
-							segment.Died -= OnSegmentDied;
-						}
-						_segments = null;
-					}
-				}
-			}
 		}
 
 		private bool TryCreateBlock( Vector2 position )
@@ -285,97 +277,11 @@ namespace Minipede.Gameplay.Enemies
 			base.OnDespawned();
 		}
 
-		public void SetSegments( List<SegmentController> segments, bool listenForSegmentDeaths )
+		private List<MinipedeController> _segments;
+
+		public void SetSegments( List<MinipedeController> segments )
 		{
 			_segments = segments;
-			Rigidbody2D leader = _body;
-
-			foreach ( var segment in segments )
-			{
-				if ( listenForSegmentDeaths )
-				{
-					segment.Died += OnSegmentDied;
-				}
-
-				segment.StartFollowing( leader );
-				leader = segment.Body;
-			}
-		}
-
-		private void OnSegmentDied( Rigidbody2D victimBody, HealthController health )
-		{
-			int victimIndex = RemoveDeadSegment( victimBody );
-			if ( victimIndex >= 0 && victimIndex < _segments.Count )
-			{
-				MinipedeController newHead = ReplaceSegmentWithHead( victimIndex, victimBody.position );
-				if ( _segments.Count > 0 )
-				{
-					List<SegmentController> bottomHalf = _segments.GetRange( victimIndex, _segments.Count - victimIndex );
-					newHead.SetSegments( bottomHalf, true );
-				}
-
-				RemoveSegmentRange( _segments.Count - 1, victimIndex );
-			}
-		}
-
-		private int RemoveDeadSegment( Rigidbody2D victimBody )
-		{
-			if ( _segments.Count <= 0 )
-			{
-				return -1;
-			}
-
-			SegmentController victimSegment = victimBody.GetComponent<SegmentController>();
-			Debug.Assert( victimSegment != null, new MissingComponentException( nameof( SegmentController ) ), this );
-
-			int victimIndex = _segments.FindIndex( other => other == victimSegment );
-			if ( victimIndex >= 0 )
-			{
-				_segments.RemoveAt( victimIndex );
-				victimSegment.Died -= OnSegmentDied;
-			}
-
-			return victimIndex;
-		}
-
-		private MinipedeController ReplaceSegmentWithHead( int segmentIndex, Vector2 newHeadPosition )
-		{
-			SegmentController segment = _segments[segmentIndex];
-			_segments.RemoveAt( segmentIndex );
-			segment.Died -= OnSegmentDied;
-
-			MinipedeController newHead = _enemyBuilder.Build<MinipedeController>()
-				.WithPlacement( segment.transform.ToData() )
-				.Create();
-			newHead._rowDir = _rowDir;
-			newHead._columnDir = _columnDir;
-
-			Vector2Int destCoord = _levelGraph.WorldPosToCellCoord( newHeadPosition );
-			newHead._motor.SetDestination( destCoord, newHead.OnDestroyCancelToken )
-				.ContinueWith( () => {
-					if ( newHead.IsAlive )
-					{
-						newHead.UpdateRowTransition()
-							.Cancellable( newHead.OnDestroyCancelToken )
-							.Forget();
-					}
-				} )
-				.Forget();
-
-			segment.Dispose();
-
-			return newHead;
-		}
-
-		private void RemoveSegmentRange( int startIndex, int endIndex )
-		{
-			for ( int idx = startIndex; idx >= endIndex; --idx )
-			{
-				var segment = _segments[idx];
-
-				_segments.RemoveAt( idx );
-				segment.Died -= OnSegmentDied;
-			}
 		}
 
 		[System.Serializable]

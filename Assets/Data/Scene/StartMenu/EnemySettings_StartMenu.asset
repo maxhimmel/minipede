@@ -32,7 +32,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a544608bf1d7516458069e3cfcb8cb4e, type: 2}
   - {fileID: 11400000, guid: 822a2c8cc35004742a4ef1af26eb0075, type: 2}
   - {fileID: 11400000, guid: ab5bc5e51cddac04e9edba6b9fbeb625, type: 2}
-  - {fileID: 11400000, guid: edaee04dad0f43c4b94cf32f4425a8eb, type: 2}
   _playerZone:
     IsEnabled: 0
     SpawnPointId: MinipedePlayerZoneSpawner

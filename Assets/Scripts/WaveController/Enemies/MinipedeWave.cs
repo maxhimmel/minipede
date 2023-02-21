@@ -102,11 +102,7 @@ namespace Minipede.Gameplay.Waves
 
 		protected override bool CanTrackEnemy( EnemyController enemy )
 		{
-			System.Type enemyType = enemy.GetType();
-			System.Type minipedeType = typeof( MinipedeController );
-			System.Type segmentType = typeof( SegmentController );
-
-			return enemyType == minipedeType || enemyType == segmentType;
+			return enemy.GetType() == typeof( MinipedeController );
 		}
 
 		protected override void OnTrackedEnemySpawned( EnemyController enemy )

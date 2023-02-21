@@ -39,9 +39,9 @@ namespace Minipede.Gameplay.Enemies
 				{
 					topMostDeadSegmentIndex = 0;
 
-					for ( int idx = 0; idx < head._segments.Count; ++idx )
+					for ( int idx = 0; idx < head.Segments.Count; ++idx )
 					{
-						var segment = head._segments[idx];
+						var segment = head.Segments[idx];
 						if ( segment.IsAlive )
 						{
 							_headIndices.Add( idx, segment );
@@ -55,7 +55,7 @@ namespace Minipede.Gameplay.Enemies
 				{
 					foreach ( var segment in deadSegments )
 					{
-						int deadSegmentIndex = head._segments.FindIndex( otherSegment => otherSegment == segment );
+						int deadSegmentIndex = head.FindSegmentIndex( segment );
 						if ( deadSegmentIndex < 0 )
 						{
 							throw new System.NotSupportedException( "Head is listening to a segment's death it's not tracking." );
@@ -64,9 +64,9 @@ namespace Minipede.Gameplay.Enemies
 						topMostDeadSegmentIndex = Mathf.Min( deadSegmentIndex, topMostDeadSegmentIndex );
 
 						int headIndex = deadSegmentIndex + 1;
-						if ( headIndex < head._segments.Count )
+						if ( headIndex < head.Segments.Count )
 						{
-							var potentialNewHead = head._segments[headIndex];
+							var potentialNewHead = head.Segments[headIndex];
 							if ( potentialNewHead.IsAlive )
 							{
 								_headIndices.TryAdd( headIndex, potentialNewHead );
@@ -82,9 +82,9 @@ namespace Minipede.Gameplay.Enemies
 					MinipedeController newHead = _headIndices[headIndex];
 
 					int firstSegmentIndex = headIndex + 1;
-					if ( firstSegmentIndex < head._segments.Count )
+					if ( firstSegmentIndex < head.Segments.Count )
 					{
-						int lastSegmentIndex = head._segments.Count - 1;
+						int lastSegmentIndex = head.Segments.Count - 1;
 						if ( idx + 1 < _headIndices.Keys.Count )
 						{
 							lastSegmentIndex = _headIndices.Keys[idx + 1];
@@ -92,13 +92,13 @@ namespace Minipede.Gameplay.Enemies
 						}
 
 						int segmentCount = lastSegmentIndex - firstSegmentIndex + 1; // Adding one to include the end segment.
-						newHead.SetSegments( head._segments.GetRange( firstSegmentIndex, segmentCount ) );
+						newHead.SetSegments( head.GetSegments( firstSegmentIndex, segmentCount ) );
 					}
 
 					int deadSegmentIndex = headIndex - 1;
 					var deadSegment = deadSegmentIndex < 0
 						? head
-						: head._segments[deadSegmentIndex];
+						: head.Segments[deadSegmentIndex];
 
 					newHead.StartSplitHeadBehavior( deadSegment.Body.position );
 				}

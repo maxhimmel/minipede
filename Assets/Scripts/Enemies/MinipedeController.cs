@@ -14,10 +14,9 @@ namespace Minipede.Gameplay.Enemies
 	public class MinipedeController : EnemyController
 	{
 		public bool HasSegments => _segments != null && _segments.Count > 0;
+		public IReadOnlyList<MinipedeController> Segments => _segments;
 
-		private Settings _settings;
 		private GraphMotor _motor;
-		private EnemySpawnBuilder _enemyBuilder;
 		private MinipedePlayerZoneSpawner _playerZoneSpawner;
 		private PoisonTrailFactory _poisonTrailFactory;
 		private MinipedeDeathHandler _deathHandler;
@@ -25,19 +24,15 @@ namespace Minipede.Gameplay.Enemies
 		private Vector2Int _rowDir;
 		private Vector2Int _columnDir;
 		private bool _isPoisoned;
-		public List<MinipedeController> _segments;
+		private List<MinipedeController> _segments;
 
 		[Inject]
-		public void Construct( Settings settings,
-			GraphMotor motor,
-			EnemySpawnBuilder enemyBuilder,
+		public void Construct( GraphMotor motor,
 			MinipedePlayerZoneSpawner playerZoneSpawner,
 			PoisonTrailFactory poisonTrailFactory,
 			MinipedeDeathHandler deathHandler )
 		{
-			_settings = settings;
 			_motor = motor;
-			_enemyBuilder = enemyBuilder;
 			_playerZoneSpawner = playerZoneSpawner;
 			_poisonTrailFactory = poisonTrailFactory;
 			_deathHandler = deathHandler;
@@ -83,7 +78,7 @@ namespace Minipede.Gameplay.Enemies
 				.Forget();
 		}
 
-		public async UniTask UpdateRowTransition()
+		private async UniTask UpdateRowTransition()
 		{
 			var results = await PerformRowTransition()
 					.AttachExternalCancellation( OnDestroyCancelToken )
@@ -362,6 +357,20 @@ namespace Minipede.Gameplay.Enemies
 
 				leader = segment;
 			}
+		}
+
+		public int FindSegmentIndex( MinipedeController segment )
+		{
+			return _segments.FindIndex( otherSegment => otherSegment == segment );
+		}
+
+		/// <summary>
+		/// Allocates a new list. <para></para>
+		/// If you're trying to reference segments, perhaps try <see cref="Segments"/>.
+		/// </summary>
+		public List<MinipedeController> GetSegments( int start, int count )
+		{
+			return _segments.GetRange( start, count );
 		}
 
 		[System.Serializable]

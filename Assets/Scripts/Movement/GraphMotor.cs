@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
 using UnityEngine;
@@ -25,6 +24,7 @@ namespace Minipede.Gameplay.Movement
 		private float _lerpTimer;
 		private float _travelDuration;
 		private bool _cancelMoveLoop;
+		private CancellationTokenSource _moveCancelSource;
 
 		public GraphMotor( Settings settings,
 			IMaxSpeed maxSpeedSettings,
@@ -41,9 +41,6 @@ namespace Minipede.Gameplay.Movement
 		{
 			_cancelMoveLoop = false;
 
-			_body.GetComponent<MinipedeController>()
-				.StateStack.Insert( 0, "[M] Start" );
-
 			do
 			{
 				Vector2Int currentCoord = _graph.WorldPosToCellCoord( _body.position );
@@ -54,18 +51,12 @@ namespace Minipede.Gameplay.Movement
 			} while ( IsMoving && !_cancelMoveLoop && _body != null && !cancelToken.IsCancellationRequested );
 		}
 
-		private CancellationTokenSource _destinationCancelSource;
-
 		public async UniTask SetDestination( Vector2Int destCoord, CancellationToken cancelToken = default, bool isContinuing = false )
 		{
-			if ( _destinationCancelSource == null )
+			if ( _moveCancelSource == null )
 			{
-				_destinationCancelSource = AppHelper.CreateLinkedCTS( cancelToken );
+				_moveCancelSource = AppHelper.CreateLinkedCTS( cancelToken );
 			}
-
-			var guid = Guid.NewGuid();
-			_body.GetComponent<MinipedeController>()
-				.StateStack.Insert( 0, $"[M] Destination (Continuing? - {isContinuing}) | ({guid})" );
 
 			_startPos = _body.position;
 			_endPos = _graph.CellCoordToWorldPos( destCoord );
@@ -75,7 +66,7 @@ namespace Minipede.Gameplay.Movement
 
 			while ( IsMoving && _lerpTimer < 1 )
 			{
-				await TaskHelpers.WaitForFixedUpdate( _destinationCancelSource.Token );
+				await TaskHelpers.WaitForFixedUpdate( _moveCancelSource.Token );
 				if ( cancelToken.IsCancellationRequested )
 				{
 					return;
@@ -84,13 +75,9 @@ namespace Minipede.Gameplay.Movement
 
 			if ( !isContinuing )
 			{
-				_body.GetComponent<MinipedeController>()
-					.StateStack.Insert( 0, $"[M] Arrived (Not Continuing) | ({guid})" );
 				StopMoving();
 			}
 
-			_body.GetComponent<MinipedeController>()
-				.StateStack.Insert( 0, $"[M] Arrived ({Arrived?.GetInvocationList().Length}) | ({guid})" );
 			Arrived?.Invoke( this, _graph.WorldPosToCellCoord( _endPos ) );
 		}
 
@@ -98,13 +85,10 @@ namespace Minipede.Gameplay.Movement
 		{
 			if ( IsMoving )
 			{
-				_destinationCancelSource?.Cancel();
-				_destinationCancelSource?.Dispose();
-				_destinationCancelSource = null;
+				_moveCancelSource?.Cancel();
+				_moveCancelSource?.Dispose();
+				_moveCancelSource = null;
 			}
-
-			_body.GetComponent<MinipedeController>()
-				.StateStack.Insert( 0, "[M] Stopped" );
 
 			Vector2 stoppedPos = _body != null ? _body.position : _endPos;
 

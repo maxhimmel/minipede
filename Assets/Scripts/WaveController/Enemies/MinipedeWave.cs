@@ -61,7 +61,7 @@ namespace Minipede.Gameplay.Waves
 			for ( int idx = 0; idx < headSpawnCount; ++idx )
 			{
 				nextSpawnIndex %= spawnPlacements.Length;
-				var spawnOrientation = spawnPlacements[++nextSpawnIndex];
+				var spawnOrientation = spawnPlacements[nextSpawnIndex++];
 
 				_enemyBuilder.Build<MinipedeController>()
 					.WithPlacement( spawnOrientation )

@@ -8,6 +8,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		public override void Perform( EnemyController enemy )
 		{
 			HandleSpecialtySpawn( enemy as TEnemy );
+
 			base.Perform( enemy );
 		}
 

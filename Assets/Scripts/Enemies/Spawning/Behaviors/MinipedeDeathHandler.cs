@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using Cysharp.Threading.Tasks;
-using Minipede.Gameplay.LevelPieces;
 using UnityEngine;
-using Zenject;
 
 namespace Minipede.Gameplay.Enemies
 {
@@ -10,14 +7,6 @@ namespace Minipede.Gameplay.Enemies
 	{
 		private readonly Dictionary<MinipedeController, HashSet<MinipedeController>> _deaths = new Dictionary<MinipedeController, HashSet<MinipedeController>>();
 		private readonly SortedList<int, MinipedeController> _headIndices = new SortedList<int, MinipedeController>();
-
-		private LevelGraph _levelGraph;
-
-		[Inject]
-		public void Construct( LevelGraph levelGraph )
-		{
-			_levelGraph = levelGraph;
-		}
 
 		public void Add( MinipedeController head, MinipedeController segment )
 		{
@@ -106,31 +95,18 @@ namespace Minipede.Gameplay.Enemies
 						newHead.SetSegments( head._segments.GetRange( firstSegmentIndex, segmentCount ) );
 					}
 
-
 					int deadSegmentIndex = headIndex - 1;
 					var deadSegment = deadSegmentIndex < 0
 						? head
 						: head._segments[deadSegmentIndex];
 
-					newHead._motor.StopMoving();
-					newHead.UpdateSegmentMovement();
-
-					var cellCoord = _levelGraph.WorldPosToCellCoord( deadSegment.Body.position );
-					newHead._motor.SetDestination( cellCoord, newHead.OnDestroyCancelToken )
-						.ContinueWith( newHead.UpdateRowTransition )
-						.Forget();
+					newHead.StartSplitHeadBehavior( deadSegment.Body.position );
 				}
 
 				// Remove which segments the head should stop listening to ...
 				if ( head.HasSegments )
 				{
-					for ( int idx = head._segments.Count - 1; idx >= topMostDeadSegmentIndex; --idx )
-					{
-						var segment = head._segments[idx];
-						segment.Died -= head.OnSegmentDied;
-
-						head._segments.RemoveAt( idx );
-					}
+					head.RemoveSegments( topMostDeadSegmentIndex );
 				}
 
 				_headIndices.Clear();

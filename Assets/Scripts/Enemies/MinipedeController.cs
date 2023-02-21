@@ -16,14 +16,14 @@ namespace Minipede.Gameplay.Enemies
 		public bool HasSegments => _segments != null && _segments.Count > 0;
 
 		private Settings _settings;
-		public GraphMotor _motor;
+		private GraphMotor _motor;
 		private EnemySpawnBuilder _enemyBuilder;
 		private MinipedePlayerZoneSpawner _playerZoneSpawner;
 		private PoisonTrailFactory _poisonTrailFactory;
 		private MinipedeDeathHandler _deathHandler;
 
-		public Vector2Int _rowDir;
-		public Vector2Int _columnDir;
+		private Vector2Int _rowDir;
+		private Vector2Int _columnDir;
 		private bool _isPoisoned;
 		public List<MinipedeController> _segments;
 
@@ -58,6 +58,17 @@ namespace Minipede.Gameplay.Enemies
 
 			_motor.Arrived += OnHorizontalArrival;
 			_motor.StartMoving( _columnDir, OnDestroyCancelToken )
+				.Forget();
+		}
+
+		public void StartSplitHeadBehavior( Vector2 deadSegmentPos )
+		{
+			_motor.StopMoving();
+			UpdateSegmentMovement();
+
+			var cellCoord = _levelGraph.WorldPosToCellCoord( deadSegmentPos );
+			_motor.SetDestination( cellCoord, OnDestroyCancelToken )
+				.ContinueWith( UpdateRowTransition )
 				.Forget();
 		}
 
@@ -286,17 +297,22 @@ namespace Minipede.Gameplay.Enemies
 				// An exterior system/controller has disposed of us ...
 				else
 				{
-					for ( int idx = _segments.Count - 1; idx >= 0; --idx )
-					{
-						var segment = _segments[idx];
-						segment.Died -= OnSegmentDied;
-
-						_segments.RemoveAt( idx );
-					}
+					RemoveSegments( 0 );
 				}
 			}
 
 			base.OnDespawned();
+		}
+
+		public void RemoveSegments( int startSegmentIndex )
+		{
+			for ( int idx = _segments.Count - 1; idx >= startSegmentIndex; --idx )
+			{
+				var segment = _segments[idx];
+				segment.Died -= OnSegmentDied;
+
+				_segments.RemoveAt( idx );
+			}
 		}
 
 		public void SetSegments( List<MinipedeController> segments )

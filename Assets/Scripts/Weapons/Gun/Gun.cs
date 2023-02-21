@@ -78,6 +78,7 @@ namespace Minipede.Gameplay.Weapons
 			int spreadCount = 0;
 			Vector2 avgShotOrigin = Vector2.zero;
 			Vector3 avgShotDirection = Vector3.zero;
+
 			foreach ( var shotSpot in _fireSpread.GetSpread( _shotSpot ) )
 			{
 				var newProjectile = Fire( shotSpot );
@@ -131,7 +132,7 @@ namespace Minipede.Gameplay.Weapons
 			public float ProjectileTorque;
 
 			[BoxGroup( "Required" )]
-			[SerializeReference] public IFireSpread FireSpread;
+			[SerializeReference] public IFireSpread.ISettings FireSpread;
 			[FoldoutGroup( "Optional" )]
 			[SerializeReference] public IGunModule[] Modules;
 		}

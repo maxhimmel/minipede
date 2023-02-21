@@ -1,4 +1,3 @@
-using System;
 using Minipede.Gameplay.Weapons;
 using ModestTree;
 using Sirenix.OdinInspector;
@@ -42,14 +41,17 @@ namespace Minipede.Installers
 						} )
 						.AsSingle();
 
-					subContainer.BindInstance( _settings.Gun.FireSpread )
-						.AsSingle();
+					/* --- */
 
-					foreach ( var module in _settings.Gun.Modules )
+					subContainer.BindInterfacesTo( _settings.Gun.FireSpread.ModuleType )
+						.AsSingle()
+						.WithArguments( _settings.Gun.FireSpread );
+
+					foreach ( var settings in _settings.Gun.Modules )
 					{
-						subContainer.Bind( module.GetType().Interfaces() )
-							.FromInstance( module )
-							.AsCached();
+						subContainer.BindInterfacesTo( settings.ModuleType )
+							.AsCached()
+							.WithArguments( settings );
 					}
 				} )
 				.AsSingle();

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using System;
 
 #if UNITY_EDITOR
 using Sirenix.Utilities.Editor;
@@ -12,8 +13,12 @@ namespace Minipede.Gameplay.Weapons
 {
 	public class FireSpread : IFireSpread
 	{
-		[HideLabel]
-		[SerializeField] private Settings _settings;
+		private readonly Settings _settings;
+
+		public FireSpread( Settings settings )
+		{
+			_settings = settings;
+		}
 
 		public IEnumerable<IOrientation> GetSpread( ShotSpot shotSpot )
 		{
@@ -49,8 +54,10 @@ namespace Minipede.Gameplay.Weapons
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public struct Settings : IFireSpread.ISettings
 		{
+			public Type ModuleType => typeof( FireSpread );
+
 			private const int _minSpread = 1;
 
 			[MinValue( _minSpread ), OnValueChanged( "OnSpreadChanged" ), Delayed]

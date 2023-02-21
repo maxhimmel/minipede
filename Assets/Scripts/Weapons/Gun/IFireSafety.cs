@@ -1,6 +1,6 @@
 namespace Minipede.Gameplay.Weapons
 {
-    public interface IFireSafety : IGunModule
+    public interface IFireSafety
     {
         bool CanFire();
         void Notify( Projectile firedProjectile );

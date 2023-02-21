@@ -1,15 +1,18 @@
+using System;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
-using UnityEngine;
 
 namespace Minipede.Gameplay.Weapons
 {
 	public class LimitProjectilesSafety : IFireSafety
 	{
-		[HideLabel]
-		[SerializeField] private Settings _settings;
+		private readonly Settings _settings;
+		private readonly HashSet<Projectile> _livingProjectiles;
 
-		private readonly HashSet<Projectile> _livingProjectiles = new HashSet<Projectile>();
+		public LimitProjectilesSafety( Settings settings )
+		{
+			_settings = settings;
+			_livingProjectiles = new HashSet<Projectile>();
+		}
 
 		public bool CanFire()
 		{
@@ -32,8 +35,10 @@ namespace Minipede.Gameplay.Weapons
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public struct Settings : IGunModule
 		{
+			public Type ModuleType => typeof( LimitProjectilesSafety );
+
 			public int MaxProjectiles;
 		}
 	}

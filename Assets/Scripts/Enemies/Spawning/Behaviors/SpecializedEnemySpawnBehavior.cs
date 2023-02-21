@@ -7,12 +7,13 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		public override void Perform( EnemyController enemy )
 		{
-			base.Perform( enemy );
 			HandleSpecialtySpawn( enemy as TEnemy );
+
+			base.Perform( enemy );
 		}
 
 		/// <summary>
-		/// This is called after <see cref="EnemyController.StartMainBehavior"/> has been invoked.
+		/// This is called before <see cref="EnemyController.StartMainBehavior"/> has been invoked.
 		/// </summary>
 		protected abstract void HandleSpecialtySpawn( TEnemy newEnemy );
 	}

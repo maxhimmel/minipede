@@ -24,6 +24,7 @@ namespace Minipede.Gameplay.Movement
 		private float _lerpTimer;
 		private float _travelDuration;
 		private bool _cancelMoveLoop;
+		private CancellationTokenSource _moveCancelSource;
 
 		public GraphMotor( Settings settings,
 			IMaxSpeed maxSpeedSettings,
@@ -52,6 +53,11 @@ namespace Minipede.Gameplay.Movement
 
 		public async UniTask SetDestination( Vector2Int destCoord, CancellationToken cancelToken = default, bool isContinuing = false )
 		{
+			if ( _moveCancelSource == null )
+			{
+				_moveCancelSource = AppHelper.CreateLinkedCTS( cancelToken );
+			}
+
 			_startPos = _body.position;
 			_endPos = _graph.CellCoordToWorldPos( destCoord );
 
@@ -60,7 +66,7 @@ namespace Minipede.Gameplay.Movement
 
 			while ( IsMoving && _lerpTimer < 1 )
 			{
-				await TaskHelpers.WaitForFixedUpdate( cancelToken );
+				await TaskHelpers.WaitForFixedUpdate( _moveCancelSource.Token );
 				if ( cancelToken.IsCancellationRequested )
 				{
 					return;
@@ -77,6 +83,13 @@ namespace Minipede.Gameplay.Movement
 
 		public void StopMoving()
 		{
+			if ( IsMoving )
+			{
+				_moveCancelSource?.Cancel();
+				_moveCancelSource?.Dispose();
+				_moveCancelSource = null;
+			}
+
 			Vector2 stoppedPos = _body != null ? _body.position : _endPos;
 
 			_startPos = _endPos = stoppedPos;

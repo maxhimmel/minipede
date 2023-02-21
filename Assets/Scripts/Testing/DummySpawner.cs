@@ -77,14 +77,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 							.Create();
 						return;
 
-					case Enemy.Segment:
-						_spawnBuilder.Build<SegmentController>()
-							//.WithPlacement( transform.ToData() )
-							.WithRandomPlacement()
-							.WithSpawnBehavior()
-							.Create();
-						return;
-
 					case Enemy.Spider:
 						_spawnBuilder.Build<SpiderController>()
 							//.WithPlacement( transform.ToData() )
@@ -105,7 +97,6 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			Inchworm,
 			Minipede,
 			Mosquito,
-			Segment,
 			Spider
 		}
 	}

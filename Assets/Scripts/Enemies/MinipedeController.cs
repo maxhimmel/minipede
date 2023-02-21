@@ -13,29 +13,29 @@ namespace Minipede.Gameplay.Enemies
 {
 	public class MinipedeController : EnemyController
 	{
-		private Settings _settings;
+		public bool HasSegments => _segments != null && _segments.Count > 0;
+		public IReadOnlyList<MinipedeController> Segments => _segments;
+
 		private GraphMotor _motor;
-		private EnemySpawnBuilder _enemyBuilder;
 		private MinipedePlayerZoneSpawner _playerZoneSpawner;
 		private PoisonTrailFactory _poisonTrailFactory;
+		private MinipedeDeathHandler _deathHandler;
 
-		private List<SegmentController> _segments;
 		private Vector2Int _rowDir;
 		private Vector2Int _columnDir;
 		private bool _isPoisoned;
+		private List<MinipedeController> _segments;
 
 		[Inject]
-		public void Construct( Settings settings,
-			GraphMotor motor,
-			EnemySpawnBuilder enemyBuilder,
+		public void Construct( GraphMotor motor,
 			MinipedePlayerZoneSpawner playerZoneSpawner,
-			PoisonTrailFactory poisonTrailFactory )
+			PoisonTrailFactory poisonTrailFactory,
+			MinipedeDeathHandler deathHandler )
 		{
-			_settings = settings;
 			_motor = motor;
-			_enemyBuilder = enemyBuilder;
 			_playerZoneSpawner = playerZoneSpawner;
 			_poisonTrailFactory = poisonTrailFactory;
+			_deathHandler = deathHandler;
 		}
 
 		public override void OnSpawned( IOrientation placement, IMemoryPool pool )
@@ -53,6 +53,17 @@ namespace Minipede.Gameplay.Enemies
 
 			_motor.Arrived += OnHorizontalArrival;
 			_motor.StartMoving( _columnDir, OnDestroyCancelToken )
+				.Forget();
+		}
+
+		public void StartSplitHeadBehavior( Vector2 deadSegmentPos )
+		{
+			_motor.StopMoving();
+			UpdateSegmentMovement();
+
+			var cellCoord = _levelGraph.WorldPosToCellCoord( deadSegmentPos );
+			_motor.SetDestination( cellCoord, OnDestroyCancelToken )
+				.ContinueWith( UpdateRowTransition )
 				.Forget();
 		}
 
@@ -92,6 +103,8 @@ namespace Minipede.Gameplay.Enemies
 				}
 			}
 
+			UpdateSegmentMovement();
+
 			_motor.Arrived += OnHorizontalArrival;
 			_motor.StartMoving( _columnDir, OnDestroyCancelToken )
 				.Forget();
@@ -110,7 +123,9 @@ namespace Minipede.Gameplay.Enemies
 				// Flip our vertical direction if we're at the very top or very bottom/top ...
 				_rowDir.y *= -1;
 			}
+
 			nextRowCoord += _rowDir.ToRowCol();
+			UpdateSegmentMovement();
 			await _motor.SetDestination( nextRowCoord, OnDestroyCancelToken );
 
 			if ( IsWithinShipZone( nextRowCoord ) )
@@ -126,6 +141,7 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			Vector2Int nextColCoord = nextRowCoord + _columnDir.ToRowCol();
+			UpdateSegmentMovement();
 			await _motor.SetDestination( nextColCoord, OnDestroyCancelToken );
 
 			return nextColCoord;
@@ -153,6 +169,10 @@ namespace Minipede.Gameplay.Enemies
 						.Cancellable( OnDestroyCancelToken )
 						.Forget();
 				}
+			}
+			else
+			{
+				UpdateSegmentMovement();
 			}
 		}
 
@@ -187,6 +207,8 @@ namespace Minipede.Gameplay.Enemies
 
 			// TODO: VFX for exiting poisoned/angered ...
 			_isPoisoned = false;
+
+			UpdateSegmentMovement();
 
 			_motor.Arrived += OnHorizontalArrival;
 			_motor.StartMoving( _columnDir, OnDestroyCancelToken )
@@ -234,32 +256,10 @@ namespace Minipede.Gameplay.Enemies
 
 		protected override void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
-			base.OnDied( victimBody, health );
-
 			/// TODO: Unify w/<see cref="SegmentController.TryCreateBlock"/>
 			TryCreateBlock( victimBody.position );
 
-			if ( _segments != null && _segments.Count > 0 )
-			{
-				MinipedeController newHead = ReplaceSegmentWithHead( 0, victimBody.position );
-
-				// A new head was chosen from the pool ...
-				if ( _segments.Count > 0 )
-				{
-					bool isNewHeadFresh = (newHead != this);
-
-					newHead.SetSegments( _segments, listenForSegmentDeaths: isNewHeadFresh );
-
-					if ( isNewHeadFresh )
-					{
-						foreach ( var segment in _segments )
-						{
-							segment.Died -= OnSegmentDied;
-						}
-						_segments = null;
-					}
-				}
-			}
+			base.OnDied( victimBody, health );
 		}
 
 		private bool TryCreateBlock( Vector2 position )
@@ -282,100 +282,95 @@ namespace Minipede.Gameplay.Enemies
 			_motor.Arrived -= OnHorizontalArrival;
 			_motor.StopMoving();
 
+			if ( HasSegments )
+			{
+				// We died naturally (player shot us) ...
+				if ( !Health.IsAlive )
+				{
+					_deathHandler.Add( this );
+				}
+				// An exterior system/controller has disposed of us ...
+				else
+				{
+					RemoveSegments( 0 );
+				}
+			}
+
 			base.OnDespawned();
 		}
 
-		public void SetSegments( List<SegmentController> segments, bool listenForSegmentDeaths )
+		public void RemoveSegments( int startSegmentIndex )
+		{
+			for ( int idx = _segments.Count - 1; idx >= startSegmentIndex; --idx )
+			{
+				var segment = _segments[idx];
+				segment.Died -= OnSegmentDied;
+
+				_segments.RemoveAt( idx );
+			}
+		}
+
+		public void SetSegments( List<MinipedeController> segments )
 		{
 			_segments = segments;
-			Rigidbody2D leader = _body;
 
 			foreach ( var segment in segments )
 			{
-				if ( listenForSegmentDeaths )
+				if ( !segment.IsAlive )
 				{
-					segment.Died += OnSegmentDied;
+					throw new System.NotSupportedException( $"Cannot manage a dead segment." );
 				}
 
-				segment.StartFollowing( leader );
-				leader = segment.Body;
+				segment.Died += OnSegmentDied;
 			}
 		}
 
-		private void OnSegmentDied( Rigidbody2D victimBody, HealthController health )
+		public void OnSegmentDied( Rigidbody2D victimBody, HealthController health )
 		{
-			int victimIndex = RemoveDeadSegment( victimBody );
-			if ( victimIndex >= 0 && victimIndex < _segments.Count )
+			_deathHandler.Add( this, victimBody.GetComponent<MinipedeController>() );
+		}
+
+		public void UpdateSegmentMovement()
+		{
+			if ( _segments == null || _segments.Count <= 0 )
 			{
-				MinipedeController newHead = ReplaceSegmentWithHead( victimIndex, victimBody.position );
-				if ( _segments.Count > 0 )
+				return;
+			}
+
+			var leader = this;
+
+			foreach ( var segment in _segments )
+			{
+				var destCoord = _levelGraph.WorldPosToCellCoord( leader._body.position );
+				var segmentCoord = _levelGraph.WorldPosToCellCoord( segment._body.position );
+
+				var moveDir = destCoord - segmentCoord;
+				if ( moveDir.Col() != 0 )
 				{
-					List<SegmentController> bottomHalf = _segments.GetRange( victimIndex, _segments.Count - victimIndex );
-					newHead.SetSegments( bottomHalf, true );
+					segment._columnDir.x = moveDir.Col();
 				}
+				segment._rowDir.y = this._rowDir.y;
 
-				RemoveSegmentRange( _segments.Count - 1, victimIndex );
+				segment._motor.StopMoving();
+				segment._motor.SetDestination( destCoord, segment.OnDestroyCancelToken )
+					.Forget();
+
+				leader = segment;
 			}
 		}
 
-		private int RemoveDeadSegment( Rigidbody2D victimBody )
+		public int FindSegmentIndex( MinipedeController segment )
 		{
-			if ( _segments.Count <= 0 )
-			{
-				return -1;
-			}
-
-			SegmentController victimSegment = victimBody.GetComponent<SegmentController>();
-			Debug.Assert( victimSegment != null, new MissingComponentException( nameof( SegmentController ) ), this );
-
-			int victimIndex = _segments.FindIndex( other => other == victimSegment );
-			if ( victimIndex >= 0 )
-			{
-				_segments.RemoveAt( victimIndex );
-				victimSegment.Died -= OnSegmentDied;
-			}
-
-			return victimIndex;
+			return _segments.FindIndex( otherSegment => otherSegment == segment );
 		}
 
-		private MinipedeController ReplaceSegmentWithHead( int segmentIndex, Vector2 newHeadPosition )
+		/// <summary>
+		/// Allocates a new list. <para></para>
+		/// If you're trying to reference segments, perhaps try <see cref="Segments"/>.
+		/// </summary>
+		public List<MinipedeController> GetSegments( int start, int count )
 		{
-			SegmentController segment = _segments[segmentIndex];
-			_segments.RemoveAt( segmentIndex );
-			segment.Died -= OnSegmentDied;
-
-			MinipedeController newHead = _enemyBuilder.Build<MinipedeController>()
-				.WithPlacement( segment.transform.ToData() )
-				.Create();
-			newHead._rowDir = _rowDir;
-			newHead._columnDir = _columnDir;
-
-			Vector2Int destCoord = _levelGraph.WorldPosToCellCoord( newHeadPosition );
-			newHead._motor.SetDestination( destCoord, newHead.OnDestroyCancelToken )
-				.ContinueWith( () => {
-					if ( newHead.IsAlive )
-					{
-						newHead.UpdateRowTransition()
-							.Cancellable( newHead.OnDestroyCancelToken )
-							.Forget();
-					}
-				} )
-				.Forget();
-
-			segment.Dispose();
-
-			return newHead;
-		}
-
-		private void RemoveSegmentRange( int startIndex, int endIndex )
-		{
-			for ( int idx = startIndex; idx >= endIndex; --idx )
-			{
-				var segment = _segments[idx];
-
-				_segments.RemoveAt( idx );
-				segment.Died -= OnSegmentDied;
-			}
+			return _segments.GetRange( start, count );
 		}
 
 		[System.Serializable]

@@ -35,7 +35,7 @@ namespace Minipede.Installers
 			BindSharedSettings();
 			BindEnemies();
 			BindSpawnSystem();
-			BindWaveSystem();
+			BindHelperModules();
 		}
 
 		private void BindSharedSettings()
@@ -91,11 +91,17 @@ namespace Minipede.Installers
 				.AsSingle();
 		}
 
-		private void BindWaveSystem()
+		private void BindHelperModules()
 		{
 			Container.BindInterfacesAndSelfTo<MinipedePlayerZoneSpawner>()
 				.AsSingle()
 				.WithArguments( _playerZone );
+
+			Container.Bind<MinipedeDeathHandler>()
+				.FromNewComponentOnNewGameObject()
+				.WithGameObjectName( nameof( MinipedeDeathHandler ) )
+				.AsSingle()
+				.NonLazy();
 		}
 	}
 }

@@ -22,31 +22,25 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 		protected override void HandleSpecialtySpawn( MinipedeController newEnemy )
 		{
-			int segmentCount = _settings.SegmentRange.Random( true );
-			newEnemy.SetSegments(
-				CreateSegmentFollowers( segmentCount, newEnemy.Body, newEnemy.transform.parent ), true
-			);
-		}
+			int segmentCount = _settings.SegmentRange.Random();
 
-		private List<SegmentController> CreateSegmentFollowers( int segmentCount, Rigidbody2D leader, Transform parent )
-		{
-			Vector2 offsetDir = leader.transform.right;
-			List<SegmentController> segments = new List<SegmentController>( segmentCount );
+			Vector2 spawnPos = newEnemy.Body.position;
+			Vector2 offsetDir = newEnemy.transform.right;
+			List<MinipedeController> segments = new List<MinipedeController>( segmentCount );
 
 			for ( int idx = 0; idx < segmentCount; ++idx )
 			{
-				SegmentController newSegment = _enemyFactory.Create<SegmentController>( new Orientation(
-					leader.position + offsetDir * _levelGraph.Data.Size.x,
+				var segment = _enemyFactory.Create<MinipedeController>( new Orientation(
+					spawnPos + offsetDir * _levelGraph.Data.Size.x,
 					(-offsetDir).ToLookRotation(),
-					parent
+					newEnemy.transform.parent
 				) );
-				newSegment.StartMainBehavior();
 
-				leader = newSegment.Body;
-				segments.Add( newSegment );
+				spawnPos = segment.Body.position;
+				segments.Add( segment );
 			}
 
-			return segments;
+			newEnemy.SetSegments( segments );
 		}
     }
 }

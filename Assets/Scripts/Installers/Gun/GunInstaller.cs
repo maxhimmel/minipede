@@ -1,5 +1,6 @@
 using System;
 using Minipede.Gameplay.Weapons;
+using ModestTree;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -14,29 +15,44 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			InstallModules();
-
-			Container.BindInstances( 
-				_settings.Gun, 
+			Container.BindInstances(
 				_settings.Damage
 			);
 
 			BindProjectileFactory();
 
-			Container.Bind<ShotSpot>()
-				.AsSingle();
-
 			Container.Bind<Gun>()
-				.AsSingle();
-		}
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+				{
+					subContainer.Bind<Gun>()
+						.AsSingle()
+						.WithArguments( _settings.Gun );
 
-		private void InstallModules()
-		{
-			foreach ( var moduleInstaller in _settings.Modules )
-			{
-				Container.Inject( moduleInstaller );
-				moduleInstaller.InstallBindings();
-			}
+					subContainer.Bind<ShotSpot>()
+						.FromSubContainerResolve()
+						.ByMethod( subContainer =>
+						{
+							subContainer.Bind<ShotSpot>()
+								.AsSingle();
+
+							subContainer.Bind<Transform>()
+								.FromResolveGetter<DiContainer>( container => container.ResolveId<Transform>( _settings.Gun.ShotSpotId ) )
+								.AsSingle();
+						} )
+						.AsSingle();
+
+					subContainer.BindInstance( _settings.Gun.FireSpread )
+						.AsSingle();
+
+					foreach ( var module in _settings.Gun.Modules )
+					{
+						subContainer.Bind( module.GetType().Interfaces() )
+							.FromInstance( module )
+							.AsCached();
+					}
+				} )
+				.AsSingle();
 		}
 
 		private void BindProjectileFactory()
@@ -53,15 +69,16 @@ namespace Minipede.Installers
 		[System.Serializable]
 		public struct Settings
 		{
-			public Gun.Settings Gun;
-			[Space]
-			public int InitialPoolSize;
-			public GameObject Projectile;
-			[Space]
+			[FoldoutGroup( "Damage" ), HideLabel]
 			public DamageTrigger.Settings Damage;
 
-			[Space, InlineEditor]
-			public GunModuleInstaller[] Modules;
+			[FoldoutGroup( "Projectile" )]
+			public int InitialPoolSize;
+			[FoldoutGroup( "Projectile" )]
+			public GameObject Projectile;
+
+			[FoldoutGroup( "Gun" ), HideLabel]
+			public Gun.Settings Gun;
 		}
 
 #if UNITY_EDITOR

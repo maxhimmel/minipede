@@ -7,12 +7,13 @@ using Zenject;
 namespace Minipede.Gameplay.Weapons
 {
     public class Gun
-    {
+	{
 		private readonly Settings _settings;
 		private readonly SignalBus _signalBus;
 		private readonly Projectile.Factory _factory;
-		private readonly IFireSafety[] _fireSafeties;
+		private readonly ShotSpot _shotSpot;
 		private readonly IFireSpread _fireSpread;
+		private readonly IFireSafety[] _fireSafeties;
 		private readonly IDirectionAdjuster _accuracyAdjuster;
 
 		private bool _isFiringRequested;
@@ -20,6 +21,7 @@ namespace Minipede.Gameplay.Weapons
 		public Gun( Settings settings,
 			SignalBus signalBus,
 			Projectile.Factory factory,
+			ShotSpot shotSpot,
 			IFireSpread fireSpread,
 
 			[InjectOptional] IFireSafety[] safeties,
@@ -28,6 +30,7 @@ namespace Minipede.Gameplay.Weapons
 			_settings = settings;
 			_signalBus = signalBus;
 			_factory = factory;
+			_shotSpot = shotSpot;
 			_fireSpread = fireSpread;
 			_fireSafeties = safeties ?? new IFireSafety[0];
 			_accuracyAdjuster = accuracyAdjuster;
@@ -75,7 +78,7 @@ namespace Minipede.Gameplay.Weapons
 			int spreadCount = 0;
 			Vector2 avgShotOrigin = Vector2.zero;
 			Vector3 avgShotDirection = Vector3.zero;
-			foreach ( var shotSpot in _fireSpread.GetSpread() )
+			foreach ( var shotSpot in _fireSpread.GetSpread( _shotSpot ) )
 			{
 				var newProjectile = Fire( shotSpot );
 				NotifySafety( newProjectile );
@@ -126,6 +129,11 @@ namespace Minipede.Gameplay.Weapons
 			public float ProjectileSpeed;
 			[BoxGroup( "Projectile", ShowLabel = false )]
 			public float ProjectileTorque;
+
+			[BoxGroup( "Required" )]
+			[SerializeReference] public IFireSpread FireSpread;
+			[FoldoutGroup( "Optional" )]
+			[SerializeReference] public IGunModule[] Modules;
 		}
 	}
 }

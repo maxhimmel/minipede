@@ -18,6 +18,11 @@ MonoBehaviour:
       ProjectileLifetime: 5
       ProjectileSpeed: 30
       ProjectileTorque: 0
+      FireSpread:
+        rid: 5904237196949061634
+      Modules:
+      - rid: 5904237196949061639
+      - rid: 5904237196949061640
     InitialPoolSize: 10
     Projectile: {fileID: 8807341101252389148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
     Damage:
@@ -37,3 +42,19 @@ MonoBehaviour:
       type: {class: DamageInvoker/Settings, ns: Minipede.Gameplay, asm: Minipede}
       data:
         Damage: 1
+    - rid: 5904237196949061634
+      type: {class: FireSpread, ns: Minipede.Gameplay.Weapons, asm: Minipede}
+      data:
+        _settings:
+          Spread: 1
+          Angle: 0
+    - rid: 5904237196949061639
+      type: {class: FireRateSafety, ns: Minipede.Gameplay.Weapons, asm: Minipede}
+      data:
+        _settings:
+          FireRate: 0.2
+    - rid: 5904237196949061640
+      type: {class: AngleDirectionAdjuster, ns: Minipede.Gameplay.Weapons, asm: Minipede}
+      data:
+        _settings:
+          AngleRange: {x: 0, y: 4}

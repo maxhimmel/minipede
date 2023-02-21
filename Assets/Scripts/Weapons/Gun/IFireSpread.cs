@@ -3,8 +3,8 @@ using Minipede.Utility;
 
 namespace Minipede.Gameplay.Weapons
 {
-    public interface IFireSpread
+    public interface IFireSpread : IGunModule
     {
-        IEnumerable<IOrientation> GetSpread();
+        IEnumerable<IOrientation> GetSpread( ShotSpot shotSpot );
     }
 }

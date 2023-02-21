@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Weapons
@@ -6,14 +7,10 @@ namespace Minipede.Gameplay.Weapons
 	{
 		private float LevelTime => Time.timeSinceLevelLoad;
 
-		private readonly Settings _settings;
+		[HideLabel]
+		[SerializeField] private Settings _settings;
 
 		private float _nextFireTime;
-
-		public FireRateSafety( Settings settings )
-		{
-			_settings = settings;
-		}
 
 		public bool CanFire()
 		{

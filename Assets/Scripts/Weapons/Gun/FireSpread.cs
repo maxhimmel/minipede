@@ -12,30 +12,23 @@ namespace Minipede.Gameplay.Weapons
 {
 	public class FireSpread : IFireSpread
 	{
-		private readonly Settings _settings;
-		private readonly ShotSpot _shotSpot;
+		[HideLabel]
+		[SerializeField] private Settings _settings;
 
-		public FireSpread( Settings settings,
-			ShotSpot shotSpot )
-		{
-			_settings = settings;
-			_shotSpot = shotSpot;
-		}
-
-		public IEnumerable<IOrientation> GetSpread()
+		public IEnumerable<IOrientation> GetSpread( ShotSpot shotSpot )
 		{
 			if ( _settings.Spread <= 1 )
 			{
 				yield return new Orientation(
-					_shotSpot.Position,
-					_shotSpot.Facing.ToLookRotation(),
+					shotSpot.Position,
+					shotSpot.Facing.ToLookRotation(),
 					null
 				);
 			}
 			else
 			{
-				Vector2 facing = _shotSpot.Facing;
-				Vector2 tangent = _shotSpot.Tangent;
+				Vector2 facing = shotSpot.Facing;
+				Vector2 tangent = shotSpot.Tangent;
 
 				float angleStep = _settings.Angle / (_settings.Spread - 1);
 				float radianStep = Mathf.Deg2Rad * angleStep;
@@ -47,7 +40,7 @@ namespace Minipede.Gameplay.Weapons
 					Vector2 direction = Mathf.Cos( radian ) * facing + Mathf.Sin( radian ) * tangent;
 
 					yield return new Orientation(
-						_shotSpot.Position,
+						shotSpot.Position,
 						direction.ToLookRotation(),
 						null
 					);
@@ -58,7 +51,9 @@ namespace Minipede.Gameplay.Weapons
 		[System.Serializable]
 		public struct Settings
 		{
-			[MinValue( 1 ), OnValueChanged( "OnSpreadChanged" ), Delayed]
+			private const int _minSpread = 1;
+
+			[MinValue( _minSpread ), OnValueChanged( "OnSpreadChanged" ), Delayed]
 			[InlineButton( "IncrementSpread", Label = ">" ), InlineButton( "DecrementSpread", Label = "<" )]
 			public int Spread;
 			[PropertyRange( 0, "@360f - 360f / Spread" ), OnInspectorGUI( Append = "DrawSpread" )]
@@ -73,6 +68,8 @@ namespace Minipede.Gameplay.Weapons
 			private void DecrementSpread()
 			{
 				--Spread;
+				Spread = Mathf.Max( Spread, _minSpread );
+
 				OnSpreadChanged();
 			}
 

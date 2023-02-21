@@ -1,17 +1,15 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Minipede.Gameplay.Weapons
 {
 	public class LimitProjectilesSafety : IFireSafety
 	{
-		private readonly Settings _settings;
-		private readonly HashSet<Projectile> _livingProjectiles;
+		[HideLabel]
+		[SerializeField] private Settings _settings;
 
-		public LimitProjectilesSafety( Settings settings )
-		{
-			_settings = settings;
-			_livingProjectiles = new HashSet<Projectile>();
-		}
+		private readonly HashSet<Projectile> _livingProjectiles = new HashSet<Projectile>();
 
 		public bool CanFire()
 		{

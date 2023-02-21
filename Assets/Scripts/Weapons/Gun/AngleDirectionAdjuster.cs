@@ -6,12 +6,8 @@ namespace Minipede.Gameplay.Weapons
 {
 	public class AngleDirectionAdjuster : IDirectionAdjuster
 	{
-		private readonly Settings _settings;
-
-		public AngleDirectionAdjuster( Settings settings )
-		{
-			_settings = settings;
-		}
+		[HideLabel]
+		[SerializeField] private Settings _settings;
 
 		public Vector2 Adjust( Vector2 direction )
 		{

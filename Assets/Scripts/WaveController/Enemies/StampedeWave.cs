@@ -88,7 +88,7 @@ namespace Minipede.Gameplay.Waves
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[MinMaxSlider( 10, 50 )]
 			public Vector2Int SpawnRange;

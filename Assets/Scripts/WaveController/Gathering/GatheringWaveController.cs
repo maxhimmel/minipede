@@ -49,7 +49,7 @@ namespace Minipede.Gameplay.Waves
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[MinMaxSlider( 1, 10 )]
 			public Vector2Int WaveDelay;

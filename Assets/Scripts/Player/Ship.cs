@@ -14,7 +14,8 @@ namespace Minipede.Gameplay.Player
 		IDamageController,
 		ICollector<Treasure>,
 		ICollector<Beacon>,
-		ISelectable
+		ISelectable,
+		IPushable
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -256,6 +257,11 @@ namespace Minipede.Gameplay.Player
 
 			_body.velocity = Vector2.zero;
 			_body.angularVelocity = 0;
+		}
+
+		public void Push( Vector2 velocity )
+		{
+			_body.AddForce( velocity, ForceMode2D.Impulse );
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

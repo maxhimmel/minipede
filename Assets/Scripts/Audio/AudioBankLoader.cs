@@ -29,7 +29,7 @@ namespace Minipede.Gameplay.Audio
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public string[] LoadBanks;
 		}

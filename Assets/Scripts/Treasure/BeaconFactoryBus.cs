@@ -22,7 +22,7 @@ namespace Minipede.Gameplay.Treasures
 
 		[InlineProperty]
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public ResourceType ResourceType;
 			public Beacon Prefab;

@@ -18,8 +18,6 @@ namespace Minipede.Installers
 				_settings.Damage
 			);
 
-			BindProjectileFactory();
-
 			Container.Bind<Gun>()
 				.FromSubContainerResolve()
 				.ByMethod( subContainer =>
@@ -53,13 +51,17 @@ namespace Minipede.Installers
 							.AsCached()
 							.WithArguments( settings );
 					}
+
+					/* --- */
+
+					BindProjectileFactory( subContainer );
 				} )
 				.AsSingle();
 		}
 
-		private void BindProjectileFactory()
+		private void BindProjectileFactory( DiContainer container )
 		{
-			Container.BindFactory<float, Vector2, Quaternion, Projectile, Projectile.Factory>()
+			container.BindFactory<float, Vector2, Quaternion, Projectile, Projectile.Factory>()
 				.FromMonoPoolableMemoryPool( pool => pool
 					.WithInitialSize( _settings.InitialPoolSize )
 					.FromSubContainerResolve()

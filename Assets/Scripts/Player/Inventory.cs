@@ -94,7 +94,7 @@ namespace Minipede.Gameplay.Player
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[Tooltip( "The amount of gems required to create 1 beacon." )]
 			public int GemsToBeacon;

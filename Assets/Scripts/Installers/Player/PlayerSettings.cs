@@ -1,5 +1,4 @@
-﻿using System;
-using Minipede.Gameplay.LevelPieces;
+﻿using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
@@ -9,8 +8,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Player/PlayerSettings" )]
-	public class PlayerSettings : ScriptableObjectInstaller
+	public class PlayerSettings : MonoInstaller
 	{
 		[SerializeField] private Player _playerSettings;
 
@@ -84,7 +82,7 @@ namespace Minipede.Installers
 		}
 
 		[System.Serializable]
-		public struct Player
+		public class Player
 		{
 			[FoldoutGroup( "Initialization" )]
 			public Ship ShipPrefab;

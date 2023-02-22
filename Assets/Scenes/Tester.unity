@@ -155,13 +155,13 @@ MonoBehaviour:
   _scriptableObjectInstallers:
   - {fileID: 11400000, guid: 6ab4253e2d306ad468601eefbb684ade, type: 2}
   - {fileID: 11400000, guid: 3bf6a88b392236847bf1f6c4abc918a3, type: 2}
-  - {fileID: 11400000, guid: 2213eea53faf895449c7c4b0ad86f304, type: 2}
   - {fileID: 11400000, guid: 9f2db609825e9ea46a09fe1c1b51a065, type: 2}
   - {fileID: 11400000, guid: e286cc7d1a3621a4d8b5779382b395a6, type: 2}
   - {fileID: 11400000, guid: 3390ee2bc4614244c897989d8ac434c3, type: 2}
   - {fileID: 11400000, guid: bcb6ebfa8f44bc84ba5838284d13321e, type: 2}
   - {fileID: 11400000, guid: 91a99c897cf246140a6cc3834cc98441, type: 2}
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 1465581113}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -190,7 +190,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1465581114}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2607,6 +2608,63 @@ Transform:
   - {fileID: 998864283}
   m_Father: {fileID: 1294579490}
   m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1465581112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1465581114}
+  - component: {fileID: 1465581113}
+  m_Layer: 0
+  m_Name: PlayerSettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1465581113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465581112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61e637e231c8aaf4e8736d5924be95e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _playerSettings:
+    ShipPrefab: {fileID: 6378720964115801289, guid: 6e94192d214948143a4ff9f4f50c4fcb, type: 3}
+    ExplorerPrefab: {fileID: 6295317173650423721, guid: e0aa3e4d8444a6549b25836ce7001373, type: 3}
+    SpawnPointId: PlayerSpawn
+    RespawnDelay: 1
+    Explorer:
+      LighthousePrefab: {fileID: 1717750769360294968, guid: dba92f41fcdafff42981a668cf65b33e, type: 3}
+    Hauling:
+      HoldCollectDelay: 0.25
+      HoldReleaseDelay: 0.25
+      WeightScalar: 1
+    Inventory:
+      GemsToBeacon: 3
+--- !u!4 &1465581114
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1465581112}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 25686634}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1562350153
 GameObject:

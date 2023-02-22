@@ -9,8 +9,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1530993560611149906, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1530993560611149906, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: e68d133f837d96249b62776a6845afc6, type: 2}
     - target: {fileID: 1530993560611149906, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[2]
       value: 

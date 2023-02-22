@@ -126,7 +126,7 @@ namespace Minipede.Gameplay.Treasures
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[MinMaxSlider( 5, 120 )]
 			public Vector2 LifetimeRange;

@@ -47,7 +47,7 @@ namespace Minipede.Gameplay.Fx
 		}
 
         [System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public Color Color;
 			[MinValue( 1 )]

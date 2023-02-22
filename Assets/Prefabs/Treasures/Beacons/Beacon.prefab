@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5237982887873514212}
   - component: {fileID: 1530993560611149908}
   - component: {fileID: 1530993560611149906}
+  - component: {fileID: -673442622689012207}
   - component: {fileID: 7110612451819475940}
   - component: {fileID: 32707237078411608}
   m_Layer: 9
@@ -84,12 +85,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers:
-  - {fileID: 11400000, guid: 91b4dfff8ff004f429c65881e0cc1f6f, type: 2}
   - {fileID: 11400000, guid: 377d32e6736e08b40b67b02bd73f05e5, type: 2}
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: -673442622689012207}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
+--- !u!114 &-673442622689012207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530993560611149911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21da5fdf1ffdd824fbf92e055c3b0d8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    LifetimeRange: {x: 5, y: 5}
+    TorqueRange: {x: 591.6136, y: 824.7071}
+    TetherPrefab: {fileID: 1824722372019756568, guid: 3f9e8fab95fc6e648860996ad417b75f, type: 3}
+    Follow:
+      FollowForce: 2
+      SnapToCollectorSpeed: 20
+      MinFollowDistance: 1.75
+    Weight: 2.59
+  _expiration:
+    Color: {r: 0, g: 0, b: 0, a: 0}
+    Blinks: 10
+    Duration: 1
 --- !u!114 &7110612451819475940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -103,9 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
-  - {fileID: 1530993560611149908}
   - {fileID: 32707237078411608}
-  - {fileID: 1308843635413011278}
   _identifier: 
   _useSceneContext: 0
   _context: {fileID: 0}

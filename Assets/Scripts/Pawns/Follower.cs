@@ -90,7 +90,7 @@ namespace Minipede.Gameplay
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public float FollowForce;
 			public float SnapToCollectorSpeed;

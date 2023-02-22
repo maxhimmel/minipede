@@ -110,7 +110,7 @@ GameObject:
   - component: {fileID: 3364761996158874033}
   - component: {fileID: 1530993560611149908}
   - component: {fileID: 1530993560611149906}
-  - component: {fileID: 7110612451819475940}
+  - component: {fileID: -6924300795602922780}
   m_Layer: 9
   m_Name: Gem
   m_TagString: Untagged
@@ -181,13 +181,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers:
-  - {fileID: 11400000, guid: 60ebbf925ac7c404c93b86389f86ffa6, type: 2}
   - {fileID: 11400000, guid: 377d32e6736e08b40b67b02bd73f05e5, type: 2}
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: -6924300795602922780}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &7110612451819475940
+--- !u!114 &-6924300795602922780
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,16 +196,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1530993560611149911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 21da5fdf1ffdd824fbf92e055c3b0d8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 1530993560611149908}
-  - {fileID: 1530993560293704930}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 0
+  _settings:
+    LifetimeRange: {x: 14.80987, y: 19.537516}
+    TorqueRange: {x: 613.8129, y: 869.1059}
+    TetherPrefab: {fileID: 1824722372019756568, guid: 3f9e8fab95fc6e648860996ad417b75f, type: 3}
+    Follow:
+      FollowForce: 2
+      SnapToCollectorSpeed: 20
+      MinFollowDistance: 1.75
+    Weight: 1.22
+  _expiration:
+    Color: {r: 0, g: 0, b: 0, a: 0}
+    Blinks: 10
+    Duration: 1
 --- !u!1 &1530993562119040141
 GameObject:
   m_ObjectHideFlags: 0

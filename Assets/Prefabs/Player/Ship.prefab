@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 6378720964115801289}
   - component: {fileID: 6378720964115801302}
   - component: {fileID: 6378720964115801303}
-  - component: {fileID: 8111629679736748909}
+  - component: {fileID: 5942166065966273199}
   m_Layer: 10
   m_Name: Ship
   m_TagString: Untagged
@@ -339,11 +339,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 6a06730074514ab4a8a890bf6f3a8418, type: 2}
   - {fileID: 11400000, guid: 72abcd6633ff0a84cb0ab34ad1fd5527, type: 2}
   - {fileID: 11400000, guid: ed813603a1e29dc49bb25d46d81a831f, type: 2}
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 5942166065966273199}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &8111629679736748909
+--- !u!114 &5942166065966273199
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -352,17 +353,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6378720964115801298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 96c46e6f5a39ed54998f41f22beb9b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 6378720964115801302}
-  - {fileID: 6378720964115801301}
-  - {fileID: 6378720963097473948}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 0
 --- !u!1 &6378720964698641080
 GameObject:
   m_ObjectHideFlags: 0

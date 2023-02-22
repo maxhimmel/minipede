@@ -31,6 +31,7 @@ MonoBehaviour:
       Modules:
       - rid: 5904237196949061649
       - rid: 5904237196949061791
+      - rid: 5904237206038642694
   references:
     version: 2
     RefIds:
@@ -56,3 +57,7 @@ MonoBehaviour:
         ShotsToFullRecoil: 4
         RebalanceDuration: 0.5
         FireRate: 0.2
+    - rid: 5904237206038642694
+      type: {class: KnockbackProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
+      data:
+        Impulse: 7

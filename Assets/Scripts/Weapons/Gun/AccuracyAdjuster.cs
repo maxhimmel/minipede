@@ -47,7 +47,7 @@ namespace Minipede.Gameplay.Weapons
 				return baseAngle;
 			}
 
-			float recoilAngle = _settings.MaxAngleRange.Random() * recoilScale;
+			float recoilAngle = UnityEngine.Random.Range( 0, _settings.MaxAngleOverRecoil.Evaluate( recoilScale ) );
 			return baseAngle + recoilAngle;
 		}
 
@@ -59,8 +59,8 @@ namespace Minipede.Gameplay.Weapons
 			[HideLabel]
 			public AngleDirectionAdjuster.Settings Base;
 
-			[MinMaxSlider( 0, 180f, ShowFields = true )]
-			public Vector2 MaxAngleRange;
+			[Tooltip( "X: Recoil Ratio | Y: Max Angle" )]
+			public AnimationCurve MaxAngleOverRecoil;
 
 			[BoxGroup( "Recoil" ), MinValue( 1 )]
 			public int ShotsToFullRecoil;

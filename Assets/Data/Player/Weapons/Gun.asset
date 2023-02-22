@@ -30,7 +30,7 @@ MonoBehaviour:
         rid: 5904237196949061645
       Modules:
       - rid: 5904237196949061649
-      - rid: 5904237196949061791
+      - rid: 5904237206038642920
       - rid: 5904237206038642694
   references:
     version: 2
@@ -48,16 +48,48 @@ MonoBehaviour:
       type: {class: FireRateSafety/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
         FireRate: 0.2
-    - rid: 5904237196949061791
-      type: {class: AccuracyAdjuster/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
-      data:
-        Base:
-          AngleRange: {x: 0, y: 2}
-        MaxAngleRange: {x: 1, y: 10}
-        ShotsToFullRecoil: 4
-        RebalanceDuration: 0.5
-        FireRate: 0.2
     - rid: 5904237206038642694
       type: {class: KnockbackProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
         Impulse: 7
+    - rid: 5904237206038642920
+      type: {class: AccuracyAdjuster/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
+      data:
+        Base:
+          AngleRange: {x: 0, y: 0}
+        MaxAngleOverRecoil:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0.322047
+            outSlope: 0.322047
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0.2655218
+          - serializedVersion: 3
+            time: 0.7977246
+            value: 4.9885945
+            inSlope: 11.518182
+            outSlope: 11.518182
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0.33333334
+          - serializedVersion: 3
+            time: 1
+            value: 10
+            inSlope: 24.775162
+            outSlope: 24.775162
+            tangentMode: 34
+            weightedMode: 0
+            inWeight: 0.33333334
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        ShotsToFullRecoil: 10
+        RebalanceDuration: 0.5
+        FireRate: 0.2

@@ -1,6 +1,5 @@
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
-using Minipede.Gameplay.Waves;
 using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -9,8 +8,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/EnemySettings" )]
-    public partial class EnemySettings : ScriptableObjectInstaller
+    public partial class EnemySettings : MonoInstaller
 	{
 		[FoldoutGroup( "Shared" )]
 		[SerializeField] private string _speedScalarId = "EnemySpeedScalar";

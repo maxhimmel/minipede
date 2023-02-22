@@ -59,7 +59,7 @@ namespace Minipede.Editor
 				_enemySettings = EditorUtility.FindAsset<EnemySettings>( "EnemySettings" );
 			}
 
-			if ( _enemySettingsObj == null )
+			if ( _enemySettingsObj == null && _enemySettings != null )
 			{
 				_enemySettingsObj = new SerializedObject( _enemySettings );
 				_renderer.AttachEnemySettings( _enemySettingsObj );

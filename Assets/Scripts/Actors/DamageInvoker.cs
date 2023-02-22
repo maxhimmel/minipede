@@ -22,7 +22,7 @@ namespace Minipede.Gameplay
 		}
 
 		[System.Serializable]
-		public struct Settings : IDamageInvoker.ISettings
+		public class Settings : IDamageInvoker.ISettings
 		{
 			public Type DamageType => typeof( DamageInvoker );
 

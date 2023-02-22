@@ -11,8 +11,7 @@ using BlockActor = Minipede.Gameplay.LevelPieces.Block;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/LevelGeneration" )]
-	public class LevelGenerationInstaller : ScriptableObjectInstaller
+	public class LevelGenerationInstaller : MonoInstaller
 	{
 		[SerializeField] private Level _levelSettings;
 		[SerializeField] private Block _blockSettings;
@@ -110,7 +109,7 @@ namespace Minipede.Installers
 		}
 
 		[System.Serializable]
-		public struct Level
+		public class Level
 		{
 			[TabGroup( "Setup" )]
 			public LevelGraph.Settings Graph;
@@ -127,7 +126,7 @@ namespace Minipede.Installers
 		}
 
 		[System.Serializable]
-		public struct Block
+		public class Block
 		{
 			[HideLabel, FoldoutGroup( "Gameplay" )]
 			public Mushroom.Settings Settings;

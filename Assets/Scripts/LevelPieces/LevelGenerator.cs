@@ -54,7 +54,7 @@ namespace Minipede.Gameplay.LevelPieces
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public int PlayerRows;
 

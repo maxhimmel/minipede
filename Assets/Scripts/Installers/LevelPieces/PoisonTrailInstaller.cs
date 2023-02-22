@@ -35,7 +35,7 @@ namespace Minipede.Installers
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public int InitialPoolSize;
 			public GameObject Prefab;

@@ -43,7 +43,7 @@ namespace Minipede.Utility
 		}
 
 		[System.Serializable]
-		public struct PoolSettings
+		public class PoolSettings
 		{
 			public TValue Prefab;
 			public int InitialSize;

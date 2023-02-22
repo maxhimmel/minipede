@@ -1,11 +1,10 @@
+using System;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Weapons
 {
 	public class FireRateSafety : IFireSafety
 	{
-		private float LevelTime => Time.timeSinceLevelLoad;
-
 		private readonly Settings _settings;
 
 		private float _nextFireTime;
@@ -17,17 +16,19 @@ namespace Minipede.Gameplay.Weapons
 
 		public bool CanFire()
 		{
-			return _nextFireTime <= LevelTime;
+			return _nextFireTime <= Time.timeSinceLevelLoad;
 		}
 
 		public void Notify( Projectile firedProjectile )
 		{
-			_nextFireTime = LevelTime + _settings.FireRate;
+			_nextFireTime = Time.timeSinceLevelLoad + _settings.FireRate;
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public struct Settings : IGunModule
 		{
+			public Type ModuleType => typeof( FireRateSafety );
+
 			public float FireRate;
 		}
 	}

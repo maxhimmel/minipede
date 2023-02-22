@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Minipede.Gameplay.Weapons
@@ -34,8 +35,10 @@ namespace Minipede.Gameplay.Weapons
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public struct Settings : IGunModule
 		{
+			public Type ModuleType => typeof( LimitProjectilesSafety );
+
 			public int MaxProjectiles;
 		}
 	}

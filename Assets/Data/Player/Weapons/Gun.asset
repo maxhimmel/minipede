@@ -13,23 +13,24 @@ MonoBehaviour:
   m_Name: Gun
   m_EditorClassIdentifier: 
   _settings:
-    Gun:
-      ShotSpotId: ShotSpot
-      ProjectileLifetime: 5
-      ProjectileSpeed: 30
-      ProjectileTorque: 0
-    InitialPoolSize: 10
-    Projectile: {fileID: 8807341101252389148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
     Damage:
       HitMask:
         serializedVersion: 2
         m_Bits: 257
       Type:
         rid: 2970565195839569932
-    Modules:
-    - {fileID: 11400000, guid: 18a15045f73ac2142bd3f194d2eebf74, type: 2}
-    - {fileID: 11400000, guid: bd327e647d8551f4d879adccd65d9c8e, type: 2}
-    - {fileID: 11400000, guid: 48a51192b720581479a480edd87633ed, type: 2}
+    InitialPoolSize: 10
+    Projectile: {fileID: 8807341101252389148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+    Gun:
+      ShotSpotId: ShotSpot
+      ProjectileLifetime: 5
+      ProjectileSpeed: 30
+      ProjectileTorque: 0
+      FireSpread:
+        rid: 5904237196949061645
+      Modules:
+      - rid: 5904237196949061649
+      - rid: 5904237196949061791
   references:
     version: 2
     RefIds:
@@ -37,3 +38,21 @@ MonoBehaviour:
       type: {class: DamageInvoker/Settings, ns: Minipede.Gameplay, asm: Minipede}
       data:
         Damage: 1
+    - rid: 5904237196949061645
+      type: {class: FireSpread/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
+      data:
+        Spread: 1
+        Angle: 0
+    - rid: 5904237196949061649
+      type: {class: FireRateSafety/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
+      data:
+        FireRate: 0.2
+    - rid: 5904237196949061791
+      type: {class: AccuracyAdjuster/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
+      data:
+        Base:
+          AngleRange: {x: 0, y: 2}
+        MaxAngleRange: {x: 1, y: 10}
+        ShotsToFullRecoil: 4
+        RebalanceDuration: 0.5
+        FireRate: 0.2

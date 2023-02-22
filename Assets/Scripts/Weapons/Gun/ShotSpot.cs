@@ -12,10 +12,9 @@ namespace Minipede.Gameplay.Weapons
 
 		private readonly Transform _shotSpot;
 
-		public ShotSpot( DiContainer container,
-			Gun.Settings settings )
+		public ShotSpot( Transform shotSpot )
 		{
-			_shotSpot = container.ResolveId<Transform>( settings.ShotSpotId );
+			_shotSpot = shotSpot;
 		}
 	}
 }

@@ -5,6 +5,8 @@ namespace Minipede.Gameplay.Weapons
 {
     public interface IFireSpread
     {
-        IEnumerable<IOrientation> GetSpread();
+        IEnumerable<IOrientation> GetSpread( ShotSpot shotSpot );
+
+        public interface ISettings : IGunModule { }
     }
 }

@@ -1,10 +1,11 @@
+using System;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Weapons
 {
-	public class AngleDirectionAdjuster : IDirectionAdjuster
+	public class AngleDirectionAdjuster : IPreFireProcessor
 	{
 		private readonly Settings _settings;
 
@@ -13,15 +14,22 @@ namespace Minipede.Gameplay.Weapons
 			_settings = settings;
 		}
 
-		public Vector2 Adjust( Vector2 direction )
+		public void PreFire( ref IOrientation orientation )
 		{
-			float randAngle = _settings.AngleRange.Random() * RandomExtensions.Sign();
-			return Quaternion.Euler( 0, 0, randAngle ) * direction;
+			float randAngle = GetAngle() * RandomExtensions.Sign();
+			orientation.Rotation *= Quaternion.Euler( 0, 0, randAngle );
+		}
+
+		protected virtual float GetAngle()
+		{
+			return _settings.AngleRange.Random();
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public struct Settings : IGunModule
 		{
+			public Type ModuleType => typeof( AngleDirectionAdjuster );
+
 			[MinMaxSlider( 0, 180f, ShowFields = true )]
 			public Vector2 AngleRange;
 		}

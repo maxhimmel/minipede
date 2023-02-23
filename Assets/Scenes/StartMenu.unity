@@ -1598,6 +1598,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a3ee3ce27a01d874db616cf8a18ce79c, type: 2}
   - {fileID: 11400000, guid: a544608bf1d7516458069e3cfcb8cb4e, type: 2}
   - {fileID: 11400000, guid: ab5bc5e51cddac04e9edba6b9fbeb625, type: 2}
+  _minipedeBehavior:
+    SegmentRange: {x: 2, y: 6}
   _playerZone:
     IsEnabled: 0
     SpawnPointId: MinipedePlayerZoneSpawner

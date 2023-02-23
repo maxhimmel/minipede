@@ -19,10 +19,12 @@ namespace Minipede.Installers
 		protected System.Type EnemyType => _prefab.GetType();
 
 		[Space]
+		[DisableInPlayMode]
 		[SerializeField, PropertyOrder( -1 )] private int _initalPoolSize = 0;
+		[DisableInPlayMode]
 		[SerializeField, PropertyOrder( 0 )] private EnemyController _prefab;
 
-		[Space]
+		[Space, DisableInPlayMode]
 		[SerializeField, PropertyOrder( 2 )] private GraphSpawnPlacement[] _spawnPlacement;
 
 		public virtual void Install( DiContainer container )
@@ -34,8 +36,6 @@ namespace Minipede.Installers
 				container.BindInstance( _spawnPlacement )
 					.WithId( EnemyType );
 			}
-
-			BindSpawnBehavior( container );
 		}
 
 		private void BindFactory( DiContainer container, EnemyController prefab )
@@ -52,15 +52,6 @@ namespace Minipede.Installers
 					)
 					.AsCached()
 				);
-		}
-
-		protected virtual void BindSpawnBehavior( DiContainer container )
-		{
-			if ( !container.HasBinding<EnemySpawnBehavior>() )
-			{
-				container.Bind<EnemySpawnBehavior>()
-					.AsCached();
-			}
 		}
 	}
 }

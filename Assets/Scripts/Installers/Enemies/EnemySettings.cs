@@ -20,7 +20,9 @@ namespace Minipede.Installers
 		[InlineEditor, LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
 		[SerializeField] private EnemySpawnSettings[] _spawnSettings;
 
-		[FoldoutGroup( "Minipede Spawning Extras" )]
+		[FoldoutGroup( "Minipede Spawning" )]
+		[SerializeField, HideLabel] private MinipedeSpawnBehavior.Settings _minipedeBehavior;
+		[BoxGroup( "Minipede Spawning/Extras" )]
 		[SerializeField, HideLabel] private MinipedePlayerZoneSpawner.Settings _playerZone;
 
 		public override void InstallBindings()
@@ -77,7 +79,24 @@ namespace Minipede.Installers
 			Container.Bind<EnemyPlacementResolver>()
 				.AsSingle();
 
+			/* --- */
+
 			Container.Bind<EnemySpawnBehaviorBus>()
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+				{
+					subContainer.Bind<EnemySpawnBehaviorBus>()
+						.AsSingle();
+
+
+					subContainer.Bind<EnemySpawnBehavior>()
+						.AsCached();
+
+					subContainer.Bind<EnemySpawnBehavior>()
+						.To<MinipedeSpawnBehavior>()
+						.AsCached()
+						.WithArguments( _minipedeBehavior );
+				} )
 				.AsSingle();
 
 			/* --- */

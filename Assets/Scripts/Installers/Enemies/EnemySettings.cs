@@ -18,7 +18,7 @@ namespace Minipede.Installers
 		[SerializeField] private PoisonTrailInstaller.Settings _poisonTrail;
 
 		[InlineEditor, LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
-		[SerializeField] private EnemyModuleInstaller[] _enemyInstallers;
+		[SerializeField] private EnemySpawnSettings[] _spawnSettings;
 
 		[FoldoutGroup( "Minipede Spawning Extras" )]
 		[SerializeField, HideLabel] private MinipedePlayerZoneSpawner.Settings _playerZone;
@@ -31,7 +31,6 @@ namespace Minipede.Installers
 				.OptionalSubscriber();
 
 			BindSharedSettings();
-			BindEnemies();
 			BindSpawnSystem();
 			BindHelperModules();
 		}
@@ -61,17 +60,15 @@ namespace Minipede.Installers
 			/* --- */
 		}
 
-		private void BindEnemies()
-		{
-			foreach ( var enemy in _enemyInstallers )
-			{
-				Container.Inject( enemy );
-				enemy.InstallBindings();
-			}
-		}
-
 		private void BindSpawnSystem()
 		{
+			foreach ( var settings in _spawnSettings )
+			{
+				settings.Install( Container );
+			}
+
+			/* --- */
+
 			Container.Bind<EnemyFactoryBus>()
 				.AsSingle();
 

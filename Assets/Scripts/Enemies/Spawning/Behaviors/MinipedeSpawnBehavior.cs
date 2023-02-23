@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Minipede.Gameplay.Enemies.Spawning
@@ -8,11 +9,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
     public class MinipedeSpawnBehavior : SpecializedEnemySpawnBehavior<MinipedeController>
 	{
 		private readonly EnemyFactoryBus _enemyFactory;
-		private readonly MinipedeController.Settings _settings;
+		private readonly Settings _settings;
 		private readonly LevelGraph _levelGraph;
 
 		public MinipedeSpawnBehavior( EnemyFactoryBus enemyFactory,
-			MinipedeController.Settings settings,
+			Settings settings,
 			LevelGraph levelGraph )
 		{
 			_enemyFactory = enemyFactory;
@@ -42,5 +43,12 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 			newEnemy.SetSegments( segments );
 		}
-    }
+
+		[System.Serializable]
+		public class Settings
+		{
+			[MinMaxSlider( 0, 10, ShowFields = true )]
+			public Vector2Int SegmentRange;
+		}
+	}
 }

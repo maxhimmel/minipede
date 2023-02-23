@@ -9,7 +9,7 @@ using Zenject;
 namespace Minipede.Installers
 {
 	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Enemy" )]
-	public class EnemyModuleInstaller : ScriptableObjectInstaller
+	public class EnemySpawnSettings : ScriptableObject
 	{
 		/// <summary>
 		/// This ID should match a <see cref="Transform"/> within the scene being bound using a <see cref="ZenjectBinding"/>.
@@ -25,24 +25,23 @@ namespace Minipede.Installers
 		[Space]
 		[SerializeField, PropertyOrder( 2 )] private GraphSpawnPlacement[] _spawnPlacement;
 
-		public override void InstallBindings()
+		public virtual void Install( DiContainer container )
 		{
-			BindFactory( _prefab );
+			BindFactory( container, _prefab );
 
 			if ( _spawnPlacement.Length > 0 )
 			{
-				Container.BindInstance( _spawnPlacement )
+				container.BindInstance( _spawnPlacement )
 					.WithId( EnemyType );
 			}
 
-			BindSpawnBehavior();
+			BindSpawnBehavior( container );
 		}
 
-		protected void BindFactory<TEnemy>( TEnemy prefab )
-			where TEnemy : EnemyController
+		private void BindFactory( DiContainer container, EnemyController prefab )
 		{
-			Container.BindFactory<IOrientation, EnemyController, EnemyController.Factory>()
-				.WithId( prefab.GetType() )
+			container.BindFactory<IOrientation, EnemyController, EnemyController.Factory>()
+				.WithId( EnemyType )
 				.FromMonoPoolableMemoryPool( pool => pool
 					.WithInitialSize( _initalPoolSize )
 					.FromSubContainerResolve()
@@ -55,37 +54,13 @@ namespace Minipede.Installers
 				);
 		}
 
-		protected virtual void BindSpawnBehavior()
+		protected virtual void BindSpawnBehavior( DiContainer container )
 		{
-			if ( !Container.HasBinding<EnemySpawnBehavior>() )
+			if ( !container.HasBinding<EnemySpawnBehavior>() )
 			{
-				Container.Bind<EnemySpawnBehavior>()
+				container.Bind<EnemySpawnBehavior>()
 					.AsCached();
 			}
-		}
-	}
-
-	public abstract class EnemyModuleWithSettingsInstaller<TSettings> : EnemyModuleInstaller
-	{
-		[FoldoutGroup( "Settings" ), HideLabel]
-		[SerializeField, PropertyOrder( 1 )] protected TSettings _settings;
-
-		public override void InstallBindings()
-		{
-			base.InstallBindings();
-
-			Container.BindInstance( _settings );
-		}
-	}
-
-	public abstract class EnemyModuleWithSettingsAndBehaviorInstaller<TSettings, TBehavior> : EnemyModuleWithSettingsInstaller<TSettings>
-		where TBehavior : EnemySpawnBehavior
-	{
-		protected override void BindSpawnBehavior()
-		{
-			Container.Bind<EnemySpawnBehavior>()
-				.To<TBehavior>()
-				.AsCached();
 		}
 	}
 }

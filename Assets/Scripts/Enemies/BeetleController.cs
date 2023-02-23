@@ -112,7 +112,7 @@ namespace Minipede.Gameplay.Enemies
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[MinMaxSlider( 0, 29, ShowFields = true )]
 			public Vector2Int ColumnMovementRange;

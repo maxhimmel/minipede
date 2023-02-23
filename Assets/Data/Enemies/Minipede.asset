@@ -23,5 +23,5 @@ MonoBehaviour:
       _items:
       - _normalizedWeight: 100
         Item: 180
-  _settings:
+  _spawnSettings:
     SegmentRange: {x: 2, y: 6}

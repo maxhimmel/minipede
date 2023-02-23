@@ -12,6 +12,14 @@ PrefabInstance:
       value: Beetle
       objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _monoInstallers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _monoInstallers.Array.data[0]
+      value: 
+      objectReference: {fileID: 5600411781921677313}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -110,3 +118,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb40e9e46afc2440a50b94e66b0a5ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5600411781921677313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7522776707626229834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8cb6d42df00fe42a6583868387ac48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    ColumnMovementRange: {x: 5, y: 24}
+    ExitRow: 13

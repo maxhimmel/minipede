@@ -1,4 +1,3 @@
-using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -50,7 +49,7 @@ namespace Minipede.Gameplay.Enemies
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[MinMaxSlider( 0, 1, ShowFields = true )]
 			public Vector2 CreateBlockRange;

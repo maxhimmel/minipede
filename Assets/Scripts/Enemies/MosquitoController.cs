@@ -78,7 +78,7 @@ namespace Minipede.Gameplay.Enemies
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public float WhiskerDistance;
 		}

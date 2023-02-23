@@ -372,12 +372,5 @@ namespace Minipede.Gameplay.Enemies
 		{
 			return _segments.GetRange( start, count );
 		}
-
-		[System.Serializable]
-		public struct Settings
-		{
-			[MinMaxSlider( 0, 10, ShowFields = true )]
-			public Vector2Int SegmentRange;
-		}
 	}
 }

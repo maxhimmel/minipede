@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    public class EnemyMonoInstaller : MonoInstaller
+    public class EnemyControllerInstaller : MonoInstaller
     {
 		public override void InstallBindings()
 		{

@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f66dc7e77f9a1f141a81c979d2b70024, type: 3}
+  m_Script: {fileID: 11500000, guid: 19c949c0041360c49aa013b03953b0cb, type: 3}
   m_Name: Dragonfly
   m_EditorClassIdentifier: 
   _initalPoolSize: 20
@@ -23,6 +23,3 @@ MonoBehaviour:
       _items:
       - _normalizedWeight: 100
         Item: 180
-  _settings:
-    CreateBlockRange: {x: 0, y: 0.15}
-    ZigZagRange: {x: 2, y: 4}

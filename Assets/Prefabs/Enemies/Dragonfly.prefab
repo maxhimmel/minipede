@@ -12,6 +12,14 @@ PrefabInstance:
       value: Dragonfly
       objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _monoInstallers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _monoInstallers.Array.data[0]
+      value: 
+      objectReference: {fileID: 148407317458124056}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -110,3 +118,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae0fa4ed765212f4683ab5a505d8162a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &148407317458124056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4254766647079657513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a772c3e3b1d5f14087efe6f31bec9b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    CreateBlockRange: {x: 0, y: 0.15}
+    ZigZagRange: {x: 2, y: 4}

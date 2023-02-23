@@ -39,7 +39,7 @@ namespace Minipede.Gameplay
 		}
 
         [System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[Min( 0 )]
 			public int Health;

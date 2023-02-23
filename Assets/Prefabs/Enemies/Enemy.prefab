@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7711212140918325584}
   - component: {fileID: 8944308047494364963}
   - component: {fileID: 5381930393984707178}
+  - component: {fileID: 1623936944509986373}
   m_Layer: 8
   m_Name: Enemy
   m_TagString: Untagged
@@ -70,13 +71,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers:
-  - {fileID: 11400000, guid: 1a4b7436e3696764ba045aaf1723fb7e, type: 2}
   - {fileID: 11400000, guid: 2beb593812429c6419abc6f4e84394c5, type: 2}
   _monoInstallers:
   - {fileID: 5643293061122707511}
+  - {fileID: 1623936944509986373}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
+--- !u!114 &1623936944509986373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3006518857079507361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17cef94efddfd3042bba963c33085399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    Health: 1
+  _logDamage: 0
 --- !u!1 &4287988629957940880
 GameObject:
   m_ObjectHideFlags: 0

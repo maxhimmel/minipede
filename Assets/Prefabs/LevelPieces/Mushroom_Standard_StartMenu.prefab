@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4481131652700956522, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4481131652700956525, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
       propertyPath: m_RootOrder

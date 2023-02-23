@@ -117,8 +117,16 @@ PrefabInstance:
       value: Mushroom_Poison
       objectReference: {fileID: 0}
     - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
-      propertyPath: _scriptableObjectInstallers.Array.size
+      propertyPath: _monoInstallers.Array.size
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
+      propertyPath: _monoInstallers.Array.data[1]
+      value: 
+      objectReference: {fileID: 8136703729494992076}
+    - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[2]
@@ -190,3 +198,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4d0b70a655e8b142ad96fd010175776, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8136703729494992076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7901060816210389738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17cef94efddfd3042bba963c33085399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    Health: 3
+  _logDamage: 0

@@ -261,6 +261,7 @@ GameObject:
   - component: {fileID: 6378720964115801302}
   - component: {fileID: 6378720964115801303}
   - component: {fileID: 5942166065966273199}
+  - component: {fileID: 7023257299927715439}
   m_Layer: 10
   m_Name: Ship
   m_TagString: Untagged
@@ -334,13 +335,13 @@ MonoBehaviour:
   _scriptableObjectInstallers:
   - {fileID: 11400000, guid: e40c8bb4f209747438e164f6bf77d9b4, type: 2}
   - {fileID: 11400000, guid: 87ab4a8d7995b484aa963d8a24987086, type: 2}
-  - {fileID: 11400000, guid: ada563c25f9ba3941bd2b36c8c7d0580, type: 2}
   - {fileID: 11400000, guid: f8c2b964137ad8e4da44927508543252, type: 2}
   - {fileID: 11400000, guid: 6a06730074514ab4a8a890bf6f3a8418, type: 2}
   - {fileID: 11400000, guid: 72abcd6633ff0a84cb0ab34ad1fd5527, type: 2}
   - {fileID: 11400000, guid: ed813603a1e29dc49bb25d46d81a831f, type: 2}
   _monoInstallers:
   - {fileID: 5942166065966273199}
+  - {fileID: 7023257299927715439}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -356,6 +357,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c46e6f5a39ed54998f41f22beb9b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7023257299927715439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6378720964115801298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17cef94efddfd3042bba963c33085399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    Health: 1
+  _logDamage: 0
 --- !u!1 &6378720964698641080
 GameObject:
   m_ObjectHideFlags: 0

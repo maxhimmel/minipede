@@ -54,7 +54,7 @@ namespace Minipede.Gameplay.Weapons
 		}
 
 		[System.Serializable]
-		public struct Settings : IFireSpread.ISettings
+		public class Settings : IFireSpread.ISettings
 		{
 			public Type ModuleType => typeof( FireSpread );
 

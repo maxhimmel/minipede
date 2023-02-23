@@ -25,7 +25,7 @@ namespace Minipede.Gameplay.Weapons
 		}
 
 		[System.Serializable]
-		public struct Settings : IGunModule
+		public class Settings : IGunModule
 		{
 			public Type ModuleType => typeof( FireRateSafety );
 

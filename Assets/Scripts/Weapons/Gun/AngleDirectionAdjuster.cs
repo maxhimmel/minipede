@@ -7,7 +7,7 @@ namespace Minipede.Gameplay.Weapons
 {
 	public class AngleDirectionAdjuster : IPreFireProcessor
 	{
-		private readonly Settings _settings;
+		protected readonly Settings _settings;
 
 		public AngleDirectionAdjuster( Settings settings )
 		{
@@ -26,9 +26,9 @@ namespace Minipede.Gameplay.Weapons
 		}
 
 		[System.Serializable]
-		public struct Settings : IGunModule
+		public class Settings : IGunModule
 		{
-			public Type ModuleType => typeof( AngleDirectionAdjuster );
+			public virtual Type ModuleType => typeof( AngleDirectionAdjuster );
 
 			[MinMaxSlider( 0, 180f, ShowFields = true )]
 			public Vector2 AngleRange;

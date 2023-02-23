@@ -1,13 +1,11 @@
 using Minipede.Gameplay.Weapons;
-using ModestTree;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Weapons/Gun/Gun" )]
-    public class GunInstaller : ScriptableObjectInstaller
+    public class GunInstaller : MonoInstaller
     {
 		[HideLabel]
 		[SerializeField] private Settings _settings;
@@ -71,7 +69,7 @@ namespace Minipede.Installers
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[FoldoutGroup( "Damage" ), HideLabel]
 			public DamageTrigger.Settings Damage;
@@ -82,7 +80,7 @@ namespace Minipede.Installers
 			public GameObject Projectile;
 
 			[FoldoutGroup( "Gun" ), HideLabel]
-			public Gun.Settings Gun;
+			public Gun.Settings Gun = new Gun.Settings();
 		}
 
 #if UNITY_EDITOR

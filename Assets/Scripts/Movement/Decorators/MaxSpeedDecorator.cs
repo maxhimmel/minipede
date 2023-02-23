@@ -19,11 +19,6 @@ namespace Minipede.Gameplay.Movement
 			return _maxSpeed.GetMaxSpeed() * _speedScalar.Scale;
 		}
 
-		public void RestoreMaxSpeed()
-		{
-			_maxSpeed.RestoreMaxSpeed();
-		}
-
 		public void SetMaxSpeed( float maxSpeed )
 		{
 			// No need to apply scaling here. We apply it when GetMaxSpeed is called.

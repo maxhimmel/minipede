@@ -57,29 +57,9 @@ namespace Minipede.Gameplay.Movement
 		}
 
 		[System.Serializable]
-		public struct Settings : IMaxSpeed
+		public class Settings : MotorSettings
 		{
-			public float MaxSpeed;
 			public float Acceleration;
-
-			private float? _currentMaxSpeed;
-
-			public float GetMaxSpeed()
-			{
-				return _currentMaxSpeed.HasValue
-					? _currentMaxSpeed.Value
-					: MaxSpeed;
-			}
-
-			public void SetMaxSpeed( float maxSpeed )
-			{
-				_currentMaxSpeed = maxSpeed;
-			}
-
-			public void RestoreMaxSpeed()
-			{
-				_currentMaxSpeed = null;
-			}
 		}
 	}
 }

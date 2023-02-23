@@ -83,11 +83,9 @@ namespace Minipede.Gameplay.Movement
 		}
 
 		[System.Serializable]
-		public struct Settings : IMaxSpeed
+		public class Settings : MotorSettings
 		{
 			[BoxGroup( "Speed", ShowLabel = false )]
-			public float MaxSpeed;
-
 			[ToggleGroup( "ScaleBySpeed", GroupID = "Speed/ScaleBySpeed" )]
 			public bool ScaleBySpeed;
 			[HorizontalGroup( "Speed/ScaleBySpeed/Matching" )]
@@ -97,25 +95,6 @@ namespace Minipede.Gameplay.Movement
 
 			[BoxGroup( "Speed/Wave" ), HideLabel]
 			public WaveDatum Wave;
-
-			private float? _currentMaxSpeed;
-
-			public float GetMaxSpeed()
-			{
-				return _currentMaxSpeed.HasValue
-					? _currentMaxSpeed.Value
-					: MaxSpeed;
-			}
-
-			public void SetMaxSpeed( float maxSpeed )
-			{
-				_currentMaxSpeed = maxSpeed;
-			}
-
-			public void RestoreMaxSpeed()
-			{
-				_currentMaxSpeed = null;
-			}
 
 			public float Evaluate( float timer )
 			{

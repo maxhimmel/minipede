@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6905256817013257476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6249700501504840515}
+  - component: {fileID: 342539737083879380}
+  m_Layer: 8
+  m_Name: Motor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6249700501504840515
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905256817013257476}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3088541220717586619}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &342539737083879380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6905256817013257476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef72063be02c45d45883d769c01b58f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    MaxSpeed: 10
 --- !u!1001 &4746522935757908459
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13,7 +59,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _monoInstallers.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _monoInstallers.Array.data[0]
@@ -28,8 +74,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6293335702289420206}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _monoInstallers.Array.data[3]
+      value: 
+      objectReference: {fileID: 342539737083879380}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[1]
@@ -120,6 +170,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f0ed414fca431f4781154c145149f47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &3088541220717586619 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+  m_PrefabInstance: {fileID: 4746522935757908459}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6293335702289420206 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1623936944509986373, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}

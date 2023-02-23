@@ -3,7 +3,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	public class ConfigurableInstaller<TConfigurable, TSettings> : ScriptableObjectInstaller
+	public class ConfigurableInstaller<TConfigurable, TSettings> : MonoInstaller
 	{
 		[SerializeField] protected TSettings _settings;
 
@@ -11,7 +11,6 @@ namespace Minipede.Installers
 		{
 			Container.BindInterfacesAndSelfTo<TConfigurable>()
 				.AsSingle();
-			//.WithArguments( GetSettings() );
 
 			Container.BindInterfacesAndSelfTo<TSettings>()
 				.FromInstance( GetSettings() )

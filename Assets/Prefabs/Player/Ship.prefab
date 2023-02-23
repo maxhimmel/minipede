@@ -31,8 +31,55 @@ Transform:
   - {fileID: 2287204802766665855}
   - {fileID: 1249069029671260253}
   m_Father: {fileID: 6378720964115801301}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3309694603715773968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5566583624494110037}
+  - component: {fileID: 1088016202060106401}
+  m_Layer: 10
+  m_Name: Motor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5566583624494110037
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3309694603715773968}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6378720964115801301}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1088016202060106401
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3309694603715773968}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6908e8673413d4343a3f3aff62bf7a17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    MaxSpeed: 13
+    Acceleration: 210.18
 --- !u!1 &5907523962066270332
 GameObject:
   m_ObjectHideFlags: 0
@@ -211,7 +258,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6378720964115801301}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1738319405127284033
 MonoBehaviour:
@@ -356,7 +403,7 @@ Transform:
   - {fileID: 4338403580910732275}
   - {fileID: 5248903297680318733}
   m_Father: {fileID: 6378720964115801301}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6378720963097473948
 SpriteRenderer:
@@ -456,6 +503,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5566583624494110037}
   - {fileID: 6378720963097473949}
   - {fileID: 6378720964698641083}
   - {fileID: 6378720963049898107}
@@ -509,12 +557,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers:
-  - {fileID: 11400000, guid: 87ab4a8d7995b484aa963d8a24987086, type: 2}
   - {fileID: 11400000, guid: 72abcd6633ff0a84cb0ab34ad1fd5527, type: 2}
   - {fileID: 11400000, guid: ed813603a1e29dc49bb25d46d81a831f, type: 2}
   _monoInstallers:
   - {fileID: 5942166065966273199}
   - {fileID: 7023257299927715439}
+  - {fileID: 1088016202060106401}
   - {fileID: 6176431832906787220}
   - {fileID: 2937489552209690830}
   - {fileID: 1738319405127284033}
@@ -578,7 +626,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6378720964115801301}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &8631466526497156362
 CircleCollider2D:

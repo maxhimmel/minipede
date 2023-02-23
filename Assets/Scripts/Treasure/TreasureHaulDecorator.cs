@@ -35,7 +35,7 @@ namespace Minipede.Gameplay.Treasures
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public float MinSpeed;
 		}

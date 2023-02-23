@@ -5,8 +5,8 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Player/Explorer Decorators" )]
-    public class ExplorerDecoratorSettings : ScriptableObjectInstaller
+	// TODO: Can this be simplified? Do we still need a decorator w/classes and no structs?
+    public class ExplorerDecoratorSettings : MonoInstaller
     {
 		[SerializeField] private TreasureHaulDecorator.Settings _hauling;
 

@@ -25,8 +25,12 @@ PrefabInstance:
       objectReference: {fileID: 9215011179206367288}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3acdf7a3c990af440ae055d601acd488, type: 2}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[3]
       value: 

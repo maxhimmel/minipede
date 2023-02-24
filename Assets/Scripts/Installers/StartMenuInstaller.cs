@@ -1,12 +1,10 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.Fx;
-using UnityEngine;
 using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/StartMenu" )]
-    public class StartMenuInstaller : ScriptableObjectInstaller
+    public class StartMenuInstaller : MonoInstaller
     {
 		public override void InstallBindings()
 		{

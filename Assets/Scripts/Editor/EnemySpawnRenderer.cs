@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,7 +14,7 @@ namespace Minipede.Editor
 		[ListDrawerSettings(
 			HideAddButton = true, HideRemoveButton = true,
 			ShowPaging = false, ShowItemCount = false,
-			DraggableItems = false, Expanded = true )]
+			DraggableItems = false, Expanded = true, OnTitleBarGUI = "RefreshPlacements" )]
 		[Space, ToggleGroup( "Main/_drawPlacements" )]
 		[SerializeField] private List<DrawPlacementData> _placements = new List<DrawPlacementData>();
 
@@ -61,7 +62,7 @@ namespace Minipede.Editor
 			}
 			_levelGraphWrapper.RefreshReferences();
 
-			var enemyInstallersProperty = _enemySettingsObj.FindProperty( "_enemyInstallers" );
+			var enemyInstallersProperty = _enemySettingsObj.FindProperty( "_spawnSettings" );
 			int enemyCount = enemyInstallersProperty.arraySize;
 
 			if ( _placements.Count != enemyCount )
@@ -140,6 +141,34 @@ namespace Minipede.Editor
 
 				Quaternion arrowRot = Quaternion.LookRotation( Vector2.up.Rotate( itemProperty.intValue ) );
 				Handles.ArrowHandleCap( 0, area.position.ToVector2(), arrowRot, 1f, EventType.Repaint );
+			}
+		}
+
+		private void RefreshPlacements()
+		{
+			if ( SirenixEditorGUI.ToolbarButton( EditorIcons.Refresh ) )
+			{
+				var enemyInstallersProperty = _enemySettingsObj.FindProperty( "_spawnSettings" );
+				int enemyCount = enemyInstallersProperty.arraySize;
+
+				_placements = new List<DrawPlacementData>( enemyCount );
+				for ( int idx = 0; idx < enemyCount; ++idx )
+				{
+					var installerProperty = enemyInstallersProperty.GetArrayElementAtIndex( idx );
+					string enemyName = installerProperty.objectReferenceValue.name;
+
+					var data = new DrawPlacementData( enemyName );
+					_placements.Add( data );
+				}
+
+				_placementData = new Dictionary<SerializedProperty, DrawPlacementData>( enemyCount );
+				for ( int idx = 0; idx < enemyCount; ++idx )
+				{
+					var installerProperty = enemyInstallersProperty.GetArrayElementAtIndex( idx );
+					var installerObj = new SerializedObject( installerProperty.objectReferenceValue );
+
+					_placementData.Add( installerObj.FindProperty( "_spawnPlacement" ), _placements[idx] );
+				}
 			}
 		}
 

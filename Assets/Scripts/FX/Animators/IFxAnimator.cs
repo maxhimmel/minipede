@@ -4,7 +4,7 @@
 	{
 		void Play( IFxSignal signal );
 
-		public interface Settings
+		public interface ISettings
 		{
 			System.Type AnimatorType { get; }
 		}

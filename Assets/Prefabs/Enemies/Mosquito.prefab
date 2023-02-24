@@ -53,13 +53,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 382261437250522285, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3006518857079507361, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: m_Name
       value: Mosquito
       objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _monoInstallers.Array.size
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _monoInstallers.Array.data[0]
@@ -78,9 +82,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7692165475064832635}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
-      propertyPath: _scriptableObjectInstallers.Array.size
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: _monoInstallers.Array.data[4]
+      value: 
+      objectReference: {fileID: 7047919615095040141}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[1]
       value: 
@@ -88,19 +92,19 @@ PrefabInstance:
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 101e447ea6089e64ca494da4f7ec2ecc, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: b3b7cf48936fd8148874cb1ee0a33f35, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[4]
       value: 
-      objectReference: {fileID: 11400000, guid: b3b7cf48936fd8148874cb1ee0a33f35, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _scriptableObjectInstallers.Array.data[5]
       value: 
-      objectReference: {fileID: 11400000, guid: 101e447ea6089e64ca494da4f7ec2ecc, type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -210,6 +214,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0f0ed414fca431f4781154c145149f47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7047919615095040141 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7235562910300549981, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+  m_PrefabInstance: {fileID: 407258754695551952}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc23203270452a49ad1cb2def641e2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &7972890023204100736 stripped

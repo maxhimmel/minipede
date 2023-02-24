@@ -24,7 +24,7 @@ namespace Minipede.Gameplay.Fx
 		}
 
 		[System.Serializable]
-		public struct Settings : IFxAnimator.Settings
+		public class Settings : IFxAnimator.ISettings
 		{
 			public System.Type AnimatorType => typeof( ScreenBlinkVfxAnimator );
 

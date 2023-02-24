@@ -5,8 +5,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/FX Listener" )]
-	public class FxListenerSettings : ScriptableObjectInstaller
+	public class FxListenerSettings : MonoInstaller
 	{
 		private bool IsFxIdValid => !string.IsNullOrEmpty( _fxId );
 
@@ -15,7 +14,7 @@ namespace Minipede.Installers
 
 		[ShowIf( "IsFxIdValid" )]
 		[ListDrawerSettings( Expanded = true )]
-		[SerializeReference] private IFxAnimator.Settings[] _fxSettings;
+		[SerializeReference] private IFxAnimator.ISettings[] _fxSettings = new IFxAnimator.ISettings[0];
 
 		public override void InstallBindings()
 		{

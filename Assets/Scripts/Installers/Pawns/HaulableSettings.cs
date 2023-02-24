@@ -8,8 +8,7 @@ using Minipede.Utility;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Collectables/Haulable" )]
-	public class HaulableSettings : ScriptableObjectInstaller
+	public class HaulableSettings : MonoInstaller
 	{
 		[BoxGroup( "Hauling" ), HideLabel]
 		[SerializeField] private Haulable.Settings _settings;
@@ -19,6 +18,14 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
+			Container.Bind<Rigidbody2D>()
+				.FromMethod( GetComponent<Rigidbody2D> )
+				.AsSingle();
+
+			Container.Bind<SpriteRenderer>()
+				.FromMethod( GetComponentInChildren<SpriteRenderer> )
+				.AsSingle();
+
 			Container.BindInstance( _settings );
 
 			Container.Bind<IFollower>()

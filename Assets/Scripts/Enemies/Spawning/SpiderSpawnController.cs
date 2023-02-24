@@ -105,7 +105,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[MinMaxSlider( 1, 60 )]
 			public Vector2 SpawnRateRange;

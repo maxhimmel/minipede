@@ -168,7 +168,7 @@ namespace Minipede.Gameplay.Weapons
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public string ShotSpotId;
 
@@ -179,6 +179,7 @@ namespace Minipede.Gameplay.Weapons
 			[BoxGroup( "Projectile", ShowLabel = false )]
 			public float ProjectileTorque;
 
+			// TODO: Can these ISettings be converted into inhertence now that they're classes?
 			[BoxGroup( "Required" )]
 			[SerializeReference] public IFireSpread.ISettings FireSpread;
 			[FoldoutGroup( "Optional" )]

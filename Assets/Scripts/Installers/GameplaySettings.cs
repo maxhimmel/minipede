@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Minipede.Gameplay;
 using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.Cameras;
@@ -6,8 +5,6 @@ using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.Fx;
-using Minipede.Gameplay.Weapons;
-using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -16,8 +13,7 @@ using BeaconActor = Minipede.Gameplay.Treasures.Beacon;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/GameplaySettings" )]
-    public class GameplaySettings : ScriptableObjectInstaller
+    public class GameplaySettings : MonoInstaller
 	{
 		[SerializeField] private Beacon _beaconSettings;
 		[SerializeField] private EndGameController.Settings _endGameSettings;
@@ -112,14 +108,14 @@ namespace Minipede.Installers
 		}
 
 		[System.Serializable]
-		public struct Beacon
+		public class Beacon
 		{
 			[TableList( AlwaysExpanded = true )]
 			public BeaconFactoryBus.Settings[] Factories;
 		}
 
 		[System.Serializable]
-		public struct Audio
+		public class Audio
 		{
 			[HideLabel]
 			public AudioBankLoader.Settings Banks;
@@ -129,7 +125,7 @@ namespace Minipede.Installers
 		}
 
 		[System.Serializable]
-		public struct Camera
+		public class Camera
 		{
 			[BoxGroup( "Target Groups" )]
 			public string AttachmentContainerId;

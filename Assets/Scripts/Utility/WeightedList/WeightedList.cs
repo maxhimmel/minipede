@@ -9,6 +9,11 @@ namespace Minipede.Utility
 	{
 		public const int MinWeight = 0;
 		public const int MaxWeight = 100;
+
+		public virtual void Init( bool forceReinitialize = false )
+		{
+			throw new System.NotImplementedException();
+		}
 	}
 
 	[System.Serializable]
@@ -24,9 +29,12 @@ namespace Minipede.Utility
 		[System.NonSerialized]
 		private int _maxWeight = 0;
 
-		public void Init()
+		public override void Init( bool forceReinitialize = false )
 		{
-			if ( _items == null || _maxWeight > 0 ) { return; }
+			if ( !forceReinitialize )
+			{
+				if ( _items == null || _maxWeight > 0 ) { return; }
+			}
 
 			int weightSum = 0;
 			foreach ( T node in _items )

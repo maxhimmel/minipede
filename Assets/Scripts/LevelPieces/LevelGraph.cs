@@ -212,7 +212,7 @@ namespace Minipede.Gameplay.LevelPieces
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[InfoBox( "X: Row | Y: Column" )]
 			public Vector2Int Dimensions;

@@ -51,7 +51,7 @@ namespace Minipede.Gameplay.Weapons
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public LayerMask HitMask;
 

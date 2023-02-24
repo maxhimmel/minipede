@@ -1,10 +1,8 @@
-using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Waves;
 using UnityEngine;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Waves/Minipede Wave" )]
 	public class MinipedeWaveInstaller : EnemyWaveInstaller
     {
 		[SerializeField] private MinipedeWave.Settings _settings;

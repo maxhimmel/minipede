@@ -29,13 +29,8 @@ namespace Minipede.Gameplay.Treasures
 			_maxSpeed.SetMaxSpeed( maxSpeed );
 		}
 
-		public void RestoreMaxSpeed()
-		{
-			_maxSpeed.RestoreMaxSpeed();
-		}
-
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public float MinSpeed;
 		}

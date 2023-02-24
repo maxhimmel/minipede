@@ -22,7 +22,7 @@ namespace Minipede.Gameplay
 		}
 
         [System.Serializable]
-        public new struct Settings : ISettings
+        public new class Settings : ISettings
         {
             public Type DamageType => typeof( PoisonInvoker );
 

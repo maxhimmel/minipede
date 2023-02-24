@@ -1,6 +1,5 @@
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Movement;
-using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -51,7 +50,7 @@ namespace Minipede.Gameplay.Enemies
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[PropertyRange( 0, 1 )]
 			public float SlowDownRatio;

@@ -47,10 +47,10 @@ namespace Minipede.Editor
 
 			if ( LevelSettings == null )
 			{
-				LevelSettings = EditorUtility.FindAsset<LevelGenerationInstaller>( "LevelSettings" );
+				LevelSettings = GameObject.FindObjectOfType<LevelGenerationInstaller>();
 			}
 
-			if ( _levelSettingsObj == null )
+			if ( _levelSettingsObj == null || _levelSettingsObj.targetObject == null )
 			{
 				_levelSettingsObj = new SerializedObject( LevelSettings );
 				_levelSettingsProperty = _levelSettingsObj.FindProperty( "_levelSettings" );
@@ -68,6 +68,8 @@ namespace Minipede.Editor
 
 		public bool Update()
 		{
+			RefreshReferences();
+
 			if ( _levelSettingsObj != null )
 			{
 				return _levelSettingsObj.UpdateIfRequiredOrScript();

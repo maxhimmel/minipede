@@ -71,6 +71,7 @@ GameObject:
   - component: {fileID: 7715246109186947077}
   - component: {fileID: 7715246109186947075}
   - component: {fileID: 2053880729674544053}
+  - component: {fileID: 410681573510892105}
   m_Layer: 0
   m_Name: Lighthouse
   m_TagString: Untagged
@@ -140,9 +141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _scriptableObjectInstallers:
-  - {fileID: 11400000, guid: 6941a51f737fbab438f357310e0b16c1, type: 2}
-  _monoInstallers: []
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 410681573510892105}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -166,6 +167,21 @@ MonoBehaviour:
   _useSceneContext: 0
   _context: {fileID: 0}
   _bindType: 0
+--- !u!114 &410681573510892105
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7715246109186947078}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17cef94efddfd3042bba963c33085399, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    Health: 1
+  _logDamage: 0
 --- !u!1 &7715246109976274101
 GameObject:
   m_ObjectHideFlags: 0

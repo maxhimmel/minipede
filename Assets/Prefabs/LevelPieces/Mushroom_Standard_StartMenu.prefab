@@ -8,9 +8,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 4481131652700956522, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
-      propertyPath: _scriptableObjectInstallers.Array.size
+      propertyPath: _monoInstallers.Array.size
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 4481131652700956522, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+      propertyPath: _monoInstallers.Array.data[2]
+      value: 
+      objectReference: {fileID: 7542432686320440040}
     - target: {fileID: 4481131652700956525, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -59,5 +63,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mushroom_Standard_StartMenu
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 5306080040930766044, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+      propertyPath: _components.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 372246647178147975, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+--- !u!114 &7542432686320440040 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5257936119889379392, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+  m_PrefabInstance: {fileID: 2331716278883914408}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bcc23203270452a49ad1cb2def641e2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

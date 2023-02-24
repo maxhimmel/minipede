@@ -129,7 +129,7 @@ namespace Minipede.Gameplay.Cameras
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public string BindingId;
 

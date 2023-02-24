@@ -75,7 +75,7 @@ namespace Minipede.Gameplay.Waves
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public int MainWaveRepeatCount;
 		}

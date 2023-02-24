@@ -21,7 +21,7 @@ namespace Minipede.Gameplay
 			};
 		}
 
-		public struct Settings : IDamageInvoker.ISettings
+		public class Settings : IDamageInvoker.ISettings
 		{
 			public Type DamageType => typeof( KillInvoker );
 		}

@@ -1,6 +1,5 @@
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
-using Minipede.Gameplay.Waves;
 using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -9,8 +8,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/EnemySettings" )]
-    public partial class EnemySettings : ScriptableObjectInstaller
+    public partial class EnemySettings : MonoInstaller
 	{
 		[FoldoutGroup( "Shared" )]
 		[SerializeField] private string _speedScalarId = "EnemySpeedScalar";
@@ -20,9 +18,11 @@ namespace Minipede.Installers
 		[SerializeField] private PoisonTrailInstaller.Settings _poisonTrail;
 
 		[InlineEditor, LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
-		[SerializeField] private EnemyModuleInstaller[] _enemyInstallers;
+		[SerializeField] private EnemySpawnSettings[] _spawnSettings;
 
-		[FoldoutGroup( "Minipede Spawning Extras" )]
+		[FoldoutGroup( "Minipede Spawning" )]
+		[SerializeField, HideLabel] private MinipedeSpawnBehavior.Settings _minipedeBehavior;
+		[BoxGroup( "Minipede Spawning/Extras" )]
 		[SerializeField, HideLabel] private MinipedePlayerZoneSpawner.Settings _playerZone;
 
 		public override void InstallBindings()
@@ -33,7 +33,6 @@ namespace Minipede.Installers
 				.OptionalSubscriber();
 
 			BindSharedSettings();
-			BindEnemies();
 			BindSpawnSystem();
 			BindHelperModules();
 		}
@@ -63,17 +62,15 @@ namespace Minipede.Installers
 			/* --- */
 		}
 
-		private void BindEnemies()
-		{
-			foreach ( var enemy in _enemyInstallers )
-			{
-				Container.Inject( enemy );
-				enemy.InstallBindings();
-			}
-		}
-
 		private void BindSpawnSystem()
 		{
+			foreach ( var settings in _spawnSettings )
+			{
+				settings.Install( Container );
+			}
+
+			/* --- */
+
 			Container.Bind<EnemyFactoryBus>()
 				.AsSingle();
 
@@ -82,7 +79,24 @@ namespace Minipede.Installers
 			Container.Bind<EnemyPlacementResolver>()
 				.AsSingle();
 
+			/* --- */
+
 			Container.Bind<EnemySpawnBehaviorBus>()
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+				{
+					subContainer.Bind<EnemySpawnBehaviorBus>()
+						.AsSingle();
+
+
+					subContainer.Bind<EnemySpawnBehavior>()
+						.AsCached();
+
+					subContainer.Bind<EnemySpawnBehavior>()
+						.To<MinipedeSpawnBehavior>()
+						.AsCached()
+						.WithArguments( _minipedeBehavior );
+				} )
 				.AsSingle();
 
 			/* --- */

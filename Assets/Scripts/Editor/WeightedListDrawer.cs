@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Sirenix.OdinInspector.Editor;
 using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
@@ -24,6 +25,7 @@ namespace Minipede.Editor
 			ReorderablePropertyData reorderableProperty = GetReorderablePropertyData( property );
 
 			position = OnGUI_AllowEmptyRolls( position, property );
+			position = OnGUI_Reinitialize( position, property );
 			OnGUI_ItemsList( position, property.displayName, reorderableProperty );
 
 			if ( property.serializedObject.hasModifiedProperties )
@@ -45,6 +47,30 @@ namespace Minipede.Editor
 
 			position.height = prevPosHeight;
 			position.y += EditorGUIUtility.singleLineHeight;
+			return position;
+		}
+
+		private Rect OnGUI_Reinitialize( Rect position, SerializedProperty property )
+		{
+			float prevPosHeight = position.height;
+			position.height = EditorGUIUtility.singleLineHeight;
+
+			using ( new EditorGUI.DisabledGroupScope( !EditorApplication.isPlaying ) )
+			{
+				if ( GUI.Button( position, "Reinitialize" ) )
+				{
+					var tree = new PropertyTree<Object>( property.serializedObject );
+					var treeProperty = tree.GetPropertyAtUnityPath( property.propertyPath );
+					var instance = treeProperty.ValueEntry.WeakSmartValue as WeightedList;
+					instance.Init( forceReinitialize: true );
+
+					Debug.Log( $"Reinitialized successfully @ '{treeProperty.ParentType.FullName}'" );
+				}
+			}
+
+			position.height = prevPosHeight;
+			position.y += EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
 			return position;
 		}
 
@@ -118,8 +144,10 @@ namespace Minipede.Editor
 
 		public override float GetPropertyHeight( SerializedProperty property, GUIContent label )
 		{
+			float reinitializeButtonHeight = EditorGUIUtility.singleLineHeight + EditorGUIUtility.standardVerticalSpacing;
+
 			ReorderablePropertyData reorderableProperty = GetReorderablePropertyData( property );
-			return EditorGUIUtility.singleLineHeight + reorderableProperty.Reorderable.GetHeight();
+			return EditorGUIUtility.singleLineHeight + reorderableProperty.Reorderable.GetHeight() + reinitializeButtonHeight;
 		}
 	}
 

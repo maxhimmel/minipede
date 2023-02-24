@@ -128,7 +128,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public bool IsEnabled;
 

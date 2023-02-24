@@ -4,8 +4,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Damageables/InvincibleInstaller" )]
-    public class InvincibleInstaller : ScriptableObjectInstaller
+    public class InvincibleInstaller : MonoInstaller
     {
 		[SerializeField] private bool _logDamage;
 

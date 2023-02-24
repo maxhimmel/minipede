@@ -143,7 +143,7 @@ namespace Minipede.Gameplay.Enemies
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[BoxGroup( GroupID = "Main" ), MinMaxSlider( 1, 15, ShowFields = true )]
 			public Vector2Int ColumnStepRange;

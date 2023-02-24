@@ -5,8 +5,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Damageables/DamageableInstaller" )]
-    public class DamageableInstaller : ScriptableObjectInstaller
+    public class DamageableInstaller : MonoInstaller
     {
 		[HideLabel]
 		[SerializeField] private HealthController.Settings _settings;

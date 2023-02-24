@@ -1,12 +1,10 @@
 ﻿using Minipede.Gameplay.Player;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Player/DangerWarning" )]
-	public class DangerWarningInstaller : ScriptableObjectInstaller
+	public class DangerWarningInstaller : MonoInstaller
 	{
 		[SerializeField] private LayerMask _dangerFilter = -1;
 		[SerializeReference] private IDangerWarningReaction.ISettings[] _reactions;

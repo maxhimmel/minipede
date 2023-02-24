@@ -39,7 +39,7 @@ namespace Minipede.Gameplay.Player
 		}
 
 		[System.Serializable]
-		public struct Settings : IDangerWarningReaction.ISettings
+		public class Settings : IDangerWarningReaction.ISettings
 		{
 			public Type InstallerType => typeof( DangerWarningReactionInstaller<CameraGroupDangerReaction> );
 

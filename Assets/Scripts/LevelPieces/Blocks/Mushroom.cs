@@ -76,7 +76,7 @@ namespace Minipede.Gameplay.LevelPieces
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[HideLabel]
 			public HealInvoker.Settings Heal;

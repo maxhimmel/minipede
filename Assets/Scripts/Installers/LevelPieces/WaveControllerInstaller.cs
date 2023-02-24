@@ -6,8 +6,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Waves/WaveController" )]
-	public class WaveControllerInstaller : ScriptableObjectInstaller
+	public class WaveControllerInstaller : MonoInstaller
 	{
 		[BoxGroup( "Main" ), HideLabel]
 		[SerializeField] private WaveController.Settings _settings;

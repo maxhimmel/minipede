@@ -1,5 +1,4 @@
 ﻿using System;
-using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -10,21 +9,20 @@ namespace Minipede.Gameplay.Weapons
 		IFireEndProcessor,
 		IFixedTickable
 	{
-		private readonly Settings _settings;
-
 		private float _currentRecoil;
 		private float _endFireRateTime;
 
 		public AccuracyAdjuster( Settings settings ) 
-			: base( settings.Base )
+			: base( settings )
 		{
-			_settings = settings;
 		}
 
 		public void FireEnding()
 		{
-			_currentRecoil = Mathf.MoveTowards( _currentRecoil, 1, 1f / _settings.ShotsToFullRecoil );
-			_endFireRateTime = Time.timeSinceLevelLoad + _settings.FireRate;
+			var settings = GetSettings();
+
+			_currentRecoil = Mathf.MoveTowards( _currentRecoil, 1, 1f / settings.ShotsToFullRecoil );
+			_endFireRateTime = Time.timeSinceLevelLoad + settings.FireRate;
 		}
 
 		public void FixedTick()
@@ -34,7 +32,7 @@ namespace Minipede.Gameplay.Weapons
 				return;
 			}
 
-			_currentRecoil = Mathf.MoveTowards( _currentRecoil, 0, Time.fixedDeltaTime / _settings.RebalanceDuration );
+			_currentRecoil = Mathf.MoveTowards( _currentRecoil, 0, Time.fixedDeltaTime / GetSettings().RebalanceDuration );
 		}
 
 		protected override float GetAngle()
@@ -47,17 +45,19 @@ namespace Minipede.Gameplay.Weapons
 				return baseAngle;
 			}
 
-			float recoilAngle = UnityEngine.Random.Range( 0, _settings.MaxAngleOverRecoil.Evaluate( recoilScale ) );
+			float recoilAngle = UnityEngine.Random.Range( 0, GetSettings().MaxAngleOverRecoil.Evaluate( recoilScale ) );
 			return baseAngle + recoilAngle;
 		}
 
-		[System.Serializable]
-		public new struct Settings : IGunModule
+		private Settings GetSettings()
 		{
-			public Type ModuleType => typeof( AccuracyAdjuster );
+			return _settings as Settings;
+		}
 
-			[HideLabel]
-			public AngleDirectionAdjuster.Settings Base;
+		[System.Serializable]
+		public new class Settings : AngleDirectionAdjuster.Settings
+		{
+			public override Type ModuleType => typeof( AccuracyAdjuster );
 
 			[Tooltip( "X: Recoil Ratio | Y: Max Angle" )]
 			public AnimationCurve MaxAngleOverRecoil;

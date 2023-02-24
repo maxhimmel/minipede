@@ -80,7 +80,7 @@ namespace Minipede.Gameplay.Audio
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public float NextTrackDelay;
 			public AudioEventReference[] Tracks;

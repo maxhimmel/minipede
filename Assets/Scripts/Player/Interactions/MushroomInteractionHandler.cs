@@ -33,7 +33,7 @@ namespace Minipede.Gameplay.Player
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public Lighthouse LighthousePrefab;
 		}

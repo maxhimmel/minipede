@@ -15,30 +15,6 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.36078432
       objectReference: {fileID: 0}
-    - target: {fileID: 1530993560293704930, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1530993560293704930, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
-      propertyPath: m_Color.g
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1530993560293704930, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
-      propertyPath: m_Color.r
-      value: 0.36249352
-      objectReference: {fileID: 0}
-    - target: {fileID: 1530993560611149906, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
-      propertyPath: _scriptableObjectInstallers.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1530993560611149906, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
-      propertyPath: _scriptableObjectInstallers.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 210dc00ee64b04c419c996df3cc6f58e, type: 2}
-    - target: {fileID: 1530993560611149906, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
-      propertyPath: _scriptableObjectInstallers.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 970c008fd3752d74daab4f7e61b0cd9a, type: 2}
     - target: {fileID: 1530993560611149909, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -87,17 +63,13 @@ PrefabInstance:
       propertyPath: m_Name
       value: Beacon_Poison
       objectReference: {fileID: 0}
-    - target: {fileID: 4281500855875876725, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
-      propertyPath: m_Color.b
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4281500855875876725, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
-      propertyPath: m_Color.g
+    - target: {fileID: 3658312417446665557, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: _sampler.Prefabs.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4281500855875876725, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
-      propertyPath: m_Color.r
-      value: 0.36249352
-      objectReference: {fileID: 0}
+    - target: {fileID: 3658312417446665557, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: _sampler.Prefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 7222218706980199555, guid: d8ebdab938237d642a07d4585f044dac, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}

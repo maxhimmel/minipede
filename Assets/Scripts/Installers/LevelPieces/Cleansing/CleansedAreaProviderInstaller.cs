@@ -4,8 +4,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/CleansedAreaProviderInstaller" )]
-	public class CleansedAreaProviderInstaller : ScriptableObjectInstaller
+	public class CleansedAreaProviderInstaller : MonoInstaller
 	{
 		[SerializeField] private CleansedAreaSet.Settings _sampler;
 

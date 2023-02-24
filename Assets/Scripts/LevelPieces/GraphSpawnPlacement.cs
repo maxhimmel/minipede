@@ -1,11 +1,10 @@
 using Minipede.Utility;
 using Sirenix.OdinInspector;
-using UnityEngine;
 
 namespace Minipede.Gameplay.LevelPieces
 {
     [System.Serializable]
-    public struct GraphSpawnPlacement
+    public class GraphSpawnPlacement
     {
         [HideLabel]
         public GraphArea Area;

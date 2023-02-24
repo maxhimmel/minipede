@@ -50,16 +50,14 @@ namespace Minipede.Editor
 			SceneView.duringSceneGui -= _renderer.OnSceneGui;
 		}
 
-		protected override void Initialize()
+		private void CacheEnemySettings()
 		{
-			base.Initialize();
-
 			if ( _enemySettings == null )
 			{
-				_enemySettings = EditorUtility.FindAsset<EnemySettings>( "EnemySettings" );
+				_enemySettings = GameObject.FindObjectOfType<EnemySettings>();
 			}
 
-			if ( _enemySettingsObj == null )
+			if ( _enemySettingsObj == null || _enemySettingsObj.targetObject == null )
 			{
 				_enemySettingsObj = new SerializedObject( _enemySettings );
 				_renderer.AttachEnemySettings( _enemySettingsObj );
@@ -68,6 +66,8 @@ namespace Minipede.Editor
 
 		protected override void OnGUI()
 		{
+			CacheEnemySettings();
+
 			if ( !Application.isPlaying )
 			{
 				_enemySettingsObj.UpdateIfRequiredOrScript();

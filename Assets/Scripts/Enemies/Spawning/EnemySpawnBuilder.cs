@@ -1,6 +1,4 @@
-using System.Linq;
 using Minipede.Utility;
-using UnityEngine;
 
 namespace Minipede.Gameplay.Enemies.Spawning
 {
@@ -48,10 +46,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 
 			public Request<TEnemy> WithRandomPlacement()
 			{
-				IOrientation[] placements = _builder._placementResolver.GetSpawnOrientations<TEnemy>().ToArray();
-				int randIdx = Random.Range( 0, placements.Length );
-
-				_placement = placements[randIdx];
+				_placement = _builder._placementResolver.GetSpawnOrientation<TEnemy>();
 				return this;
 			}
 

@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.Waves
 {
-	public class WaveController
+	public class WaveController : IWaveController
 	{
 		public event System.Action<IWave, IWave.Result> Completed;
 

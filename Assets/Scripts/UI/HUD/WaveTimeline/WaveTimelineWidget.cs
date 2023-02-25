@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Enemies.Spawning;
+using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
@@ -22,8 +23,8 @@ namespace Minipede.Gameplay.UI
 
 		private void OnEnable()
 		{
-			_signalBus.Subscribe<WaveQueueChangedSignal>( OnWaveQueueChanged );
-			_signalBus.Subscribe<WaveProgressSignal>( OnWaveProgressed );
+			_signalBus.TrySubscribe<WaveQueueChangedSignal>( OnWaveQueueChanged );
+			_signalBus.TrySubscribe<WaveProgressSignal>( OnWaveProgressed );
 		}
 
 		private void OnDisable()

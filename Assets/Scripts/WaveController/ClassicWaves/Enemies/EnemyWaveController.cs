@@ -10,8 +10,6 @@ namespace Minipede.Gameplay.Waves
 		public const string MainWaveId = "Main";
 		public const string BonusWaveId = "Bonus";
 
-		public bool IsRunning => _currentWave != null;
-
 		private readonly Settings _settings;
 		private readonly WaveController _waveController;
 		private readonly EnemyWave _mainWave;
@@ -19,7 +17,6 @@ namespace Minipede.Gameplay.Waves
 
 		private int _mainWaveRepeatCount;
 		private int _bonusWaveIndex;
-		private IWave _currentWave;
 
 		public EnemyWaveController( Settings settings,
 			WaveController waveController,

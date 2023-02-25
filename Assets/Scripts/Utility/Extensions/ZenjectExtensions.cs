@@ -15,7 +15,22 @@ namespace Minipede.Utility
 				.AsCached()
 				.WithArguments( prefab );
 		}
-    }
+
+		public static void TrySubscribe<TSignal>( this SignalBus self, System.Action callback )
+		{
+			if ( self.IsSignalDeclared<TSignal>() )
+			{
+				self.Subscribe<TSignal>( callback );
+			}
+		}
+		public static void TrySubscribe<TSignal>( this SignalBus self, System.Action<TSignal> callback )
+		{
+			if ( self.IsSignalDeclared<TSignal>() )
+			{
+				self.Subscribe( callback );
+			}
+		}
+	}
 
 	public interface IUnityFactory<TValue>
 	{

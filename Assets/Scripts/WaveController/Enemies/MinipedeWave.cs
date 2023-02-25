@@ -48,23 +48,16 @@ namespace Minipede.Gameplay.Waves
 			_livingMinipedeCount = 0;
 			_initialMinipedeCount = 0;
 
-			int nextSpawnIndex = 0;
-			var spawnPlacements = _placementResolver.GetSpawnOrientations<MinipedeController>().ToArray();
-			spawnPlacements.FisherYatesShuffle();
-
 			_enemyBuilder.Build<MinipedeController>()
-				.WithPlacement( spawnPlacements[nextSpawnIndex] )
+				.WithRandomPlacement()
 				.WithSpawnBehavior()
 				.Create();
 
 			int headSpawnCount = _completionCount;
 			for ( int idx = 0; idx < headSpawnCount; ++idx )
 			{
-				nextSpawnIndex %= spawnPlacements.Length;
-				var spawnOrientation = spawnPlacements[nextSpawnIndex++];
-
 				_enemyBuilder.Build<MinipedeController>()
-					.WithPlacement( spawnOrientation )
+					.WithRandomPlacement()
 					.Create()
 					.StartMainBehavior();
 			}

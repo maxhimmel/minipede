@@ -76,7 +76,7 @@ namespace Minipede.Installers
 
 			/* --- */
 
-			Container.Bind<EnemyPlacementResolver>()
+			Container.BindInterfacesAndSelfTo<EnemyPlacementResolver>()
 				.AsSingle();
 
 			/* --- */

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
 using UnityEngine;
@@ -6,11 +7,12 @@ using Zenject;
 
 namespace Minipede.Gameplay.Enemies.Spawning
 {
-    public class EnemyPlacementResolver
+    public class EnemyPlacementResolver : IInitializable
     {
 		private readonly DiContainer _container;
 		private readonly LevelGraph _levelGraph;
-		private readonly Dictionary<System.Type, GraphSpawnPlacement[]> _placements;
+		private readonly Dictionary<System.Type, List<Placement>> _placements;
+		private readonly Dictionary<System.Type, int> _placementUsages;
 
 		public EnemyPlacementResolver( DiContainer container,
 			LevelGraph levelGraph )
@@ -18,54 +20,98 @@ namespace Minipede.Gameplay.Enemies.Spawning
 			_container = container;
 			_levelGraph = levelGraph;
 
-			_placements = new Dictionary<System.Type, GraphSpawnPlacement[]>();
+			_placements = new Dictionary<System.Type, List<Placement>>();
+			_placementUsages = new Dictionary<System.Type, int>();
 		}
 
-		public IEnumerable<IOrientation> GetSpawnOrientations<TEnemy>()
-			where TEnemy : EnemyController
+		public void Initialize()
 		{
-			Vector2 centerOffset = Vector2.one * 0.5f;
-
-			var spawnAreas = GetSpawnOrientationData<TEnemy>();
-			foreach ( var area in spawnAreas )
+			foreach ( var enemy in typeof( EnemyController ).GetSubClasses() )
 			{
-				foreach ( var spawnPos in area.Area.allPositionsWithin )
+				// Get raw placement data ...
+				var rawPlacements = _container.ResolveId<GraphSpawnPlacement[]>( enemy );
+				foreach ( var spawn in rawPlacements )
 				{
-					yield return new Orientation(
-						spawnPos + centerOffset,
-						Quaternion.Euler( 0, 0, area.Rotations.GetRandomItem() )
-					);
+					spawn.Rotation.Init();
 				}
+
+				// Convert placement data to level graph coordinates ...
+				var DTOs = rawPlacements.Select( spawn => new OrientationDTO( spawn.Area.ToRect( _levelGraph ), spawn.Rotation ) );
+
+				// Begin populating cached lookup table ...
+				var placements = new List<Placement>();
+				_placements.Add( enemy, placements );
+				_placementUsages.Add( enemy, 0 );
+
+				Vector2 centerOffset = Vector2.one * 0.5f;
+				foreach ( var dto in DTOs )
+				{
+					foreach ( var spawnPos in dto.Area.allPositionsWithin )
+					{
+						placements.Add( new Placement(
+							spawnPos + centerOffset,
+							dto.Rotations
+						) );
+					}
+				}
+				placements.FisherYatesShuffle();
 			}
 		}
 
-		private IEnumerable<(RectInt Area, WeightedListInt Rotations)> GetSpawnOrientationData<TEnemy>()
+		public IEnumerable<IOrientation> GetSpawnOrientations<TEnemy>( int count )
 			where TEnemy : EnemyController
 		{
-			var placements = GetPlacementData<TEnemy>();
-			foreach ( var spawn in placements )
+			for ( int idx = 0; idx < count; ++idx )
 			{
-				yield return (spawn.Area.ToRect( _levelGraph ), spawn.Rotation);
+				yield return GetSpawnOrientation<TEnemy>();
 			}
 		}
 
-		public GraphSpawnPlacement[] GetPlacementData<TEnemy>()
+		public IOrientation GetSpawnOrientation<TEnemy>()
 			where TEnemy : EnemyController
 		{
-			var enemyType = typeof( TEnemy );
-			if ( _placements.TryGetValue( enemyType, out var placements ) )
+			var enemy = typeof( TEnemy );
+			int counter = _placementUsages[enemy]++;
+			var placements = _placements[enemy];
+
+			if ( counter >= placements.Count )
 			{
-				return placements;
+				counter = 0;
+				_placementUsages[enemy] = 0;
+				_placements[enemy].FisherYatesShuffle();
 			}
 
-			placements = _container.ResolveId<GraphSpawnPlacement[]>( enemyType );
-			foreach ( var spawn in placements )
-			{
-				spawn.Rotation.Init();
-			}
+			var orientation = placements[counter];
+			return new Orientation(
+				orientation.Position,
+				orientation.Rotation
+			);
+		}
 
-			_placements.Add( enemyType, placements );
-			return placements;
+		private class Placement
+		{
+			public Vector2 Position { get; }
+			public Quaternion Rotation => Quaternion.Euler( 0, 0, _rotations.GetRandomItem() );
+
+			private readonly WeightedListInt _rotations;
+
+			public Placement( Vector2 position, WeightedListInt rotations )
+			{
+				Position = position;
+				_rotations = rotations;
+			}
+		}
+
+		private class OrientationDTO
+		{
+			public RectInt Area { get; }
+			public WeightedListInt Rotations { get; }
+
+			public OrientationDTO( RectInt area, WeightedListInt rotations )
+			{
+				Area = area;
+				Rotations = rotations;
+			}
 		}
 	}
 }

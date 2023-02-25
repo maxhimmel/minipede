@@ -7,28 +7,38 @@ namespace Minipede.Gameplay.Enemies.Spawning.Serialization
     {
         public EnemySpawnBuilder EnemyBuilder { get; set; }
 
-        public abstract EnemyController Create();
-        public abstract EnemyController Create( IOrientation placement );
+        public abstract EnemyController Create( bool withBehavior = true );
+        public abstract EnemyController Create( IOrientation placement, bool withBehavior = true );
     }
 
     public abstract class SerializedEnemySpawner<TEnemy> : SerializedEnemySpawner
         where TEnemy : EnemyController
 	{
-		public override EnemyController Create()
+		public override EnemyController Create( bool withBehavior = true )
         {
-            return EnemyBuilder.Build<TEnemy>()
-                .WithRandomPlacement()
-                .WithSpawnBehavior()
-                .Create();
+            var request = EnemyBuilder.Build<TEnemy>()
+                .WithRandomPlacement();
+
+            if ( withBehavior )
+			{
+                request = request.WithSpawnBehavior();
+			}
+
+            return request.Create();
         }
 
-		public override EnemyController Create( IOrientation placement )
-		{
-            return EnemyBuilder.Build<TEnemy>()
-                .WithPlacement( placement )
-                .WithSpawnBehavior()
-                .Create();
-		}
+		public override EnemyController Create( IOrientation placement, bool withBehavior = true )
+        {
+            var request = EnemyBuilder.Build<TEnemy>()
+                .WithPlacement( placement );
+
+            if ( withBehavior )
+            {
+                request = request.WithSpawnBehavior();
+            }
+
+            return request.Create();
+        }
     }
 
     /* --- */

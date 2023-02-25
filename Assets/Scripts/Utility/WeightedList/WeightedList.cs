@@ -21,9 +21,10 @@ namespace Minipede.Utility
 		where T : WeightedNode<K>
 	{
 		public IEnumerable<K> Items => _items.Select( node => node.Item );
+		public int Count => _items.Length;
 
 		[Tooltip( "If a '0' is rolled this will return nothing." )]
-		[SerializeField] private bool _allowEmptyRolls = true;
+		[SerializeField] private bool _allowEmptyRolls;
 		[SerializeField] private T[] _items = default;
 
 		[System.NonSerialized]

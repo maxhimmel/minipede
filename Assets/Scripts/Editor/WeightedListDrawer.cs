@@ -119,6 +119,14 @@ namespace Minipede.Editor
 
 		protected void NormalizeWeights( SerializedProperty itemsProperty )
 		{
+			if ( itemsProperty.arraySize == 1 )
+			{
+				SerializedProperty elementProperty = itemsProperty.GetArrayElementAtIndex( 0 );
+				SerializedProperty elementWeightProperty = elementProperty.FindPropertyRelative( WeightedNodeDrawer.NormalizedWeightPropertyName );
+				elementWeightProperty.intValue = WeightedList.MaxWeight;
+				return;
+			}
+
 			int weightSum = 0;
 			for ( int idx = 0; idx < itemsProperty.arraySize; ++idx )
 			{

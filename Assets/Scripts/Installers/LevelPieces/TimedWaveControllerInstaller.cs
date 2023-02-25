@@ -14,7 +14,7 @@ namespace Minipede.Installers
 		[SerializeField] private TimedMinipedeSpawner.Settings[] _minipede;
 
 		[TitleGroup( "Enemies" )]
-		[ListDrawerSettings( ListElementLabelName = "Name" )]
+		[Space, ListDrawerSettings( ListElementLabelName = "Name" )]
 		[SerializeField] private TimedEnemySpawner.Settings[] _specialized;
 
 		public override void InstallBindings()

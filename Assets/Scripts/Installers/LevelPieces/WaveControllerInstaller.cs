@@ -16,7 +16,7 @@ namespace Minipede.Installers
 		[FoldoutGroup( "Enemies" ), LabelText( "Waves" )]
 		[SerializeField] private EnemyWaveInstaller[] _enemyWaves;
 		[FoldoutGroup( "Enemies/Spider Spawning" ), HideLabel]
-		[SerializeField] private SpiderSpawnController.Settings _spider;
+		[SerializeField] private EnemySpawnController.Settings _spider;
 
 		[FoldoutGroup( "Gathering" ), HideLabel]
 		[SerializeField] private GatheringWaveController.Settings _gathering;
@@ -27,7 +27,7 @@ namespace Minipede.Installers
 
 			/* --- */
 
-			Container.Bind<WaveController>()
+			Container.BindInterfacesAndSelfTo<WaveController>()
 				.AsSingle()
 				.WithArguments( _settings );
 
@@ -63,7 +63,7 @@ namespace Minipede.Installers
 				waveInstaller.InstallBindings();
 			}
 
-			Container.BindInterfacesAndSelfTo<SpiderSpawnController>()
+			Container.BindInterfacesAndSelfTo<EnemySpawnController>()
 				.AsSingle()
 				.WithArguments( _spider );
 		}

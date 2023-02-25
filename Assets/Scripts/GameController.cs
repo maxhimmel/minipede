@@ -19,7 +19,7 @@ namespace Minipede.Gameplay
 		private readonly PlayerSettings.Player _playerSettings;
 		private readonly PlayerController _playerSpawnController;
 		private readonly LevelGenerator _levelGenerator;
-		private readonly WaveController _waveController;
+		private readonly IWaveController _waveController;
 		private readonly AudioBankLoader _audioBankLoader;
 		private readonly LevelMushroomHealer _mushroomHealer;
 		private readonly SceneLoader _sceneLoader;
@@ -27,7 +27,7 @@ namespace Minipede.Gameplay
 		public GameController( PlayerSettings.Player playerSettings,
 			PlayerController playerSpawnController,
 			LevelGenerator levelGenerator,
-			WaveController waveController,
+			IWaveController waveController,
 			AudioBankLoader audioBankLoader,
 			LevelMushroomHealer mushroomHealer,
 			SceneLoader sceneLoader )

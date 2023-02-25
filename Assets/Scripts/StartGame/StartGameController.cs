@@ -15,11 +15,11 @@ namespace Minipede.Gameplay
 		public bool IsReady { get; private set; }
 
 		private readonly LevelGenerator _levelGenerator;
-		private readonly WaveController _waveController;
+		private readonly IWaveController _waveController;
 		private readonly IPlayerLifetimeHandler _playerController;
 
 		public StartGameController( LevelGenerator levelGenerator,
-			WaveController waveController,
+			IWaveController waveController,
 			IPlayerLifetimeHandler playerController )
 		{
 			_levelGenerator = levelGenerator;

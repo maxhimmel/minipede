@@ -20,6 +20,7 @@ namespace Minipede.Gameplay.Enemies
 		private MinipedePlayerZoneSpawner _playerZoneSpawner;
 		private PoisonTrailFactory _poisonTrailFactory;
 		private MinipedeDeathHandler _deathHandler;
+		private EnemyFactoryBus _enemyFactory;
 
 		private Vector2Int _rowDir;
 		private Vector2Int _columnDir;
@@ -30,12 +31,14 @@ namespace Minipede.Gameplay.Enemies
 		public void Construct( GraphMotor motor,
 			MinipedePlayerZoneSpawner playerZoneSpawner,
 			PoisonTrailFactory poisonTrailFactory,
-			MinipedeDeathHandler deathHandler )
+			MinipedeDeathHandler deathHandler,
+			EnemyFactoryBus enemyFactory )
 		{
 			_motor = motor;
 			_playerZoneSpawner = playerZoneSpawner;
 			_poisonTrailFactory = poisonTrailFactory;
 			_deathHandler = deathHandler;
+			_enemyFactory = enemyFactory;
 		}
 
 		public override void OnSpawned( IOrientation placement, IMemoryPool pool )
@@ -299,15 +302,24 @@ namespace Minipede.Gameplay.Enemies
 			base.OnDespawned();
 		}
 
-		public void RemoveSegments( int startSegmentIndex )
+		public void CreateSegments( int count, Vector2 direction )
 		{
-			for ( int idx = _segments.Count - 1; idx >= startSegmentIndex; --idx )
-			{
-				var segment = _segments[idx];
-				segment.Died -= OnSegmentDied;
+			Vector2 spawnPos = _body.position;
+			List<MinipedeController> segments = new List<MinipedeController>( count );
 
-				_segments.RemoveAt( idx );
+			for ( int idx = 0; idx < count; ++idx )
+			{
+				var segment = _enemyFactory.Create<MinipedeController>( new Orientation(
+					spawnPos + direction * _levelGraph.Data.Size.x,
+					(-direction).ToLookRotation(),
+					transform.parent
+				) );
+
+				spawnPos = segment.Body.position;
+				segments.Add( segment );
 			}
+
+			SetSegments( segments );
 		}
 
 		public void SetSegments( List<MinipedeController> segments )
@@ -322,6 +334,17 @@ namespace Minipede.Gameplay.Enemies
 				}
 
 				segment.Died += OnSegmentDied;
+			}
+		}
+
+		public void RemoveSegments( int startSegmentIndex )
+		{
+			for ( int idx = _segments.Count - 1; idx >= startSegmentIndex; --idx )
+			{
+				var segment = _segments[idx];
+				segment.Died -= OnSegmentDied;
+
+				_segments.RemoveAt( idx );
 			}
 		}
 

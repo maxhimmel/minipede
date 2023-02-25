@@ -50,7 +50,7 @@ namespace Minipede.Installers
 			{
 				LogCheatActivation<WaveControllerCheat>( messageBuilder );
 
-				Container.Decorate<WaveController>()
+				Container.Decorate<IWaveController>()
 					.With<WaveControllerCheat>()
 					.AsSingle();
 			}

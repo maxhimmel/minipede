@@ -8,18 +8,13 @@ using Minipede.Gameplay.Enemies.Spawning.Serialization;
 using Minipede.Gameplay.Player;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Enemies.Spawning;
+using Minipede.Gameplay.Enemies;
 
-namespace Minipede.Gameplay.Enemies.Spawning
+namespace Minipede.Gameplay.Waves
 {
-	public interface IEnemySpawnController : ITickable,
-		IInitializable,
-		IDisposable
-	{
-		void Play();
-		void Stop();
-	}
 
-	public class EnemySpawnController : IEnemySpawnController
+	public class TimedEnemySpawner : ITimedSpawner
 	{
 		protected CancellationToken PlayerDiedCancelToken => _spawnCancelSource.Token;
 
@@ -35,7 +30,7 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		private float _delayEndTime;
 		private CancellationTokenSource _spawnCancelSource;
 
-		public EnemySpawnController( Settings settings,
+		public TimedEnemySpawner( Settings settings,
 			EnemySpawnBuilder spawnBuilder,
 			EnemyPlacementResolver placementResolver,
 			IPlayerLifetimeHandler playerLifetime,

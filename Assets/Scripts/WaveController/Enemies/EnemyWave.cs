@@ -19,7 +19,7 @@ namespace Minipede.Gameplay.Waves
 		protected readonly EnemySpawnBuilder _enemyBuilder;
 		protected readonly EnemyPlacementResolver _placementResolver;
 		private readonly IPlayerLifetimeHandler _playerSpawn;
-		private readonly EnemySpawnController _spiderSpawnController;
+		private readonly TimedEnemySpawner _spiderSpawnController;
 		protected readonly SignalBus _signalBus;
 		private readonly HashSet<EnemyController> _livingEnemies;
 
@@ -28,7 +28,7 @@ namespace Minipede.Gameplay.Waves
 		public EnemyWave( EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver,
 			IPlayerLifetimeHandler playerSpawn,
-			EnemySpawnController spiderSpawnController,
+			TimedEnemySpawner spiderSpawnController,
 			SignalBus signalBus )
 		{
 			_enemyBuilder = enemyBuilder;

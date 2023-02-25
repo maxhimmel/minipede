@@ -23,7 +23,7 @@ namespace Minipede.Gameplay.Waves
 			EnemySpawnBuilder enemyBuilder,
 			EnemyPlacementResolver placementResolver,
 			IPlayerLifetimeHandler playerSpawn,
-			EnemySpawnController spiderSpawnController,
+			TimedEnemySpawner spiderSpawnController,
 			SignalBus signalBus ) 
 			: base( enemyBuilder, placementResolver, playerSpawn, spiderSpawnController, signalBus )
 		{

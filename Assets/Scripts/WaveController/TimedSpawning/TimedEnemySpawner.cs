@@ -16,8 +16,6 @@ namespace Minipede.Gameplay.Waves
 
 	public class TimedEnemySpawner : ITimedSpawner
 	{
-		protected CancellationToken PlayerDiedCancelToken => _spawnCancelSource.Token;
-
 		private readonly Settings _settings;
 		protected readonly EnemySpawnBuilder _spawnBuilder;
 		protected readonly EnemyPlacementResolver _placementResolver;
@@ -29,6 +27,7 @@ namespace Minipede.Gameplay.Waves
 		private float _nextSpawnTime;
 		private float _delayEndTime;
 		private CancellationTokenSource _spawnCancelSource;
+		private CancellationToken _playerDiedCancelToken;
 
 		public TimedEnemySpawner( Settings settings,
 			EnemySpawnBuilder spawnBuilder,
@@ -102,6 +101,7 @@ namespace Minipede.Gameplay.Waves
 			_delayEndTime = Time.timeSinceLevelLoad + _settings.StartDelay;
 
 			_spawnCancelSource = AppHelper.CreateLinkedCTS( _playerLifetime.PlayerDiedCancelToken );
+			_playerDiedCancelToken = _spawnCancelSource.Token;
 		}
 
 		public void Tick()
@@ -111,12 +111,12 @@ namespace Minipede.Gameplay.Waves
 				return;
 			}
 
-			HandleSpawning().Forget();
+			HandleSpawning( _playerDiedCancelToken ).Forget();
 
 			RefreshNextSpawnTime();
 		}
 
-		protected virtual async UniTaskVoid HandleSpawning()
+		public async UniTaskVoid HandleSpawning( CancellationToken cancelToken )
 		{
 			var spawner = _settings.UseNewEnemyPerSpawn
 				? null
@@ -134,10 +134,10 @@ namespace Minipede.Gameplay.Waves
 
 				if ( _settings.SpawnStagger > 0 )
 				{
-					await TaskHelpers.DelaySeconds( _settings.SpawnStagger, _spawnCancelSource.Token )
+					await TaskHelpers.DelaySeconds( _settings.SpawnStagger, cancelToken )
 						.SuppressCancellationThrow();
 
-					if ( PlayerDiedCancelToken.IsCancellationRequested )
+					if ( cancelToken.IsCancellationRequested )
 					{
 						return;
 					}
@@ -160,8 +160,8 @@ namespace Minipede.Gameplay.Waves
 		{
 			if ( _isPlaying )
 			{
-				_spawnCancelSource.Cancel();
-				_spawnCancelSource.Dispose();
+				_spawnCancelSource?.Cancel();
+				_spawnCancelSource?.Dispose();
 				_spawnCancelSource = null;
 			}
 

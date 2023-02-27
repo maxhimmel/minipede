@@ -9,7 +9,7 @@ namespace Minipede.Installers
 	{
 		[SerializeField] private TimedWaveController.Settings _settings;
 
-		[TitleGroup( "Enemies" )]
+		[TitleGroup( "Enemies", "Right-click a label to change its type." )]
 		[ListDrawerSettings( ListElementLabelName = "Name" )]
 		[SerializeReference] private ITimedSpawner.ISettings[] _spawners;
 

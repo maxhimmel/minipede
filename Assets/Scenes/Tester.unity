@@ -750,26 +750,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
-    MinThreshold: 24
+    MinThreshold: 32
     ReplenishCooldown: 10
     ReplenishWave:
-      Name: Replenish
-      Enemies:
-        _allowEmptyRolls: 0
-        _items:
-        - _normalizedWeight: 43
-          Item: {fileID: 11400000, guid: 968986ac9b7c57e47a3264323d5f878f, type: 2}
-        - _normalizedWeight: 43
-          Item: {fileID: 11400000, guid: b7c34613cd7e66c48981db96afc169ad, type: 2}
-        - _normalizedWeight: 14
-          Item: {fileID: 11400000, guid: 5a4724cefe5876d49b7a60b7bae5e3ba, type: 2}
-      StartDelay: 0
-      SpawnFrequency: {x: 10, y: 20}
-      LimitEnemies: 0
-      MaxEnemies: 1
-      SwarmRange: {x: 10, y: 20}
-      SpawnStagger: 0.35
-      UseNewEnemyPerSpawn: 0
+      rid: 5904237330888917001
+  references:
+    version: 2
+    RefIds:
+    - rid: 5904237330888917001
+      type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
+      data:
+        _name: Replenish
+        Enemies:
+          _allowEmptyRolls: 0
+          _items:
+          - _normalizedWeight: 43
+            Item: {fileID: 11400000, guid: 968986ac9b7c57e47a3264323d5f878f, type: 2}
+          - _normalizedWeight: 43
+            Item: {fileID: 11400000, guid: b7c34613cd7e66c48981db96afc169ad, type: 2}
+          - _normalizedWeight: 14
+            Item: {fileID: 11400000, guid: 5a4724cefe5876d49b7a60b7bae5e3ba, type: 2}
+        StartDelay: 0
+        SpawnFrequency: {x: 0, y: 0}
+        LimitEnemies: 0
+        MaxEnemies: 1
+        SwarmRange: {x: 10, y: 20}
+        SpawnStagger: 0.35
+        UseNewEnemyPerSpawn: 0
 --- !u!4 &269899966
 Transform:
   m_ObjectHideFlags: 0
@@ -1703,66 +1710,90 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings:
     Duration: 5
-  _minipede:
-  - Name: Primary
-    Enemies:
-      _allowEmptyRolls: 0
-      _items:
-      - _normalizedWeight: 100
-        Item: {fileID: 11400000, guid: c5edefd7543dc1449a38757252129b19, type: 2}
-    StartDelay: 1
-    SpawnFrequency: {x: 30, y: 30}
-    LimitEnemies: 0
-    MaxEnemies: 1
-    SwarmRange: {x: 1, y: 1}
-    SpawnStagger: 0
-    UseNewEnemyPerSpawn: 0
-    SegmentRange: {x: 2, y: 4}
-  - Name: Secondary
-    Enemies:
-      _allowEmptyRolls: 0
-      _items:
-      - _normalizedWeight: 100
-        Item: {fileID: 11400000, guid: c5edefd7543dc1449a38757252129b19, type: 2}
-    StartDelay: 1.25
-    SpawnFrequency: {x: 30, y: 30}
-    LimitEnemies: 0
-    MaxEnemies: 0
-    SwarmRange: {x: 2, y: 3}
-    SpawnStagger: 0
-    UseNewEnemyPerSpawn: 0
-    SegmentRange: {x: 0, y: 1}
-  _specialized:
-  - Name: Beetle, Earwig, Inchworm
-    Enemies:
-      _allowEmptyRolls: 0
-      _items:
-      - _normalizedWeight: 45
-        Item: {fileID: 11400000, guid: f14c2f6ccbf1ca041a04e3eec13dad84, type: 2}
-      - _normalizedWeight: 45
-        Item: {fileID: 11400000, guid: bb8decc9bbfb94b4783ddb7fcd24e946, type: 2}
-      - _normalizedWeight: 10
-        Item: {fileID: 11400000, guid: a282c090ab5696c4abb1fd9472e499ed, type: 2}
-    StartDelay: 5
-    SpawnFrequency: {x: 5, y: 9}
-    LimitEnemies: 0
-    MaxEnemies: 1
-    SwarmRange: {x: 1, y: 1}
-    SpawnStagger: 0
-    UseNewEnemyPerSpawn: 0
-  - Name: Spider
-    Enemies:
-      _allowEmptyRolls: 0
-      _items:
-      - _normalizedWeight: 100
-        Item: {fileID: 11400000, guid: d9e7dcbaee0605f45878987e20c445f9, type: 2}
-    StartDelay: 3
-    SpawnFrequency: {x: 3, y: 10}
-    LimitEnemies: 1
-    MaxEnemies: 1
-    SwarmRange: {x: 1, y: 1}
-    SpawnStagger: 0
-    UseNewEnemyPerSpawn: 0
+  _spawners:
+  - rid: 5904237330888917002
+  - rid: 5904237319612268571
+  - rid: 5904237319612268573
+  references:
+    version: 2
+    RefIds:
+    - rid: 5904237319612268571
+      type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
+      data:
+        _name: Beetle, Earwig, Inchworm
+        Enemies:
+          _allowEmptyRolls: 0
+          _items:
+          - _normalizedWeight: 45
+            Item: {fileID: 11400000, guid: f14c2f6ccbf1ca041a04e3eec13dad84, type: 2}
+          - _normalizedWeight: 45
+            Item: {fileID: 11400000, guid: bb8decc9bbfb94b4783ddb7fcd24e946, type: 2}
+          - _normalizedWeight: 10
+            Item: {fileID: 11400000, guid: a282c090ab5696c4abb1fd9472e499ed, type: 2}
+        StartDelay: 5
+        SpawnFrequency: {x: 5, y: 9}
+        LimitEnemies: 0
+        MaxEnemies: 1
+        SwarmRange: {x: 1, y: 1}
+        SpawnStagger: 0
+        UseNewEnemyPerSpawn: 0
+    - rid: 5904237319612268573
+      type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
+      data:
+        _name: Spider
+        Enemies:
+          _allowEmptyRolls: 0
+          _items:
+          - _normalizedWeight: 100
+            Item: {fileID: 11400000, guid: d9e7dcbaee0605f45878987e20c445f9, type: 2}
+        StartDelay: 3
+        SpawnFrequency: {x: 3, y: 10}
+        LimitEnemies: 1
+        MaxEnemies: 1
+        SwarmRange: {x: 1, y: 1}
+        SpawnStagger: 0
+        UseNewEnemyPerSpawn: 0
+    - rid: 5904237330888917002
+      type: {class: CompositeTimedSpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
+      data:
+        _name: Minipede
+        Children:
+        - rid: 5904237330888917003
+        - rid: 5904237330888917004
+    - rid: 5904237330888917003
+      type: {class: TimedMinipedeSpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
+      data:
+        _name: Main
+        Enemies:
+          _allowEmptyRolls: 0
+          _items:
+          - _normalizedWeight: 100
+            Item: {fileID: 11400000, guid: c5edefd7543dc1449a38757252129b19, type: 2}
+        StartDelay: 1
+        SpawnFrequency: {x: 30, y: 30}
+        LimitEnemies: 0
+        MaxEnemies: 0
+        SwarmRange: {x: 1, y: 1}
+        SpawnStagger: 0
+        UseNewEnemyPerSpawn: 0
+        SegmentRange: {x: 2, y: 4}
+    - rid: 5904237330888917004
+      type: {class: TimedMinipedeSpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
+      data:
+        _name: Sub Heads
+        Enemies:
+          _allowEmptyRolls: 0
+          _items:
+          - _normalizedWeight: 100
+            Item: {fileID: 11400000, guid: c5edefd7543dc1449a38757252129b19, type: 2}
+        StartDelay: 1.25
+        SpawnFrequency: {x: 30, y: 30}
+        LimitEnemies: 0
+        MaxEnemies: 0
+        SwarmRange: {x: 1, y: 3}
+        SpawnStagger: 0.25
+        UseNewEnemyPerSpawn: 0
+        SegmentRange: {x: 0, y: 2}
 --- !u!4 &887760034
 Transform:
   m_ObjectHideFlags: 0

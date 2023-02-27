@@ -5,7 +5,6 @@ using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -350,7 +349,7 @@ namespace Minipede.Gameplay.Enemies
 
 		public void OnSegmentDied( Rigidbody2D victimBody, HealthController health )
 		{
-			_deathHandler.Add( this, victimBody.GetComponent<MinipedeController>() );
+			_deathHandler.Add( this );
 		}
 
 		public void UpdateSegmentMovement()

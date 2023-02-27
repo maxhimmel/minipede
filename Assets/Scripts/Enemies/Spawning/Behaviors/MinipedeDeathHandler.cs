@@ -5,114 +5,93 @@ namespace Minipede.Gameplay.Enemies
 {
     public class MinipedeDeathHandler : MonoBehaviour
 	{
-		private readonly Dictionary<MinipedeController, HashSet<MinipedeController>> _deaths = new Dictionary<MinipedeController, HashSet<MinipedeController>>();
-		private readonly SortedList<int, MinipedeController> _headIndices = new SortedList<int, MinipedeController>();
-
-		public void Add( MinipedeController head, MinipedeController segment )
-		{
-			Add( head );
-			_deaths[head].Add( segment );
-		}
+		private readonly HashSet<MinipedeController> _heads = new HashSet<MinipedeController>();
+		private readonly List<SplitProcessor> _splitProcesses = new List<SplitProcessor>();
 
 		public void Add( MinipedeController head )
 		{
-			if ( !_deaths.ContainsKey( head ) )
-			{
-				_deaths.Add( head, new HashSet<MinipedeController>() );
-			}
+			_heads.Add( head );
 		}
 
 		private void LateUpdate()
 		{
-			if ( _deaths.Count <= 0 )
+			if ( _heads.Count <= 0 )
 			{
 				return;
 			}
 
-			foreach ( var head in _deaths.Keys )
+			foreach ( var head in _heads )
 			{
-				var deadSegments = _deaths[head];
-				int topMostDeadSegmentIndex = int.MaxValue;
+				bool isPrevDead = !head.IsAlive;
+				int topMostDeadSegmentIndex = head.IsAlive
+					? int.MaxValue
+					: 0;
 
-				// The head died ...
-				if ( !head.IsAlive && head.HasSegments )
+				SplitProcessor currentSplit = null;
+
+				for ( int idx = 0; idx < head.Segments.Count; ++idx )
 				{
-					topMostDeadSegmentIndex = 0;
+					var segment = head.Segments[idx];
 
-					for ( int idx = 0; idx < head.Segments.Count; ++idx )
+					if ( !segment.IsAlive )
 					{
-						var segment = head.Segments[idx];
-						if ( segment.IsAlive )
+						isPrevDead = true;
+						topMostDeadSegmentIndex = Mathf.Min( topMostDeadSegmentIndex, idx );
+					}
+					else
+					{
+						if ( isPrevDead )
 						{
-							_headIndices.Add( idx, segment );
-							break;
+							var prevDeadSegment = idx - 1 >= 0
+								? head.Segments[idx - 1]
+								: head;
+
+							currentSplit = new SplitProcessor( segment, prevDeadSegment, new List<MinipedeController>() );
+							_splitProcesses.Add( currentSplit );
 						}
+						else if ( currentSplit != null )
+						{
+							currentSplit.Segments.Add( segment );
+						}
+
+						isPrevDead = false;
 					}
 				}
 
-				// The head's segments died ...
-				if ( deadSegments.Count > 0 )
+				head.RemoveSegments( topMostDeadSegmentIndex );
+
+				for ( int idx = _splitProcesses.Count - 1; idx >= 0; --idx )
 				{
-					foreach ( var segment in deadSegments )
-					{
-						int deadSegmentIndex = head.FindSegmentIndex( segment );
-						if ( deadSegmentIndex < 0 )
-						{
-							throw new System.NotSupportedException( "Head is listening to a segment's death it's not tracking." );
-						}
+					var process = _splitProcesses[idx];
+					process.Split();
 
-						topMostDeadSegmentIndex = Mathf.Min( deadSegmentIndex, topMostDeadSegmentIndex );
-
-						int headIndex = deadSegmentIndex + 1;
-						if ( headIndex < head.Segments.Count )
-						{
-							var potentialNewHead = head.Segments[headIndex];
-							if ( potentialNewHead.IsAlive )
-							{
-								_headIndices.TryAdd( headIndex, potentialNewHead );
-							}
-						}
-					}
+					_splitProcesses.RemoveAt( idx );
 				}
-
-				// Split minipede based on new head indices ...
-				for ( int idx = 0; idx < _headIndices.Keys.Count; ++idx )
-				{
-					int headIndex = _headIndices.Keys[idx];
-					MinipedeController newHead = _headIndices[headIndex];
-
-					int firstSegmentIndex = headIndex + 1;
-					if ( firstSegmentIndex < head.Segments.Count )
-					{
-						int lastSegmentIndex = head.Segments.Count - 1;
-						if ( idx + 1 < _headIndices.Keys.Count )
-						{
-							lastSegmentIndex = _headIndices.Keys[idx + 1];
-							lastSegmentIndex -= 2; // Subtracting one for the head and one for the previous dead segment.
-						}
-
-						int segmentCount = lastSegmentIndex - firstSegmentIndex + 1; // Adding one to include the end segment.
-						newHead.SetSegments( head.GetSegments( firstSegmentIndex, segmentCount ) );
-					}
-
-					int deadSegmentIndex = headIndex - 1;
-					var deadSegment = deadSegmentIndex < 0
-						? head
-						: head.Segments[deadSegmentIndex];
-
-					newHead.StartSplitHeadBehavior( deadSegment.Body.position );
-				}
-
-				// Remove which segments the head should stop listening to ...
-				if ( head.HasSegments )
-				{
-					head.RemoveSegments( topMostDeadSegmentIndex );
-				}
-
-				_headIndices.Clear();
 			}
 
-			_deaths.Clear();
+			_heads.Clear();
+		}
+
+		private class SplitProcessor
+		{
+			public MinipedeController Head { get; }
+			public MinipedeController PrevDeadSegment { get; }
+			public List<MinipedeController> Segments { get; }
+
+			public SplitProcessor( MinipedeController head, 
+				MinipedeController prevDeadSegment, 
+				List<MinipedeController> segments )
+			{
+				Head = head;
+				PrevDeadSegment = prevDeadSegment;
+				Segments = segments;
+			}
+
+			public void Split()
+			{
+				Head.SetSegments( Segments );
+				Head.StartSplitHeadBehavior( PrevDeadSegment.Body.position );
+			}
 		}
 	}
 }

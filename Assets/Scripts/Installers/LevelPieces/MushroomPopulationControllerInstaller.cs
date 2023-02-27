@@ -20,7 +20,7 @@ namespace Minipede.Gameplay.LevelPieces
 						.AsSingle()
 						.WithArguments( _settings );
 
-					subContainer.BindInterfacesAndSelfTo<TimedEnemySpawner>()
+					subContainer.BindInterfacesAndSelfTo( _settings.ReplenishWave.SpawnerType )
 						.AsSingle()
 						.WithArguments( _settings.ReplenishWave );
 				} )

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Enemies.Spawning.Serialization;
@@ -47,6 +48,8 @@ namespace Minipede.Gameplay.Waves
 		[System.Serializable]
 		public new class Settings : TimedEnemySpawner.Settings
 		{
+			public override Type SpawnerType => typeof( TimedMinipedeSpawner );
+
 			[Header( "Minipede" )]
 			[TabGroup( "Main", "Settings" )]
 			[MinMaxSlider( 0, 50, ShowFields = true )]

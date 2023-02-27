@@ -1,19 +1,18 @@
 ﻿using System;
-using Sirenix.OdinInspector;
 using System.Collections.Generic;
-using Zenject;
-using UnityEngine;
-using Minipede.Utility;
-using Minipede.Gameplay.Enemies.Spawning.Serialization;
-using Minipede.Gameplay.Player;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Enemies;
+using Minipede.Gameplay.Enemies.Spawning;
+using Minipede.Gameplay.Enemies.Spawning.Serialization;
+using Minipede.Gameplay.Player;
+using Minipede.Utility;
+using Sirenix.OdinInspector;
+using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Waves
 {
-
 	public class TimedEnemySpawner : ITimedSpawner
 	{
 		private readonly Settings _settings;
@@ -43,7 +42,7 @@ namespace Minipede.Gameplay.Waves
 			_livingEnemies = new HashSet<EnemyController>();
 		}
 
-		public void Initialize()
+		public virtual void Initialize()
 		{
 			_settings.Enemies.Init();
 			foreach ( var spawner in _settings.Enemies.Items )
@@ -54,7 +53,7 @@ namespace Minipede.Gameplay.Waves
 			_signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 		}
 
-		public void Dispose()
+		public virtual void Dispose()
 		{
 			_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
 		}
@@ -89,7 +88,7 @@ namespace Minipede.Gameplay.Waves
 			return true;
 		}
 
-		public void Play()
+		public virtual void Play()
 		{
 			if ( _isPlaying )
 			{
@@ -116,7 +115,7 @@ namespace Minipede.Gameplay.Waves
 			RefreshNextSpawnTime();
 		}
 
-		public async UniTaskVoid HandleSpawning( CancellationToken cancelToken )
+		public virtual async UniTaskVoid HandleSpawning( CancellationToken cancelToken )
 		{
 			var spawner = _settings.UseNewEnemyPerSpawn
 				? null
@@ -156,7 +155,7 @@ namespace Minipede.Gameplay.Waves
 			//Debug.Log( $"<color=orange>Enemy</color> spawning in <b>{_nextSpawnTime - Time.timeSinceLevelLoad}s</b>." );
 		}
 
-		public void Stop()
+		public virtual void Stop()
 		{
 			if ( _isPlaying )
 			{
@@ -177,9 +176,12 @@ namespace Minipede.Gameplay.Waves
 		}
 
 		[System.Serializable]
-		public class Settings
+		public class Settings : ITimedSpawner.ISettings
 		{
-			public string Name;
+			public virtual Type SpawnerType => typeof( TimedEnemySpawner );
+			public string Name => _name;
+
+			[SerializeField] private string _name;
 
 			[TabGroup( "Main", "Enemies" )]
 			public WeightedListEnemy Enemies;

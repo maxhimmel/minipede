@@ -13,7 +13,7 @@ namespace Minipede.Gameplay.LevelPieces
 	{
 		private readonly Settings _settings;
 		private readonly SignalBus _signalBus;
-		private readonly TimedEnemySpawner _replenishWave;
+		private readonly ITimedSpawner _replenishWave;
 		private readonly IPlayerLifetimeHandler _playerLifetime;
 
 		private int _mushroomCount;
@@ -21,7 +21,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public MushroomPopulationController( Settings settings,
 			SignalBus signalBus,
-			TimedEnemySpawner replenishWave,
+			ITimedSpawner replenishWave,
 			IPlayerLifetimeHandler playerLifetime )
 		{
 			_settings = settings;
@@ -101,7 +101,7 @@ namespace Minipede.Gameplay.LevelPieces
 			public float ReplenishCooldown;
 
 			[BoxGroup, HideLabel]
-			public TimedEnemySpawner.Settings ReplenishWave;
+			[SerializeReference] public ITimedSpawner.ISettings ReplenishWave;
 		}
 	}
 }

@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Enemies;
-using Minipede.Gameplay.Enemies.Spawning;
 using UnityEngine;
 using Zenject;
 
@@ -23,11 +21,11 @@ namespace Minipede.Gameplay.Waves
 
 		public TimedWaveController( Settings settings,
 			SignalBus signalBus,
-			ITimedSpawner[] enemySpawners )
+			[InjectOptional] ITimedSpawner[] enemySpawners )
 		{
 			_settings = settings;
 			_signalBus = signalBus;
-			_enemySpawners = enemySpawners;
+			_enemySpawners = enemySpawners ?? new ITimedSpawner[0];
 			_livingEnemies = new HashSet<EnemyController>();
 		}
 

@@ -370,7 +370,7 @@ namespace Minipede.Gameplay.Enemies
 				var moveDir = destCoord - segmentCoord;
 				if ( moveDir.Col() != 0 )
 				{
-					segment._columnDir.x = moveDir.Col();
+					segment._columnDir.x = (int)Mathf.Sign( moveDir.Col() );
 				}
 				segment._rowDir.y = this._rowDir.y;
 

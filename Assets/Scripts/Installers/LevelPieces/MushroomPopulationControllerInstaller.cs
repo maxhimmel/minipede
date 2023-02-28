@@ -1,4 +1,4 @@
-using Minipede.Gameplay.Waves;
+using Minipede.Installers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -20,13 +20,10 @@ namespace Minipede.Gameplay.LevelPieces
 						.AsSingle()
 						.WithArguments( _settings );
 
-					subContainer.BindInterfacesAndSelfTo( _settings.ReplenishWave.SpawnerType )
-						.AsSingle()
-						.WithArguments( _settings.ReplenishWave );
+					TimedEnemySpawnerInstaller.Install( subContainer, _settings.ReplenishWave );
 				} )
 				.WithKernel()
-				.AsSingle()
-				.WithArguments( _settings );
+				.AsSingle();
 		}
 
 

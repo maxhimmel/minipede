@@ -23,9 +23,7 @@ namespace Minipede.Installers
 
 			foreach ( var spawner in _spawners )
 			{
-				Container.BindInterfacesAndSelfTo( spawner.SpawnerType )
-					.AsCached()
-					.WithArguments( spawner );
+				TimedEnemySpawnerInstaller.Install( Container, spawner );
 			}
 		}
 	}

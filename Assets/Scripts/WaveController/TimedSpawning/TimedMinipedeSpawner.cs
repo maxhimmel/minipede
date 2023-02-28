@@ -14,11 +14,11 @@ namespace Minipede.Gameplay.Waves
 {
 	public class TimedMinipedeSpawner : TimedEnemySpawner
 	{
-		public TimedMinipedeSpawner( Settings settings, 
+		public TimedMinipedeSpawner( ISettings settings, 
 			EnemySpawnBuilder spawnBuilder,
 			EnemyPlacementResolver placementResolver,
 			IPlayerLifetimeHandler playerLifetime,
-			SignalBus signalBus ) 
+			SignalBus signalBus )
 			: base( settings, spawnBuilder, placementResolver, playerLifetime, signalBus )
 		{
 		}

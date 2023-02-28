@@ -761,7 +761,7 @@ MonoBehaviour:
       type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
         _name: Replenish
-        Enemies:
+        _enemies:
           _allowEmptyRolls: 0
           _items:
           - _normalizedWeight: 43
@@ -770,13 +770,13 @@ MonoBehaviour:
             Item: {fileID: 11400000, guid: b7c34613cd7e66c48981db96afc169ad, type: 2}
           - _normalizedWeight: 14
             Item: {fileID: 11400000, guid: 5a4724cefe5876d49b7a60b7bae5e3ba, type: 2}
-        StartDelay: 0
-        SpawnFrequency: {x: 0, y: 0}
-        LimitEnemies: 0
-        MaxEnemies: 1
-        SwarmRange: {x: 10, y: 20}
-        SpawnStagger: 0.35
-        UseNewEnemyPerSpawn: 0
+        _startDelay: 0
+        _spawnFrequency: {x: 0, y: 0}
+        _limitEnemies: 0
+        _maxEnemies: 1
+        _swarmRange: {x: 10, y: 20}
+        _spawnStagger: 0.35
+        _useNewEnemyPerSpawn: 0
 --- !u!4 &269899966
 Transform:
   m_ObjectHideFlags: 0
@@ -1721,7 +1721,7 @@ MonoBehaviour:
       type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
         _name: Beetle, Earwig, Inchworm
-        Enemies:
+        _enemies:
           _allowEmptyRolls: 0
           _items:
           - _normalizedWeight: 45
@@ -1730,29 +1730,29 @@ MonoBehaviour:
             Item: {fileID: 11400000, guid: bb8decc9bbfb94b4783ddb7fcd24e946, type: 2}
           - _normalizedWeight: 10
             Item: {fileID: 11400000, guid: a282c090ab5696c4abb1fd9472e499ed, type: 2}
-        StartDelay: 5
-        SpawnFrequency: {x: 5, y: 9}
-        LimitEnemies: 0
-        MaxEnemies: 1
-        SwarmRange: {x: 1, y: 1}
-        SpawnStagger: 0
-        UseNewEnemyPerSpawn: 0
+        _startDelay: 5
+        _spawnFrequency: {x: 5, y: 9}
+        _limitEnemies: 1
+        _maxEnemies: 3
+        _swarmRange: {x: 1, y: 1}
+        _spawnStagger: 0
+        _useNewEnemyPerSpawn: 0
     - rid: 5904237319612268573
       type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
         _name: Spider
-        Enemies:
+        _enemies:
           _allowEmptyRolls: 0
           _items:
           - _normalizedWeight: 100
             Item: {fileID: 11400000, guid: d9e7dcbaee0605f45878987e20c445f9, type: 2}
-        StartDelay: 3
-        SpawnFrequency: {x: 3, y: 10}
-        LimitEnemies: 1
-        MaxEnemies: 1
-        SwarmRange: {x: 1, y: 1}
-        SpawnStagger: 0
-        UseNewEnemyPerSpawn: 0
+        _startDelay: 3
+        _spawnFrequency: {x: 3, y: 10}
+        _limitEnemies: 1
+        _maxEnemies: 1
+        _swarmRange: {x: 1, y: 1}
+        _spawnStagger: 0
+        _useNewEnemyPerSpawn: 0
     - rid: 5904237330888917002
       type: {class: CompositeTimedSpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
@@ -1764,35 +1764,35 @@ MonoBehaviour:
       type: {class: TimedMinipedeSpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
         _name: Main
-        Enemies:
+        _enemies:
           _allowEmptyRolls: 0
           _items:
           - _normalizedWeight: 100
             Item: {fileID: 11400000, guid: c5edefd7543dc1449a38757252129b19, type: 2}
-        StartDelay: 1
-        SpawnFrequency: {x: 30, y: 30}
-        LimitEnemies: 0
-        MaxEnemies: 0
-        SwarmRange: {x: 1, y: 1}
-        SpawnStagger: 0
-        UseNewEnemyPerSpawn: 0
+        _startDelay: 1
+        _spawnFrequency: {x: 30, y: 30}
+        _limitEnemies: 0
+        _maxEnemies: 0
+        _swarmRange: {x: 1, y: 1}
+        _spawnStagger: 0
+        _useNewEnemyPerSpawn: 0
         SegmentRange: {x: 2, y: 4}
     - rid: 5904237330888917004
       type: {class: TimedMinipedeSpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
         _name: Sub Heads
-        Enemies:
+        _enemies:
           _allowEmptyRolls: 0
           _items:
           - _normalizedWeight: 100
             Item: {fileID: 11400000, guid: c5edefd7543dc1449a38757252129b19, type: 2}
-        StartDelay: 1.25
-        SpawnFrequency: {x: 30, y: 30}
-        LimitEnemies: 0
-        MaxEnemies: 0
-        SwarmRange: {x: 1, y: 3}
-        SpawnStagger: 0.25
-        UseNewEnemyPerSpawn: 0
+        _startDelay: 1.25
+        _spawnFrequency: {x: 30, y: 30}
+        _limitEnemies: 0
+        _maxEnemies: 1
+        _swarmRange: {x: 1, y: 3}
+        _spawnStagger: 0.25
+        _useNewEnemyPerSpawn: 0
         SegmentRange: {x: 0, y: 2}
 --- !u!4 &887760034
 Transform:

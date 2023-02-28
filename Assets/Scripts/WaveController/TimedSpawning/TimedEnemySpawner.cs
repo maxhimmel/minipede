@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -14,7 +14,7 @@ namespace Minipede.Gameplay.Waves
 {
 	public partial class TimedEnemySpawner : ITimedSpawner
 	{
-		private readonly ISettings _settings;
+		protected readonly ISettings _settings;
 		protected readonly EnemySpawnBuilder _spawnBuilder;
 		protected readonly EnemyPlacementResolver _placementResolver;
 		private readonly IPlayerLifetimeHandler _playerLifetime;
@@ -167,12 +167,6 @@ namespace Minipede.Gameplay.Waves
 			_isPlaying = false;
 			_nextSpawnTime = 0;
 			_delayEndTime = Mathf.Infinity;
-		}
-
-		protected TSettings GetSettings<TSettings>()
-			where TSettings : ISettings
-		{
-			return (TSettings)_settings;
 		}
 	}
 }

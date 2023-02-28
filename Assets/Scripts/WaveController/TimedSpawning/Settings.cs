@@ -9,17 +9,20 @@ namespace Minipede.Gameplay.Waves
 	{
 		public interface ISettings : ITimedSpawner.ISettings
 		{
-			public WeightedListEnemy Enemies { get; }
+			WeightedListEnemy Enemies { get; }
 
-			public float StartDelay { get; }
-			public float SpawnFrequency { get; }
+			float StartDelay { get; }
+			float SpawnFrequency { get; }
 
-			public bool LimitEnemies { get; }
-			public int MaxEnemies { get; }
+			bool LimitEnemies { get; }
+			int MaxEnemies { get; }
 
-			public int SwarmAmount { get; }
-			public float SpawnStagger { get; }
-			public bool UseNewEnemyPerSpawn { get; }
+			int SwarmAmount { get; }
+			float SpawnStagger { get; }
+			bool UseNewEnemyPerSpawn { get; }
+
+			TSettings Cast<TSettings>()
+				where TSettings : Settings;
 		}
 
 		[System.Serializable]
@@ -42,7 +45,7 @@ namespace Minipede.Gameplay.Waves
 
 			[SerializeField] private string _name;
 
-			[TabGroup( "Main", "Enemies" )]
+			[TabGroup( "Main", "Enemies", Order = -1 )]
 			[SerializeField] private WeightedListEnemy _enemies;
 
 			[TabGroup( "Main", "Settings" )]
@@ -75,6 +78,12 @@ namespace Minipede.Gameplay.Waves
 			[FoldoutGroup( "@GetSwarmingGroupName()", GroupID = "Main/Settings/Swarming" ), LabelText( "Swarm Variance" )]
 			[ShowIf( "@IsSwarm() && HasVariance()" )]
 			[SerializeField] private bool _useNewEnemyPerSpawn;
+
+			public TSettings Cast<TSettings>()
+				where TSettings : Settings
+			{
+				return this as TSettings;
+			}
 
 			#region Editor Tooling
 #if UNITY_EDITOR

@@ -25,7 +25,7 @@ namespace Minipede.Gameplay.Waves
 
 		protected override void CreateEnemy( SerializedEnemySpawner spawner, HashSet<EnemyController> livingEnemies )
 		{
-			var settings = GetSettings<Settings>();
+			var settings = _settings.Cast<Settings>();
 			CreateHead( spawner, settings.SegmentRange.Random() );
 		}
 

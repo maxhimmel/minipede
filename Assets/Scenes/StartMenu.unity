@@ -1743,19 +1743,19 @@ MonoBehaviour:
   - {fileID: 22088974}
   - {fileID: 1739075775}
   _spider:
-    Name: Spider
-    Enemies:
+    _name: Spider
+    _enemies:
       _allowEmptyRolls: 0
       _items:
       - _normalizedWeight: 100
         Item: {fileID: 11400000, guid: d9e7dcbaee0605f45878987e20c445f9, type: 2}
-    StartDelay: 3
-    SpawnFrequency: {x: 3, y: 10}
-    LimitEnemies: 1
-    MaxEnemies: 3
-    SwarmRange: {x: 1, y: 1}
-    SpawnStagger: 0
-    UseNewEnemyPerSpawn: 0
+    _startDelay: 3
+    _spawnFrequency: {x: 3, y: 9}
+    _limitEnemies: 1
+    _maxEnemies: 3
+    _swarmRange: {x: 1, y: 3}
+    _spawnStagger: 0.5
+    _useNewEnemyPerSpawn: 0
   _gathering:
     WaveDelay: {x: 2, y: 2}
     Wave:

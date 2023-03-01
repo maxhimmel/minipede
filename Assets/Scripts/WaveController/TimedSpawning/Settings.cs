@@ -45,7 +45,7 @@ namespace Minipede.Gameplay.Waves
 
 			[SerializeField] private string _name;
 
-			[TabGroup( "Main", "Enemies", Order = -1 )]
+			[TabGroup( "Main", "Enemies" )]
 			[SerializeField] private WeightedListEnemy _enemies;
 
 			[TabGroup( "Main", "Settings" )]

@@ -29,6 +29,7 @@ namespace Minipede.Gameplay.UI
 
 			_updateSliderCancelSource = AppHelper.CreateLinkedCTS();
 
+			_slider.normalizedValue = winPercentage.PollutionWinPercentage;
 			_winRequirementFill.fillAmount = winPercentage.PollutionWinPercentage;
 		}
 

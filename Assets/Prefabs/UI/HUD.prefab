@@ -740,9 +740,6 @@ MonoBehaviour:
   _gemGroup: {fileID: 3267869182735405064}
   _beaconContainer: {fileID: 4066062881212917227}
   _createBeaconButton: {fileID: 4448405877066037043}
-  _gemBorder: {fileID: 0}
-  _enabledConnector: {fileID: 0}
-  _disabledConnector: {fileID: 0}
   _gemSlideDuration: 0.3
   _gemSlideCloseAnchorPos: {x: 0, y: 228}
   _gemSlideAnim: 34

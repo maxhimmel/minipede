@@ -102,7 +102,7 @@ Material:
     - _LightingEnabled: 0
     - _Mode: 1
     - _QueueOffset: 0
-    - _ScrollSpeed: 1
+    - _ScrollSpeed: 2
     - _SoftParticlesEnabled: 0
     - _SoftParticlesFarFadeDistance: 1
     - _SoftParticlesNearFadeDistance: 0

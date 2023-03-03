@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -38,6 +38,7 @@ namespace Minipede.Gameplay.Waves
 			_placementResolver = placementResolver;
 			_playerLifetime = playerLifetime;
 			_signalBus = signalBus;
+
 			_livingEnemies = new HashSet<EnemyController>();
 		}
 

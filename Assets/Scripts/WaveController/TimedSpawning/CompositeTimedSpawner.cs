@@ -10,15 +10,9 @@ namespace Minipede.Gameplay.Waves
 	{
 		private readonly ITimedSpawner[] _childSpawners;
 
-		public CompositeTimedSpawner( Settings settings,
-			DiContainer container )
+		public CompositeTimedSpawner( [InjectOptional( Source = InjectSources.Local )] ITimedSpawner[] childSpawners )
 		{
-			_childSpawners = new ITimedSpawner[settings.Children.Length];
-			for ( int idx = 0; idx < settings.Children.Length; ++idx )
-			{
-				var child = settings.Children[idx];
-				_childSpawners[idx] = container.Instantiate( child.SpawnerType, new object[1] { child } ) as ITimedSpawner;
-			}
+			_childSpawners = childSpawners ?? new ITimedSpawner[0];
 		}
 
 		public void Initialize()

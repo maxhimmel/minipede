@@ -25,9 +25,6 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _balancing );
 
-			Container.Decorate<TimedEnemySpawner.ISettings>()
-				.With<TimedWaveBalancer>();
-
 			/* --- */
 
 			Container.DeclareSignal<LevelCycleChangedSignal>()

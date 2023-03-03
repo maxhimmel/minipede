@@ -27,6 +27,8 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
+			Container.BindInterfacesAndSelfTo<ActiveEnemies>()
+				.AsSingle();
 			Container.DeclareSignal<EnemySpawnedSignal>()
 				.OptionalSubscriber();
 			Container.DeclareSignal<EnemyDestroyedSignal>()

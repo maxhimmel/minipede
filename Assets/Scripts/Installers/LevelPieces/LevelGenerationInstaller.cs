@@ -20,6 +20,8 @@ namespace Minipede.Installers
 		public override void InstallBindings()
 		{
 			// Level generation ...
+			Container.BindInterfacesAndSelfTo<ActiveBlocks>()
+				.AsSingle();
 			Container.DeclareSignal<BlockSpawnedSignal>()
 				.OptionalSubscriber();
 			Container.DeclareSignal<BlockDestroyedSignal>()

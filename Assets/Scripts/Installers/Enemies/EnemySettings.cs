@@ -47,7 +47,7 @@ namespace Minipede.Installers
 				.WithId( _speedScalarId )
 				.AsSingle();
 
-			Container.BindInterfacesAndSelfTo<EnemyDebuffController>()
+			Container.Bind<EnemyDebuffController>()
 				.AsSingle();
 
 			/* --- */

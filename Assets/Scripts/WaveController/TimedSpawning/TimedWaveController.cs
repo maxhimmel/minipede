@@ -12,7 +12,6 @@ namespace Minipede.Gameplay.Waves
 
 		private readonly Settings _settings;
 		private readonly ActiveEnemies _activeEnemies;
-		private readonly SignalBus _signalBus;
 		private readonly ITimedSpawner[] _enemySpawners;
 
 		private float _nextWaveTime;

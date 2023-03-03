@@ -74,6 +74,16 @@ namespace Minipede.Gameplay
 			IsPaused = isPaused;
 		}
 	}
+
+	public class LevelCycleChangedSignal
+	{
+		public int Cycle { get; }
+
+		public LevelCycleChangedSignal( int cycle )
+		{
+			Cycle = cycle;
+		}
+	}
 }
 
 namespace Minipede.Gameplay.Fx

@@ -1776,39 +1776,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _timing:
-    CycleDuration: 5
+    CycleDuration: 20
   _balancing:
     StartCycle: 0
-    EnemySpeed:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    EnemyHealth:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    EnemyFrequency:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    EnemyAmount:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    MushroomHealth:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
 --- !u!4 &638692083
 Transform:
   m_ObjectHideFlags: 0
@@ -1945,7 +1915,7 @@ MonoBehaviour:
         _startDelay: 5
         _spawnFrequency: {x: 5, y: 9}
         _limitEnemies: 1
-        _maxEnemies: 3
+        _maxEnemies: 1
         _swarmRange: {x: 1, y: 1}
         _spawnStagger: 0
         _useNewEnemyPerSpawn: 0

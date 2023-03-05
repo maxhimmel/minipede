@@ -80,18 +80,30 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public override void OnDespawned()
 		{
-			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+			if ( !IsFlower() )
+			{
+				_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+			}
 
 			base.OnDespawned();
 		}
 
 		public override void OnSpawned( IOrientation placement, IMemoryPool pool )
 		{
-			_signalBus.Subscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+			if ( !IsFlower() )
+			{
+				_signalBus.Subscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
 
-			OnLevelCycleChanged( new LevelCycleChangedSignal( _levelBalancer.Cycle ) );
+				OnLevelCycleChanged( new LevelCycleChangedSignal( _levelBalancer.Cycle ) );
+			}
 
 			base.OnSpawned( placement, pool );
+		}
+
+		private bool IsFlower()
+		{
+			// TODO: Create flower class (probably for realz this time).
+			return name.Contains( "Flower" );
 		}
 
 		private void OnLevelCycleChanged( LevelCycleChangedSignal signal )

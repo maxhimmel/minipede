@@ -22,14 +22,9 @@ namespace Minipede.Installers
 				.FromComponentOnRoot()
 				.AsSingle();
 
-			/* --- */
-
-			Container.Bind<Scalar>()
-				.FromResolveGetter<DiContainer>( container => container.ResolveId<Scalar>( "EnemySpeedScalar" ) );
-
-			// TODO: Is this necessary now that structs have been converted into classes?
-			Container.Decorate<IMaxSpeed>()
-				.With<MaxSpeedDecorator>();
+			Container.Bind<SpriteRenderer>()
+				.FromMethod( GetComponentInChildren<SpriteRenderer> )
+				.AsSingle();
 		}
 	}
 }

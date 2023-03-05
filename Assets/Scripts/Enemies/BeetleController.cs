@@ -94,6 +94,7 @@ namespace Minipede.Gameplay.Enemies
 
 		public override void RecalibrateVelocity()
 		{
+			base.RecalibrateVelocity();
 			_motor.RecalibrateVelocity();
 		}
 

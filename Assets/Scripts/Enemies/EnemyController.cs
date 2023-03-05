@@ -1,11 +1,12 @@
+using System;
 using System.Threading;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
+using Minipede.Installers;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
-using Minipede.Installers;
-using System;
 
 namespace Minipede.Gameplay.Enemies
 {
@@ -37,6 +38,10 @@ namespace Minipede.Gameplay.Enemies
 		protected SignalBus _signalBus;
 		private LootBox _lootBox;
 		private LevelGenerationInstaller.Level _levelSettings;
+		private EnemyBalances _balancing;
+		private LevelBalanceController _levelBalancer;
+		private IMaxSpeed _maxSpeed;
+		private Scalar _speedScalar;
 
 		private CancellationTokenSource _onDestroyCancelSource;
 		private IMemoryPool _memoryPool;
@@ -49,7 +54,11 @@ namespace Minipede.Gameplay.Enemies
 			LevelForeman foreman,
 			SignalBus signalBus,
 			LootBox lootBox,
-			LevelGenerationInstaller.Level levelSettings )
+			LevelGenerationInstaller.Level levelSettings,
+			EnemyBalances balancing,
+			LevelBalanceController levelBalancer,
+			IMaxSpeed maxSpeed,
+			[Inject( Id = "EnemySpeedScalar" )] Scalar speedScalar )
 		{
 			_body = body;
 			_damageController = damageController;
@@ -59,6 +68,10 @@ namespace Minipede.Gameplay.Enemies
 			_signalBus = signalBus;
 			_lootBox = lootBox;
 			_levelSettings = levelSettings;
+			_balancing = balancing;
+			_levelBalancer = levelBalancer;
+			_maxSpeed = maxSpeed;
+			_speedScalar = speedScalar;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
@@ -92,6 +105,7 @@ namespace Minipede.Gameplay.Enemies
 			_onDestroyCancelSource = null;
 
 			_damageController.Died -= OnDied;
+			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
 
 			_signalBus.Fire( new EnemyDestroyedSignal() { Victim = this } );
 		}
@@ -99,12 +113,13 @@ namespace Minipede.Gameplay.Enemies
 		public virtual void OnSpawned( IOrientation placement, IMemoryPool pool )
 		{
 			_memoryPool = pool;
-
 			_onDestroyCancelSource = AppHelper.CreateLinkedCTS();
 
+			OnLevelCycleChanged( new LevelCycleChangedSignal( _levelBalancer.Cycle ) );
 			Health.Replenish();
 
 			_damageController.Died += OnDied;
+			_signalBus.Subscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
 
 			// We set the transform's orientation so there isn't any visual blinking when moving from previous spawn position.
 			transform.SetPositionAndRotation( placement.Position, placement.Rotation );
@@ -115,13 +130,27 @@ namespace Minipede.Gameplay.Enemies
 			_signalBus.Fire( new EnemySpawnedSignal() { Enemy = this } );
 		}
 
-		public virtual void StartMainBehavior()
+		private void OnLevelCycleChanged( LevelCycleChangedSignal signal )
 		{
+			RecalibrateVelocity();
+
+			int prevMaxHealth = Health.Max;
+			Health.RestoreDefaults();
+			int newMaxHealth = _balancing.GetHealth( signal.Cycle, Health.Max );
+			Health.SetMaxHealth( newMaxHealth );
+			int maxHealthDifference = newMaxHealth - prevMaxHealth;
+			Health.Reduce( -maxHealthDifference );
 		}
 
 		public virtual void RecalibrateVelocity()
 		{
+			_maxSpeed.RestoreDefaults();
+			float maxSpeed = _balancing.GetSpeed( _levelBalancer.Cycle, _maxSpeed.GetMaxSpeed() );
+			_maxSpeed.SetMaxSpeed( maxSpeed * _speedScalar.Scale );
+		}
 
+		public virtual void StartMainBehavior()
+		{
 		}
 
 		protected void FixedUpdate()

@@ -14,17 +14,20 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private Settings _settings;
 		private LootBox _lootBox;
+		private LevelBalanceController _levelBalancer;
 		private IInteractable _interactable;
 		private ISelectable _selectable;
 
 		[Inject]
 		public void Construct( Settings settings,
 			LootBox lootBox,
+			LevelBalanceController levelBalancer,
 			[InjectOptional] IInteractable interactable,
 			[InjectOptional] ISelectable selectable )
 		{
 			_settings = settings;
 			_lootBox = lootBox;
+			_levelBalancer = levelBalancer;
 			_interactable = interactable;
 			_selectable = selectable;
 		}
@@ -75,12 +78,41 @@ namespace Minipede.Gameplay.LevelPieces
 			_selectable?.Deselect();
 		}
 
+		public override void OnDespawned()
+		{
+			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+
+			base.OnDespawned();
+		}
+
+		public override void OnSpawned( IOrientation placement, IMemoryPool pool )
+		{
+			_signalBus.Subscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+
+			OnLevelCycleChanged( new LevelCycleChangedSignal( _levelBalancer.Cycle ) );
+
+			base.OnSpawned( placement, pool );
+		}
+
+		private void OnLevelCycleChanged( LevelCycleChangedSignal signal )
+		{
+			int prevMaxHealth = Health.Max;
+			Health.RestoreDefaults();
+			int newMaxHealth = _settings.Balances.GetHealth( signal.Cycle, Health.Max );
+			Health.SetMaxHealth( newMaxHealth );
+			int maxHealthDifference = newMaxHealth - prevMaxHealth;
+			Health.Reduce( -maxHealthDifference );
+		}
+
 		[System.Serializable]
 		public class Settings
 		{
 			[HideLabel]
 			public HealInvoker.Settings Heal;
 			public float DelayPerHealStep;
+
+			[Space, InlineEditor]
+			public MushroomBalances Balances;
 		}
 	}
 }

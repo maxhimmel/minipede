@@ -1775,10 +1775,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b83e6b054529bf4fa1a0641a87666ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timing:
-    CycleDuration: 20
   _balancing:
     StartCycle: 0
+  _timing:
+    CycleDuration: 20
 --- !u!4 &638692083
 Transform:
   m_ObjectHideFlags: 0
@@ -3903,6 +3903,7 @@ MonoBehaviour:
       Heal:
         Heal: 1
       DelayPerHealStep: 1
+      Balances: {fileID: 11400000, guid: 12bef4cd7635ed543bf98c2e47baa00e, type: 2}
     Mushrooms:
       Standard:
         Prefab: {fileID: -1497698299372641502, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}

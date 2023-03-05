@@ -1,7 +1,7 @@
 ﻿using Minipede.Utility;
 using UnityEngine;
 
-namespace Minipede.Assets.Scripts.LevelPieces.Blocks
+namespace Minipede.Gameplay.LevelPieces
 {
 	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/MushroomBalanceTable" )]
 	public class MushroomBalances : ScriptableObject

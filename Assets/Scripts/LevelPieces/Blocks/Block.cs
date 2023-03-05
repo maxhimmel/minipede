@@ -1,7 +1,5 @@
-using Minipede.Installers;
-using Minipede.Utility;
 using System;
-using System.Collections.Generic;
+using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
@@ -26,7 +24,7 @@ namespace Minipede.Gameplay.LevelPieces
 		protected Rigidbody2D _body;
 		private IDamageController _damageController;
 		private LevelGraph _levelGraph;
-		private SignalBus _signalBus;
+		protected SignalBus _signalBus;
 
 		private IMemoryPool _pool;
 
@@ -69,7 +67,7 @@ namespace Minipede.Gameplay.LevelPieces
 			}
 		}
 
-		public void OnDespawned()
+		public virtual void OnDespawned()
 		{
 			_pool = null;
 
@@ -80,7 +78,7 @@ namespace Minipede.Gameplay.LevelPieces
 			_signalBus.TryFire( new BlockDestroyedSignal() { Victim = this } );
 		}
 
-		public void OnSpawned( IOrientation placement, IMemoryPool pool )
+		public virtual void OnSpawned( IOrientation placement, IMemoryPool pool )
 		{
 			_pool = pool;
 

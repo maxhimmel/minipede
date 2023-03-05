@@ -22,6 +22,8 @@ namespace Minipede.Gameplay.Movement
 			_settings = settings;
 			_maxSpeed = maxSpeedSettings;
 			_body = body;
+
+			settings.RestoreDefaults();
 		}
 
 		public void StartMoving( Vector2 direction )

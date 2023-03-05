@@ -24,5 +24,10 @@ namespace Minipede.Gameplay.Movement
 			// No need to apply scaling here. We apply it when GetMaxSpeed is called.
 			_maxSpeed.SetMaxSpeed( maxSpeed );
 		}
+
+		public void RestoreDefaults()
+		{
+			_maxSpeed.RestoreDefaults();
+		}
 	}
 }

@@ -29,6 +29,8 @@ namespace Minipede.Gameplay.Movement
 			_body = body;
 
 			_origin = body.position;
+
+			settings.RestoreDefaults();
 		}
 
 		public void StartMoving( Vector2 direction )

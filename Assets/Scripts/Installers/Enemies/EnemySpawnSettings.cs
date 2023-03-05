@@ -1,5 +1,4 @@
 using Minipede.Gameplay.Enemies;
-using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -20,12 +19,15 @@ namespace Minipede.Installers
 
 		[Space]
 		[DisableInPlayMode]
-		[SerializeField, PropertyOrder( -1 )] private int _initalPoolSize = 0;
+		[SerializeField] private int _initalPoolSize = 0;
 		[DisableInPlayMode]
-		[SerializeField, PropertyOrder( 0 )] private EnemyController _prefab;
+		[SerializeField] private EnemyController _prefab;
+
+		[Space, InlineEditor]
+		[SerializeField] private EnemyBalances _balances;
 
 		[Space, DisableInPlayMode]
-		[SerializeField, PropertyOrder( 2 )] private GraphSpawnPlacement[] _spawnPlacement;
+		[SerializeField] private GraphSpawnPlacement[] _spawnPlacement;
 
 		public virtual void Install( DiContainer container )
 		{
@@ -36,6 +38,10 @@ namespace Minipede.Installers
 				container.BindInstance( _spawnPlacement )
 					.WithId( EnemyType );
 			}
+
+			container.BindInstance( _balances )
+				.AsCached()
+				.WhenInjectedInto( EnemyType );
 		}
 
 		private void BindFactory( DiContainer container, EnemyController prefab )

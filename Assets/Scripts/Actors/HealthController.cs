@@ -5,18 +5,19 @@ namespace Minipede.Gameplay
     public class HealthController
     {
 		public bool IsAlive => Current > 0;
-		public float Percentage => Current / (float)Max;
+		public float Percentage => Mathf.Clamp01( Current / (float)Max );
 		public int Current => _health;
-		public int Max => _settings.Health;
+		public int Max => _maxHealth;
 
 		private readonly Settings _settings;
 
 		private int _health;
+		private int _maxHealth;
 
 		public HealthController( Settings settings )
 		{
 			_settings = settings;
-			_health = Max;
+			_health = _maxHealth = settings.Health;
 		}
 
 		/// <returns>The amount of damage taken.</returns>
@@ -36,6 +37,16 @@ namespace Minipede.Gameplay
 			_health = Max;
 
 			return difference;
+		}
+
+		public void SetMaxHealth( int newMax )
+		{
+			_maxHealth = newMax;
+		}
+
+		public void RestoreDefaults()
+		{
+			_maxHealth = _settings.Health;
 		}
 
         [System.Serializable]

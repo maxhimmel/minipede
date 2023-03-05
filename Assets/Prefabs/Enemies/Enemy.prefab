@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 382261437250522285}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &905273866044185627
 MonoBehaviour:
@@ -155,6 +155,115 @@ MonoBehaviour:
   _settings:
     Health: 1
   _logDamage: 0
+--- !u!1 &4243953935859813720
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5695006272889044161}
+  - component: {fileID: 3977747228172809972}
+  m_Layer: 0
+  m_Name: FX_Damaged
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5695006272889044161
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4243953935859813720}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 382261437250522285}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3977747228172809972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4243953935859813720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 781720031daeac842bcb0c0293e0b470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fxId: Damaged
+  _fxSettings:
+  - rid: 5904237248127434753
+  - rid: 5904237248127434754
+  - rid: 5904237248127434755
+  - rid: 5904237248127434756
+  references:
+    version: 2
+    RefIds:
+    - rid: 5904237248127434753
+      type: {class: BounceVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        BounceSettings:
+          Scale: 0.2
+          Duration: 0.1
+          Curve:
+            serializedVersion: 2
+            m_Curve:
+            - serializedVersion: 3
+              time: 0
+              value: 0
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 0.5
+              value: 1
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            - serializedVersion: 3
+              time: 1
+              value: 0
+              inSlope: 0
+              outSlope: 0
+              tangentMode: 0
+              weightedMode: 0
+              inWeight: 0.33333334
+              outWeight: 0.33333334
+            m_PreInfinity: 2
+            m_PostInfinity: 2
+            m_RotationOrder: 4
+    - rid: 5904237248127434754
+      type: {class: RotationVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        AngleRange: {x: -5, y: 5}
+        Duration: 0.1
+    - rid: 5904237248127434755
+      type: {class: SfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        EventReference:
+          EventName: Sfx/damaged
+    - rid: 5904237248127434756
+      type: {class: SpriteBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        BlinkSettings:
+          Color: {r: 1, g: 1, b: 1, a: 1}
+          Blinks: 1
+          Duration: 0.1
 --- !u!1 &4287988629957940880
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,6 +391,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 5695006272889044161}
   - {fileID: 98893996178935436}
   m_Father: {fileID: 7711212140918325584}
   m_RootOrder: 3

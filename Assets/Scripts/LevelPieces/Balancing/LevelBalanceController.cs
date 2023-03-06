@@ -18,7 +18,7 @@ namespace Minipede.Gameplay.LevelPieces
 			_signalBus = signalBus;
 		}
 
-		public void IncrementCycle()
+		public virtual void IncrementCycle()
 		{
 			_signalBus.Fire( new LevelCycleChangedSignal( ++Cycle ) );
 			Debug.Log( $"<color=orange>Level cycle incremented:</color> (<b>{Cycle}</b>)" );

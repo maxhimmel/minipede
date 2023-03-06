@@ -82,6 +82,15 @@ namespace Minipede.Installers
 					.AsSingle();
 			}
 
+			if ( _settings.UseLevelCycleCheat )
+			{
+				LogCheatActivation<LevelCycleCheat>( messageBuilder );
+
+				Container.Decorate<LevelCycleTimer.ISettings>()
+					.With<LevelCycleCheat>()
+					.WithArguments( _settings.LevelCycle );
+			}
+
 			Debug.LogWarning( messageBuilder );
 		}
 
@@ -115,6 +124,11 @@ namespace Minipede.Installers
 
 			[ToggleGroup( "IsShipGod", "God Mode: Ship", CollapseOthersOnExpand = false )]
 			public bool IsShipGod;
+
+			[ToggleGroup( "UseLevelCycleCheat", "Level Cycle Timing", CollapseOthersOnExpand = false )]
+			public bool UseLevelCycleCheat;
+			[ToggleGroup( "UseLevelCycleCheat", CollapseOthersOnExpand = false ), HideLabel]
+			public LevelCycleCheat.Settings LevelCycle;
 		}
 	}
 }

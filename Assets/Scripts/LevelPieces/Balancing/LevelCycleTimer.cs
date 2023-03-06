@@ -6,20 +6,20 @@ namespace Minipede.Gameplay.LevelPieces
 {
 	public class LevelCycleTimer : ITickable
 	{
-		private readonly Settings _settings;
+		private readonly ISettings _settings;
 		private readonly LevelBalanceController _levelBalancer;
 
 		private bool _isPlaying;
 		private float _nextCycleUpdateTime;
 
-		public LevelCycleTimer( Settings settings,
+		public LevelCycleTimer( ISettings settings,
 			LevelBalanceController levelBalancer )
 		{
 			_settings = settings;
 			_levelBalancer = levelBalancer;
 		}
 
-		public void Play()
+		public virtual void Play()
 		{
 			_isPlaying = true;
 			_nextCycleUpdateTime = Time.timeSinceLevelLoad + _settings.CycleDuration;
@@ -27,7 +27,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public void Tick()
 		{
-			if ( !_isPlaying || _nextCycleUpdateTime > Time.timeSinceLevelLoad )
+			if ( !CanUpdate() )
 			{
 				return;
 			}
@@ -36,15 +36,40 @@ namespace Minipede.Gameplay.LevelPieces
 			_nextCycleUpdateTime = Time.timeSinceLevelLoad + _settings.CycleDuration;
 		}
 
-		public void Stop()
+		protected bool CanUpdate()
+		{
+			if ( !_isPlaying )
+			{
+				return false;
+			}
+			if ( _nextCycleUpdateTime > Time.timeSinceLevelLoad )
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public virtual void Stop()
 		{
 			_isPlaying = false;
 			_nextCycleUpdateTime = Mathf.Infinity;
 		}
 
-		[System.Serializable]
-		public class Settings
+
+		/* --- */
+
+
+		public interface ISettings
 		{
+			public float CycleDuration { get; }
+		}
+
+		[System.Serializable]
+		public class Settings : ISettings
+		{
+			float ISettings.CycleDuration => CycleDuration;
+
 			[MinValue( 0 )]
 			public float CycleDuration;
 		}

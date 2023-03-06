@@ -34,3 +34,7 @@ MonoBehaviour:
     UseLevelCycleCheat: 0
     LevelCycle:
       CycleDuration: 1
+    UseLevelBalanceCheat: 0
+    LevelBalance:
+      StartCycle: 5
+      DisableIncrementing: 1

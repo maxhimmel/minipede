@@ -91,6 +91,15 @@ namespace Minipede.Installers
 					.WithArguments( _settings.LevelCycle );
 			}
 
+			if ( _settings.UseLevelBalanceCheat )
+			{
+				LogCheatActivation<LevelBalanceCheat>( messageBuilder );
+
+				Container.Decorate<LevelBalanceController>()
+					.With<LevelBalanceCheat>()
+					.WithArguments( _settings.LevelBalance );
+			}
+
 			Debug.LogWarning( messageBuilder );
 		}
 
@@ -129,6 +138,11 @@ namespace Minipede.Installers
 			public bool UseLevelCycleCheat;
 			[ToggleGroup( "UseLevelCycleCheat", CollapseOthersOnExpand = false ), HideLabel]
 			public LevelCycleCheat.Settings LevelCycle;
+
+			[ToggleGroup( "UseLevelBalanceCheat", "Level Balancer", CollapseOthersOnExpand = false )]
+			public bool UseLevelBalanceCheat;
+			[ToggleGroup( "UseLevelBalanceCheat", CollapseOthersOnExpand = false ), HideLabel]
+			public LevelBalanceCheat.Settings LevelBalance;
 		}
 	}
 }

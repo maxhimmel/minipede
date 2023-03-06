@@ -31,3 +31,6 @@ MonoBehaviour:
     LevelWonResolver:
       WinPercentage: 1
     IsShipGod: 0
+    UseLevelCycleCheat: 0
+    LevelCycle:
+      CycleDuration: 1

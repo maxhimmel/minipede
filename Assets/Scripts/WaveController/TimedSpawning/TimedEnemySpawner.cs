@@ -5,6 +5,7 @@ using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Enemies.Spawning.Serialization;
+using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Utility;
 using UnityEngine;
@@ -18,6 +19,7 @@ namespace Minipede.Gameplay.Waves
 		protected readonly EnemySpawnBuilder _spawnBuilder;
 		protected readonly EnemyPlacementResolver _placementResolver;
 		private readonly IPlayerLifetimeHandler _playerLifetime;
+		protected readonly LevelBalanceController _levelBalancer;
 		private readonly SignalBus _signalBus;
 		protected readonly HashSet<EnemyController> _livingEnemies;
 
@@ -31,12 +33,14 @@ namespace Minipede.Gameplay.Waves
 			EnemySpawnBuilder spawnBuilder,
 			EnemyPlacementResolver placementResolver,
 			IPlayerLifetimeHandler playerLifetime,
+			LevelBalanceController levelBalancer,
 			SignalBus signalBus )
 		{
 			_settings = settings;
 			_spawnBuilder = spawnBuilder;
 			_placementResolver = placementResolver;
 			_playerLifetime = playerLifetime;
+			_levelBalancer = levelBalancer;
 			_signalBus = signalBus;
 
 			_livingEnemies = new HashSet<EnemyController>();
@@ -121,7 +125,7 @@ namespace Minipede.Gameplay.Waves
 				? null
 				: _settings.Enemies.GetRandomItem();
 
-			int spawnCount = _settings.SwarmAmount;
+			int spawnCount = GetSwarmAmount();
 			for ( int idx = 0; idx < spawnCount; ++idx )
 			{
 				if ( _settings.UseNewEnemyPerSpawn )
@@ -145,6 +149,14 @@ namespace Minipede.Gameplay.Waves
 			}
 		}
 
+		private int GetSwarmAmount()
+		{
+			var settings = _settings.Cast<Settings>();
+			return settings.Balances != null
+				? settings.Balances.GetSwarmAmount( _levelBalancer.Cycle, settings.SwarmAmount )
+				: settings.SwarmAmount;
+		}
+
 		protected virtual void CreateEnemy( SerializedEnemySpawner spawner, HashSet<EnemyController> livingEnemies )
 		{
 			livingEnemies.Add( spawner.Create() );
@@ -152,7 +164,13 @@ namespace Minipede.Gameplay.Waves
 
 		private void RefreshNextSpawnTime()
 		{
-			_nextSpawnTime = Time.timeSinceLevelLoad + _settings.SpawnFrequency;
+			var settings = _settings.Cast<Settings>();
+			float frequency = settings.Balances != null
+				? settings.Balances.GetFrequency( _levelBalancer.Cycle, settings.SpawnFrequency )
+				: settings.SpawnFrequency;
+
+			_nextSpawnTime = Time.timeSinceLevelLoad + frequency;
+
 			//Debug.Log( $"<color=orange>Enemy</color> spawning in <b>{_nextSpawnTime - Time.timeSinceLevelLoad}s</b>." );
 		}
 

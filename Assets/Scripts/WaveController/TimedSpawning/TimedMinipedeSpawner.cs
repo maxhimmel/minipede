@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Enemies.Spawning.Serialization;
+using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -18,15 +19,22 @@ namespace Minipede.Gameplay.Waves
 			EnemySpawnBuilder spawnBuilder,
 			EnemyPlacementResolver placementResolver,
 			IPlayerLifetimeHandler playerLifetime,
+			LevelBalanceController levelBalancer,
 			SignalBus signalBus )
-			: base( settings, spawnBuilder, placementResolver, playerLifetime, signalBus )
+			: base( settings, spawnBuilder, placementResolver, playerLifetime, levelBalancer, signalBus )
 		{
 		}
 
 		protected override void CreateEnemy( SerializedEnemySpawner spawner, HashSet<EnemyController> livingEnemies )
 		{
 			var settings = _settings.Cast<Settings>();
-			CreateHead( spawner, settings.SegmentRange.Random() );
+
+			var balances = settings.Balances as MinipedeWaveBalances;
+			int segmentCount = balances != null
+				? balances.GetSegmentCount( _levelBalancer.Cycle, settings.SegmentRange.Random() )
+				: settings.SegmentRange.Random();
+
+			CreateHead( spawner, segmentCount );
 		}
 
 		private MinipedeController CreateHead( SerializedEnemySpawner spawner,

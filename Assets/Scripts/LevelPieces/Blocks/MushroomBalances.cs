@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.LevelPieces
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/MushroomBalanceTable" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/Mushroom Balance Table" )]
 	public class MushroomBalances : ScriptableObject
 	{
 		[SerializeField] private CurveEvaluator _health;

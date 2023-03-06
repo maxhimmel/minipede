@@ -1,4 +1,6 @@
-﻿using Minipede.Gameplay.Waves;
+﻿using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.Waves;
+using UnityEngine;
 using Zenject;
 
 namespace Minipede.Installers

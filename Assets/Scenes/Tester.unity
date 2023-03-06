@@ -893,7 +893,7 @@ MonoBehaviour:
     - rid: 5904237330888917001
       type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
-        _name: Replenish
+        _name: Replenish Wave
         _enemies:
           _allowEmptyRolls: 0
           _items:
@@ -910,6 +910,7 @@ MonoBehaviour:
         _swarmRange: {x: 10, y: 20}
         _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 0}
 --- !u!4 &269899966
 Transform:
   m_ObjectHideFlags: 0
@@ -1917,8 +1918,9 @@ MonoBehaviour:
         _limitEnemies: 1
         _maxEnemies: 1
         _swarmRange: {x: 1, y: 1}
-        _spawnStagger: 0
+        _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 0}
     - rid: 5904237319612268573
       type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
@@ -1933,8 +1935,9 @@ MonoBehaviour:
         _limitEnemies: 1
         _maxEnemies: 1
         _swarmRange: {x: 1, y: 1}
-        _spawnStagger: 0
+        _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 0}
     - rid: 5904237330888917002
       type: {class: CompositeTimedSpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
@@ -1956,8 +1959,9 @@ MonoBehaviour:
         _limitEnemies: 0
         _maxEnemies: 0
         _swarmRange: {x: 1, y: 1}
-        _spawnStagger: 0
+        _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 11400000, guid: 7c31b51231d7a5a42b8bbd4cacacf5a1, type: 2}
         SegmentRange: {x: 2, y: 4}
     - rid: 5904237330888917004
       type: {class: TimedMinipedeSpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
@@ -1973,8 +1977,9 @@ MonoBehaviour:
         _limitEnemies: 0
         _maxEnemies: 1
         _swarmRange: {x: 1, y: 3}
-        _spawnStagger: 0.25
+        _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 11400000, guid: e46bdb03c187df44caa4e0bce9baad0c, type: 2}
         SegmentRange: {x: 0, y: 2}
 --- !u!4 &887760034
 Transform:

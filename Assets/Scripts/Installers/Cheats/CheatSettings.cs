@@ -1,7 +1,6 @@
 using System.Text;
 using Minipede.Cheats;
 using Minipede.Gameplay;
-using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Waves;
 using Sirenix.OdinInspector;
@@ -11,7 +10,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/CheatSettings" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/CheatSettings" )]
     public class CheatSettings : ScriptableObjectInstaller
     {
 		[SerializeField] private bool _enableCheats = false;

@@ -23,9 +23,6 @@ namespace Minipede.Installers
 		[DisableInPlayMode]
 		[SerializeField] private EnemyController _prefab;
 
-		[Space, InlineEditor]
-		[SerializeField] private EnemyBalances _balances;
-
 		[Space, DisableInPlayMode]
 		[SerializeField] private GraphSpawnPlacement[] _spawnPlacement;
 
@@ -38,10 +35,6 @@ namespace Minipede.Installers
 				container.BindInstance( _spawnPlacement )
 					.WithId( EnemyType );
 			}
-
-			container.BindInstance( _balances )
-				.AsCached()
-				.WhenInjectedInto( EnemyType );
 		}
 
 		private void BindFactory( DiContainer container, EnemyController prefab )

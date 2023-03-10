@@ -1,6 +1,6 @@
+using Minipede.Gameplay;
 using Minipede.Gameplay.Enemies;
-using Minipede.Gameplay.Movement;
-using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +8,9 @@ namespace Minipede.Installers
 {
     public class EnemyControllerInstaller : MonoInstaller
     {
+		[InlineEditor]
+		[SerializeField] private EnemyBalances _balances;
+
 		public override void InstallBindings()
 		{
 			Container.Bind<EnemyController>()
@@ -25,6 +28,16 @@ namespace Minipede.Installers
 			Container.Bind<SpriteRenderer>()
 				.FromMethod( GetComponentInChildren<SpriteRenderer> )
 				.AsSingle();
+
+			/* --- */
+
+			Container.BindInterfacesTo<HealthBalanceResolver>()
+				.AsSingle()
+				.WithArguments( _balances.Health );
+
+			Container.BindInterfacesTo<SpeedBalanceResolver>()
+				.AsSingle()
+				.WithArguments( _balances.Speed );
 		}
 	}
 }

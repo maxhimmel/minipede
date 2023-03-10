@@ -198,6 +198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a772c3e3b1d5f14087efe6f31bec9b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _balances: {fileID: 11400000, guid: 9f170849d6c071946869fbdb8b15e1b5, type: 2}
   _settings:
     CreateBlockRange: {x: 0, y: 0.15}
     ZigZagRange: {x: 2, y: 4}

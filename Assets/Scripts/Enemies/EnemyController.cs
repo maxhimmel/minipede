@@ -1,7 +1,6 @@
 using System;
 using System.Threading;
 using Minipede.Gameplay.LevelPieces;
-using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Installers;
 using Minipede.Utility;
@@ -38,10 +37,8 @@ namespace Minipede.Gameplay.Enemies
 		protected SignalBus _signalBus;
 		private LootBox _lootBox;
 		private LevelGenerationInstaller.Level _levelSettings;
-		private EnemyBalances _balancing;
-		private LevelBalanceController _levelBalancer;
-		private IMaxSpeed _maxSpeed;
-		private Scalar _speedScalar;
+		private IHealthBalanceResolver _healthBalancer;
+		private ISpeedBalanceResolver _speedBalancer;
 
 		private CancellationTokenSource _onDestroyCancelSource;
 		private IMemoryPool _memoryPool;
@@ -55,10 +52,8 @@ namespace Minipede.Gameplay.Enemies
 			SignalBus signalBus,
 			LootBox lootBox,
 			LevelGenerationInstaller.Level levelSettings,
-			EnemyBalances balancing,
-			LevelBalanceController levelBalancer,
-			IMaxSpeed maxSpeed,
-			[Inject( Id = "EnemySpeedScalar" )] Scalar speedScalar )
+			IHealthBalanceResolver healthBalancer,
+			ISpeedBalanceResolver speedBalancer )
 		{
 			_body = body;
 			_damageController = damageController;
@@ -68,10 +63,8 @@ namespace Minipede.Gameplay.Enemies
 			_signalBus = signalBus;
 			_lootBox = lootBox;
 			_levelSettings = levelSettings;
-			_balancing = balancing;
-			_levelBalancer = levelBalancer;
-			_maxSpeed = maxSpeed;
-			_speedScalar = speedScalar;
+			_healthBalancer = healthBalancer;
+			_speedBalancer = speedBalancer;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
@@ -115,7 +108,7 @@ namespace Minipede.Gameplay.Enemies
 			_memoryPool = pool;
 			_onDestroyCancelSource = AppHelper.CreateLinkedCTS();
 
-			OnLevelCycleChanged( new LevelCycleChangedSignal( _levelBalancer.Cycle ) );
+			OnLevelCycleChanged();
 			Health.Replenish();
 
 			_damageController.Died += OnDied;
@@ -130,23 +123,16 @@ namespace Minipede.Gameplay.Enemies
 			_signalBus.Fire( new EnemySpawnedSignal() { Enemy = this } );
 		}
 
-		private void OnLevelCycleChanged( LevelCycleChangedSignal signal )
+		private void OnLevelCycleChanged()
 		{
 			RecalibrateVelocity();
 
-			int prevMaxHealth = Health.Max;
-			Health.RestoreDefaults();
-			int newMaxHealth = _balancing.GetHealth( signal.Cycle, Health.Max );
-			Health.SetMaxHealth( newMaxHealth );
-			int maxHealthDifference = newMaxHealth - prevMaxHealth;
-			Health.Reduce( -maxHealthDifference );
+			_healthBalancer.Resolve();
 		}
 
 		public virtual void RecalibrateVelocity()
 		{
-			_maxSpeed.RestoreDefaults();
-			float maxSpeed = _balancing.GetSpeed( _levelBalancer.Cycle, _maxSpeed.GetMaxSpeed() );
-			_maxSpeed.SetMaxSpeed( maxSpeed * _speedScalar.Scale );
+			_speedBalancer.Resolve();
 		}
 
 		public virtual void StartMainBehavior()

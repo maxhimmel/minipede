@@ -1,5 +1,6 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.Fx;
+using Minipede.Gameplay.LevelPieces;
 using Zenject;
 
 namespace Minipede.Installers
@@ -16,6 +17,15 @@ namespace Minipede.Installers
 
 			Container.BindInterfacesAndSelfTo<ScreenBlinkController>()
 				.AsSingle();
+
+			Container.Bind<LevelBalanceController>()
+				.AsSingle()
+				.WithArguments( new LevelBalanceController.Settings() { StartCycle = 0 } );
+
+			/* --- */
+
+			Container.DeclareSignal<LevelCycleChangedSignal>()
+				.OptionalSubscriber();
 		}
 	}
 }

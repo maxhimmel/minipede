@@ -2,15 +2,27 @@ using System.Collections.Generic;
 using Minipede.Utility;
 using UnityEngine;
 
+namespace Minipede.Utility
+{
+	public interface IValueSignal<TValue>
+	{
+		TValue Value { get; }
+	}
+}
+
 namespace Minipede.Gameplay.LevelPieces
 {
-	public class BlockSpawnedSignal
+	public class BlockSpawnedSignal : IValueSignal<Block>
 	{
+		public Block Value => NewBlock;
+
 		public Block NewBlock;
 	}
 
-	public class BlockDestroyedSignal
+	public class BlockDestroyedSignal : IValueSignal<Block>
 	{
+		public Block Value => Victim;
+
 		public Block Victim;
 	}
 
@@ -24,13 +36,17 @@ namespace Minipede.Gameplay.LevelPieces
 
 namespace Minipede.Gameplay.Enemies
 {
-	public class EnemyDestroyedSignal
+	public class EnemyDestroyedSignal : IValueSignal<EnemyController>
 	{
+		public EnemyController Value => Victim;
+
 		public EnemyController Victim;
 	}
 
-	public class EnemySpawnedSignal
+	public class EnemySpawnedSignal : IValueSignal<EnemyController>
 	{
+		public EnemyController Value => Enemy;
+
 		public EnemyController Enemy;
 	}
 }
@@ -72,6 +88,16 @@ namespace Minipede.Gameplay
 		public PausedSignal( bool isPaused )
 		{
 			IsPaused = isPaused;
+		}
+	}
+
+	public class LevelCycleChangedSignal
+	{
+		public int Cycle { get; }
+
+		public LevelCycleChangedSignal( int cycle )
+		{
+			Cycle = cycle;
 		}
 	}
 }

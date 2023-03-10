@@ -4,5 +4,7 @@
 	{
 		float GetMaxSpeed();
 		void SetMaxSpeed( float maxSpeed );
+
+		void RestoreDefaults();
 	}
 }

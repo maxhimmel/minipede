@@ -6,14 +6,21 @@
 	{
 		public float MaxSpeed;
 
+		private float _mutableMaxSpeed;
+
+		public void RestoreDefaults()
+		{
+			_mutableMaxSpeed = MaxSpeed;
+		}
+
 		public float GetMaxSpeed()
 		{
-			return MaxSpeed;
+			return _mutableMaxSpeed;
 		}
 
 		public void SetMaxSpeed( float maxSpeed )
 		{
-			MaxSpeed = maxSpeed;
+			_mutableMaxSpeed = maxSpeed;
 		}
 	}
 }

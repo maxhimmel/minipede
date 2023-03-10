@@ -16,17 +16,20 @@ namespace Minipede.Gameplay.LevelPieces
 		private LootBox _lootBox;
 		private IInteractable _interactable;
 		private ISelectable _selectable;
+		private IHealthBalanceResolver _healthBalancer;
 
 		[Inject]
 		public void Construct( Settings settings,
 			LootBox lootBox,
 			[InjectOptional] IInteractable interactable,
-			[InjectOptional] ISelectable selectable )
+			[InjectOptional] ISelectable selectable,
+			[InjectOptional] IHealthBalanceResolver healthBalancer )
 		{
 			_settings = settings;
 			_lootBox = lootBox;
 			_interactable = interactable;
 			_selectable = selectable;
+			_healthBalancer = healthBalancer;
 		}
 
 		protected override void HandleDeath( Rigidbody2D victimBody, HealthController health )
@@ -73,6 +76,27 @@ namespace Minipede.Gameplay.LevelPieces
 		public void Deselect()
 		{
 			_selectable?.Deselect();
+		}
+
+		public override void OnDespawned()
+		{
+			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+
+			base.OnDespawned();
+		}
+
+		public override void OnSpawned( IOrientation placement, IMemoryPool pool )
+		{
+			_signalBus.Subscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+
+			OnLevelCycleChanged();
+
+			base.OnSpawned( placement, pool );
+		}
+
+		private void OnLevelCycleChanged()
+		{
+			_healthBalancer?.Resolve();
 		}
 
 		[System.Serializable]

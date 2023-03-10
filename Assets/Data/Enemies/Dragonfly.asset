@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initalPoolSize: 20
   _prefab: {fileID: 682032874086321491, guid: afe0baf7eada72846901d59c2098c7b2, type: 3}
+  _balances: {fileID: 11400000, guid: 9f170849d6c071946869fbdb8b15e1b5, type: 2}
   _spawnPlacement:
   - Area:
       RowCol: {x: 32, y: 0}

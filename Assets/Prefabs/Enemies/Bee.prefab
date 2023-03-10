@@ -219,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa1652263ed732941afd1a549925db97, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _balances: {fileID: 11400000, guid: 9f170849d6c071946869fbdb8b15e1b5, type: 2}
   _settings:
     CreateBlockRange: {x: 0, y: 0.15}
 --- !u!114 &8861189588005838517 stripped

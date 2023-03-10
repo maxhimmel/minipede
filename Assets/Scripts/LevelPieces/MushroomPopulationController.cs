@@ -100,7 +100,7 @@ namespace Minipede.Gameplay.LevelPieces
 			[MinValue( 1 )]
 			public float ReplenishCooldown;
 
-			[BoxGroup, HideLabel]
+			[BoxGroup, LabelText( "@ReplenishWave.Name" )]
 			[SerializeReference] public ITimedSpawner.ISettings ReplenishWave;
 		}
 	}

@@ -26,6 +26,7 @@ namespace Minipede.Gameplay.Movement
 			_maxSpeed = maxSpeedSettings;
 			_body = body;
 
+			settings.RestoreDefaults();
 			SetDesiredVelocity( Vector2.zero );
 		}
 

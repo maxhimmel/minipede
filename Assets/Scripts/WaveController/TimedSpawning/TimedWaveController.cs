@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Enemies;
 using UnityEngine;
@@ -12,21 +11,19 @@ namespace Minipede.Gameplay.Waves
 		private float NormalizedTime => 1f - (_nextWaveTime - Time.timeSinceLevelLoad) / _settings.Duration;
 
 		private readonly Settings _settings;
-		private readonly SignalBus _signalBus;
+		private readonly ActiveEnemies _activeEnemies;
 		private readonly ITimedSpawner[] _enemySpawners;
-		private readonly HashSet<EnemyController> _livingEnemies;
 
 		private float _nextWaveTime;
 		private bool _isRunning;
 
 		public TimedWaveController( Settings settings,
-			SignalBus signalBus,
+			ActiveEnemies activeEnemies,
 			[InjectOptional] ITimedSpawner[] enemySpawners )
 		{
 			_settings = settings;
-			_signalBus = signalBus;
+			_activeEnemies = activeEnemies;
 			_enemySpawners = enemySpawners ?? new ITimedSpawner[0];
-			_livingEnemies = new HashSet<EnemyController>();
 		}
 
 		public void Tick()
@@ -46,9 +43,6 @@ namespace Minipede.Gameplay.Waves
 		{
 			if ( !_isRunning )
 			{
-				_signalBus.Subscribe<EnemySpawnedSignal>( OnEnemySpawned );
-				_signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
-
 				foreach ( var spawner in _enemySpawners )
 				{
 					spawner.Play();
@@ -63,12 +57,13 @@ namespace Minipede.Gameplay.Waves
 
 		public void Interrupt()
 		{
-			if ( _isRunning )
-			{
-				_signalBus.Unsubscribe<EnemySpawnedSignal>( OnEnemySpawned );
-				_signalBus.Unsubscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
-			}
+			Pause();
 
+			_activeEnemies.Clear();
+		}
+
+		public void Pause()
+		{
 			_isRunning = false;
 			_nextWaveTime = Mathf.Infinity;
 
@@ -76,22 +71,6 @@ namespace Minipede.Gameplay.Waves
 			{
 				spawner.Stop();
 			}
-
-			foreach ( var enemy in _livingEnemies )
-			{
-				enemy.Dispose();
-			}
-			_livingEnemies.Clear();
-		}
-
-		private void OnEnemySpawned( EnemySpawnedSignal signal )
-		{
-			_livingEnemies.Add( signal.Enemy );
-		}
-
-		private void OnEnemyDestroyed( EnemyDestroyedSignal signal )
-		{
-			_livingEnemies.Remove( signal.Victim );
 		}
 
 		[System.Serializable]

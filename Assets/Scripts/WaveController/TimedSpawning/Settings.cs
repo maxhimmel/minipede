@@ -70,7 +70,6 @@ namespace Minipede.Gameplay.Waves
 
 			[PropertyTooltip( "Delay between swarm spawns." )]
 			[FoldoutGroup( "@GetSwarmingGroupName()", GroupID = "Main/Settings/Swarming" )]
-			[ShowIf( "@IsSwarm()" )]
 			[MinValue( 0 )]
 			[SerializeField] private float _spawnStagger = 0;
 
@@ -78,6 +77,10 @@ namespace Minipede.Gameplay.Waves
 			[FoldoutGroup( "@GetSwarmingGroupName()", GroupID = "Main/Settings/Swarming" ), LabelText( "Swarm Variance" )]
 			[ShowIf( "@IsSwarm() && HasVariance()" )]
 			[SerializeField] private bool _useNewEnemyPerSpawn;
+
+			[Space, TabGroup( "Main", "Settings" ), InlineEditor]
+			[ValidateInput( "IsBalanceTableValid", "Balance tables must match wave types." )]
+			public EnemyWaveBalances Balances;
 
 			public TSettings Cast<TSettings>()
 				where TSettings : Settings
@@ -110,6 +113,35 @@ namespace Minipede.Gameplay.Waves
 			private bool HasVariance()
 			{
 				return _enemies != null && _enemies.Count > 1;
+			}
+
+			private bool IsBalanceTableValid( EnemyWaveBalances balances, ref string errorMessage )
+			{
+				if ( balances == null )
+				{
+					return true;
+				}
+
+				if ( GetType() == typeof( TimedMinipedeSpawner.Settings ) )
+				{
+					if ( balances.GetType() != typeof( MinipedeWaveBalances ) )
+					{
+						errorMessage = "Please attach a 'Minipede Wave Balance Table'\n" +
+							"Create via '<b>Minipede/Misc/...</b>' as a scriptable object.";
+						return false;
+					}
+				}
+				else
+				{
+					if ( balances.GetType() != typeof( EnemyWaveBalances ) )
+					{
+						errorMessage = "Please attach a 'Wave Balance Table'\n" +
+							"Create via '<b>Minipede/Misc/...</b>' as a scriptable object.";
+						return false;
+					}
+				}
+
+				return true;
 			}
 #endif
 			#endregion

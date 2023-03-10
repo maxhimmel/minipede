@@ -16,6 +16,13 @@ namespace Minipede.Gameplay.Treasures
 			_settings = settings;
 			_maxSpeed = maxSpeedSettings;
 			_hauler = hauler;
+
+			RestoreDefaults();
+		}
+
+		public void RestoreDefaults()
+		{
+			_maxSpeed.RestoreDefaults();
 		}
 
 		public float GetMaxSpeed()

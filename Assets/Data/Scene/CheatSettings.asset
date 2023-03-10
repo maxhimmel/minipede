@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57aecc61c22605540a0dea73b5ee7261, type: 3}
   m_Name: CheatSettings
   m_EditorClassIdentifier: 
-  _enableCheats: 0
+  _enableCheats: 1
   _settings:
     UseWalletCheat: 0
     Wallet:
@@ -25,9 +25,18 @@ MonoBehaviour:
     - PreLoad: 0
       ResourceType: {fileID: 11400000, guid: 98f8c31c61a88ba499c267e6dfb86084, type: 2}
     UseMushroomShifterCheat: 0
-    DisableWaves: 1
+    DisableWaves: 0
     DisableLevelGeneration: 0
     UseFakeWinPercentage: 0
     LevelWonResolver:
       WinPercentage: 1
     IsShipGod: 0
+    UseLevelCycleCheat: 0
+    LevelCycle:
+      CycleDuration: 1
+    UseLevelBalanceCheat: 1
+    LevelBalance:
+      StartCycle: 0
+      DisableIncrementing: 0
+      IsOverridingCycle: 1
+      CycleOverride: 0

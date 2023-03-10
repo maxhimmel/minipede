@@ -1,11 +1,11 @@
+using System;
 using System.Threading;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Treasures;
+using Minipede.Installers;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
-using Minipede.Installers;
-using System;
 
 namespace Minipede.Gameplay.Enemies
 {
@@ -37,6 +37,8 @@ namespace Minipede.Gameplay.Enemies
 		protected SignalBus _signalBus;
 		private LootBox _lootBox;
 		private LevelGenerationInstaller.Level _levelSettings;
+		private IHealthBalanceResolver _healthBalancer;
+		private ISpeedBalanceResolver _speedBalancer;
 
 		private CancellationTokenSource _onDestroyCancelSource;
 		private IMemoryPool _memoryPool;
@@ -49,7 +51,9 @@ namespace Minipede.Gameplay.Enemies
 			LevelForeman foreman,
 			SignalBus signalBus,
 			LootBox lootBox,
-			LevelGenerationInstaller.Level levelSettings )
+			LevelGenerationInstaller.Level levelSettings,
+			IHealthBalanceResolver healthBalancer,
+			ISpeedBalanceResolver speedBalancer )
 		{
 			_body = body;
 			_damageController = damageController;
@@ -59,6 +63,8 @@ namespace Minipede.Gameplay.Enemies
 			_signalBus = signalBus;
 			_lootBox = lootBox;
 			_levelSettings = levelSettings;
+			_healthBalancer = healthBalancer;
+			_speedBalancer = speedBalancer;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
@@ -92,6 +98,7 @@ namespace Minipede.Gameplay.Enemies
 			_onDestroyCancelSource = null;
 
 			_damageController.Died -= OnDied;
+			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
 
 			_signalBus.Fire( new EnemyDestroyedSignal() { Victim = this } );
 		}
@@ -99,12 +106,13 @@ namespace Minipede.Gameplay.Enemies
 		public virtual void OnSpawned( IOrientation placement, IMemoryPool pool )
 		{
 			_memoryPool = pool;
-
 			_onDestroyCancelSource = AppHelper.CreateLinkedCTS();
 
+			OnLevelCycleChanged();
 			Health.Replenish();
 
 			_damageController.Died += OnDied;
+			_signalBus.Subscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
 
 			// We set the transform's orientation so there isn't any visual blinking when moving from previous spawn position.
 			transform.SetPositionAndRotation( placement.Position, placement.Rotation );
@@ -115,13 +123,20 @@ namespace Minipede.Gameplay.Enemies
 			_signalBus.Fire( new EnemySpawnedSignal() { Enemy = this } );
 		}
 
-		public virtual void StartMainBehavior()
+		private void OnLevelCycleChanged()
 		{
+			RecalibrateVelocity();
+
+			_healthBalancer.Resolve();
 		}
 
 		public virtual void RecalibrateVelocity()
 		{
+			_speedBalancer.Resolve();
+		}
 
+		public virtual void StartMainBehavior()
+		{
 		}
 
 		protected void FixedUpdate()

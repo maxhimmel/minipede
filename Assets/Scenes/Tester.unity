@@ -163,6 +163,8 @@ MonoBehaviour:
   - {fileID: 1194569729}
   - {fileID: 887760033}
   - {fileID: 269899965}
+  - {fileID: 638692082}
+  - {fileID: 1980440210}
   _installerPrefabs: []
   _autoRun: 1
   OnPreInstall:
@@ -198,6 +200,8 @@ Transform:
   - {fileID: 1194569728}
   - {fileID: 887760034}
   - {fileID: 269899966}
+  - {fileID: 638692083}
+  - {fileID: 1980440211}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -891,7 +895,7 @@ MonoBehaviour:
     - rid: 5904237330888917001
       type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
-        _name: Replenish
+        _name: Replenish Wave
         _enemies:
           _allowEmptyRolls: 0
           _items:
@@ -908,6 +912,7 @@ MonoBehaviour:
         _swarmRange: {x: 10, y: 20}
         _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 0}
 --- !u!4 &269899966
 Transform:
   m_ObjectHideFlags: 0
@@ -1744,6 +1749,54 @@ SpriteMask:
   m_BackSortingOrder: 0
   m_IsCustomRangeActive: 0
   m_SpriteSortPoint: 0
+--- !u!1 &638692081
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 638692083}
+  - component: {fileID: 638692082}
+  m_Layer: 0
+  m_Name: LevelBalance
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &638692082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638692081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b83e6b054529bf4fa1a0641a87666ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _balancing:
+    StartCycle: 0
+  _timing:
+    CycleDuration: 20
+--- !u!4 &638692083
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638692081}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 25686634}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &640213061
 GameObject:
   m_ObjectHideFlags: 0
@@ -1865,10 +1918,11 @@ MonoBehaviour:
         _startDelay: 5
         _spawnFrequency: {x: 5, y: 9}
         _limitEnemies: 1
-        _maxEnemies: 3
+        _maxEnemies: 1
         _swarmRange: {x: 1, y: 1}
-        _spawnStagger: 0
+        _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 0}
     - rid: 5904237319612268573
       type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
@@ -1883,8 +1937,9 @@ MonoBehaviour:
         _limitEnemies: 1
         _maxEnemies: 1
         _swarmRange: {x: 1, y: 1}
-        _spawnStagger: 0
+        _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 0}
     - rid: 5904237330888917002
       type: {class: CompositeTimedSpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
@@ -1906,8 +1961,9 @@ MonoBehaviour:
         _limitEnemies: 0
         _maxEnemies: 0
         _swarmRange: {x: 1, y: 1}
-        _spawnStagger: 0
+        _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 11400000, guid: 7c31b51231d7a5a42b8bbd4cacacf5a1, type: 2}
         SegmentRange: {x: 2, y: 4}
     - rid: 5904237330888917004
       type: {class: TimedMinipedeSpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
@@ -1923,8 +1979,9 @@ MonoBehaviour:
         _limitEnemies: 0
         _maxEnemies: 1
         _swarmRange: {x: 1, y: 3}
-        _spawnStagger: 0.25
+        _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 11400000, guid: e46bdb03c187df44caa4e0bce9baad0c, type: 2}
         SegmentRange: {x: 0, y: 2}
 --- !u!4 &887760034
 Transform:
@@ -3730,6 +3787,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1980440209
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1980440211}
+  - component: {fileID: 1980440210}
+  m_Layer: 0
+  m_Name: Nighttime
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1980440210
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980440209}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 493480ef9f353c44f841e63e23b32dc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    CycleRate: 3
+    Duration: 30
+--- !u!4 &1980440211
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980440209}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 25686634}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2000771662
 GameObject:
   m_ObjectHideFlags: 0
@@ -3853,6 +3957,7 @@ MonoBehaviour:
       Heal:
         Heal: 1
       DelayPerHealStep: 1
+      Balances: {fileID: 11400000, guid: 12bef4cd7635ed543bf98c2e47baa00e, type: 2}
     Mushrooms:
       Standard:
         Prefab: {fileID: -1497698299372641502, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}

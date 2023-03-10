@@ -1,6 +1,6 @@
+using Minipede.Gameplay;
 using Minipede.Gameplay.Enemies;
-using Minipede.Gameplay.Movement;
-using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +8,9 @@ namespace Minipede.Installers
 {
     public class EnemyControllerInstaller : MonoInstaller
     {
+		[InlineEditor]
+		[SerializeField] private EnemyBalances _balances;
+
 		public override void InstallBindings()
 		{
 			Container.Bind<EnemyController>()
@@ -22,14 +25,19 @@ namespace Minipede.Installers
 				.FromComponentOnRoot()
 				.AsSingle();
 
+			Container.Bind<SpriteRenderer>()
+				.FromMethod( GetComponentInChildren<SpriteRenderer> )
+				.AsSingle();
+
 			/* --- */
 
-			Container.Bind<Scalar>()
-				.FromResolveGetter<DiContainer>( container => container.ResolveId<Scalar>( "EnemySpeedScalar" ) );
+			Container.BindInterfacesTo<HealthBalanceResolver>()
+				.AsSingle()
+				.WithArguments( _balances.Health );
 
-			// TODO: Is this necessary now that structs have been converted into classes?
-			Container.Decorate<IMaxSpeed>()
-				.With<MaxSpeedDecorator>();
+			Container.BindInterfacesTo<SpeedBalanceResolver>()
+				.AsSingle()
+				.WithArguments( _balances.Speed );
 		}
 	}
 }

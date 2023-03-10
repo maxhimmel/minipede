@@ -230,6 +230,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8cb6d42df00fe42a6583868387ac48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _balances: {fileID: 11400000, guid: 9f170849d6c071946869fbdb8b15e1b5, type: 2}
   _settings:
     ColumnMovementRange: {x: 5, y: 24}
     ExitRow: 13

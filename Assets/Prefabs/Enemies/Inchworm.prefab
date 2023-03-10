@@ -234,6 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 705b4fdde40ee084e9cd7a3eaf6f99b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _balances: {fileID: 11400000, guid: 9f170849d6c071946869fbdb8b15e1b5, type: 2}
   _settings:
     SlowDownRatio: 0.4
     SlowDownDuration: 10

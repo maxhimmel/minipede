@@ -1,7 +1,6 @@
 using System.Text;
 using Minipede.Cheats;
 using Minipede.Gameplay;
-using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Waves;
 using Sirenix.OdinInspector;
@@ -11,7 +10,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/CheatSettings" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/CheatSettings" )]
     public class CheatSettings : ScriptableObjectInstaller
     {
 		[SerializeField] private bool _enableCheats = false;
@@ -82,6 +81,24 @@ namespace Minipede.Installers
 					.AsSingle();
 			}
 
+			if ( _settings.UseLevelCycleCheat )
+			{
+				LogCheatActivation<LevelCycleCheat>( messageBuilder );
+
+				Container.Decorate<LevelCycleTimer.ISettings>()
+					.With<LevelCycleCheat>()
+					.WithArguments( _settings.LevelCycle );
+			}
+
+			if ( _settings.UseLevelBalanceCheat )
+			{
+				LogCheatActivation<LevelBalanceCheat>( messageBuilder );
+
+				Container.Decorate<LevelBalanceController>()
+					.With<LevelBalanceCheat>()
+					.WithArguments( _settings.LevelBalance );
+			}
+
 			Debug.LogWarning( messageBuilder );
 		}
 
@@ -115,6 +132,16 @@ namespace Minipede.Installers
 
 			[ToggleGroup( "IsShipGod", "God Mode: Ship", CollapseOthersOnExpand = false )]
 			public bool IsShipGod;
+
+			[ToggleGroup( "UseLevelCycleCheat", "Level Cycle Timing", CollapseOthersOnExpand = false )]
+			public bool UseLevelCycleCheat;
+			[ToggleGroup( "UseLevelCycleCheat", CollapseOthersOnExpand = false ), HideLabel]
+			public LevelCycleCheat.Settings LevelCycle;
+
+			[ToggleGroup( "UseLevelBalanceCheat", "Level Balancer", CollapseOthersOnExpand = false )]
+			public bool UseLevelBalanceCheat;
+			[ToggleGroup( "UseLevelBalanceCheat", CollapseOthersOnExpand = false ), HideLabel]
+			public LevelBalanceCheat.Settings LevelBalance;
 		}
 	}
 }

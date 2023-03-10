@@ -35,6 +35,8 @@ namespace Minipede.Gameplay.Movement
 			_maxSpeed = maxSpeedSettings;
 			_body = body;
 			_graph = graph;
+
+			settings.RestoreDefaults();
 		}
 
 		public async UniTask StartMoving( Vector2Int direction, CancellationToken cancelToken = default )

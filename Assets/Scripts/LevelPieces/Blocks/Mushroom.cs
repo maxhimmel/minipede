@@ -14,22 +14,22 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private Settings _settings;
 		private LootBox _lootBox;
-		private LevelBalanceController _levelBalancer;
 		private IInteractable _interactable;
 		private ISelectable _selectable;
+		private IHealthBalanceResolver _healthBalancer;
 
 		[Inject]
 		public void Construct( Settings settings,
 			LootBox lootBox,
-			LevelBalanceController levelBalancer,
 			[InjectOptional] IInteractable interactable,
-			[InjectOptional] ISelectable selectable )
+			[InjectOptional] ISelectable selectable,
+			[InjectOptional] IHealthBalanceResolver healthBalancer )
 		{
 			_settings = settings;
 			_lootBox = lootBox;
-			_levelBalancer = levelBalancer;
 			_interactable = interactable;
 			_selectable = selectable;
+			_healthBalancer = healthBalancer;
 		}
 
 		protected override void HandleDeath( Rigidbody2D victimBody, HealthController health )
@@ -80,40 +80,23 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public override void OnDespawned()
 		{
-			if ( !IsFlower() )
-			{
-				_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
-			}
+			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
 
 			base.OnDespawned();
 		}
 
 		public override void OnSpawned( IOrientation placement, IMemoryPool pool )
 		{
-			if ( !IsFlower() )
-			{
-				_signalBus.Subscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+			_signalBus.Subscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
 
-				OnLevelCycleChanged( new LevelCycleChangedSignal( _levelBalancer.Cycle ) );
-			}
+			OnLevelCycleChanged();
 
 			base.OnSpawned( placement, pool );
 		}
 
-		private bool IsFlower()
+		private void OnLevelCycleChanged()
 		{
-			// TODO: Create flower class (probably for realz this time).
-			return name.Contains( "Flower" );
-		}
-
-		private void OnLevelCycleChanged( LevelCycleChangedSignal signal )
-		{
-			int prevMaxHealth = Health.Max;
-			Health.RestoreDefaults();
-			int newMaxHealth = _settings.Balances.GetHealth( signal.Cycle, Health.Max );
-			Health.SetMaxHealth( newMaxHealth );
-			int maxHealthDifference = newMaxHealth - prevMaxHealth;
-			Health.Reduce( -maxHealthDifference );
+			_healthBalancer?.Resolve();
 		}
 
 		[System.Serializable]
@@ -122,9 +105,6 @@ namespace Minipede.Gameplay.LevelPieces
 			[HideLabel]
 			public HealInvoker.Settings Heal;
 			public float DelayPerHealStep;
-
-			[Space, InlineEditor]
-			public MushroomBalances Balances;
 		}
 	}
 }

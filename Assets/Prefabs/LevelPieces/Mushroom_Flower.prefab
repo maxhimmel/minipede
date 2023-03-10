@@ -57,7 +57,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _monoInstallers.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _monoInstallers.Array.data[1]
@@ -67,6 +67,10 @@ PrefabInstance:
       propertyPath: _monoInstallers.Array.data[2]
       value: 
       objectReference: {fileID: 237335623948398518}
+    - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
+      propertyPath: _monoInstallers.Array.data[3]
+      value: 
+      objectReference: {fileID: 1158149326260477160}
     - target: {fileID: 6093263637641906255, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: m_Color.b
       value: 0.5386388
@@ -83,7 +87,8 @@ PrefabInstance:
       propertyPath: _settings.Prefab
       value: 
       objectReference: {fileID: 2136045927195822331, guid: 54bd9159dfc4860448afec72c809f6e2, type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2530257933576413001, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
 --- !u!114 &237335623948398518 stripped
 MonoBehaviour:
@@ -101,6 +106,19 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 6093263636819055866, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
   m_PrefabInstance: {fileID: 2378865929327402083}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1158149326260477160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8470412232020281497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93850e656ceaa6a478ad0c2637f798ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _balances: {fileID: 0}
 --- !u!114 &773270202664393196
 MonoBehaviour:
   m_ObjectHideFlags: 0

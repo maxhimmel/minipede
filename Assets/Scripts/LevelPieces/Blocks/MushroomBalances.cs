@@ -6,11 +6,8 @@ namespace Minipede.Gameplay.LevelPieces
 	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Misc/Mushroom Balance Table" )]
 	public class MushroomBalances : ScriptableObject
 	{
-		[SerializeField] private CurveEvaluator _health;
+		public CurveEvaluator Health => _health;
 
-		public int GetHealth( int cycle, int defaultValue )
-		{
-			return Mathf.FloorToInt( _health.Evaluate( cycle, defaultValue ) );
-		}
+		[SerializeField] private CurveEvaluator _health;
 	}
 }

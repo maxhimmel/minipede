@@ -23,6 +23,7 @@ namespace Minipede.Gameplay
 		private readonly AudioBankLoader _audioBankLoader;
 		private readonly LevelCycleTimer _levelCycleTimer;
 		private readonly LevelMushroomHealer _mushroomHealer;
+		private readonly NighttimeController _nighttimeController;
 		private readonly SceneLoader _sceneLoader;
 
 		public GameController( PlayerSettings.Player playerSettings,
@@ -32,6 +33,7 @@ namespace Minipede.Gameplay
 			AudioBankLoader audioBankLoader,
 			LevelCycleTimer levelCycleTimer,
 			LevelMushroomHealer mushroomHealer,
+			NighttimeController nighttimeController,
 			SceneLoader sceneLoader )
 		{
 			_playerSettings = playerSettings;
@@ -41,6 +43,7 @@ namespace Minipede.Gameplay
 			_audioBankLoader = audioBankLoader;
 			_levelCycleTimer = levelCycleTimer;
 			_mushroomHealer = mushroomHealer;
+			_nighttimeController = nighttimeController;
 			_sceneLoader = sceneLoader;
 		}
 
@@ -69,15 +72,22 @@ namespace Minipede.Gameplay
 
 		private async void OnPlayerDead()
 		{
-			_waveController.Interrupt();
-			_levelCycleTimer.Stop();
+			if ( !_nighttimeController.IsNighttime )
+			{
+				_waveController.Interrupt();
+				_levelCycleTimer.Stop();
 
-			await _mushroomHealer.HealAll();
+				await _mushroomHealer.HealAll();
+			}
+
 			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay );
-
 			_playerSpawnController.RespawnPlayer();
-			_waveController.Play().Forget();
-			_levelCycleTimer.Play();
+
+			if ( !_nighttimeController.IsNighttime )
+			{
+				_waveController.Play().Forget();
+				_levelCycleTimer.Play();
+			}
 		}
 	}
 }

@@ -99,6 +99,11 @@ namespace Minipede.Gameplay.LevelPieces
 			_healthBalancer?.Resolve();
 		}
 
+		private void OnDestroy()
+		{
+			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+		}
+
 		[System.Serializable]
 		public class Settings
 		{

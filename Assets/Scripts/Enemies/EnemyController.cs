@@ -160,6 +160,11 @@ namespace Minipede.Gameplay.Enemies
 			return rowColCoord.Row() < _levelSettings.Builder.PlayerRows;
 		}
 
+		private void OnDestroy()
+		{
+			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+		}
+
 		public class Factory : PlaceholderFactory<IOrientation, EnemyController> { }
 	}
 }

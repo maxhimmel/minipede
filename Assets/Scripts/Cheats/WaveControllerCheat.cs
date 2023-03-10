@@ -20,5 +20,10 @@ namespace Minipede.Cheats
 		{
 			Debug.LogWarning( $"<b>{nameof( WaveControllerCheat )}</b> is enabled. There are no waves to interrupt." );
 		}
+
+		public void Pause()
+		{
+			Debug.LogWarning( $"<b>{nameof( WaveControllerCheat )}</b> is enabled. There are no waves to pause." );
+		}
 	}
 }

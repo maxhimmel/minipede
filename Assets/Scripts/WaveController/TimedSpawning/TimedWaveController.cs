@@ -57,6 +57,13 @@ namespace Minipede.Gameplay.Waves
 
 		public void Interrupt()
 		{
+			Pause();
+
+			_activeEnemies.Clear();
+		}
+
+		public void Pause()
+		{
 			_isRunning = false;
 			_nextWaveTime = Mathf.Infinity;
 
@@ -64,8 +71,6 @@ namespace Minipede.Gameplay.Waves
 			{
 				spawner.Stop();
 			}
-
-			_activeEnemies.Clear();
 		}
 
 		[System.Serializable]

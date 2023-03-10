@@ -5,6 +5,7 @@ namespace Minipede.Gameplay.Waves
 	public interface IWaveController
 	{
 		UniTask Play();
+		void Pause();
 		void Interrupt();
 	}
 }

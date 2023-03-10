@@ -112,6 +112,11 @@ namespace Minipede.Gameplay.Waves
 			Completed?.Invoke( wave, result );
 		}
 
+		public void Pause()
+		{
+			Interrupt();
+		}
+
 		public virtual void Interrupt()
 		{
 			if ( !IsRunning )

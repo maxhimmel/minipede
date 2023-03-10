@@ -1,4 +1,5 @@
 ﻿using Minipede.Gameplay.LevelPieces;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -6,14 +7,19 @@ namespace Minipede.Cheats
 {
 	public class LevelBalanceCheat : LevelBalanceController
 	{
+		public override int Cycle => _settings.IsOverridingCycle ? _settings.CycleOverride : base.Cycle;
+
 		private readonly Settings _settings;
+		private readonly LevelBalanceController _baseBalancer;
 
 		public LevelBalanceCheat( Settings settings, 
 			SignalBus signalBus,
-			LevelBalanceController baseController ) 
+			LevelBalanceController baseBalancer ) 
 			: base( settings, signalBus )
 		{
 			_settings = settings;
+
+			_baseBalancer = baseBalancer;
 		}
 
 		public override void IncrementCycle()
@@ -25,13 +31,19 @@ namespace Minipede.Cheats
 				return;
 			}
 
-			base.IncrementCycle();
+			_baseBalancer.IncrementCycle();
 		}
 
 		[System.Serializable]
 		public new class Settings : LevelBalanceController.Settings
 		{
 			public bool DisableIncrementing;
+
+			[HorizontalGroup, LabelText( "Override Cycle" )]
+			public bool IsOverridingCycle;
+			[HorizontalGroup]
+			[MinValue( 0 ), EnableIf( "IsOverridingCycle" ), HideLabel]
+			public int CycleOverride;
 		}
 	}
 }

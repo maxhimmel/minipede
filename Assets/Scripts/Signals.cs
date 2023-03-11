@@ -32,6 +32,11 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public float NormalizedLevel;
 	}
+
+	public class LevelCycleProgressSignal
+	{
+		public float NormalizedProgress;
+	}
 }
 
 namespace Minipede.Gameplay.Enemies

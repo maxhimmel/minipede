@@ -35,6 +35,9 @@ namespace Minipede.Installers
 
 			Container.DeclareSignal<LevelCycleChangedSignal>()
 				.OptionalSubscriber();
+
+			Container.DeclareSignal<LevelCycleProgressSignal>()
+				.OptionalSubscriber();
 		}
 	}
 }

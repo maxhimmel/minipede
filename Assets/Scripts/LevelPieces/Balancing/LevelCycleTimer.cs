@@ -8,52 +8,63 @@ namespace Minipede.Gameplay.LevelPieces
 	{
 		private readonly ISettings _settings;
 		private readonly LevelBalanceController _levelBalancer;
+		private readonly SignalBus _signalBus;
 
 		private bool _isPlaying;
 		private float _nextCycleUpdateTime;
 
 		public LevelCycleTimer( ISettings settings,
-			LevelBalanceController levelBalancer )
+			LevelBalanceController levelBalancer,
+			SignalBus signalBus )
 		{
 			_settings = settings;
 			_levelBalancer = levelBalancer;
+			_signalBus = signalBus;
 		}
 
 		public virtual void Play()
 		{
 			_isPlaying = true;
 			_nextCycleUpdateTime = Time.timeSinceLevelLoad + _settings.CycleDuration;
+
+			FireTimerProgressEvent();
 		}
 
 		public void Tick()
 		{
-			if ( !CanUpdate() )
+			if ( !_isPlaying )
 			{
 				return;
 			}
 
-			_levelBalancer.IncrementCycle();
-			_nextCycleUpdateTime = Time.timeSinceLevelLoad + _settings.CycleDuration;
+			FireTimerProgressEvent();
+
+			if ( CanIncrement() )
+			{
+				_levelBalancer.IncrementCycle();
+				_nextCycleUpdateTime = Time.timeSinceLevelLoad + _settings.CycleDuration;
+			}
 		}
 
-		protected bool CanUpdate()
+		private bool CanIncrement()
 		{
-			if ( !_isPlaying )
-			{
-				return false;
-			}
-			if ( _nextCycleUpdateTime > Time.timeSinceLevelLoad )
-			{
-				return false;
-			}
-
-			return true;
+			return _nextCycleUpdateTime <= Time.timeSinceLevelLoad;
 		}
 
 		public virtual void Stop()
 		{
 			_isPlaying = false;
 			_nextCycleUpdateTime = Mathf.Infinity;
+
+			_signalBus.Fire( new LevelCycleProgressSignal() { NormalizedProgress = 0 } );
+		}
+
+		private void FireTimerProgressEvent()
+		{
+			float duration = _nextCycleUpdateTime - Time.timeSinceLevelLoad;
+			float percent = Mathf.Clamp01( 1f - duration / _settings.CycleDuration );
+
+			_signalBus.Fire( new LevelCycleProgressSignal() { NormalizedProgress = percent } );
 		}
 
 

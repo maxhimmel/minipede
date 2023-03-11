@@ -7,7 +7,7 @@ namespace Minipede.Cheats
 {
 	public class LevelBalanceCheat : LevelBalanceController
 	{
-		public override int Cycle => _settings.IsOverridingCycle ? _settings.CycleOverride : base.Cycle;
+		public override int Cycle => _settings.IsOverridingCycle ? _settings.CycleOverride : _baseBalancer.Cycle;
 
 		private readonly Settings _settings;
 		private readonly LevelBalanceController _baseBalancer;

@@ -3957,7 +3957,6 @@ MonoBehaviour:
       Heal:
         Heal: 1
       DelayPerHealStep: 1
-      Balances: {fileID: 11400000, guid: 12bef4cd7635ed543bf98c2e47baa00e, type: 2}
     Mushrooms:
       Standard:
         Prefab: {fileID: -1497698299372641502, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}

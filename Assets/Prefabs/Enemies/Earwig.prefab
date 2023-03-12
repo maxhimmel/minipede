@@ -109,6 +109,18 @@ PrefabInstance:
       propertyPath: _scriptableObjectInstallers.Array.data[6]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _settings.Spawns._items.Array.data[0]._normalizedWeight
+      value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _settings.Spawns._items.Array.data[1]._normalizedWeight
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _settings.Spawns._items.Array.data[2]._normalizedWeight
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7711212140918325584, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: m_RootOrder
       value: 0

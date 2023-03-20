@@ -181,8 +181,14 @@ namespace Minipede.Gameplay.Weapons
 
 			// TODO: Can these ISettings be converted into inhertence now that they're classes?
 			[BoxGroup( "Required" )]
+			[HideReferenceObjectPicker]
 			[SerializeReference] public IFireSpread.ISettings FireSpread;
+
+			[FoldoutGroup( "Optional" ), OnInspectorGUI]
+			[InfoBox( "Right-click a module foldout to change its type.", InfoMessageType.None )]
+
 			[FoldoutGroup( "Optional" )]
+			[HideReferenceObjectPicker, ListDrawerSettings( ListElementLabelName = "GetModuleLabel" )]
 			[SerializeReference] public IGunModule[] Modules;
 		}
 	}

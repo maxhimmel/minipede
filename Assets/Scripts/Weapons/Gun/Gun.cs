@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Fx;
+using Minipede.Installers;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -203,6 +204,28 @@ namespace Minipede.Gameplay.Weapons
 			[FoldoutGroup( "Optional" )]
 			[HideReferenceObjectPicker, ListDrawerSettings( ListElementLabelName = "GetModuleLabel" )]
 			[SerializeReference] public IGunModule[] Modules;
+		}
+
+		public class Factory : PlaceholderFactory<GunInstaller, Gun> { }
+
+		public class PrefabFactory : IFactory<GunInstaller, Gun>
+		{
+			private readonly DiContainer _container;
+
+			public PrefabFactory( DiContainer container )
+			{
+				_container = container;
+			}
+
+			public Gun Create( GunInstaller prefab )
+			{
+				return _container.InstantiatePrefab( prefab, 
+						new GameObjectCreationParameters() { Name = prefab.name } 
+					)
+					.GetComponent<GameObjectContext>()
+					.Container
+					.Resolve<Gun>();
+			}
 		}
 	}
 }

@@ -8,11 +8,14 @@ namespace Minipede.Gameplay.Weapons
 {
     public class Gun
 	{
+		public event System.Action<Gun, IAmmoHandler> Emptied;
+
 		private readonly Settings _settings;
 		private readonly SignalBus _signalBus;
 		private readonly Projectile.Factory _factory;
 		private readonly ShotSpot _shotSpot;
 		private readonly IFireSpread _fireSpread;
+		private readonly IAmmoHandler _ammoHandler;
 		private readonly IFireSafety[] _fireSafeties;
 		private readonly IProjectileFiredProcessor[] _projectileFiredProcessors;
 		private readonly IFireStartProcessor[] _fireStartProcessors;
@@ -28,6 +31,7 @@ namespace Minipede.Gameplay.Weapons
 			ShotSpot shotSpot,
 			IFireSpread fireSpread,
 
+			[InjectOptional] IAmmoHandler ammoHandler,
 			[InjectOptional] IFireSafety[] safeties,
 			[InjectOptional] IProjectileFiredProcessor[] projectileFiredProcessors,
 			[InjectOptional] IFireStartProcessor[] fireStartProcessors,
@@ -41,12 +45,18 @@ namespace Minipede.Gameplay.Weapons
 			_shotSpot = shotSpot;
 			_fireSpread = fireSpread;
 
+			_ammoHandler = ammoHandler;
 			_fireSafeties = safeties ?? new IFireSafety[0];
 			_projectileFiredProcessors = projectileFiredProcessors ?? new IProjectileFiredProcessor[0];
 			_fireStartProcessors = fireStartProcessors ?? new IFireStartProcessor[0];
 			_fireEndProcessors = fireEndProcessors ?? new IFireEndProcessor[0];
 			_preFireProcessors = preFireProcessors ?? new IPreFireProcessor[0];
 			_tickables = tickables ?? new IFixedTickable[0];
+
+			if ( ammoHandler != null )
+			{
+				ammoHandler.Emptied += () => Emptied?.Invoke( this, _ammoHandler );
+			}
 		}
 
 		public void StartFiring()

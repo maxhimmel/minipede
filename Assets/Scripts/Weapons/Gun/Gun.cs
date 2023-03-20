@@ -11,6 +11,8 @@ namespace Minipede.Gameplay.Weapons
 	{
 		public event System.Action<Gun, IAmmoHandler> Emptied;
 
+		public bool IsFiring => _isFiringRequested;
+
 		private readonly Settings _settings;
 		private readonly SignalBus _signalBus;
 		private readonly Projectile.Factory _factory;

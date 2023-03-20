@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace Minipede.Gameplay.Weapons
 {
-	public class LimitProjectilesSafety : IFireSafety
+	public class LimitProjectilesSafety : IFireSafety,
+		IProjectileFiredProcessor
 	{
 		private readonly Settings _settings;
 		private readonly HashSet<Projectile> _livingProjectiles;

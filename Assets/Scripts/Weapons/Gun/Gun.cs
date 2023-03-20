@@ -14,6 +14,7 @@ namespace Minipede.Gameplay.Weapons
 		private readonly ShotSpot _shotSpot;
 		private readonly IFireSpread _fireSpread;
 		private readonly IFireSafety[] _fireSafeties;
+		private readonly IProjectileFiredProcessor[] _projectileFiredProcessors;
 		private readonly IFireStartProcessor[] _fireStartProcessors;
 		private readonly IFireEndProcessor[] _fireEndProcessors;
 		private readonly IPreFireProcessor[] _preFireProcessors;
@@ -28,6 +29,7 @@ namespace Minipede.Gameplay.Weapons
 			IFireSpread fireSpread,
 
 			[InjectOptional] IFireSafety[] safeties,
+			[InjectOptional] IProjectileFiredProcessor[] projectileFiredProcessors,
 			[InjectOptional] IFireStartProcessor[] fireStartProcessors,
 			[InjectOptional] IFireEndProcessor[] fireEndProcessors,
 			[InjectOptional] IPreFireProcessor[] preFireProcessors,
@@ -40,6 +42,7 @@ namespace Minipede.Gameplay.Weapons
 			_fireSpread = fireSpread;
 
 			_fireSafeties = safeties ?? new IFireSafety[0];
+			_projectileFiredProcessors = projectileFiredProcessors ?? new IProjectileFiredProcessor[0];
 			_fireStartProcessors = fireStartProcessors ?? new IFireStartProcessor[0];
 			_fireEndProcessors = fireEndProcessors ?? new IFireEndProcessor[0];
 			_preFireProcessors = preFireProcessors ?? new IPreFireProcessor[0];
@@ -101,7 +104,7 @@ namespace Minipede.Gameplay.Weapons
 				var processedShotSpot = PreProcessShotSpot( shotSpot );
 
 				var newProjectile = Fire( processedShotSpot );
-				NotifySafety( newProjectile );
+				NotifyProjectileFired( newProjectile );
 
 				++spreadCount;
 				avgShotOrigin += processedShotSpot.Position;
@@ -140,11 +143,11 @@ namespace Minipede.Gameplay.Weapons
 			return newProjectile;
 		}
 
-		private void NotifySafety( Projectile firedProjectile )
+		private void NotifyProjectileFired( Projectile firedProjectile )
 		{
-			foreach ( var safety in _fireSafeties )
+			foreach ( var processor in _projectileFiredProcessors )
 			{
-				safety.Notify( firedProjectile );
+				processor.Notify( firedProjectile );
 			}
 		}
 

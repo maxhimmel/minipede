@@ -8,7 +8,7 @@ namespace Minipede.Gameplay.LevelPieces
 	{
 		public virtual int Cycle { get; protected set; }
 
-		private readonly SignalBus _signalBus;
+		protected readonly SignalBus _signalBus;
 
 		public LevelBalanceController( Settings settings,
 			SignalBus signalBus )

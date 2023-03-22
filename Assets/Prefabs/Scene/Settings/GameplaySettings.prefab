@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9042343760017808295
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9042343760017808293}
+  - component: {fileID: 9042343760017808292}
+  m_Layer: 0
+  m_Name: GameplaySettings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9042343760017808293
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9042343760017808295}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9042343760017808292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9042343760017808295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb394d7e951b89147b11312b5cf05dc7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _beaconSettings:
+    Factories:
+    - ResourceType: {fileID: 11400000, guid: 54fbab5a5bdc833408683a3ef1c0e611, type: 2}
+      Prefab: {fileID: 2215140198792297263, guid: 39cb19c356a3ef4438769984495682fe, type: 3}
+    - ResourceType: {fileID: 11400000, guid: 98f8c31c61a88ba499c267e6dfb86084, type: 2}
+      Prefab: {fileID: 8871655806179484850, guid: b6ce91a722d1754428d46044ca8ab513, type: 3}
+    - ResourceType: {fileID: 11400000, guid: e4e87e8bad84fa548a7b8bfc583af271, type: 2}
+      Prefab: {fileID: 8475972488907811713, guid: c3156f1b163d35e40a60bc2e5cbdb5f2, type: 3}
+    - ResourceType: {fileID: 11400000, guid: 3f09ebe44330ec042afd5b23b6863464, type: 2}
+      Prefab: {fileID: 7339366993331024085, guid: 7b8884182950aa84b875d8576bbf7e26, type: 3}
+  _endGameSettings:
+    CenteringDelay: 1.3
+    CenteringDuration: 0.7
+    CenteringAnim: 19
+    CenteringPosition: {x: 0, y: -8}
+    TakeoffDelay: 0.1
+    TakeoffDuration: 1.3
+    TakeoffAnim: 37
+    TakeoffDestination: {x: 0, y: 17}
+  _audioSettings:
+    Banks:
+      LoadBanks:
+      - Sfx
+    Music:
+      NextTrackDelay: 2
+      Tracks:
+      - EventName: Music/Anamnesis of the worlds Sin
+      - EventName: Music/Cosmic Temperance
+      - EventName: Music/Dark Matter Moon
+      - EventName: Music/Lich is Unbreakable
+      - EventName: Music/Star Judgment
+      - EventName: Music/Universes Storm
+  _cameraSettings:
+    AttachmentContainerId: TargetGroupAttachment
+    AttachmentPoolSize: 4

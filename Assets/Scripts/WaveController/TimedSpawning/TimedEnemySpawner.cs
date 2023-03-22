@@ -51,7 +51,10 @@ namespace Minipede.Gameplay.Waves
 			_settings.Enemies.Init();
 			foreach ( var spawner in _settings.Enemies.Items )
 			{
-				spawner.EnemyBuilder = _spawnBuilder;
+				if ( spawner != null )
+				{
+					spawner.EnemyBuilder = _spawnBuilder;
+				}
 			}
 
 			_signalBus.Subscribe<EnemyDestroyedSignal>( OnEnemyDestroyed );
@@ -133,7 +136,10 @@ namespace Minipede.Gameplay.Waves
 					spawner = _settings.Enemies.GetRandomItem();
 				}
 
-				CreateEnemy( spawner, _livingEnemies );
+				if ( spawner != null )
+				{
+					CreateEnemy( spawner, _livingEnemies );
+				}
 
 				float spawnStagger = _settings.SpawnStagger;
 				if ( spawnStagger > 0 )

@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Zenject;
 
 namespace Minipede.Gameplay.Fx
@@ -9,33 +8,33 @@ namespace Minipede.Gameplay.Fx
 		IDisposable
 	{
 		private readonly SignalBus _signalBus;
-		private readonly string _vfxId;
-		private readonly List<IFxAnimator> _vfxAnimators;
+		private readonly string _fxId;
+		private readonly IFxAnimator[] _fxAnimators;
 
 		public FxListener( SignalBus signalBus,
-			string vfxId,
-			FxAnimatorResolver animatorResolver )
+			string fxId,
+			IFxAnimator[] fxAnimators )
 		{
 			_signalBus = signalBus;
-			_vfxId = vfxId;
-			_vfxAnimators = animatorResolver.GetAnimators( vfxId );
+			_fxId = fxId;
+			_fxAnimators = fxAnimators;
 		}
 
 		public void Initialize()
 		{
-			_signalBus.SubscribeId<FxSignal>( _vfxId, OnVfxFired );
+			_signalBus.SubscribeId<FxSignal>( _fxId, OnFxFired );
 		}
 
 		public void Dispose()
 		{
-			_signalBus.TryUnsubscribeId<FxSignal>( _vfxId, OnVfxFired );
+			_signalBus.TryUnsubscribeId<FxSignal>( _fxId, OnFxFired );
 		}
 
-		private void OnVfxFired( FxSignal vfxSignal )
+		private void OnFxFired( FxSignal fxSignal )
 		{
-			foreach ( var vfx in _vfxAnimators )
+			foreach ( var fx in _fxAnimators )
 			{
-				vfx.Play( vfxSignal );
+				fx.Play( fxSignal );
 			}
 		}
 	}

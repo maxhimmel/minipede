@@ -7,7 +7,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
-    public class Gun
+	public class Gun
 	{
 		public event System.Action<Gun, IAmmoHandler> Emptied;
 
@@ -16,7 +16,7 @@ namespace Minipede.Gameplay.Weapons
 
 		private readonly Settings _settings;
 		private readonly SignalBus _signalBus;
-		private readonly Projectile.Factory _factory;
+		private readonly ProjectileFactoryBus _factory;
 		private readonly ShotSpot _shotSpot;
 		private readonly IFireSpread _fireSpread;
 		private readonly IAmmoHandler _ammoHandler;
@@ -26,12 +26,16 @@ namespace Minipede.Gameplay.Weapons
 		private readonly IFireEndProcessor[] _fireEndProcessors;
 		private readonly IPreFireProcessor[] _preFireProcessors;
 		private readonly IFixedTickable[] _tickables;
+		private readonly Projectile.Settings _projectileSettings;
 
+		private Transform _owner;
 		private bool _isFiringRequested;
+		private bool _isEmptied;
 
 		public Gun( Settings settings,
 			SignalBus signalBus,
-			Projectile.Factory factory,
+			DamageTrigger.Settings damage,
+			ProjectileFactoryBus factory,
 			ShotSpot shotSpot,
 			IFireSpread fireSpread,
 
@@ -59,8 +63,19 @@ namespace Minipede.Gameplay.Weapons
 
 			if ( ammoHandler != null )
 			{
-				ammoHandler.Emptied += () => Emptied?.Invoke( this, _ammoHandler );
+				ammoHandler.Emptied += () => _isEmptied = true;
 			}
+
+			_projectileSettings = new Projectile.Settings()
+			{
+				Lifetime = settings.ProjectileLifetime,
+				Damage = damage
+			};
+		}
+
+		public void SetOwner( Transform owner )
+		{
+			_owner = owner;
 		}
 
 		public void StartFiring()
@@ -85,6 +100,7 @@ namespace Minipede.Gameplay.Weapons
 			}
 
 			ProcessTickables();
+			HandleEmptiedNotification();
 		}
 
 		private bool CanFire()
@@ -109,6 +125,8 @@ namespace Minipede.Gameplay.Weapons
 
 		private void HandleFiring()
 		{
+			_projectileSettings.Owner = _owner;
+
 			int spreadCount = 0;
 			Vector2 avgShotOrigin = Vector2.zero;
 			Vector3 avgShotDirection = Vector3.zero;
@@ -146,7 +164,8 @@ namespace Minipede.Gameplay.Weapons
 			Vector2 direction = orientation.Rotation * Vector2.up;
 
 			Projectile newProjectile = _factory.Create( 
-				_settings.ProjectileLifetime, 
+				_settings.ProjectilePrefab,
+				_projectileSettings,
 				orientation.Position,
 				direction.ToLookRotation() 
 			);
@@ -184,11 +203,27 @@ namespace Minipede.Gameplay.Weapons
 			}
 		}
 
+		private void HandleEmptiedNotification()
+		{
+			if ( _isEmptied )
+			{
+				_isEmptied = false;
+				Emptied?.Invoke( this, _ammoHandler );
+			}
+		}
+
+		public void Reload()
+		{
+			_ammoHandler?.Reload();
+		}
+
 		[System.Serializable]
 		public class Settings
 		{
 			public string ShotSpotId;
 
+			[BoxGroup( "Projectile", ShowLabel = false )]
+			public Projectile ProjectilePrefab;
 			[BoxGroup( "Projectile", ShowLabel = false )]
 			public float ProjectileLifetime;
 			[BoxGroup( "Projectile", ShowLabel = false )]
@@ -222,7 +257,7 @@ namespace Minipede.Gameplay.Weapons
 
 			public Gun Create( GunInstaller prefab )
 			{
-				return _container.InstantiatePrefab( prefab, 
+				return _container.InstantiatePrefab( prefab,
 						new GameObjectCreationParameters() { Name = prefab.name } 
 					)
 					.GetComponent<GameObjectContext>()

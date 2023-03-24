@@ -18,6 +18,9 @@ namespace Minipede.Installers
 			Container.Bind<IGunProvider>()
 				.To<RandomGunProvider>()
 				.AsSingle();
+
+			Container.BindFactory<GunInstaller, Gun, Gun.Factory>()
+				.FromFactory<Gun.PrefabFactory>();
 		}
 	}
 }

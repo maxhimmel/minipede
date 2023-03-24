@@ -1,5 +1,4 @@
 ﻿using Minipede.Gameplay.Fx;
-using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
@@ -10,6 +9,8 @@ namespace Minipede.Gameplay.Treasures
 	{
 		private SignalBus _signalBus;
 
+		protected bool _isDisposed;
+
 		[Inject]
 		public void Construct( SignalBus signalBus )
 		{
@@ -18,6 +19,11 @@ namespace Minipede.Gameplay.Treasures
 
 		private void OnCollisionEnter2D( Collision2D collision )
 		{
+			if ( _isDisposed )
+			{
+				return;
+			}
+
 			var otherBody = collision.rigidbody;
 			var collector = otherBody?.GetComponent<ICollector<TCollectable>>();
 			if ( collector != null )
@@ -30,6 +36,12 @@ namespace Minipede.Gameplay.Treasures
 					) );
 				}
 			}
+		}
+
+		protected override void HandleDisposal()
+		{
+			base.HandleDisposal();
+			_isDisposed = true;
 		}
 
 		protected abstract TCollectable GetCollectable();

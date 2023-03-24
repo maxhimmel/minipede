@@ -13,6 +13,8 @@ namespace Minipede.Gameplay.Weapons
 	{
 		public virtual event Action Emptied;
 
+		public abstract AmmoData AmmoData { get; }
+
 		protected readonly TSettings _settings;
 
 		private bool _isReloadRequested;

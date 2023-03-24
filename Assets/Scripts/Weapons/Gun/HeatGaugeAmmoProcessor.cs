@@ -5,6 +5,8 @@ namespace Minipede.Gameplay.Weapons
 {
 	public class HeatGaugeAmmoProcessor  : AmmoProcessor<HeatGaugeAmmoProcessor, HeatGaugeAmmoProcessor.Settings>
 	{
+		public override AmmoData AmmoData => new AmmoData( _gauge, _settings.OverheatThreshold );
+
 		private float _gauge;
 
 		public HeatGaugeAmmoProcessor( Settings settings ) 

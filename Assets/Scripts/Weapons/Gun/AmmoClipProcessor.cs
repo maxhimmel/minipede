@@ -5,6 +5,8 @@ namespace Minipede.Gameplay.Weapons
 {
 	public class AmmoClipProcessor : AmmoProcessor<AmmoClipProcessor, AmmoClipProcessor.Settings>
 	{
+		public override AmmoData AmmoData => new AmmoData( _currentClipCount, _settings.ClipSize );
+
 		private int _currentClipCount;
 
 		public AmmoClipProcessor( Settings settings ) 

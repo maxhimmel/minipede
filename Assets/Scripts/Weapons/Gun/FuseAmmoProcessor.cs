@@ -5,6 +5,8 @@ namespace Minipede.Gameplay.Weapons
 {
 	public class FuseAmmoProcessor : AmmoProcessor<FuseAmmoProcessor, FuseAmmoProcessor.Settings>
 	{
+		public override AmmoData AmmoData => new AmmoData( _timer, _settings.FuseDuration );
+
 		private bool _isFuseLit;
 		private float _timer;
 

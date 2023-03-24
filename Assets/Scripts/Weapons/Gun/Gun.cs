@@ -12,6 +12,7 @@ namespace Minipede.Gameplay.Weapons
 		public event System.Action<Gun, IAmmoHandler> Emptied;
 
 		public bool IsFiring => _isFiringRequested;
+		public AmmoData AmmoData => _ammoHandler != null ? _ammoHandler.AmmoData : AmmoData.Full;
 
 		private readonly Settings _settings;
 		private readonly SignalBus _signalBus;

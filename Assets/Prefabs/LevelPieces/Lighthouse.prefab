@@ -161,7 +161,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 7715246109186947077}
-  - {fileID: 7715246109976274099}
   - {fileID: 7715246109186947076}
   _identifier: 
   _useSceneContext: 0

@@ -1,35 +1,51 @@
 ﻿using System.Collections.Generic;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
 using UnityEngine;
 using UnityEngine.Animations;
-using UnityEngine.Rendering.Universal;
 using Zenject;
 
 namespace Minipede.Gameplay.Treasures
 {
-	public class Beacon : Collectable<Beacon>
+	public class Beacon : Collectable<Beacon>,
+		IPushable
 	{
 		public ICleansedAreaProvider CleansedAreaProvider { get; private set; }
+		public Gun Gun { get; private set; }
+		Transform IPushable.transform => _owner.transform;
 
+		private IGunProvider _gunProvider;
+		private Gun.Factory _gunFactory;
 		private PositionConstraint _constraint;
 		private List<Collider2D> _colliders = new List<Collider2D>( 1 );
+		private Rigidbody2D _owner;
 
 		[Inject]
 		public void Construct( ICleansedAreaProvider cleansedAreaProvider,
+			IGunProvider gunProvider,
+			Gun.Factory gunFactory,
 			PositionConstraint constraint )
 		{
 			CleansedAreaProvider = cleansedAreaProvider;
+			_gunProvider = gunProvider;
+			_gunFactory = gunFactory;
 			_constraint = constraint;
 		}
 
 		private void Awake()
 		{
 			_body.GetAttachedColliders( _colliders );
+
+			Gun = _gunFactory.Create( _gunProvider.GetAsset() );
+			Gun.Emptied += ( gun, ammo ) => Dispose();
 		}
 
 		public void Equip( Rigidbody2D owner )
 		{
+			_owner = owner;
+			Gun.SetOwner( owner.transform );
+
 			_lifetimer.Pause();
 
 			SetCollidersEnabled( false );
@@ -39,6 +55,9 @@ namespace Minipede.Gameplay.Treasures
 
 		public void Unequip()
 		{
+			_owner = null;
+			Gun.SetOwner( null );
+
 			SetCollidersEnabled( true );
 			ReleaseEquipClamping();
 		}
@@ -84,13 +103,29 @@ namespace Minipede.Gameplay.Treasures
 			return this;
 		}
 
-		public class Factory : UnityFactory<Beacon> 
+		public void Push( Vector2 velocity )
+		{
+			IPushable pushable = _owner.GetComponent<IPushable>();
+			pushable?.Push( velocity );
+		}
+
+		public override void FixedTick()
+		{
+			base.FixedTick();
+
+			if ( _owner == null )
+			{
+				Gun.FixedTick();
+			}
+		}
+
+		public class Factory : UnityFactory<Beacon>
 		{
 			public ResourceType Resource { get; }
 
-			public Factory( DiContainer container, 
+			public Factory( DiContainer container,
 				Beacon prefab,
-				ResourceType resource ) 
+				ResourceType resource )
 				: base( container, prefab )
 			{
 				Resource = resource;

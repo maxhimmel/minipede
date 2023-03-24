@@ -12,10 +12,6 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			Container.BindInstances(
-				_settings.Damage
-			);
-
 			Container.Bind<Gun>()
 				.FromSubContainerResolve()
 				.ByMethod( subContainer =>
@@ -23,6 +19,8 @@ namespace Minipede.Installers
 					subContainer.Bind<Gun>()
 						.AsSingle()
 						.WithArguments( _settings.Gun );
+
+					subContainer.BindInstance( _settings.Damage );
 
 					subContainer.Bind<ShotSpot>()
 						.FromSubContainerResolve()
@@ -49,23 +47,8 @@ namespace Minipede.Installers
 							.AsCached()
 							.WithArguments( settings );
 					}
-
-					/* --- */
-
-					BindProjectileFactory( subContainer );
 				} )
 				.AsSingle();
-		}
-
-		private void BindProjectileFactory( DiContainer container )
-		{
-			container.BindFactory<float, Vector2, Quaternion, Projectile, Projectile.Factory>()
-				.FromMonoPoolableMemoryPool( pool => pool
-					.WithInitialSize( _settings.InitialPoolSize )
-					.FromSubContainerResolve()
-					.ByNewContextPrefab( _settings.Projectile )
-					.WithGameObjectName( _settings.Projectile.name )
-				);
 		}
 
 		[System.Serializable]
@@ -73,11 +56,6 @@ namespace Minipede.Installers
 		{
 			[FoldoutGroup( "Damage" ), HideLabel]
 			public DamageTrigger.Settings Damage;
-
-			[FoldoutGroup( "Projectile" )]
-			public int InitialPoolSize;
-			[FoldoutGroup( "Projectile" )]
-			public GameObject Projectile;
 
 			[FoldoutGroup( "Gun" ), HideLabel]
 			public Gun.Settings Gun = new Gun.Settings();

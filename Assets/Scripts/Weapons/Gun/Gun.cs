@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Fx;
+using Minipede.Installers;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -6,28 +7,41 @@ using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
-    public class Gun
+	public class Gun
 	{
+		public event System.Action<Gun, IAmmoHandler> Emptied;
+
+		public bool IsFiring => _isFiringRequested;
+		public AmmoData AmmoData => _ammoHandler != null ? _ammoHandler.AmmoData : AmmoData.Full;
+
 		private readonly Settings _settings;
 		private readonly SignalBus _signalBus;
-		private readonly Projectile.Factory _factory;
+		private readonly ProjectileFactoryBus _factory;
 		private readonly ShotSpot _shotSpot;
 		private readonly IFireSpread _fireSpread;
+		private readonly IAmmoHandler _ammoHandler;
 		private readonly IFireSafety[] _fireSafeties;
+		private readonly IProjectileFiredProcessor[] _projectileFiredProcessors;
 		private readonly IFireStartProcessor[] _fireStartProcessors;
 		private readonly IFireEndProcessor[] _fireEndProcessors;
 		private readonly IPreFireProcessor[] _preFireProcessors;
 		private readonly IFixedTickable[] _tickables;
+		private readonly Projectile.Settings _projectileSettings;
 
+		private Transform _owner;
 		private bool _isFiringRequested;
+		private bool _isEmptied;
 
 		public Gun( Settings settings,
 			SignalBus signalBus,
-			Projectile.Factory factory,
+			DamageTrigger.Settings damage,
+			ProjectileFactoryBus factory,
 			ShotSpot shotSpot,
 			IFireSpread fireSpread,
 
+			[InjectOptional] IAmmoHandler ammoHandler,
 			[InjectOptional] IFireSafety[] safeties,
+			[InjectOptional] IProjectileFiredProcessor[] projectileFiredProcessors,
 			[InjectOptional] IFireStartProcessor[] fireStartProcessors,
 			[InjectOptional] IFireEndProcessor[] fireEndProcessors,
 			[InjectOptional] IPreFireProcessor[] preFireProcessors,
@@ -39,11 +53,29 @@ namespace Minipede.Gameplay.Weapons
 			_shotSpot = shotSpot;
 			_fireSpread = fireSpread;
 
+			_ammoHandler = ammoHandler;
 			_fireSafeties = safeties ?? new IFireSafety[0];
+			_projectileFiredProcessors = projectileFiredProcessors ?? new IProjectileFiredProcessor[0];
 			_fireStartProcessors = fireStartProcessors ?? new IFireStartProcessor[0];
 			_fireEndProcessors = fireEndProcessors ?? new IFireEndProcessor[0];
 			_preFireProcessors = preFireProcessors ?? new IPreFireProcessor[0];
 			_tickables = tickables ?? new IFixedTickable[0];
+
+			if ( ammoHandler != null )
+			{
+				ammoHandler.Emptied += () => _isEmptied = true;
+			}
+
+			_projectileSettings = new Projectile.Settings()
+			{
+				Lifetime = settings.ProjectileLifetime,
+				Damage = damage
+			};
+		}
+
+		public void SetOwner( Transform owner )
+		{
+			_owner = owner;
 		}
 
 		public void StartFiring()
@@ -68,6 +100,7 @@ namespace Minipede.Gameplay.Weapons
 			}
 
 			ProcessTickables();
+			HandleEmptiedNotification();
 		}
 
 		private bool CanFire()
@@ -92,6 +125,8 @@ namespace Minipede.Gameplay.Weapons
 
 		private void HandleFiring()
 		{
+			_projectileSettings.Owner = _owner;
+
 			int spreadCount = 0;
 			Vector2 avgShotOrigin = Vector2.zero;
 			Vector3 avgShotDirection = Vector3.zero;
@@ -101,7 +136,7 @@ namespace Minipede.Gameplay.Weapons
 				var processedShotSpot = PreProcessShotSpot( shotSpot );
 
 				var newProjectile = Fire( processedShotSpot );
-				NotifySafety( newProjectile );
+				NotifyProjectileFired( newProjectile );
 
 				++spreadCount;
 				avgShotOrigin += processedShotSpot.Position;
@@ -129,7 +164,8 @@ namespace Minipede.Gameplay.Weapons
 			Vector2 direction = orientation.Rotation * Vector2.up;
 
 			Projectile newProjectile = _factory.Create( 
-				_settings.ProjectileLifetime, 
+				_settings.ProjectilePrefab,
+				_projectileSettings,
 				orientation.Position,
 				direction.ToLookRotation() 
 			);
@@ -140,11 +176,11 @@ namespace Minipede.Gameplay.Weapons
 			return newProjectile;
 		}
 
-		private void NotifySafety( Projectile firedProjectile )
+		private void NotifyProjectileFired( Projectile firedProjectile )
 		{
-			foreach ( var safety in _fireSafeties )
+			foreach ( var processor in _projectileFiredProcessors )
 			{
-				safety.Notify( firedProjectile );
+				processor.Notify( firedProjectile );
 			}
 		}
 
@@ -167,11 +203,27 @@ namespace Minipede.Gameplay.Weapons
 			}
 		}
 
+		private void HandleEmptiedNotification()
+		{
+			if ( _isEmptied )
+			{
+				_isEmptied = false;
+				Emptied?.Invoke( this, _ammoHandler );
+			}
+		}
+
+		public void Reload()
+		{
+			_ammoHandler?.Reload();
+		}
+
 		[System.Serializable]
 		public class Settings
 		{
 			public string ShotSpotId;
 
+			[BoxGroup( "Projectile", ShowLabel = false )]
+			public Projectile ProjectilePrefab;
 			[BoxGroup( "Projectile", ShowLabel = false )]
 			public float ProjectileLifetime;
 			[BoxGroup( "Projectile", ShowLabel = false )]
@@ -181,9 +233,37 @@ namespace Minipede.Gameplay.Weapons
 
 			// TODO: Can these ISettings be converted into inhertence now that they're classes?
 			[BoxGroup( "Required" )]
+			[HideReferenceObjectPicker]
 			[SerializeReference] public IFireSpread.ISettings FireSpread;
+
+			[FoldoutGroup( "Optional" ), OnInspectorGUI]
+			[InfoBox( "Right-click a module foldout to change its type.", InfoMessageType.None )]
+
 			[FoldoutGroup( "Optional" )]
+			[HideReferenceObjectPicker, ListDrawerSettings( ListElementLabelName = "GetModuleLabel" )]
 			[SerializeReference] public IGunModule[] Modules;
+		}
+
+		public class Factory : PlaceholderFactory<GunInstaller, Gun> { }
+
+		public class PrefabFactory : IFactory<GunInstaller, Gun>
+		{
+			private readonly DiContainer _container;
+
+			public PrefabFactory( DiContainer container )
+			{
+				_container = container;
+			}
+
+			public Gun Create( GunInstaller prefab )
+			{
+				return _container.InstantiatePrefab( prefab,
+						new GameObjectCreationParameters() { Name = prefab.name } 
+					)
+					.GetComponent<GameObjectContext>()
+					.Container
+					.Resolve<Gun>();
+			}
 		}
 	}
 }

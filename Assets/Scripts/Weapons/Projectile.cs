@@ -6,23 +6,23 @@ using Zenject;
 namespace Minipede.Gameplay.Weapons
 {
 	public class Projectile : MonoBehaviour,
-		IPoolable<float, Vector2, Quaternion, IMemoryPool>,
+		IPoolable<Projectile.Settings, Vector2, Quaternion, IMemoryPool>,
 		IDisposable
 	{
 		public event System.Action<Projectile> Destroyed;
 
 		private Rigidbody2D _body;
-		private SignalBus _signalBus;
+		private IDamageDealer _damageDealer;
 		private Lifetimer _lifetimer;
 
 		private IMemoryPool _pool;
 
 		[Inject]
 		public void Construct( Rigidbody2D body,
-			SignalBus signalBus )
+			IDamageDealer damagerDealer )
 		{
 			_body = body;
-			_signalBus = signalBus;
+			_damageDealer = damagerDealer;
 
 			_lifetimer = new Lifetimer();
 		}
@@ -58,7 +58,15 @@ namespace Minipede.Gameplay.Weapons
 		{
 			_pool = null;
 
-			_signalBus.Unsubscribe<DamageDeliveredSignal>( OnDamagedOther );
+			_damageDealer.DamageDelivered -= OnDamagedOther;
+
+			// Uncommenting the below code will cause errors when shooting 2 blocks stacked vertically.
+				// Why?
+				// This despawns immediately upon hitting the first block.
+				// Then we set owner and settings null.
+				// Then the trigger hits the second stacked block but it has null reference exceptions.
+			//_damageDealer.SetOwner( null );
+			//_damageDealer.SetDamage( null );
 
 			_body.velocity = Vector2.zero;
 			_body.angularVelocity = 0;
@@ -68,16 +76,18 @@ namespace Minipede.Gameplay.Weapons
 			Destroyed?.Invoke( this );
 		}
 
-		public void OnSpawned( float lifetime, Vector2 position, Quaternion rotation, IMemoryPool pool )
+		public void OnSpawned( Settings settings, Vector2 position, Quaternion rotation, IMemoryPool pool )
 		{
 			_pool = pool;
 
-			_signalBus.Subscribe<DamageDeliveredSignal>( OnDamagedOther );
+			_damageDealer.DamageDelivered += OnDamagedOther;
+			_damageDealer.SetOwner( settings.Owner );
+			_damageDealer.SetDamage( settings.Damage );
 
 			_body.position = position;
 			_body.SetRotation( rotation );
 
-			_lifetimer.StartLifetime( lifetime );
+			_lifetimer.StartLifetime( settings.Lifetime );
 		}
 
 		private void Update()
@@ -88,6 +98,21 @@ namespace Minipede.Gameplay.Weapons
 			}
 		}
 
-		public class Factory : PlaceholderFactory<float, Vector2, Quaternion, Projectile> { }
+		public class Settings
+		{
+			public float Lifetime;
+			public Transform Owner;
+			public DamageTrigger.Settings Damage;
+
+			public Settings() { }
+			public Settings( float lifetime, Transform owner, DamageTrigger.Settings damage )
+			{
+				Lifetime = lifetime;
+				Owner = owner;
+				Damage = damage;
+			}
+		}
+
+		public class Factory : PlaceholderFactory<Settings, Vector2, Quaternion, Projectile> { }
 	}
 }

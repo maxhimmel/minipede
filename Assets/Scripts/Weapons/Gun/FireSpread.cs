@@ -26,7 +26,7 @@ namespace Minipede.Gameplay.Weapons
 			{
 				yield return new Orientation(
 					shotSpot.Position,
-					shotSpot.Facing.ToLookRotation(),
+					Quaternion.Euler( 0, 0, _settings.OffsetAngle ) * shotSpot.Facing.ToLookRotation(),
 					null
 				);
 			}
@@ -43,6 +43,7 @@ namespace Minipede.Gameplay.Weapons
 				{
 					float radian = radianStep * idx - radianOffset;
 					Vector2 direction = Mathf.Cos( radian ) * facing + Mathf.Sin( radian ) * tangent;
+					direction = Quaternion.Euler( 0, 0, _settings.OffsetAngle ) * direction;
 
 					yield return new Orientation(
 						shotSpot.Position,
@@ -63,8 +64,10 @@ namespace Minipede.Gameplay.Weapons
 			[MinValue( _minSpread ), OnValueChanged( "OnSpreadChanged" ), Delayed]
 			[InlineButton( "IncrementSpread", Label = ">" ), InlineButton( "DecrementSpread", Label = "<" )]
 			public int Spread;
-			[PropertyRange( 0, "@360f - 360f / Spread" ), OnInspectorGUI( Append = "DrawSpread" )]
+			[PropertyRange( 0, "@360f - 360f / Spread" )]
 			public float Angle;
+			[PropertyRange( -180, 180 )]
+			public float OffsetAngle;
 
 #if UNITY_EDITOR
 			private void IncrementSpread()
@@ -89,6 +92,7 @@ namespace Minipede.Gameplay.Weapons
 				}
 			}
 
+			[OnInspectorGUI]
 			private void DrawSpread()
 			{
 				float size = 150f + GUIHelper.CurrentIndentAmount;
@@ -111,7 +115,10 @@ namespace Minipede.Gameplay.Weapons
 					Vector2 center = rect.size / 2f;
 					if ( Spread <= 1 )
 					{
-						Handles.DrawLine( center, center + Vector2.down * lineLength );
+						Vector2 direction = Vector2.down * lineLength;
+						direction = Quaternion.Euler( 0, 0, -OffsetAngle ) * direction;
+
+						Handles.DrawLine( center, center + direction );
 					}
 					else
 					{
@@ -123,6 +130,7 @@ namespace Minipede.Gameplay.Weapons
 						{
 							float radian = radianStep * idx - radianOffset;
 							Vector2 direction = Mathf.Cos( radian ) * Vector2.down + Mathf.Sin( radian ) * Vector2.right;
+							direction = Quaternion.Euler( 0, 0, -OffsetAngle ) * direction;
 							Handles.DrawAAPolyLine( center, center + direction * lineLength );
 						}
 					}

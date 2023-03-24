@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 562353908898730655, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: _sampler.Prefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 562353908898730655, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: _sampler.Prefabs.Array.data[0]
+      value: 
+      objectReference: {fileID: 4929814723182570160, guid: 57c091d34864c2d46a55dff2c01d18b1, type: 3}
     - target: {fileID: 1308843635413011278, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: m_Color.b
       value: 0.9411765
@@ -15,6 +23,14 @@ PrefabInstance:
       propertyPath: m_Color.g
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1530993560611149906, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1530993560611149906, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: _scriptableObjectInstallers.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 73fc2265e95ef3f46946ec40d3637009, type: 2}
     - target: {fileID: 1530993560611149909, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: m_RootOrder
       value: 0

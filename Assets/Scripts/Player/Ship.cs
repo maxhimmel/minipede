@@ -47,7 +47,7 @@ namespace Minipede.Gameplay.Player
 		private Vector2 _moveInput;
 		private Beacon _equippedBeacon;
 		private bool _isPiloted;
-		private Gun _baseGun;
+		private Gun _defaultGun;
 		private Gun _equippedGun;
 
 		[Inject]
@@ -77,22 +77,9 @@ namespace Minipede.Gameplay.Player
 
 			damageController.Died += OnDied;
 
-			_baseGun = EquipGun( baseGunPrefab );
-		}
-
-		public Gun EquipGun( GunInstaller gunPrefab )
-		{
-			var newGun = _gunFactory.Create( gunPrefab );
-
-			bool wasFiring = _equippedGun != null ? _equippedGun.IsFiring : false;
-			if ( wasFiring )
-			{
-				_equippedGun.StopFiring();
-				newGun.StartFiring();
-			}
-
-			_equippedGun = newGun;
-			return newGun;
+			_defaultGun = _gunFactory.Create( baseGunPrefab );
+			_defaultGun.SetOwner( transform );
+			_equippedGun = _defaultGun;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
@@ -215,6 +202,10 @@ namespace Minipede.Gameplay.Player
 						Beacon = beacon
 					} );
 
+					_equippedGun = beacon.Gun;
+					_equippedGun.SetOwner( transform );
+					_equippedGun.Emptied += OnGunEmptied;
+
 					return true;
 				}
 			}
@@ -222,10 +213,22 @@ namespace Minipede.Gameplay.Player
 			return false;
 		}
 
+		private void OnGunEmptied( Gun gun, IAmmoHandler ammoHandler )
+		{
+			if ( IsBeaconEquipped() )
+			{
+				UnequipBeacon();
+			}
+		}
+
 		public void UnequipBeacon()
 		{
 			if ( IsBeaconEquipped() )
 			{
+				_equippedGun.StopFiring();
+				_equippedGun.Emptied -= OnGunEmptied;
+				_equippedGun = _defaultGun;
+
 				_equippedBeacon.Unequip();
 				_equippedBeacon = null;
 

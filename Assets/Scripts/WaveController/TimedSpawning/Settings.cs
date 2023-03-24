@@ -75,7 +75,7 @@ namespace Minipede.Gameplay.Waves
 
 			[PropertyTooltip( "Randomize enemy per swarm spawn?" )]
 			[FoldoutGroup( "@GetSwarmingGroupName()", GroupID = "Main/Settings/Swarming" ), LabelText( "Swarm Variance" )]
-			[ShowIf( "@IsSwarm() && HasVariance()" )]
+			[ShowIf( "@HasVariance()" )]
 			[SerializeField] private bool _useNewEnemyPerSpawn;
 
 			[Space, TabGroup( "Main", "Settings" ), InlineEditor]
@@ -103,11 +103,6 @@ namespace Minipede.Gameplay.Waves
 				{
 					return $"Swarming ({min})";
 				}
-			}
-
-			private bool IsSwarm()
-			{
-				return _swarmRange.x > 1 || _swarmRange.y > 1;
 			}
 
 			private bool HasVariance()

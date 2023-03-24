@@ -1,4 +1,5 @@
-﻿using Minipede.Gameplay.LevelPieces;
+﻿using Minipede.Gameplay;
+using Minipede.Gameplay.LevelPieces;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -7,19 +8,19 @@ namespace Minipede.Cheats
 {
 	public class LevelBalanceCheat : LevelBalanceController
 	{
-		public override int Cycle => _settings.IsOverridingCycle ? _settings.CycleOverride : _baseBalancer.Cycle;
+		public override int Cycle => _settings.IsOverridingCycle ? _settings.CycleOverride : _currentCycle;
 
 		private readonly Settings _settings;
-		private readonly LevelBalanceController _baseBalancer;
 
-		public LevelBalanceCheat( Settings settings, 
+		private int _currentCycle;
+
+		public LevelBalanceCheat( Settings settings,
 			SignalBus signalBus,
-			LevelBalanceController baseBalancer ) 
+			LevelBalanceController baseBalancer )
 			: base( settings, signalBus )
 		{
 			_settings = settings;
-
-			_baseBalancer = baseBalancer;
+			_currentCycle = settings.StartCycle;
 		}
 
 		public override void IncrementCycle()
@@ -31,7 +32,8 @@ namespace Minipede.Cheats
 				return;
 			}
 
-			_baseBalancer.IncrementCycle();
+			_signalBus.Fire( new LevelCycleChangedSignal( ++_currentCycle ) );
+			Debug.Log( $"<color=orange>Level cycle incremented:</color> (<b>{_currentCycle}</b>)" );
 		}
 
 		[System.Serializable]

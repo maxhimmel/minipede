@@ -80,7 +80,7 @@ namespace Minipede.Gameplay
 				await _mushroomHealer.HealAll();
 			}
 
-			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay );
+			await TaskHelpers.DelaySeconds( _playerSettings.RespawnDelay, AppHelper.AppQuittingToken );
 			_playerSpawnController.RespawnPlayer();
 
 			if ( !_nighttimeController.IsNighttime )

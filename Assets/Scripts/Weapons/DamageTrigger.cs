@@ -4,23 +4,41 @@ using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
-    public class DamageTrigger : MonoBehaviour
+	public interface IDamageDealer
+	{
+		event System.Action<DamageDeliveredSignal> DamageDelivered;
+
+		void SetOwner( Transform owner );
+		void SetDamage( DamageTrigger.Settings settings );
+	}
+
+	public class DamageTrigger : MonoBehaviour,
+		IDamageDealer
     {
+		public event System.Action<DamageDeliveredSignal> DamageDelivered;
+
 		private Settings _settings;
-		private Transform _owner;
 		private Rigidbody2D _body;
-		private SignalBus _signalBus;
+		private Transform _owner;
 
 		[Inject]
 		public void Construct( Settings settings,
-			Transform owner,
 			Rigidbody2D body,
-			SignalBus signalBus )
+			[InjectOptional] Transform owner )
 		{
 			_settings = settings;
-			_owner = owner;
 			_body = body;
-			_signalBus = signalBus;
+			_owner = owner;
+		}
+
+		public void SetOwner( Transform owner )
+		{
+			_owner = owner;
+		}
+
+		public void SetDamage( Settings settings )
+		{
+			_settings = settings;
 		}
 
 		private void OnTriggerEnter2D( Collider2D collision )
@@ -41,7 +59,7 @@ namespace Minipede.Gameplay.Weapons
 
 		private void NotifyDamageListeners( Rigidbody2D victim )
 		{
-			_signalBus.TryFire( new DamageDeliveredSignal()
+			DamageDelivered?.Invoke( new DamageDeliveredSignal()
 			{
 				Victim			= victim,
 				Instigator		= _owner,

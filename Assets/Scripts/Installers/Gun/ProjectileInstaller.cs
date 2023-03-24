@@ -18,6 +18,10 @@ namespace Minipede.Installers
 
 			Container.Bind<Rigidbody2D>()
 				.FromComponentOnRoot();
+
+			Container.Bind<IDamageDealer>()
+				.FromMethod( GetComponentInChildren<DamageTrigger> )
+				.AsSingle();
 		}
 	}
 }

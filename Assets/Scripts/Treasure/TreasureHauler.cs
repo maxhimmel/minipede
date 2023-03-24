@@ -134,6 +134,7 @@ namespace Minipede.Gameplay.Treasures
 			{
 				_treasuresWithinRange.RemoveAt( lastIndex );
 				closestTreasure.Follow( _body );
+				closestTreasure.SetHauler( this );
 
 				_haulWeight += closestTreasure.Weight;
 				HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );

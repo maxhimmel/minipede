@@ -18,41 +18,27 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			DeclareSignal();
-			BindAnimators();
-			BindListener();
-		}
-
-		private void DeclareSignal()
-		{
 			Container.DeclareSignal<FxSignal>()
 				.WithId( _fxId )
 				.OptionalSubscriber();
-		}
 
-		private void BindAnimators()
-		{
-			foreach ( var settings in _fxSettings )
-			{
-				Container.Bind<IFxAnimator>()
-					.WithId( _fxId )
-					.To( settings.AnimatorType )
-					.AsCached()
-					.WithArguments( settings );
-			}
+			Container.BindInterfacesTo<FxListener>()
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+				{
+					subContainer.Bind<FxListener>()
+						.AsSingle()
+						.WithArguments( _fxId );
 
-			if ( !Container.HasBinding<FxAnimatorResolver>() )
-			{
-				Container.Bind<FxAnimatorResolver>()
-					.AsSingle();
-			}
-		}
-
-		private void BindListener()
-		{
-			Container.BindInterfacesAndSelfTo<FxListener>()
-				.AsCached()
-				.WithArguments( _fxId );
+					foreach ( var settings in _fxSettings )
+					{
+						subContainer.Bind<IFxAnimator>()
+							.To( settings.AnimatorType )
+							.AsCached()
+							.WithArguments( settings );
+					}
+				} )
+				.AsCached();
 		}
 	}
 }

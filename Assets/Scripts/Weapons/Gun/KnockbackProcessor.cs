@@ -7,20 +7,17 @@ namespace Minipede.Gameplay.Weapons
 	{
 		private readonly Settings _settings;
 		private readonly IPushable _pushable;
-		private readonly Transform _owner;
 
 		public KnockbackProcessor( Settings settings,
-			IPushable pushable,
-			Transform owner )
+			IPushable pushable )
 		{
 			_settings = settings;
 			_pushable = pushable;
-			_owner = owner;
 		}
 
 		public void FireEnding()
 		{
-			_pushable.Push( -_owner.up * _settings.Impulse );
+			_pushable.Push( -_pushable.transform.up * _settings.Impulse );
 		}
 
 		[System.Serializable]

@@ -20,6 +20,7 @@ namespace Minipede.Gameplay.Treasures
 		private IFollower _followController;
 		protected AnimatedLifetimer _lifetimer;
 
+		private TreasureHauler _hauler;
 		private LineRenderer _tetherRenderer;
 		private Vector3[] _tetherPositions;
 
@@ -56,6 +57,9 @@ namespace Minipede.Gameplay.Treasures
 
 		public void Dispose()
 		{
+			_hauler?.ReleaseTreasure( this );
+			_hauler = null;
+
 			StopFollowing();
 
 			HandleDisposal();
@@ -96,7 +100,7 @@ namespace Minipede.Gameplay.Treasures
 			FixedTick();
 		}
 
-		public void FixedTick()
+		public virtual void FixedTick()
 		{
 			if ( !_lifetimer.Tick() )
 			{
@@ -123,6 +127,11 @@ namespace Minipede.Gameplay.Treasures
 				_tetherPositions[1] = Target;
 				_tetherRenderer.SetPositions( _tetherPositions );
 			}
+		}
+
+		public void SetHauler( TreasureHauler hauler )
+		{
+			_hauler = hauler;
 		}
 
 		[System.Serializable]

@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.Weapons
 {
-	public class FireRateSafety : IFireSafety
+	public class FireRateSafety : IFireSafety,
+		IProjectileFiredProcessor
 	{
 		private readonly Settings _settings;
 

@@ -3,6 +3,7 @@ using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.Weapons;
+using Minipede.Installers;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
@@ -31,11 +32,11 @@ namespace Minipede.Gameplay.Player
 		public IOrientation Orientation => new Orientation( _body.position, _body.transform.rotation, _body.transform.parent );
 
 		private IMotor _motor;
-		private Gun _gun;
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
 		private PlayerController _playerController;
 		private Inventory _inventory;
+		private Gun.Factory _gunFactory;
 		private SpriteRenderer _renderer;
 		private SpriteRenderer _selector;
 		private TargetGroupAttachment _audioListenerTarget;
@@ -46,14 +47,17 @@ namespace Minipede.Gameplay.Player
 		private Vector2 _moveInput;
 		private Beacon _equippedBeacon;
 		private bool _isPiloted;
+		private Gun _defaultGun;
+		private Gun _equippedGun;
 
 		[Inject]
         public void Construct( IMotor motor,
 			IDamageController damageController,
-			Gun gun,
+			GunInstaller baseGunPrefab,
 			Rigidbody2D body,
 			PlayerController playerController,
 			Inventory inventory,
+			Gun.Factory gunFactory,
 			SpriteRenderer renderer,
 			[Inject( Id = "Selector" )] SpriteRenderer selector,
 			List<TargetGroupAttachment> targetGroups,
@@ -61,10 +65,10 @@ namespace Minipede.Gameplay.Player
 		{
 			_motor = motor;
 			_damageController = damageController;
-			_gun = gun;
 			_body = body;
 			_playerController = playerController;
 			_inventory = inventory;
+			_gunFactory = gunFactory;
 			_renderer = renderer;
 			_selector = selector;
 			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
@@ -72,6 +76,10 @@ namespace Minipede.Gameplay.Player
 			_signalBus = signalBus;
 
 			damageController.Died += OnDied;
+
+			_defaultGun = _gunFactory.Create( baseGunPrefab );
+			_defaultGun.SetOwner( transform );
+			_equippedGun = _defaultGun;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
@@ -126,12 +134,12 @@ namespace Minipede.Gameplay.Player
 
 		public void StartFiring()
 		{
-			_gun.StartFiring();
+			_equippedGun.StartFiring();
 		}
 
 		public void StopFiring()
 		{
-			_gun.StopFiring();
+			_equippedGun.StopFiring();
 		}
 
 		public void AddMoveInput( Vector2 input )
@@ -162,7 +170,7 @@ namespace Minipede.Gameplay.Player
 		private void FixedUpdate()
 		{
 			_motor.FixedTick();
-			_gun.FixedTick();
+			_equippedGun.FixedTick();
 		}
 
 		public bool Collect( Treasure treasure )
@@ -194,6 +202,10 @@ namespace Minipede.Gameplay.Player
 						Beacon = beacon
 					} );
 
+					_equippedGun = beacon.Gun;
+					_equippedGun.SetOwner( transform );
+					_equippedGun.Emptied += OnGunEmptied;
+
 					return true;
 				}
 			}
@@ -201,10 +213,22 @@ namespace Minipede.Gameplay.Player
 			return false;
 		}
 
+		private void OnGunEmptied( Gun gun, IAmmoHandler ammoHandler )
+		{
+			if ( IsBeaconEquipped() )
+			{
+				UnequipBeacon();
+			}
+		}
+
 		public void UnequipBeacon()
 		{
 			if ( IsBeaconEquipped() )
 			{
+				_equippedGun.StopFiring();
+				_equippedGun.Emptied -= OnGunEmptied;
+				_equippedGun = _defaultGun;
+
 				_equippedBeacon.Unequip();
 				_equippedBeacon = null;
 

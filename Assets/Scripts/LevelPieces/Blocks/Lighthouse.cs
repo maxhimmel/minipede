@@ -21,6 +21,7 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			beacon.StopFollowing();
 			beacon.Equip( _body );
+			beacon.Gun.Reload();
 
 			var cleansedAreaPrefab = beacon.CleansedAreaProvider.GetAsset();
 			_cleansedArea = _cleansedAreaFactory.Create( cleansedAreaPrefab, new Orientation( _body.position ) );

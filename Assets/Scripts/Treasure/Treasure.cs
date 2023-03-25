@@ -25,6 +25,7 @@ namespace Minipede.Gameplay.Treasures
 		public void OnDespawned()
 		{
 			_pool = null;
+			_isDisposed = true;
 
 			_body.velocity = Vector2.zero;
 			_body.angularVelocity = 0;
@@ -35,6 +36,7 @@ namespace Minipede.Gameplay.Treasures
 		public void OnSpawned( IOrientation placement, IMemoryPool pool )
 		{
 			_pool = pool;
+			_isDisposed = false;
 
 			transform.SetPositionAndRotation( placement.Position, placement.Rotation );
 

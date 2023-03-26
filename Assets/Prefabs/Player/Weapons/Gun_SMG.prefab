@@ -54,8 +54,6 @@ MonoBehaviour:
         m_Bits: 257
       Type:
         rid: 5904237243981627392
-    InitialPoolSize: 10
-    Projectile: {fileID: 8807341101252389148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
     Gun:
       ShotSpotId: ShotSpot
       ProjectilePrefab: {fileID: -8478961870223082148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
@@ -135,7 +133,7 @@ MonoBehaviour:
       data:
         AutoReload: 0
         ReloadDuration: 1
-        FuseDuration: 1.5
+        FuseDuration: 3
         FireReduction: 0
 --- !u!114 &355851429713502091
 MonoBehaviour:

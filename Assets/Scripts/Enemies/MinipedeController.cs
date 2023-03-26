@@ -259,7 +259,6 @@ namespace Minipede.Gameplay.Enemies
 
 		protected override void OnDied( Rigidbody2D victimBody, HealthController health )
 		{
-			/// TODO: Unify w/<see cref="SegmentController.TryCreateBlock"/>
 			TryCreateBlock( victimBody.position );
 
 			base.OnDied( victimBody, health );

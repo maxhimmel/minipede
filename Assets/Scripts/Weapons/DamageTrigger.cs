@@ -52,19 +52,20 @@ namespace Minipede.Gameplay.Weapons
 
 			if ( _settings.IsHittable( otherBody ) )
 			{
-				damageable.TakeDamage( _owner, _body.transform, _settings.Type );
-				NotifyDamageListeners( otherBody );
+				int dmgDelivered = damageable.TakeDamage( _owner, _body.transform, _settings.Type );
+				NotifyDamageListeners( otherBody, dmgDelivered );
 			}
 		}
 
-		private void NotifyDamageListeners( Rigidbody2D victim )
+		private void NotifyDamageListeners( Rigidbody2D victim, int damageDelivered )
 		{
 			DamageDelivered?.Invoke( new DamageDeliveredSignal()
 			{
 				Victim			= victim,
 				Instigator		= _owner,
 				Causer			= _body.transform,
-				HitDirection	= (victim.position - _body.position).normalized
+				HitDirection	= (victim.position - _body.position).normalized,
+				DamageDelivered = damageDelivered
 			} );
 		}
 

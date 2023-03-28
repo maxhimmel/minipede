@@ -9,7 +9,9 @@ namespace Minipede.Installers
 	public class ProjectileInstaller : MonoInstaller
 	{
 		[HideReferenceObjectPicker]
-		[SerializeReference] private IProjectileDamageHandler.ISettings[] _damageHandlers;
+		[SerializeReference] private IProjectileDamageHandler.ISettings[] _damageHandlers = new IProjectileDamageHandler.ISettings[1] {
+			new ProjectilePierceHandler.Settings()
+		};
 
 		public override void InstallBindings()
 		{

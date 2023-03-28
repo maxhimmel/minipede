@@ -59,14 +59,8 @@ namespace Minipede.Gameplay.Weapons
 			_pool = null;
 
 			_damageDealer.DamageDelivered -= OnDamagedOther;
-
-			// Uncommenting the below code will cause errors when shooting 2 blocks stacked vertically.
-				// Why?
-				// This despawns immediately upon hitting the first block.
-				// Then we set owner and settings null.
-				// Then the trigger hits the second stacked block but it has null reference exceptions.
-			//_damageDealer.SetOwner( null );
-			//_damageDealer.SetDamage( null );
+			_damageDealer.SetOwner( null );
+			_damageDealer.SetDamage( null );
 
 			_body.velocity = Vector2.zero;
 			_body.angularVelocity = 0;

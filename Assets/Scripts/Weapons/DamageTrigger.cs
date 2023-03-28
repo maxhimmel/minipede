@@ -43,6 +43,11 @@ namespace Minipede.Gameplay.Weapons
 
 		private void OnTriggerEnter2D( Collider2D collision )
 		{
+			if ( _owner == null || _settings == null )
+			{
+				return;
+			}
+
 			var otherBody = collision.attachedRigidbody;
 			var damageable = otherBody?.GetComponent<IDamageable>();
 			if ( damageable == null )

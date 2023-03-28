@@ -44,7 +44,7 @@ namespace Minipede.Gameplay.Weapons
 			}
 		}
 
-		public void OnDamagedOther( DamageDeliveredSignal message )
+		private void OnDamagedOther( DamageDeliveredSignal message )
 		{
 			Dispose();
 		}

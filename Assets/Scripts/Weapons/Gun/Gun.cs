@@ -231,7 +231,6 @@ namespace Minipede.Gameplay.Weapons
 			[BoxGroup( "Projectile", ShowLabel = false )]
 			public float ProjectileTorque;
 
-			// TODO: Can these ISettings be converted into inhertence now that they're classes?
 			[BoxGroup( "Required" )]
 			[HideReferenceObjectPicker]
 			[SerializeReference] public IFireSpread.ISettings FireSpread;

@@ -301,3 +301,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76fcce9ac4b49374785661ebacf3f2ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _damageHandlers:
+  - rid: 8667173737849421824
+  references:
+    version: 2
+    RefIds:
+    - rid: 8667173737849421824
+      type: {class: ProjectilePierceHandler/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
+      data:
+        IsUnlimited: 0
+        Depth: 0

@@ -13,16 +13,19 @@ namespace Minipede.Gameplay.Weapons
 
 		private Rigidbody2D _body;
 		private IDamageDealer _damageDealer;
+		private IProjectileDamageHandler[] _damageHandlers;
 		private Lifetimer _lifetimer;
 
 		private IMemoryPool _pool;
 
 		[Inject]
 		public void Construct( Rigidbody2D body,
-			IDamageDealer damagerDealer )
+			IDamageDealer damagerDealer,
+			IProjectileDamageHandler[] damageHandlers )
 		{
 			_body = body;
 			_damageDealer = damagerDealer;
+			_damageHandlers = damageHandlers;
 
 			_lifetimer = new Lifetimer();
 		}
@@ -44,14 +47,22 @@ namespace Minipede.Gameplay.Weapons
 			}
 		}
 
-		private void OnDamagedOther( DamageDeliveredSignal message )
+		private void OnDamagedOther( DamageDeliveredSignal signal )
 		{
-			Dispose();
+			foreach ( var dmgHandler in _damageHandlers )
+			{
+				dmgHandler.Handle( this, signal );
+			}
 		}
 
 		public void Dispose()
 		{
 			_pool?.Despawn( this );
+
+			foreach ( var dmgHandler in _damageHandlers )
+			{
+				dmgHandler.Dispose();
+			}
 		}
 
 		public void OnDespawned()

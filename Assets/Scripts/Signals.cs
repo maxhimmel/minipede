@@ -79,6 +79,7 @@ namespace Minipede.Gameplay
 		public Transform Instigator;
 		public Transform Causer;
 		public Vector2 HitDirection;
+		public int DamageDelivered;
 	}
 
 	public interface IWinStateChangedSignal

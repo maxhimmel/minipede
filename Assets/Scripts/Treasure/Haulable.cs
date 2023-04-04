@@ -18,7 +18,7 @@ namespace Minipede.Gameplay.Treasures
 		private Settings _settings;
 		protected Rigidbody2D _body;
 		private IFollower _followController;
-		protected AnimatedLifetimer _lifetimer;
+		protected Lifetimer _lifetimer;
 
 		private TreasureHauler _hauler;
 		private LineRenderer _tetherRenderer;
@@ -28,7 +28,7 @@ namespace Minipede.Gameplay.Treasures
 		public void Construct( Settings settings,
 			Rigidbody2D body,
 			IFollower followController,
-			AnimatedLifetimer lifetimer )
+			Lifetimer lifetimer )
 		{
 			_settings = settings;
 			_body = body;
@@ -137,8 +137,12 @@ namespace Minipede.Gameplay.Treasures
 		[System.Serializable]
 		public class Settings
 		{
+			[ToggleGroup( "CanExpire" )]
+			public bool CanExpire = true;
+			[ToggleGroup( "CanExpire" )]
 			[MinMaxSlider( 5, 120 )]
 			public Vector2 LifetimeRange;
+
 			[MinMaxSlider( 0, 1080 )]
 			public Vector2 TorqueRange;
 

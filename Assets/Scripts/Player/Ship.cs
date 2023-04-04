@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
+using Minipede.Gameplay.UI;
 using Minipede.Gameplay.Weapons;
 using Minipede.Installers;
 using Minipede.Utility;
@@ -34,9 +35,11 @@ namespace Minipede.Gameplay.Player
 		private IMotor _motor;
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
+		private Settings _settings;
 		private PlayerController _playerController;
 		private Inventory _inventory;
 		private Gun.Factory _gunFactory;
+		private IMinimap _minimap;
 		private SpriteRenderer _renderer;
 		private SpriteRenderer _selector;
 		private TargetGroupAttachment _audioListenerTarget;
@@ -53,11 +56,12 @@ namespace Minipede.Gameplay.Player
 		[Inject]
         public void Construct( IMotor motor,
 			IDamageController damageController,
-			GunInstaller baseGunPrefab,
+			Settings settings,
 			Rigidbody2D body,
 			PlayerController playerController,
 			Inventory inventory,
 			Gun.Factory gunFactory,
+			IMinimap minimap,
 			SpriteRenderer renderer,
 			[Inject( Id = "Selector" )] SpriteRenderer selector,
 			List<TargetGroupAttachment> targetGroups,
@@ -65,10 +69,12 @@ namespace Minipede.Gameplay.Player
 		{
 			_motor = motor;
 			_damageController = damageController;
+			_settings = settings;
 			_body = body;
 			_playerController = playerController;
 			_inventory = inventory;
 			_gunFactory = gunFactory;
+			_minimap = minimap;
 			_renderer = renderer;
 			_selector = selector;
 			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
@@ -77,7 +83,7 @@ namespace Minipede.Gameplay.Player
 
 			damageController.Died += OnDied;
 
-			_defaultGun = _gunFactory.Create( baseGunPrefab );
+			_defaultGun = _gunFactory.Create( settings.BaseGun );
 			_defaultGun.SetOwner( transform );
 			_equippedGun = _defaultGun;
 		}
@@ -115,6 +121,8 @@ namespace Minipede.Gameplay.Player
 			{
 				_audioListenerTarget.Activate();
 			}
+
+			_minimap.RemoveMarker( transform );
 		}
 
 		public void UnPossess()
@@ -130,6 +138,8 @@ namespace Minipede.Gameplay.Player
 			StopFiring();
 
 			_playerController.CreateExplorer();
+
+			_minimap.AddMarker( transform, _settings.MapMarker );
 		}
 
 		public void StartFiring()
@@ -286,6 +296,13 @@ namespace Minipede.Gameplay.Player
 		public void Push( Vector2 velocity )
 		{
 			_body.AddForce( velocity, ForceMode2D.Impulse );
+		}
+
+		[System.Serializable]
+		public class Settings
+		{
+			public GunInstaller BaseGun;
+			public MinimapMarker MapMarker;
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

@@ -587,7 +587,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96c46e6f5a39ed54998f41f22beb9b0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _baseGunPrefab: {fileID: 4929814723182570160, guid: b693e7e97ad00c04c925902874ac9146, type: 3}
+  _settings:
+    BaseGun: {fileID: 4929814723182570160, guid: b693e7e97ad00c04c925902874ac9146, type: 3}
+    MapMarker: {fileID: 989791784839115656, guid: a2ed16dcd2ebe9f4bbc0cb8c2df4156e, type: 3}
 --- !u!114 &7023257299927715439
 MonoBehaviour:
   m_ObjectHideFlags: 0

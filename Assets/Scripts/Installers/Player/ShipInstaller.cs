@@ -1,6 +1,7 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Weapons;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -8,13 +9,19 @@ namespace Minipede.Installers
 {
     public class ShipInstaller : MonoInstaller
     {
-		[SerializeField] private GunInstaller _baseGunPrefab;
+		[HideLabel]
+		[SerializeField] private Ship.Settings _settings;
 
 		public override void InstallBindings()
 		{
 			Container.Bind<Ship>()
 				.FromMethod( GetComponent<Ship> )
 				.AsSingle();
+
+			Container.BindInstance( _settings )
+				.AsSingle();
+
+			/* --- */
 
 			Container.Bind<Transform>()
 				.FromMethod( GetComponent<Transform> )
@@ -33,9 +40,6 @@ namespace Minipede.Installers
 				.AsSingle();
 
 			/* --- */
-
-			Container.BindInstance( _baseGunPrefab )
-				.AsSingle();
 
 			Container.BindFactory<GunInstaller, Gun, Gun.Factory>()
 				.FromFactory<Gun.PrefabFactory>();

@@ -47,7 +47,7 @@ namespace Minipede.Gameplay.Treasures
 			_tetherRenderer.enabled = false;
 		}
 
-		public void Launch( Vector2 impulse )
+		public virtual void Launch( Vector2 impulse )
 		{
 			_body.velocity = impulse;
 			_body.angularVelocity = _settings.TorqueRange.Random();

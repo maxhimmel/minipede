@@ -155,6 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
+    CanExpire: 1
     LifetimeRange: {x: 5, y: 5}
     TorqueRange: {x: 591.6136, y: 824.7071}
     TetherPrefab: {fileID: 1824722372019756568, guid: 3f9e8fab95fc6e648860996ad417b75f, type: 3}

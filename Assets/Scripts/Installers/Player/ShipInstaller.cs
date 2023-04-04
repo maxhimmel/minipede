@@ -1,6 +1,7 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Weapons;
+using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -43,6 +44,10 @@ namespace Minipede.Installers
 
 			Container.BindFactory<GunInstaller, Gun, Gun.Factory>()
 				.FromFactory<Gun.PrefabFactory>();
+
+			Container.Bind<ShipShrapnel.Factory>()
+				.AsSingle()
+				.WithArguments( _settings.Shrapnel );
 		}
 	}
 }

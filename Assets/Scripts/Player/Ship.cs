@@ -6,6 +6,7 @@ using Minipede.Gameplay.UI;
 using Minipede.Gameplay.Weapons;
 using Minipede.Installers;
 using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +17,7 @@ namespace Minipede.Gameplay.Player
 		IDamageController,
 		ICollector<Treasure>,
 		ICollector<Beacon>,
+		ICollector<ShipShrapnel>,
 		ISelectable,
 		IPushable
 	{
@@ -39,6 +41,7 @@ namespace Minipede.Gameplay.Player
 		private PlayerController _playerController;
 		private Inventory _inventory;
 		private Gun.Factory _gunFactory;
+		private ShipShrapnel.Factory _shrapnelFactory;
 		private IMinimap _minimap;
 		private SpriteRenderer _renderer;
 		private SpriteRenderer _selector;
@@ -61,6 +64,7 @@ namespace Minipede.Gameplay.Player
 			PlayerController playerController,
 			Inventory inventory,
 			Gun.Factory gunFactory,
+			ShipShrapnel.Factory shrapnelFactory,
 			IMinimap minimap,
 			SpriteRenderer renderer,
 			[Inject( Id = "Selector" )] SpriteRenderer selector,
@@ -74,6 +78,7 @@ namespace Minipede.Gameplay.Player
 			_playerController = playerController;
 			_inventory = inventory;
 			_gunFactory = gunFactory;
+			_shrapnelFactory = shrapnelFactory;
 			_minimap = minimap;
 			_renderer = renderer;
 			_selector = selector;
@@ -108,6 +113,9 @@ namespace Minipede.Gameplay.Player
 			{
 				targetGroupAttachment.Deactivate( canDispose: true );
 			}
+
+			_shrapnelFactory.Create( _body.position )
+				.Launch( Random.insideUnitCircle * _settings.ShrapnelLaunchForce.Random() );
 
 			Destroy( gameObject );
 		}
@@ -181,6 +189,12 @@ namespace Minipede.Gameplay.Player
 		{
 			_motor.FixedTick();
 			_equippedGun.FixedTick();
+		}
+
+		public bool Collect( ShipShrapnel shrapnel )
+		{
+			shrapnel.Dispose();
+			return true;
 		}
 
 		public bool Collect( Treasure treasure )
@@ -303,6 +317,11 @@ namespace Minipede.Gameplay.Player
 		{
 			public GunInstaller BaseGun;
 			public MinimapMarker MapMarker;
+
+			[BoxGroup]
+			public ShipShrapnel Shrapnel;
+			[BoxGroup, MinMaxSlider( 0, 100, ShowFields = true )]
+			public Vector2 ShrapnelLaunchForce;
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

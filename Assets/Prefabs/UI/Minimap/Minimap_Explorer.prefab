@@ -9,9 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3047277364401606431}
-  - component: {fileID: 120639583353089158}
+  - component: {fileID: 7011681492120643824}
   - component: {fileID: 4008209877075570457}
-  - component: {fileID: 621733669117391518}
   m_Layer: 5
   m_Name: Minimap_Explorer
   m_TagString: Untagged
@@ -40,7 +39,7 @@ RectTransform:
   m_AnchoredPosition: {x: 960, y: 540}
   m_SizeDelta: {x: 714.999, y: 402.187}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &120639583353089158
+--- !u!114 &7011681492120643824
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,7 +48,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1996423067845887690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d752672c2aa1c0642bc4ae3be2ad4fbb, type: 3}
+  m_Script: {fileID: 11500000, guid: 5c213b9b55a04e24da49abb2e89e2583, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 777972489764775644}
@@ -67,23 +66,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
-  - {fileID: 120639583353089158}
+  - {fileID: 7011681492120643824}
   _identifier: 
   _useSceneContext: 0
   _context: {fileID: 0}
-  _bindType: 0
---- !u!114 &621733669117391518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1996423067845887690}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a102932869065b8499d1aaf625833b77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  _bindType: 1
 --- !u!1 &7751961433548098066
 GameObject:
   m_ObjectHideFlags: 0

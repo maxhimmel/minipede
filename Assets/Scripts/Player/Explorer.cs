@@ -119,7 +119,7 @@ namespace Minipede.Gameplay.Player
 
 			foreach ( var targetGroupAttachment in _targetGroupAttachments )
 			{
-				targetGroupAttachment.Deactivate( canDispose: true );
+				targetGroupAttachment.Deactivate( canDispose: true ).Forget();
 			}
 
 			Destroy( gameObject );

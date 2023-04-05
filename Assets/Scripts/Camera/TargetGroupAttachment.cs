@@ -63,7 +63,7 @@ namespace Minipede.Gameplay.Cameras
 			SetWeight( _settings.Weight, _settings.EaseDuration );
 		}
 
-		public async void Deactivate( bool canDispose )
+		public async UniTaskVoid Deactivate( bool canDispose )
 		{
 			SetWeight( 0, _settings.EaseDuration );
 

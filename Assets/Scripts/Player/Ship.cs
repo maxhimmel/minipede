@@ -111,7 +111,7 @@ namespace Minipede.Gameplay.Player
 
 			foreach ( var targetGroupAttachment in _targetGroupAttachments )
 			{
-				targetGroupAttachment.Deactivate( canDispose: true );
+				targetGroupAttachment.Deactivate( canDispose: true ).Forget();
 			}
 
 			_shrapnelFactory.Create( _body.position )
@@ -137,7 +137,7 @@ namespace Minipede.Gameplay.Player
 		{
 			_isPiloted = false;
 			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
-			_audioListenerTarget.Deactivate( canDispose: false );
+			_audioListenerTarget.Deactivate( canDispose: false ).Forget();
 
 			_isMoveInputConsumed = true;
 			_moveInput = Vector2.zero;

@@ -88,9 +88,10 @@ namespace Minipede.Gameplay.Player
 			_treasureHauler.StopReleasingTreasure();
 		}
 
-		public bool TryGetHauledBeacon( out Beacon beacon )
+		public bool TryGetFirstHaulable<THaulable>( out THaulable haulable )
+			where THaulable : Haulable
 		{
-			return _treasureHauler.TryGetFirst( out beacon );
+			return _treasureHauler.TryGetFirst( out haulable );
 		}
 
 		public void ReleaseTreasure( Haulable haulable )

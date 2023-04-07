@@ -47,6 +47,7 @@ namespace Minipede.Gameplay.Player
 		private SpriteRenderer _selector;
 		private TargetGroupAttachment _audioListenerTarget;
 		private List<TargetGroupAttachment> _targetGroupAttachments;
+		private IInteractable _interactable;
 		private SignalBus _signalBus;
 
 		private bool _isMoveInputConsumed;
@@ -69,6 +70,7 @@ namespace Minipede.Gameplay.Player
 			SpriteRenderer renderer,
 			[Inject( Id = "Selector" )] SpriteRenderer selector,
 			List<TargetGroupAttachment> targetGroups,
+			IInteractable interactable,
 			SignalBus signalBus )
 		{
 			_motor = motor;
@@ -84,6 +86,7 @@ namespace Minipede.Gameplay.Player
 			_selector = selector;
 			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
 			_targetGroupAttachments = targetGroups;
+			_interactable = interactable;
 			_signalBus = signalBus;
 
 			damageController.Died += OnDied;
@@ -193,6 +196,13 @@ namespace Minipede.Gameplay.Player
 
 		public bool Collect( ShipShrapnel shrapnel )
 		{
+			if ( !_isPiloted )
+			{
+				return false;
+			}
+
+			Health.Replenish();
+
 			shrapnel.Dispose();
 			return true;
 		}
@@ -272,7 +282,12 @@ namespace Minipede.Gameplay.Player
 
 		public bool CanBeInteracted()
 		{
-			return !_isPiloted;
+			if ( _isPiloted )
+			{
+				return false;
+			}
+
+			return _interactable.CanBeInteracted();
 		}
 
 		public void Select()

@@ -168,6 +168,13 @@ namespace Minipede.Gameplay.Player
 			}
 		}
 
+		[System.Serializable]
+		public class Settings
+		{
+			public float EjectInvincibleDuration;
+			public SpriteBlinkVfxAnimator.Settings EjectInvincibleVfx;
+		}
+
 		public class Factory : UnityFactory<Explorer>
 		{
 			public Factory( DiContainer container, Explorer prefab ) 

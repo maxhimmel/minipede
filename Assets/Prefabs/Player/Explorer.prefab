@@ -342,10 +342,10 @@ GameObject:
   - component: {fileID: 6295317173650423721}
   - component: {fileID: 3893868145268687937}
   - component: {fileID: 3893868145268687936}
+  - component: {fileID: 6607812264087886826}
   - component: {fileID: 2170247585523031034}
   - component: {fileID: 8179803750665747592}
   - component: {fileID: 5414009041420245179}
-  - component: {fileID: 5245575647349424864}
   m_Layer: 3
   m_Name: Explorer
   m_TagString: Untagged
@@ -424,9 +424,9 @@ MonoBehaviour:
   _scriptableObjectInstallers:
   - {fileID: 11400000, guid: 5b5b331b0b4c5a8479570545b85e2fbc, type: 2}
   _monoInstallers:
+  - {fileID: 6607812264087886826}
   - {fileID: 5437935532920463846}
   - {fileID: 5414009041420245179}
-  - {fileID: 5245575647349424864}
   - {fileID: 8179803750665747592}
   - {fileID: 621673674669009977}
   - {fileID: 8380373327094449874}
@@ -434,6 +434,27 @@ MonoBehaviour:
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
+--- !u!114 &6607812264087886826
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3893868145268687941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d16387218f4ef4599d2a5d590f164d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hauling:
+    MinSpeed: 0.25
+  _explorer:
+    EjectInvincibleDuration: 2
+    EjectInvincibleVfx:
+      BlinkSettings:
+        Color: {r: 0, g: 0, b: 0, a: 0}
+        Blinks: 20
+        Duration: 2
 --- !u!114 &2170247585523031034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,8 +468,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
-  - {fileID: 3893868145268687937}
-  - {fileID: 3893868145268687938}
   - {fileID: 6005190890166369503}
   - {fileID: 3893868146414949131}
   - {fileID: 942187885745718133}
@@ -504,20 +523,6 @@ MonoBehaviour:
           Weight: 0.025
           Radius: 0
           EaseDuration: 0.25
---- !u!114 &5245575647349424864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3893868145268687941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c13dca93cd5ad86478e4ad736035bb91, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hauling:
-    MinSpeed: 0.25
 --- !u!1 &3893868145885426223
 GameObject:
   m_ObjectHideFlags: 0

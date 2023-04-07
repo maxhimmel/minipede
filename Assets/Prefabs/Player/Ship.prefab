@@ -377,7 +377,7 @@ MonoBehaviour:
     BindingId: Ship
     Weight: 1
     Radius: 0
-    EaseDuration: 0
+    EaseDuration: 0.5
 --- !u!1 &6378720963097473946
 GameObject:
   m_ObjectHideFlags: 0

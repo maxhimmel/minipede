@@ -38,14 +38,12 @@ namespace Minipede.Gameplay.Player
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
 		private Settings _settings;
-		private PlayerController _playerController;
 		private Inventory _inventory;
 		private Gun.Factory _gunFactory;
 		private ShipShrapnel.Factory _shrapnelFactory;
 		private IMinimap _minimap;
 		private SpriteRenderer _renderer;
 		private SpriteRenderer _selector;
-		private TargetGroupAttachment _audioListenerTarget;
 		private List<TargetGroupAttachment> _targetGroupAttachments;
 		private IInteractable _interactable;
 		private SignalBus _signalBus;
@@ -62,7 +60,6 @@ namespace Minipede.Gameplay.Player
 			IDamageController damageController,
 			Settings settings,
 			Rigidbody2D body,
-			PlayerController playerController,
 			Inventory inventory,
 			Gun.Factory gunFactory,
 			ShipShrapnel.Factory shrapnelFactory,
@@ -77,14 +74,12 @@ namespace Minipede.Gameplay.Player
 			_damageController = damageController;
 			_settings = settings;
 			_body = body;
-			_playerController = playerController;
 			_inventory = inventory;
 			_gunFactory = gunFactory;
 			_shrapnelFactory = shrapnelFactory;
 			_minimap = minimap;
 			_renderer = renderer;
 			_selector = selector;
-			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
 			_targetGroupAttachments = targetGroups;
 			_interactable = interactable;
 			_signalBus = signalBus;
@@ -110,17 +105,13 @@ namespace Minipede.Gameplay.Player
 		{
 			UnequipBeacon();
 
-			_damageController.Died -= OnDied;
-
 			foreach ( var targetGroupAttachment in _targetGroupAttachments )
 			{
-				targetGroupAttachment.Deactivate( canDispose: true ).Forget();
+				targetGroupAttachment.Deactivate( canDispose: false ).Forget();
 			}
 
 			_shrapnelFactory.Create( _body.position )
 				.Launch( Random.insideUnitCircle * _settings.ShrapnelLaunchForce.Random() );
-
-			Destroy( gameObject );
 		}
 
 		public void PossessedBy( ShipController controller )
@@ -128,9 +119,12 @@ namespace Minipede.Gameplay.Player
 			_isPiloted = true;
 			_renderer.color = Color.white;
 
-			if ( !_audioListenerTarget.IsActive )
+			foreach ( var targetGroupAttachment in _targetGroupAttachments )
 			{
-				_audioListenerTarget.Activate();
+				if ( !targetGroupAttachment.IsActive )
+				{
+					targetGroupAttachment.Activate();
+				}
 			}
 
 			_minimap.RemoveMarker( transform );
@@ -140,15 +134,17 @@ namespace Minipede.Gameplay.Player
 		{
 			_isPiloted = false;
 			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
-			_audioListenerTarget.Deactivate( canDispose: false ).Forget();
+
+			foreach ( var targetGroupAttachment in _targetGroupAttachments )
+			{
+				targetGroupAttachment.Deactivate( canDispose: false ).Forget();
+			}
 
 			_isMoveInputConsumed = true;
 			_moveInput = Vector2.zero;
 			_motor.SetDesiredVelocity( Vector2.zero );
 
 			StopFiring();
-
-			_playerController.CreateExplorer();
 
 			_minimap.AddMarker( transform, _settings.MapMarker );
 		}

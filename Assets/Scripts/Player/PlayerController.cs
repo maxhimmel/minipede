@@ -51,6 +51,10 @@ namespace Minipede.Gameplay.Player
 
 			_input.AddButtonPressedDelegate( OnPaused, ReConsts.Action.Pause );
 			_input.AddButtonPressedDelegate( OnResumed, ReConsts.Action.Resume );
+
+			_shipController.UnPossessed += OnShipUnpossessed;
+
+			_signalBus.Subscribe<IWinStateChangedSignal>( OnWinStateChanged );
 		}
 
 		public void Dispose()
@@ -59,6 +63,8 @@ namespace Minipede.Gameplay.Player
 
 			_input.RemoveInputEventDelegate( OnPaused );
 			_input.RemoveInputEventDelegate( OnResumed );
+
+			_signalBus.Unsubscribe<IWinStateChangedSignal>( OnWinStateChanged );
 		}
 
 		private void OnPaused( InputActionEventData obj )
@@ -69,6 +75,49 @@ namespace Minipede.Gameplay.Player
 		private void OnResumed( InputActionEventData obj )
 		{
 			_signalBus.Fire( new PausedSignal( isPaused: false ) );
+		}
+
+		private void OnShipUnpossessed()
+		{
+			CreateExplorer();
+		}
+
+		private Explorer CreateExplorer()
+		{
+			if ( _explorer != null )
+			{
+				throw new System.NotSupportedException( "Cannot have multiple explorers active." );
+			}
+
+			_explorer = _explorerFactory.Create( _ship.Orientation );
+			_explorer.Died += OnExplorerDied;
+
+			_explorerController.Possess( _explorer );
+
+			return _explorer;
+		}
+
+		private void OnExplorerDied( Rigidbody2D victimBody, HealthController health )
+		{
+			var deadExplorer = _explorer;
+			deadExplorer.Died -= OnExplorerDied;
+
+			_playerDiedCancelSource.Cancel();
+			_playerDiedCancelSource.Dispose();
+			_playerDiedCancelSource = AppHelper.CreateLinkedCTS();
+
+			_explorer = null;
+			_explorerController.UnPossess();
+
+			PlayerDied?.Invoke();
+		}
+
+		private void OnWinStateChanged( IWinStateChangedSignal signal )
+		{
+			if ( signal.CanWin )
+			{
+				_shipController.UnPossessed -= OnShipUnpossessed;
+			}
 		}
 
 		public void RespawnPlayer()
@@ -91,47 +140,9 @@ namespace Minipede.Gameplay.Player
 
 		private void OnShipDied( Rigidbody2D victimBody, HealthController health )
 		{
-			var deadShip = _ship;
-			deadShip.Died -= OnShipDied;
-
-			_playerDiedCancelSource.Cancel();
-			_playerDiedCancelSource.Dispose();
-			_playerDiedCancelSource = AppHelper.CreateLinkedCTS();
-
-			_ship = null;
 			_shipController.UnPossess();
 
-			PlayerDied?.Invoke();
-		}
-
-		public Explorer CreateExplorer()
-		{
-			if ( _explorer != null )
-			{
-				throw new System.NotSupportedException( "Cannot have multiple explorers active." );
-			}
-
-			_explorer = _explorerFactory.Create( _ship.Orientation );
-			_explorer.Died += OnExplorerDied;
-
-			_explorerController.Possess( _explorer );
-
-			return _explorer;
-		}
-
-		private void OnExplorerDied( Rigidbody2D victimBody, HealthController health )
-		{
-			var deadExplorer = _explorer;
-			deadExplorer.Died -= OnExplorerDied;
-
-			_playerDiedCancelSource.Cancel();
-			_playerDiedCancelSource.Dispose();
-			_playerDiedCancelSource = new CancellationTokenSource();
-
-			_explorer = null;
-			_explorerController.UnPossess();
-
-			PlayerDied?.Invoke();
+			_explorer.Eject( UnityEngine.Random.insideUnitCircle );
 		}
 	}
 }

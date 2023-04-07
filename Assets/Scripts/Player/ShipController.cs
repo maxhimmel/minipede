@@ -39,6 +39,7 @@ namespace Minipede.Gameplay.Player
 			_input.RemoveInputEventDelegate( OnEjectShip );
 			_input.RemoveInputEventDelegate( OnShowInventory );
 
+			_ship.UnPossess();
 			_ship = null;
 
 			UnPossessed?.Invoke();
@@ -92,7 +93,6 @@ namespace Minipede.Gameplay.Player
 
 		private void OnEjectShip( InputActionEventData obj )
 		{
-			_ship.UnPossess();
 			UnPossess();
 		}
 

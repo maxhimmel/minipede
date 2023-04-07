@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
@@ -28,31 +29,38 @@ namespace Minipede.Gameplay.Player
 		public IOrientation Orientation => new Orientation( _body.position, _body.transform.rotation, _body.transform.parent );
 		public ISelectable CurrentInteractable => _interactionSelector.Selectable;
 
+		private Settings _settings;
 		private IDamageController _damageController;
 		private IMotor _motor;
 		private Rigidbody2D _body;
 		private TreasureHauler _treasureHauler;
 		private InteractionSelector _interactionSelector;
 		private List<TargetGroupAttachment> _targetGroupAttachments;
+		private SpriteBlinkVfxAnimator _ejectVfx;
 
 		private Vector2 _moveInput;
 		private bool _isMoveInputConsumed;
 		private bool _isCleanedUp;
+		private float _invincibilityEndTime;
 
 		[Inject]
-		public void Construct( IDamageController damageController,
+		public void Construct( Settings settings,
+			IDamageController damageController,
 			IMotor motor,
 			Rigidbody2D body,
 			TreasureHauler treasureHauler,
 			InteractionSelector interactionSelector,
-			List<TargetGroupAttachment> targetGroupAttachments )
+			List<TargetGroupAttachment> targetGroupAttachments,
+			SpriteBlinkVfxAnimator ejectVfx )
 		{
+			_settings = settings;
             _damageController = damageController;
 			_motor = motor;
 			_body = body;
 			_treasureHauler = treasureHauler;
 			_interactionSelector = interactionSelector;
 			_targetGroupAttachments = targetGroupAttachments;
+			_ejectVfx = ejectVfx;
 
 			damageController.Died += OnDied;
 		}
@@ -101,6 +109,11 @@ namespace Minipede.Gameplay.Player
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
+			if ( _invincibilityEndTime > Time.timeSinceLevelLoad )
+			{
+				return 0;
+			}
+
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
@@ -166,6 +179,13 @@ namespace Minipede.Gameplay.Player
 			{
 				_body.MoveRotation( velocity.ToLookRotation() );
 			}
+		}
+
+		public void Eject( Vector2 direction )
+		{
+			_invincibilityEndTime = Time.timeSinceLevelLoad + _settings.EjectInvincibleDuration;
+
+			_ejectVfx.Play( new FxSignal( transform.position, direction ) );
 		}
 
 		[System.Serializable]

@@ -36,8 +36,14 @@ namespace Minipede.Installers
 				.FromMethod( GetComponentInChildren<SpriteRenderer> )
 				.AsSingle();
 
+			/* --- */
+
 			Container.Bind<IPushable>()
 				.FromResolveGetter<Ship>( ship => ship )
+				.AsSingle();
+
+			Container.Bind<IInteractable>()
+				.To<InteractableShip>()
 				.AsSingle();
 
 			/* --- */

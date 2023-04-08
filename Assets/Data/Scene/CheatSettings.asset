@@ -14,15 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _enableCheats: 1
   _settings:
-    UseWalletCheat: 0
+    UseWalletCheat: 1
     Wallet:
-    - PreLoad: 6
+    - PreLoad: 50
       ResourceType: {fileID: 11400000, guid: 3f09ebe44330ec042afd5b23b6863464, type: 2}
-    - PreLoad: 6
+    - PreLoad: 50
       ResourceType: {fileID: 11400000, guid: 54fbab5a5bdc833408683a3ef1c0e611, type: 2}
-    - PreLoad: 3
+    - PreLoad: 50
       ResourceType: {fileID: 11400000, guid: e4e87e8bad84fa548a7b8bfc583af271, type: 2}
-    - PreLoad: 0
+    - PreLoad: 50
       ResourceType: {fileID: 11400000, guid: 98f8c31c61a88ba499c267e6dfb86084, type: 2}
     UseMushroomShifterCheat: 0
     DisableWaves: 0

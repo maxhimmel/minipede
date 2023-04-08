@@ -72,7 +72,7 @@ MonoBehaviour:
     - rid: 5904237243981627392
       type: {class: DamageInvoker/Settings, ns: Minipede.Gameplay, asm: Minipede}
       data:
-        Damage: 1
+        Damage: 10
     - rid: 5904237243981627393
       type: {class: FireSpread/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
@@ -86,7 +86,7 @@ MonoBehaviour:
     - rid: 5904237243981627396
       type: {class: KnockbackProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
-        Impulse: 14
+        Impulse: 35
     - rid: 8667173491517161476
       type: {class: FuseAmmoProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:

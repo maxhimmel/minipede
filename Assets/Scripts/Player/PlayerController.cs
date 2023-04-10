@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
 using Rewired;
@@ -24,6 +25,7 @@ namespace Minipede.Gameplay.Player
 		private readonly ShipController _shipController;
 		private readonly Explorer.Factory _explorerFactory;
 		private readonly ExplorerController _explorerController;
+		private readonly EjectModel _ejectModel;
 		private readonly SignalBus _signalBus;
 
 		private Ship _ship;
@@ -35,6 +37,7 @@ namespace Minipede.Gameplay.Player
 			ShipController shipController,
 			Explorer.Factory explorerFactory,
 			ExplorerController explorerController,
+			EjectModel ejectModel,
 			SignalBus signalBus )
 		{
 			_input = input;
@@ -42,6 +45,7 @@ namespace Minipede.Gameplay.Player
 			_shipController = shipController;
 			_explorerFactory = explorerFactory;
 			_explorerController = explorerController;
+			_ejectModel = ejectModel;
 			_signalBus = signalBus;
 		}
 
@@ -51,8 +55,6 @@ namespace Minipede.Gameplay.Player
 
 			_input.AddButtonPressedDelegate( OnPaused, ReConsts.Action.Pause );
 			_input.AddButtonPressedDelegate( OnResumed, ReConsts.Action.Resume );
-
-			_shipController.UnPossessed += OnShipUnpossessed;
 
 			_signalBus.Subscribe<IWinStateChangedSignal>( OnWinStateChanged );
 		}
@@ -133,16 +135,68 @@ namespace Minipede.Gameplay.Player
 				_ship.Body.MoveRotation( 0 );
 			}
 
+			_ship.Health.Replenish();
 			_shipController.Possess( _ship );
+			_shipController.UnPossessed += OnShipUnpossessed;
 
 			PlayerSpawned?.Invoke( _ship );
 		}
 
 		private void OnShipDied( Rigidbody2D victimBody, HealthController health )
 		{
+			_signalBus.Fire( new ShipDiedSignal() );
+
+			HandleEjectDecision().Forget();
+		}
+
+		private async UniTaskVoid HandleEjectDecision()
+		{
+			_shipController.UnPossessed -= OnShipUnpossessed;
 			_shipController.UnPossess();
 
-			_explorer.Eject( UnityEngine.Random.insideUnitCircle );
+			while ( !_ejectModel.Choice.HasValue )
+			{
+				await UniTask.Delay( 0, ignoreTimeScale: true, cancellationToken: PlayerDiedCancelToken );
+
+				if ( _input.GetButtonDown( ReConsts.Action.Eject ) )
+				{
+					HandleDeathEject();
+				}
+				else if ( _input.GetButtonDown( ReConsts.Action.Die ) )
+				{
+					HandleGameover();
+				}
+
+				if ( !_ejectModel.Choice.HasValue )
+				{
+					_ejectModel.UpdateCountdown();
+					if ( _ejectModel.Countdown <= 0 )
+					{
+						HandleGameover();
+					}
+				}
+			}
+
+			_ejectModel.Reset();
+		}
+
+		private void HandleDeathEject()
+		{
+			_ejectModel.SetChoice( EjectModel.Options.Eject );
+
+			CreateExplorer()
+				.Eject( UnityEngine.Random.insideUnitCircle );
+
+			_ship.Eject();
+
+			_shipController.UnPossessed += OnShipUnpossessed;
+		}
+
+		private void HandleGameover()
+		{
+			_ejectModel.SetChoice( EjectModel.Options.Die );
+
+			PlayerDied?.Invoke();
 		}
 	}
 }

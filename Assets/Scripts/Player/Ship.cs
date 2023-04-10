@@ -109,9 +109,14 @@ namespace Minipede.Gameplay.Player
 			{
 				targetGroupAttachment.Deactivate( canDispose: false ).Forget();
 			}
+		}
 
+		public void Eject()
+		{
 			_shrapnelFactory.Create( _body.position )
-				.Launch( Random.insideUnitCircle * _settings.ShrapnelLaunchForce.Random() );
+				.Launch( Random.insideUnitCircle.normalized * _settings.ShrapnelLaunchForce.Random() );
+
+			_minimap.AddMarker( transform, _settings.MapMarker );
 		}
 
 		public void PossessedBy( ShipController controller )
@@ -145,8 +150,6 @@ namespace Minipede.Gameplay.Player
 			_motor.SetDesiredVelocity( Vector2.zero );
 
 			StopFiring();
-
-			_minimap.AddMarker( transform, _settings.MapMarker );
 		}
 
 		public void StartFiring()

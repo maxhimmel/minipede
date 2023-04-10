@@ -1,4 +1,4 @@
-﻿using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
@@ -10,7 +10,11 @@ namespace Minipede.Installers
 {
 	public class PlayerSettings : MonoInstaller
 	{
+		[HideLabel]
 		[SerializeField] private Player _playerSettings;
+
+		[FoldoutGroup( "Eject" ), HideLabel]
+		[SerializeField] private ShipEject _ejectSettings;
 
 		public override void InstallBindings()
 		{
@@ -19,8 +23,8 @@ namespace Minipede.Installers
 			BindFactories();
 			BindControllers();
 			BindExplorerModules();
-
 			BindInventoryManagement();
+			BindEjectModules();
 		}
 
 		private void BindFactories()
@@ -81,6 +85,19 @@ namespace Minipede.Installers
 				.WithArguments( _playerSettings.Inventory );
 		}
 
+		private void BindEjectModules()
+		{
+			Container.Bind<EjectModel>()
+				.AsSingle()
+				.WithArguments( _ejectSettings.Eject );
+
+			// Signals ...
+			Container.DeclareSignal<ShipDiedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<EjectStateChangedSignal>()
+				.OptionalSubscriber();
+		}
+
 		[System.Serializable]
 		public class Player
 		{
@@ -101,6 +118,16 @@ namespace Minipede.Installers
 
 			[FoldoutGroup( "Upgrading" )]
 			public Inventory.Settings Inventory;
+		}
+
+		[System.Serializable]
+		public class ShipEject
+		{
+			[HideLabel]
+			public EjectModel.Settings Eject;
+
+			[HideLabel]
+			public ShipDeathHandler.Settings Death;
 		}
 	}
 }

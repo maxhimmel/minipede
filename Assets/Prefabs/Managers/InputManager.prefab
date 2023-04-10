@@ -341,6 +341,24 @@ MonoBehaviour:
       _behaviorId: 0
       _userAssignable: 1
       _categoryId: 1
+    - _id: 11
+      _name: Die
+      _type: 1
+      _descriptiveName: Die
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 1
+    - _id: 12
+      _name: Eject
+      _type: 1
+      _descriptiveName: Eject
+      _positiveDescriptiveName: 
+      _negativeDescriptiveName: 
+      _behaviorId: 0
+      _userAssignable: 1
+      _categoryId: 1
     actionCategories:
     - _name: Default
       _descriptiveName: Default
@@ -362,7 +380,7 @@ MonoBehaviour:
       - categoryId: 0
         actionIds: 0000000001000000
       - categoryId: 1
-        actionIds: 02000000030000000800000007000000
+        actionIds: 020000000300000008000000070000000b0000000c000000
       - categoryId: 2
         actionIds: 040000000a0000000500000006000000
     inputBehaviors:
@@ -829,7 +847,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 11
         _elementType: 1
         _elementIdentifierId: 10
         _axisRange: 0
@@ -851,7 +869,7 @@ MonoBehaviour:
         _modifierKey2: 0
         _modifierKey3: 0
       - _actionCategoryId: 0
-        _actionId: -1
+        _actionId: 12
         _elementType: 1
         _elementIdentifierId: 12
         _axisRange: 0
@@ -1334,6 +1352,28 @@ MonoBehaviour:
         _modifierKey1: 0
         _modifierKey2: 0
         _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 11
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 9
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
+      - _actionCategoryId: 0
+        _actionId: 12
+        _elementType: 1
+        _elementIdentifierId: -1
+        _axisRange: 0
+        _invert: 0
+        _axisContribution: 0
+        _keyboardKeyCode: 304
+        _modifierKey1: 0
+        _modifierKey2: 0
+        _modifierKey3: 0
     - id: 2
       categoryId: 2
       layoutId: 0
@@ -1480,7 +1520,7 @@ MonoBehaviour:
           _customControllerSourceId: -1
           _controllerId: -1
     playerIdCounter: 2
-    actionIdCounter: 11
+    actionIdCounter: 13
     actionCategoryIdCounter: 3
     inputBehaviorIdCounter: 2
     mapCategoryIdCounter: 3

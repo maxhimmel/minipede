@@ -61,12 +61,12 @@ namespace Minipede.Gameplay.Player
 
 		public void Dispose()
 		{
-			_playerDiedCancelSource.Cancel();
+			_playerDiedCancelSource?.Cancel();
 
 			_input.RemoveInputEventDelegate( OnPaused );
 			_input.RemoveInputEventDelegate( OnResumed );
 
-			_signalBus.Unsubscribe<IWinStateChangedSignal>( OnWinStateChanged );
+			_signalBus.TryUnsubscribe<IWinStateChangedSignal>( OnWinStateChanged );
 		}
 
 		private void OnPaused( InputActionEventData obj )
@@ -194,6 +194,8 @@ namespace Minipede.Gameplay.Player
 
 		private void HandleGameover()
 		{
+			Dispose();
+
 			_ejectModel.SetChoice( EjectModel.Options.Die );
 
 			PlayerDied?.Invoke();

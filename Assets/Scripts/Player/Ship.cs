@@ -52,6 +52,7 @@ namespace Minipede.Gameplay.Player
 		private Vector2 _moveInput;
 		private Beacon _equippedBeacon;
 		private bool _isPiloted;
+		private Gun _ejectExplosion;
 		private Gun _defaultGun;
 		private Gun _equippedGun;
 
@@ -86,6 +87,9 @@ namespace Minipede.Gameplay.Player
 
 			damageController.Died += OnDied;
 
+			_ejectExplosion = _gunFactory.Create( settings.EjectExplosion );
+			_ejectExplosion.SetOwner( transform );
+
 			_defaultGun = _gunFactory.Create( settings.BaseGun );
 			_defaultGun.SetOwner( transform );
 			_equippedGun = _defaultGun;
@@ -115,6 +119,9 @@ namespace Minipede.Gameplay.Player
 		{
 			_shrapnelFactory.Create( _body.position )
 				.Launch( Random.insideUnitCircle.normalized * _settings.ShrapnelLaunchForce.Random() );
+
+			_ejectExplosion.Reload();
+			_ejectExplosion.StartFiring();
 
 			_minimap.AddMarker( transform, _settings.MapMarker );
 		}
@@ -191,6 +198,7 @@ namespace Minipede.Gameplay.Player
 		{
 			_motor.FixedTick();
 			_equippedGun.FixedTick();
+			_ejectExplosion.FixedTick();
 		}
 
 		public bool Collect( ShipShrapnel shrapnel )
@@ -332,9 +340,11 @@ namespace Minipede.Gameplay.Player
 			public GunInstaller BaseGun;
 			public MinimapMarker MapMarker;
 
-			[BoxGroup]
+			[BoxGroup( "Eject" )]
+			public GunInstaller EjectExplosion;
+			[BoxGroup( "Eject" )]
 			public ShipShrapnel Shrapnel;
-			[BoxGroup, MinMaxSlider( 0, 100, ShowFields = true )]
+			[BoxGroup( "Eject" ), MinMaxSlider( 0, 100, ShowFields = true )]
 			public Vector2 ShrapnelLaunchForce;
 		}
 

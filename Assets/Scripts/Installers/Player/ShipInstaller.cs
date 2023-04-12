@@ -1,14 +1,13 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Weapons;
-using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Installers
 {
-    public class ShipInstaller : MonoInstaller
+	public class ShipInstaller : MonoInstaller
     {
 		[HideLabel]
 		[SerializeField] private Ship.Settings _settings;

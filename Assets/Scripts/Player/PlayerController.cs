@@ -81,7 +81,8 @@ namespace Minipede.Gameplay.Player
 
 		private void OnShipUnpossessed()
 		{
-			CreateExplorer();
+			_explorer = CreateExplorer();
+			_explorerController.Possess( _explorer );
 		}
 
 		private Explorer CreateExplorer()
@@ -91,12 +92,10 @@ namespace Minipede.Gameplay.Player
 				throw new System.NotSupportedException( "Cannot have multiple explorers active." );
 			}
 
-			_explorer = _explorerFactory.Create( _ship.Orientation );
-			_explorer.Died += OnExplorerDied;
+			Explorer newExplorer = _explorerFactory.Create( _ship.Orientation );
+			newExplorer.Died += OnExplorerDied;
 
-			_explorerController.Possess( _explorer );
-
-			return _explorer;
+			return newExplorer;
 		}
 
 		private void OnExplorerDied( Rigidbody2D victimBody, HealthController health )
@@ -184,10 +183,11 @@ namespace Minipede.Gameplay.Player
 		{
 			_ejectModel.SetChoice( EjectModel.Options.Eject );
 
-			CreateExplorer()
-				.Eject( UnityEngine.Random.insideUnitCircle );
+			_explorer = CreateExplorer();
+			_explorerController.Possess( _explorer );
+			_explorer.Eject( UnityEngine.Random.insideUnitCircle.normalized );
 
-			_ship.Eject();
+			_ship.Eject( PlayerDiedCancelToken ).Forget();
 
 			_shipController.UnPossessed += OnShipUnpossessed;
 		}

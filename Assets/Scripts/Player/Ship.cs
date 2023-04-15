@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
@@ -115,13 +117,19 @@ namespace Minipede.Gameplay.Player
 			}
 		}
 
-		public void Eject()
+		public async UniTaskVoid Eject( CancellationToken cancelToken )
 		{
-			_shrapnelFactory.Create( _body.position )
-				.Launch( Random.insideUnitCircle.normalized * _settings.ShrapnelLaunchForce.Random() );
+			await TaskHelpers.DelaySeconds( _settings.ExplosionDelay, cancelToken );
+			if ( cancelToken.IsCancellationRequested )
+			{
+				return;
+			}
 
 			_ejectExplosion.Reload();
 			_ejectExplosion.StartFiring();
+
+			_shrapnelFactory.Create( _body.position )
+				.Launch( Random.insideUnitCircle.normalized * _settings.ShrapnelLaunchForce.Random() );
 
 			_minimap.AddMarker( transform, _settings.MapMarker );
 		}
@@ -342,6 +350,8 @@ namespace Minipede.Gameplay.Player
 
 			[BoxGroup( "Eject" )]
 			public GunInstaller EjectExplosion;
+			[BoxGroup( "Eject" ), MinValue( 0 )]
+			public float ExplosionDelay;
 			[BoxGroup( "Eject" )]
 			public ShipShrapnel Shrapnel;
 			[BoxGroup( "Eject" ), MinMaxSlider( 0, 100, ShowFields = true )]

@@ -449,6 +449,7 @@ MonoBehaviour:
   _hauling:
     MinSpeed: 0.25
   _explorer:
+    EjectForce: 25
     EjectInvincibleDuration: 2
     EjectInvincibleVfx:
       BlinkSettings:

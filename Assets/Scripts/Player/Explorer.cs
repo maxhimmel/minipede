@@ -185,12 +185,15 @@ namespace Minipede.Gameplay.Player
 		{
 			_invincibilityEndTime = Time.timeSinceLevelLoad + _settings.EjectInvincibleDuration;
 
+			_body.AddForce( direction * _settings.EjectForce, ForceMode2D.Impulse );
+
 			_ejectVfx.Play( new FxSignal( transform.position, direction ) );
 		}
 
 		[System.Serializable]
 		public class Settings
 		{
+			public float EjectForce;
 			public float EjectInvincibleDuration;
 			public SpriteBlinkVfxAnimator.Settings EjectInvincibleVfx;
 		}

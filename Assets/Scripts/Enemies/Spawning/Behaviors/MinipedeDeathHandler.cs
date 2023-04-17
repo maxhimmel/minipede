@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Enemies
 {
-    public class MinipedeDeathHandler : MonoBehaviour
+    public class MinipedeDeathHandler : ILateTickable
 	{
 		private readonly HashSet<MinipedeController> _heads = new HashSet<MinipedeController>();
 		private readonly List<SplitProcessor> _splitProcesses = new List<SplitProcessor>();
@@ -13,7 +14,7 @@ namespace Minipede.Gameplay.Enemies
 			_heads.Add( head );
 		}
 
-		private void LateUpdate()
+		public void LateTick()
 		{
 			if ( _heads.Count <= 0 )
 			{

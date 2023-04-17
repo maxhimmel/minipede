@@ -113,9 +113,7 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _playerZone );
 
-			Container.Bind<MinipedeDeathHandler>()
-				.FromNewComponentOnNewGameObject()
-				.WithGameObjectName( nameof( MinipedeDeathHandler ) )
+			Container.BindInterfacesAndSelfTo<MinipedeDeathHandler>()
 				.AsSingle()
 				.NonLazy();
 		}

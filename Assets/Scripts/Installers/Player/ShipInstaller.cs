@@ -9,6 +9,8 @@ namespace Minipede.Installers
 {
 	public class ShipInstaller : MonoInstaller
     {
+		[SerializeField] private Collider2D _collider;
+
 		[HideLabel]
 		[SerializeField] private Ship.Settings _settings;
 
@@ -34,6 +36,10 @@ namespace Minipede.Installers
 			Container.Bind<SpriteRenderer>()
 				.FromMethod( GetComponentInChildren<SpriteRenderer> )
 				.AsSingle();
+
+			Container.Bind<Collider2D>()
+				.FromInstance( _collider )
+				.AsCached();
 
 			/* --- */
 

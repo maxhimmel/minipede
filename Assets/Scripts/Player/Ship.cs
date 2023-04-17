@@ -45,6 +45,7 @@ namespace Minipede.Gameplay.Player
 		private Gun.Factory _gunFactory;
 		private ShipShrapnel.Factory _shrapnelFactory;
 		private IMinimap _minimap;
+		private Collider2D _collider;
 		private SpriteRenderer _renderer;
 		private SpriteRenderer _selector;
 		private List<TargetGroupAttachment> _targetGroupAttachments;
@@ -68,6 +69,7 @@ namespace Minipede.Gameplay.Player
 			Gun.Factory gunFactory,
 			ShipShrapnel.Factory shrapnelFactory,
 			IMinimap minimap,
+			Collider2D collider,
 			SpriteRenderer renderer,
 			[Inject( Id = "Selector" )] SpriteRenderer selector,
 			List<TargetGroupAttachment> targetGroups,
@@ -82,6 +84,7 @@ namespace Minipede.Gameplay.Player
 			_gunFactory = gunFactory;
 			_shrapnelFactory = shrapnelFactory;
 			_minimap = minimap;
+			_collider = collider;
 			_renderer = renderer;
 			_selector = selector;
 			_targetGroupAttachments = targetGroups;
@@ -126,16 +129,21 @@ namespace Minipede.Gameplay.Player
 				return;
 			}
 
+			var direction = (_body.position - explorerPosition).normalized;
+			_signalBus.FireId( "Eject", new FxSignal( _body.position, direction ) );
+
 			_ejectExplosion.Reload();
 			_ejectExplosion.StartFiring();
 
-			var direction = (_body.position - explorerPosition).normalized;
-			_signalBus.FireId( "Eject", new FxSignal( _body.position, direction ) );
+			_collider.enabled = false;
 
 			_shrapnelFactory.Create( _body.position )
 				.Launch( Random.insideUnitCircle.normalized * _settings.ShrapnelLaunchForce.Random() );
 
 			_minimap.AddMarker( transform, _settings.MapMarker );
+
+			await TaskHelpers.DelaySeconds( 0.15f, cancelToken );
+			_collider.enabled = true;
 		}
 
 		public void PossessedBy( ShipController controller )

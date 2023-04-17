@@ -155,6 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
+    ColliderExpandDuration: 0.15
     CanExpire: 1
     LifetimeRange: {x: 5, y: 5}
     TorqueRange: {x: 591.6136, y: 824.7071}

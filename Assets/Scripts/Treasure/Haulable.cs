@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -19,21 +19,27 @@ namespace Minipede.Gameplay.Treasures
 		protected Rigidbody2D _body;
 		private IFollower _followController;
 		protected Lifetimer _lifetimer;
+		private Collider2D _collider;
 
 		private TreasureHauler _hauler;
 		private LineRenderer _tetherRenderer;
 		private Vector3[] _tetherPositions;
+		private Vector3 _initialColliderScale;
 
 		[Inject]
 		public void Construct( Settings settings,
 			Rigidbody2D body,
 			IFollower followController,
-			Lifetimer lifetimer )
+			Lifetimer lifetimer,
+			Collider2D collider )
 		{
 			_settings = settings;
 			_body = body;
 			_followController = followController;
 			_lifetimer = lifetimer;
+			_collider = collider;
+
+			_initialColliderScale = collider.transform.localScale;
 
 			SetupTether();
 		}
@@ -49,6 +55,8 @@ namespace Minipede.Gameplay.Treasures
 
 		public virtual void Launch( Vector2 impulse )
 		{
+			_collider.transform.localScale = Vector3.zero;
+
 			_body.velocity = impulse;
 			_body.angularVelocity = _settings.TorqueRange.Random();
 
@@ -97,7 +105,14 @@ namespace Minipede.Gameplay.Treasures
 
 		private void FixedUpdate()
 		{
+			ExpandCollider();
 			FixedTick();
+		}
+
+		private void ExpandCollider()
+		{
+			float expandDelta = Time.deltaTime / _settings.ColliderExpandDuration;
+			_collider.transform.localScale = Vector3.MoveTowards( _collider.transform.localScale, _initialColliderScale, expandDelta );
 		}
 
 		public virtual void FixedTick()
@@ -137,6 +152,9 @@ namespace Minipede.Gameplay.Treasures
 		[System.Serializable]
 		public class Settings
 		{
+			[Range( 0, 0.5f )]
+			public float ColliderExpandDuration = 0.15f;
+
 			[ToggleGroup( "CanExpire" )]
 			public bool CanExpire = true;
 			[ToggleGroup( "CanExpire" )]

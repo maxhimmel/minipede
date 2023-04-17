@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.UI;
@@ -117,7 +118,7 @@ namespace Minipede.Gameplay.Player
 			}
 		}
 
-		public async UniTaskVoid Eject( CancellationToken cancelToken )
+		public async UniTaskVoid Eject( Vector2 explorerPosition, CancellationToken cancelToken )
 		{
 			await TaskHelpers.DelaySeconds( _settings.ExplosionDelay, cancelToken );
 			if ( cancelToken.IsCancellationRequested )
@@ -127,6 +128,9 @@ namespace Minipede.Gameplay.Player
 
 			_ejectExplosion.Reload();
 			_ejectExplosion.StartFiring();
+
+			var direction = (_body.position - explorerPosition).normalized;
+			_signalBus.FireId( "Eject", new FxSignal( _body.position, direction ) );
 
 			_shrapnelFactory.Create( _body.position )
 				.Launch( Random.insideUnitCircle.normalized * _settings.ShrapnelLaunchForce.Random() );

@@ -62,6 +62,7 @@ namespace Minipede.Gameplay.Player
 		public void Dispose()
 		{
 			_playerDiedCancelSource?.Cancel();
+			_playerDiedCancelSource?.Dispose();
 
 			_input.RemoveInputEventDelegate( OnPaused );
 			_input.RemoveInputEventDelegate( OnResumed );
@@ -103,14 +104,10 @@ namespace Minipede.Gameplay.Player
 			var deadExplorer = _explorer;
 			deadExplorer.Died -= OnExplorerDied;
 
-			_playerDiedCancelSource.Cancel();
-			_playerDiedCancelSource.Dispose();
-			_playerDiedCancelSource = AppHelper.CreateLinkedCTS();
-
 			_explorer = null;
 			_explorerController.UnPossess();
 
-			PlayerDied?.Invoke();
+			HandleGameover();
 		}
 
 		private void OnWinStateChanged( IWinStateChangedSignal signal )
@@ -187,7 +184,7 @@ namespace Minipede.Gameplay.Player
 			_explorerController.Possess( _explorer );
 			_explorer.Eject( UnityEngine.Random.insideUnitCircle.normalized );
 
-			_ship.Eject( PlayerDiedCancelToken ).Forget();
+			_ship.Eject( _explorer.Body.position, PlayerDiedCancelToken ).Forget();
 
 			_shipController.UnPossessed += OnShipUnpossessed;
 		}

@@ -99,6 +99,15 @@ namespace Minipede.Installers
 					.WithArguments( _settings.LevelBalance );
 			}
 
+			if ( _settings.UseKeyboardActions )
+			{
+				LogCheatActivation<KeyboardCheats>( messageBuilder );
+
+				Container.BindInterfacesAndSelfTo<KeyboardCheats>()
+					.AsSingle()
+					.WithArguments( _settings.KeyboardActions );
+			}
+
 			Debug.LogWarning( messageBuilder );
 		}
 
@@ -109,7 +118,7 @@ namespace Minipede.Installers
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[ToggleGroup( "UseWalletCheat", "Wallet", CollapseOthersOnExpand = false )]
 			public bool UseWalletCheat;
@@ -142,6 +151,12 @@ namespace Minipede.Installers
 			public bool UseLevelBalanceCheat;
 			[ToggleGroup( "UseLevelBalanceCheat", CollapseOthersOnExpand = false ), HideLabel]
 			public LevelBalanceCheat.Settings LevelBalance;
+
+			[ToggleGroup( "UseKeyboardActions", "Keyboard Actions", CollapseOthersOnExpand = false )]
+			public bool UseKeyboardActions;
+			[ToggleGroup( "UseKeyboardActions", CollapseOthersOnExpand = false ), HideLabel]
+			[SerializeReference, HideReferenceObjectPicker, LabelText( "Actions" )]
+			public KeyboardCheats.Action[] KeyboardActions = new KeyboardCheats.Action[0];
 		}
 	}
 }

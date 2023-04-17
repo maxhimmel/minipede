@@ -20,32 +20,38 @@ namespace Minipede.Gameplay.Player
 		public Vector2 Position => IsExploring ? _explorer.Body.position : _ship.Body.position;
 		public bool IsExploring => _explorer != null;
 
+		private readonly Settings _settings;
 		private readonly Rewired.Player _input;
 		private readonly ShipSpawner _shipSpawner;
 		private readonly ShipController _shipController;
 		private readonly Explorer.Factory _explorerFactory;
 		private readonly ExplorerController _explorerController;
 		private readonly EjectModel _ejectModel;
+		private readonly TimeController _timeController;
 		private readonly SignalBus _signalBus;
 
 		private Ship _ship;
 		private Explorer _explorer;
 		private CancellationTokenSource _playerDiedCancelSource;
 
-		public PlayerController( Rewired.Player input,
+		public PlayerController( Settings settings,
+			Rewired.Player input,
 			ShipSpawner shipSpawner,
 			ShipController shipController,
 			Explorer.Factory explorerFactory,
 			ExplorerController explorerController,
 			EjectModel ejectModel,
+			TimeController timeController,
 			SignalBus signalBus )
 		{
+			_settings = settings;
 			_input = input;
 			_shipSpawner = shipSpawner;
 			_shipController = shipController;
 			_explorerFactory = explorerFactory;
 			_explorerController = explorerController;
 			_ejectModel = ejectModel;
+			_timeController = timeController;
 			_signalBus = signalBus;
 		}
 
@@ -147,6 +153,8 @@ namespace Minipede.Gameplay.Player
 
 		private async UniTaskVoid HandleEjectDecision()
 		{
+			_timeController.SetTimeScale( _settings.EjectSlomo );
+
 			_shipController.UnPossessed -= OnShipUnpossessed;
 			_shipController.UnPossess();
 
@@ -174,6 +182,8 @@ namespace Minipede.Gameplay.Player
 			}
 
 			_ejectModel.Reset();
+
+			_timeController.SetTimeScale( 1 );
 		}
 
 		private void HandleDeathEject()
@@ -196,6 +206,13 @@ namespace Minipede.Gameplay.Player
 			_ejectModel.SetChoice( EjectModel.Options.Die );
 
 			PlayerDied?.Invoke();
+		}
+
+		[System.Serializable]
+		public class Settings
+		{
+			[Range( 0, 1 )]
+			public float EjectSlomo;
 		}
 	}
 }

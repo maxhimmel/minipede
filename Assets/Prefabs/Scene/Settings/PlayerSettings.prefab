@@ -57,8 +57,7 @@ MonoBehaviour:
       WeightScalar: 1
     Inventory:
       GemsToBeacon: 3
-  _ejectSettings:
     Eject:
       DecisionDuration: 15
-    Death:
-      Slomo: 0.3
+    Controller:
+      EjectSlomo: 0.05

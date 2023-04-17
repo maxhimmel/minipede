@@ -54,8 +54,6 @@ MonoBehaviour:
         m_Bits: 257
       Type:
         rid: 5904237243981627392
-    InitialPoolSize: 10
-    Projectile: {fileID: 8807341101252389148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
     Gun:
       ShotSpotId: ShotSpot
       ProjectilePrefab: {fileID: -8478961870223082148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
@@ -95,7 +93,7 @@ MonoBehaviour:
     - rid: 8667173515174084610
       type: {class: BurstFireSafety/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
-        Grouping: 3
+        Grouping: 4
         Delay: 0.35
 --- !u!114 &355851429713502091
 MonoBehaviour:

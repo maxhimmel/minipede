@@ -50,9 +50,27 @@ MonoBehaviour:
   - rid: 5904237330888917002
   - rid: 5904237319612268571
   - rid: 5904237319612268573
+  - rid: 1565558824870608897
   references:
     version: 2
     RefIds:
+    - rid: 1565558824870608897
+      type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
+      data:
+        _name: Inchworm
+        _enemies:
+          _allowEmptyRolls: 0
+          _items:
+          - _normalizedWeight: 100
+            Item: {fileID: 11400000, guid: a282c090ab5696c4abb1fd9472e499ed, type: 2}
+        _startDelay: 5
+        _spawnFrequency: {x: 23.649635, y: 60}
+        _limitEnemies: 0
+        _maxEnemies: 1
+        _swarmRange: {x: 1, y: 1}
+        _spawnStagger: 0
+        _useNewEnemyPerSpawn: 0
+        Balances: {fileID: 0}
     - rid: 5904237319612268571
       type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
@@ -65,7 +83,7 @@ MonoBehaviour:
           - _normalizedWeight: 45
             Item: {fileID: 11400000, guid: bb8decc9bbfb94b4783ddb7fcd24e946, type: 2}
           - _normalizedWeight: 10
-            Item: {fileID: 11400000, guid: a282c090ab5696c4abb1fd9472e499ed, type: 2}
+            Item: {fileID: 11400000, guid: 5a4724cefe5876d49b7a60b7bae5e3ba, type: 2}
         _startDelay: 5
         _spawnFrequency: {x: 5, y: 9}
         _limitEnemies: 1
@@ -73,7 +91,7 @@ MonoBehaviour:
         _swarmRange: {x: 1, y: 1}
         _spawnStagger: 0.35
         _useNewEnemyPerSpawn: 0
-        Balances: {fileID: 0}
+        Balances: {fileID: 11400000, guid: 989b630840c7b1140894be2bb0003436, type: 2}
     - rid: 5904237319612268573
       type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:

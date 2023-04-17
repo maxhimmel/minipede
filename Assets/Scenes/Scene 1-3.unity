@@ -3576,6 +3576,78 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: _spawners.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: _spawners.Array.data[4]
+      value: 5307745363276070912
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]
+      value: Minipede Minipede.Gameplay.Waves.TimedEnemySpawner/Settings
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._name
+      value: Mosquito Storm
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912].Balances
+      value: 
+      objectReference: {fileID: 11400000, guid: f97e8980cc569bb4ebb644ba6786bfff, type: 2}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._maxEnemies
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._startDelay
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._limitEnemies
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._spawnStagger
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._swarmRange.x
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._swarmRange.y
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._spawnFrequency.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._spawnFrequency.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._useNewEnemyPerSpawn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._enemies._allowEmptyRolls
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._enemies._items.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._enemies._items.Array.data[0].Item
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a4724cefe5876d49b7a60b7bae5e3ba, type: 2}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5307745363276070912]._enemies._items.Array.data[0]._normalizedWeight
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 3939424375437612697, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: m_Name
       value: GameplayContext

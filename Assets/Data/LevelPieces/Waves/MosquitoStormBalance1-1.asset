@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6086dabfb9fd734aa333a29a04c9b86, type: 3}
-  m_Name: EnemyWaveBalances
+  m_Name: MosquitoStormBalance1-1
   m_EditorClassIdentifier: 
   _frequency:
     _operation: 1
@@ -46,17 +46,17 @@ MonoBehaviour:
       - serializedVersion: 3
         time: 0
         value: 0
-        inSlope: 0.2
-        outSlope: 0.2
+        inSlope: 1
+        outSlope: 1
         tangentMode: 34
         weightedMode: 0
         inWeight: 0
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 30
-        value: 6
-        inSlope: 0.2
-        outSlope: 0.2
+        value: 30
+        inSlope: 1
+        outSlope: 1
         tangentMode: 34
         weightedMode: 0
         inWeight: 0.33333334

@@ -57,3 +57,7 @@ MonoBehaviour:
       WeightScalar: 1
     Inventory:
       GemsToBeacon: 3
+    Eject:
+      DecisionDuration: 15
+    Controller:
+      EjectSlomo: 0.05

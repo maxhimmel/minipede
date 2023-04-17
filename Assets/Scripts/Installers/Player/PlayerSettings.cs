@@ -10,6 +10,7 @@ namespace Minipede.Installers
 {
 	public class PlayerSettings : MonoInstaller
 	{
+		[HideLabel]
 		[SerializeField] private Player _playerSettings;
 
 		public override void InstallBindings()
@@ -19,8 +20,8 @@ namespace Minipede.Installers
 			BindFactories();
 			BindControllers();
 			BindExplorerModules();
-
 			BindInventoryManagement();
+			BindEjectModules();
 		}
 
 		private void BindFactories()
@@ -39,7 +40,8 @@ namespace Minipede.Installers
 		private void BindControllers()
 		{
 			Container.BindInterfacesAndSelfTo<PlayerController>()
-				.AsSingle();
+				.AsSingle()
+				.WithArguments( _playerSettings.Controller );
 
 			Container.Bind<ShipController>()
 				.AsSingle();
@@ -81,6 +83,19 @@ namespace Minipede.Installers
 				.WithArguments( _playerSettings.Inventory );
 		}
 
+		private void BindEjectModules()
+		{
+			Container.Bind<EjectModel>()
+				.AsSingle()
+				.WithArguments( _playerSettings.Eject );
+
+			// Signals ...
+			Container.DeclareSignal<ShipDiedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<EjectStateChangedSignal>()
+				.OptionalSubscriber();
+		}
+
 		[System.Serializable]
 		public class Player
 		{
@@ -101,6 +116,11 @@ namespace Minipede.Installers
 
 			[FoldoutGroup( "Upgrading" )]
 			public Inventory.Settings Inventory;
+
+			[FoldoutGroup( "Eject" ), HideLabel]
+			public EjectModel.Settings Eject;
+			[FoldoutGroup( "Eject" ), HideLabel]
+			public PlayerController.Settings Controller;
 		}
 	}
 }

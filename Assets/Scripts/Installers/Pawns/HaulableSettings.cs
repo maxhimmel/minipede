@@ -13,7 +13,7 @@ namespace Minipede.Installers
 		[BoxGroup( "Hauling" ), HideLabel]
 		[SerializeField] private Haulable.Settings _settings;
 
-		[BoxGroup( "Hauling" )]
+		[BoxGroup( "Hauling" ), EnableIf( "@_settings.CanExpire" )]
 		[SerializeField] private SpriteBlinker.Settings _expiration;
 
 		public override void InstallBindings()
@@ -26,6 +26,10 @@ namespace Minipede.Installers
 				.FromMethod( GetComponentInChildren<SpriteRenderer> )
 				.AsSingle();
 
+			Container.Bind<Collider2D>()
+				.FromMethod( GetComponentInChildren<Collider2D> )
+				.AsSingle();
+
 			Container.BindInstance( _settings );
 
 			Container.Bind<IFollower>()
@@ -33,18 +37,28 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _settings.Follow );
 
-			Container.Bind<AnimatedLifetimer>()
-				.FromSubContainerResolve()
-				.ByMethod( subContainer =>
-				{
-					subContainer.Bind<AnimatedLifetimer>()
-					.AsSingle()
-					.WithArguments( _expiration );
+			if ( _settings.CanExpire )
+			{
+				Container.Bind<Lifetimer>()
+					.FromSubContainerResolve()
+					.ByMethod( subContainer =>
+					{
+						subContainer.Bind<Lifetimer>()
+							.To<AnimatedLifetimer>()
+							.AsSingle()
+							.WithArguments( _expiration );
 
-					subContainer.Bind<SpriteBlinker>()
-						.AsSingle();
-				} )
-				.AsSingle();
+						subContainer.Bind<SpriteBlinker>()
+							.AsSingle();
+					} )
+					.AsSingle();
+			}
+			else
+			{
+				Container.Bind<Lifetimer>()
+					.To<InfiniteTimer>()
+					.AsSingle();
+			}
 		}
 	}
 }

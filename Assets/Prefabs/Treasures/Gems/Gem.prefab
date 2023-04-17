@@ -201,6 +201,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
+    ColliderExpandDuration: 0.15
+    CanExpire: 1
     LifetimeRange: {x: 14.80987, y: 19.537516}
     TorqueRange: {x: 613.8129, y: 869.1059}
     TetherPrefab: {fileID: 1824722372019756568, guid: 3f9e8fab95fc6e648860996ad417b75f, type: 3}

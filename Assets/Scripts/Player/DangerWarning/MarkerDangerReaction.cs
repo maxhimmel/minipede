@@ -8,10 +8,10 @@ namespace Minipede.Gameplay.Player
 	public class MarkerDangerReaction : IDangerWarningReaction
 	{
 		private readonly Settings _settings;
-		private readonly Minimap _minimap;
+		private readonly IMinimap _minimap;
 
 		public MarkerDangerReaction( Settings settings,
-			Minimap minimap )
+			IMinimap minimap )
 		{
 			_settings = settings;
 			_minimap = minimap;

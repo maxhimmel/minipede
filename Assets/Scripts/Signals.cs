@@ -170,6 +170,21 @@ namespace Minipede.Gameplay.Player
 	{
 		public bool IsVisible;
 	}
+
+	public class ShipDiedSignal
+	{
+
+	}
+
+	public class EjectStateChangedSignal
+	{
+		public EjectModel Model { get; }
+
+		public EjectStateChangedSignal( EjectModel model )
+		{
+			Model = model;
+		}
+	}
 }
 
 namespace Minipede.Gameplay.Audio

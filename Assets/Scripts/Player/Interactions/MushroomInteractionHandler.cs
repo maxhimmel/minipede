@@ -1,4 +1,5 @@
 ﻿using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.Treasures;
 
 namespace Minipede.Gameplay.Player
 {
@@ -18,7 +19,7 @@ namespace Minipede.Gameplay.Player
 		{
 			var explorer = explorerController.Pawn;
 
-			if ( !explorer.TryGetHauledBeacon( out var beacon ) )
+			if ( !explorer.TryGetFirstHaulable( out Beacon beacon ) )
 			{
 				throw new System.NotSupportedException( $"Cannot interact with a {nameof( Mushroom )} without a beacon." );
 			}

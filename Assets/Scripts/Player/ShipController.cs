@@ -36,9 +36,10 @@ namespace Minipede.Gameplay.Player
 			_input.RemoveInputEventDelegate( OnMoveVertical );
 			_input.RemoveInputEventDelegate( OnStartFiring );
 			_input.RemoveInputEventDelegate( OnStopFiring );
-			_input.RemoveInputEventDelegate( OnEjectShip );
+			_input.RemoveInputEventDelegate( OnExitShip );
 			_input.RemoveInputEventDelegate( OnShowInventory );
 
+			_ship.UnPossess();
 			_ship = null;
 
 			UnPossessed?.Invoke();
@@ -52,7 +53,7 @@ namespace Minipede.Gameplay.Player
 			_input.AddAxisDelegate( OnMoveVertical, ReConsts.Action.Vertical );
 			_input.AddButtonPressedDelegate( OnStartFiring, ReConsts.Action.Fire );
 			_input.AddButtonReleasedDelegate( OnStopFiring, ReConsts.Action.Fire );
-			_input.AddButtonPressedDelegate( OnEjectShip, ReConsts.Action.Interact );
+			_input.AddButtonPressedDelegate( OnExitShip, ReConsts.Action.Interact );
 			_input.AddButtonPressedDelegate( OnShowInventory, ReConsts.Action.Inventory );
 			_input.AddButtonPressedDelegate( OnShowInventory, ReConsts.Action.Loadout );
 
@@ -90,9 +91,8 @@ namespace Minipede.Gameplay.Player
 			_ship.StopFiring();
 		}
 
-		private void OnEjectShip( InputActionEventData obj )
+		private void OnExitShip( InputActionEventData obj )
 		{
-			_ship.UnPossess();
 			UnPossess();
 		}
 

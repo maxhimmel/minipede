@@ -1,4 +1,5 @@
 ﻿using Minipede.Gameplay.Player;
+using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
 using UnityEngine;
 
@@ -20,7 +21,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public bool CanBeInteracted()
 		{
-			return _explorerController.Pawn.TryGetHauledBeacon( out _ );
+			return _explorerController.Pawn.TryGetFirstHaulable( out Beacon _ );
 		}
 	}
 }

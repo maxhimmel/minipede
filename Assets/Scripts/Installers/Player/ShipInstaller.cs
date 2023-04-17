@@ -1,20 +1,29 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Weapons;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Installers
 {
-    public class ShipInstaller : MonoInstaller
+	public class ShipInstaller : MonoInstaller
     {
-		[SerializeField] private GunInstaller _baseGunPrefab;
+		[SerializeField] private Collider2D _collider;
+
+		[HideLabel]
+		[SerializeField] private Ship.Settings _settings;
 
 		public override void InstallBindings()
 		{
 			Container.Bind<Ship>()
 				.FromMethod( GetComponent<Ship> )
 				.AsSingle();
+
+			Container.BindInstance( _settings )
+				.AsSingle();
+
+			/* --- */
 
 			Container.Bind<Transform>()
 				.FromMethod( GetComponent<Transform> )
@@ -28,17 +37,28 @@ namespace Minipede.Installers
 				.FromMethod( GetComponentInChildren<SpriteRenderer> )
 				.AsSingle();
 
+			Container.Bind<Collider2D>()
+				.FromInstance( _collider )
+				.AsCached();
+
+			/* --- */
+
 			Container.Bind<IPushable>()
 				.FromResolveGetter<Ship>( ship => ship )
 				.AsSingle();
 
-			/* --- */
-
-			Container.BindInstance( _baseGunPrefab )
+			Container.Bind<IInteractable>()
+				.To<InteractableShip>()
 				.AsSingle();
+
+			/* --- */
 
 			Container.BindFactory<GunInstaller, Gun, Gun.Factory>()
 				.FromFactory<Gun.PrefabFactory>();
+
+			Container.Bind<ShipShrapnel.Factory>()
+				.AsSingle()
+				.WithArguments( _settings.Shrapnel );
 		}
 	}
 }

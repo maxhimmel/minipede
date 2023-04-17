@@ -1,10 +1,15 @@
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
+using Minipede.Gameplay.UI;
 using Minipede.Gameplay.Weapons;
 using Minipede.Installers;
 using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -15,6 +20,7 @@ namespace Minipede.Gameplay.Player
 		IDamageController,
 		ICollector<Treasure>,
 		ICollector<Beacon>,
+		ICollector<ShipShrapnel>,
 		ISelectable,
 		IPushable
 	{
@@ -34,50 +40,63 @@ namespace Minipede.Gameplay.Player
 		private IMotor _motor;
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
-		private PlayerController _playerController;
+		private Settings _settings;
 		private Inventory _inventory;
 		private Gun.Factory _gunFactory;
+		private ShipShrapnel.Factory _shrapnelFactory;
+		private IMinimap _minimap;
+		private Collider2D _collider;
 		private SpriteRenderer _renderer;
 		private SpriteRenderer _selector;
-		private TargetGroupAttachment _audioListenerTarget;
 		private List<TargetGroupAttachment> _targetGroupAttachments;
+		private IInteractable _interactable;
 		private SignalBus _signalBus;
 
 		private bool _isMoveInputConsumed;
 		private Vector2 _moveInput;
 		private Beacon _equippedBeacon;
 		private bool _isPiloted;
+		private Gun _ejectExplosion;
 		private Gun _defaultGun;
 		private Gun _equippedGun;
 
 		[Inject]
         public void Construct( IMotor motor,
 			IDamageController damageController,
-			GunInstaller baseGunPrefab,
+			Settings settings,
 			Rigidbody2D body,
-			PlayerController playerController,
 			Inventory inventory,
 			Gun.Factory gunFactory,
+			ShipShrapnel.Factory shrapnelFactory,
+			IMinimap minimap,
+			Collider2D collider,
 			SpriteRenderer renderer,
 			[Inject( Id = "Selector" )] SpriteRenderer selector,
 			List<TargetGroupAttachment> targetGroups,
+			IInteractable interactable,
 			SignalBus signalBus )
 		{
 			_motor = motor;
 			_damageController = damageController;
+			_settings = settings;
 			_body = body;
-			_playerController = playerController;
 			_inventory = inventory;
 			_gunFactory = gunFactory;
+			_shrapnelFactory = shrapnelFactory;
+			_minimap = minimap;
+			_collider = collider;
 			_renderer = renderer;
 			_selector = selector;
-			_audioListenerTarget = targetGroups.Find( group => group.Id == "AudioListener" );
 			_targetGroupAttachments = targetGroups;
+			_interactable = interactable;
 			_signalBus = signalBus;
 
 			damageController.Died += OnDied;
 
-			_defaultGun = _gunFactory.Create( baseGunPrefab );
+			_ejectExplosion = _gunFactory.Create( settings.EjectExplosion );
+			_ejectExplosion.SetOwner( transform );
+
+			_defaultGun = _gunFactory.Create( settings.BaseGun );
 			_defaultGun.SetOwner( transform );
 			_equippedGun = _defaultGun;
 		}
@@ -96,14 +115,35 @@ namespace Minipede.Gameplay.Player
 		{
 			UnequipBeacon();
 
-			_damageController.Died -= OnDied;
-
 			foreach ( var targetGroupAttachment in _targetGroupAttachments )
 			{
-				targetGroupAttachment.Deactivate( canDispose: true );
+				targetGroupAttachment.Deactivate( canDispose: false ).Forget();
+			}
+		}
+
+		public async UniTaskVoid Eject( Vector2 explorerPosition, CancellationToken cancelToken )
+		{
+			await TaskHelpers.DelaySeconds( _settings.ExplosionDelay, cancelToken );
+			if ( cancelToken.IsCancellationRequested )
+			{
+				return;
 			}
 
-			Destroy( gameObject );
+			var direction = (_body.position - explorerPosition).normalized;
+			_signalBus.FireId( "Eject", new FxSignal( _body.position, direction ) );
+
+			_ejectExplosion.Reload();
+			_ejectExplosion.StartFiring();
+
+			_collider.enabled = false;
+
+			_shrapnelFactory.Create( _body.position )
+				.Launch( Random.insideUnitCircle.normalized * _settings.ShrapnelLaunchForce.Random() );
+
+			_minimap.AddMarker( transform, _settings.MapMarker );
+
+			await TaskHelpers.DelaySeconds( 0.15f, cancelToken );
+			_collider.enabled = true;
 		}
 
 		public void PossessedBy( ShipController controller )
@@ -111,25 +151,32 @@ namespace Minipede.Gameplay.Player
 			_isPiloted = true;
 			_renderer.color = Color.white;
 
-			if ( !_audioListenerTarget.IsActive )
+			foreach ( var targetGroupAttachment in _targetGroupAttachments )
 			{
-				_audioListenerTarget.Activate();
+				if ( !targetGroupAttachment.IsActive )
+				{
+					targetGroupAttachment.Activate();
+				}
 			}
+
+			_minimap.RemoveMarker( transform );
 		}
 
 		public void UnPossess()
 		{
 			_isPiloted = false;
 			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
-			_audioListenerTarget.Deactivate( canDispose: false );
+
+			foreach ( var targetGroupAttachment in _targetGroupAttachments )
+			{
+				targetGroupAttachment.Deactivate( canDispose: false ).Forget();
+			}
 
 			_isMoveInputConsumed = true;
 			_moveInput = Vector2.zero;
 			_motor.SetDesiredVelocity( Vector2.zero );
 
 			StopFiring();
-
-			_playerController.CreateExplorer();
 		}
 
 		public void StartFiring()
@@ -171,6 +218,20 @@ namespace Minipede.Gameplay.Player
 		{
 			_motor.FixedTick();
 			_equippedGun.FixedTick();
+			_ejectExplosion.FixedTick();
+		}
+
+		public bool Collect( ShipShrapnel shrapnel )
+		{
+			if ( !_isPiloted )
+			{
+				return false;
+			}
+
+			Health.Replenish();
+
+			shrapnel.Dispose();
+			return true;
 		}
 
 		public bool Collect( Treasure treasure )
@@ -248,7 +309,12 @@ namespace Minipede.Gameplay.Player
 
 		public bool CanBeInteracted()
 		{
-			return !_isPiloted;
+			if ( _isPiloted )
+			{
+				return false;
+			}
+
+			return _interactable.CanBeInteracted();
 		}
 
 		public void Select()
@@ -286,6 +352,22 @@ namespace Minipede.Gameplay.Player
 		public void Push( Vector2 velocity )
 		{
 			_body.AddForce( velocity, ForceMode2D.Impulse );
+		}
+
+		[System.Serializable]
+		public class Settings
+		{
+			public GunInstaller BaseGun;
+			public MinimapMarker MapMarker;
+
+			[BoxGroup( "Eject" )]
+			public GunInstaller EjectExplosion;
+			[BoxGroup( "Eject" ), MinValue( 0 )]
+			public float ExplosionDelay;
+			[BoxGroup( "Eject" )]
+			public ShipShrapnel Shrapnel;
+			[BoxGroup( "Eject" ), MinMaxSlider( 0, 100, ShowFields = true )]
+			public Vector2 ShrapnelLaunchForce;
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

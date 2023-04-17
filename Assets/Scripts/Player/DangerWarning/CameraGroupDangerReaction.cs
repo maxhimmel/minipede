@@ -34,7 +34,7 @@ namespace Minipede.Gameplay.Player
 		{
 			if ( _attachments.Remove( enemy, out var attachment ) )
 			{
-				attachment.Deactivate( canDispose: true );
+				attachment.Deactivate( canDispose: true ).Forget();
 			}
 		}
 

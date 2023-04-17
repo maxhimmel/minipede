@@ -8,6 +8,7 @@ namespace Minipede.Utility
 	public class SceneLoader
 	{
 		public bool IsLoading { get; private set; }
+		public Scene Current => SceneManager.GetActiveScene();
 
 		private readonly Settings _settings;
 		private readonly ScreenFadeController _screenFader;

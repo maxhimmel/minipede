@@ -106,6 +106,10 @@ PrefabInstance:
       propertyPath: m_Intensity
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4102417374579497633, guid: 662372284ddeee54fad3c2462587922e, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4131313587374094023, guid: 662372284ddeee54fad3c2462587922e, type: 3}
       propertyPath: m_Materials.Array.size
       value: 1
@@ -170,7 +174,9 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4948917956195466284, guid: 662372284ddeee54fad3c2462587922e, type: 3}
+    - {fileID: 3275800543088581281, guid: 662372284ddeee54fad3c2462587922e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 662372284ddeee54fad3c2462587922e, type: 3}
 --- !u!198 &1495318344456255769 stripped
 ParticleSystem:

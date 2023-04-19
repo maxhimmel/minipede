@@ -59,7 +59,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CFXR2 Skull Heads Burst
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8601962910352930158, guid: b07e11e39da38934d929a0f04d6eadad, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b07e11e39da38934d929a0f04d6eadad, type: 3}
 --- !u!198 &3153009690223442631 stripped
 ParticleSystem:

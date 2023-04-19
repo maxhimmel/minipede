@@ -67,7 +67,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: CFXR2 Poison Cloud + Skulls
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8920283063690363382, guid: f6c872cde13ba4e498d63aa217ec7c15, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f6c872cde13ba4e498d63aa217ec7c15, type: 3}
 --- !u!198 &3620120082257479800 stripped
 ParticleSystem:

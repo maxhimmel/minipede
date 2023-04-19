@@ -9,6 +9,7 @@ namespace Minipede.Gameplay.Weapons
 		public Vector2 Facing => Rotation * Vector2.up;
 		public Vector2 Tangent => Rotation * Vector2.right;
 		public Quaternion Rotation => _shotSpot.rotation;
+		public Transform Transform => _shotSpot;
 
 		private readonly Transform _shotSpot;
 

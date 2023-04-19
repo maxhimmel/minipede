@@ -187,7 +187,7 @@ namespace Minipede.Gameplay.Player
 
 			_body.AddForce( direction * _settings.EjectForce, ForceMode2D.Impulse );
 
-			_ejectVfx.Play( new FxSignal( transform.position, direction ) );
+			_ejectVfx.Play( new FxSignal( transform.position, direction, transform ) );
 		}
 
 		[System.Serializable]

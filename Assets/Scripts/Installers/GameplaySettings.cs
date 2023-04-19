@@ -1,10 +1,10 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
-using Minipede.Gameplay.Fx;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -13,7 +13,7 @@ using BeaconActor = Minipede.Gameplay.Treasures.Beacon;
 
 namespace Minipede.Installers
 {
-    public class GameplaySettings : MonoInstaller
+	public class GameplaySettings : MonoInstaller
 	{
 		[SerializeField] private Beacon _beaconSettings;
 		[SerializeField] private EndGameController.Settings _endGameSettings;
@@ -32,6 +32,7 @@ namespace Minipede.Installers
 			BindCameraSystems();
 			BindTreasure();
 			BindAudio();
+			BindFxPool();
 
 			DeclareSignals();
 		}
@@ -86,6 +87,12 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<MusicPlayer>()
 				.AsSingle()
 				.WithArguments( _audioSettings.Music );
+		}
+
+		private void BindFxPool()
+		{
+			Container.Bind<FxFactoryBus>()
+				.AsSingle();
 		}
 
 		private void DeclareSignals()

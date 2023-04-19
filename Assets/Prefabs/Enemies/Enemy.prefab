@@ -48,9 +48,14 @@ MonoBehaviour:
   _fxSettings:
   - rid: 5904237248127434763
   - rid: 5904237248127434764
+  - rid: 4488801751905599492
   references:
     version: 2
     RefIds:
+    - rid: 4488801751905599492
+      type: {class: PoolableFxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        Prefab: {fileID: 2013023798530757900, guid: 000935492651b4947905a671df88af30, type: 3}
     - rid: 5904237248127434763
       type: {class: ScreenBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
       data:

@@ -839,9 +839,14 @@ MonoBehaviour:
   - rid: 5904237248127434757
   - rid: 5904237248127434758
   - rid: 5904237248127434759
+  - rid: 4488801751905599493
   references:
     version: 2
     RefIds:
+    - rid: 4488801751905599493
+      type: {class: PoolableFxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        Prefab: {fileID: 2013023798530757900, guid: 7a6543f152c858945a32ebb461a77544, type: 3}
     - rid: 5904237248127434757
       type: {class: ScreenBlinkVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
       data:

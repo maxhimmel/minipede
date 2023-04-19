@@ -30,6 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4012128689434707248}
+  - {fileID: 4466825861456726446}
   m_Father: {fileID: 6093263636819055864}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -405,9 +406,14 @@ MonoBehaviour:
   - rid: 5904237248127434754
   - rid: 5904237248127434755
   - rid: 5904237248127434756
+  - rid: 4488801751905599491
   references:
     version: 2
     RefIds:
+    - rid: 4488801751905599491
+      type: {class: PoolableFxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        Prefab: {fileID: 9108636638291717627, guid: a6ce79cefe732784985ffb8c32aff7c2, type: 3}
     - rid: 5904237248127434753
       type: {class: BounceVfxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
       data:
@@ -464,3 +470,57 @@ MonoBehaviour:
           Color: {r: 1, g: 1, b: 1, a: 1}
           Blinks: 1
           Duration: 0.1
+--- !u!1 &9144835846956478360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4466825861456726446}
+  - component: {fileID: 5811835536403466627}
+  m_Layer: 0
+  m_Name: FX_Died
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4466825861456726446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9144835846956478360}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8394495999838368463}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5811835536403466627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9144835846956478360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 781720031daeac842bcb0c0293e0b470, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _fxId: Died
+  _fxSettings:
+  - rid: 4488801751905599491
+  references:
+    version: 2
+    RefIds:
+    - rid: 4488801751905599491
+      type: {class: PoolableFxAnimator/Settings, ns: Minipede.Gameplay.Fx, asm: Minipede}
+      data:
+        Prefab: {fileID: 2013023798530757900, guid: c565d6a205a51e640b2fd3dfc9970e82, type: 3}

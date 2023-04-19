@@ -32,7 +32,8 @@ namespace Minipede.Gameplay.Treasures
 				{
 					_signalBus.FireId( "Collected", new FxSignal(
 						_body.position,
-						collision.rigidbody.transform
+						collision.rigidbody.transform,
+						transform
 					) );
 				}
 			}

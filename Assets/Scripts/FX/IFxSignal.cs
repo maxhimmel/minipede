@@ -6,5 +6,6 @@ namespace Minipede.Gameplay.Fx
 	{
 		Vector2 Position { get; }
 		Vector2 Direction { get; }
+		Transform Parent { get; }
 	}
 }

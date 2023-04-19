@@ -32,8 +32,7 @@ namespace Minipede.Installers
 
 					foreach ( var settings in _fxSettings )
 					{
-						subContainer.Bind<IFxAnimator>()
-							.To( settings.AnimatorType )
+						subContainer.BindInterfacesTo( settings.AnimatorType )
 							.AsCached()
 							.WithArguments( settings );
 					}

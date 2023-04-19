@@ -145,7 +145,8 @@ namespace Minipede.Gameplay.Weapons
 
 			_signalBus.FireId( "Attacked", new FxSignal( 
 				position:	avgShotOrigin / spreadCount, 
-				direction:	avgShotDirection / spreadCount 
+				direction:	avgShotDirection / spreadCount,
+				_shotSpot.Transform
 			) );
 		}
 

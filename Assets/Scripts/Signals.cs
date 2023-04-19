@@ -114,14 +114,16 @@ namespace Minipede.Gameplay.Fx
 	{
 		public Vector2 Position { get; }
 		public Vector2 Direction { get; }
+		public Transform Parent { get; }
 
-		public FxSignal( Vector2 position, Vector2 direction )
+		public FxSignal( Vector2 position, Vector2 direction, Transform parent )
 		{
 			Position = position;
 			Direction = direction;
+			Parent = parent;
 		}
 
-		public FxSignal( Vector2 origin, Transform other )
+		public FxSignal( Vector2 origin, Transform other, Transform parent )
 		{
 			Position = origin;
 
@@ -129,6 +131,8 @@ namespace Minipede.Gameplay.Fx
 			{
 				Direction = (other.position.ToVector2() - origin).normalized;
 			}
+
+			Parent = parent;
 		}
 	}
 }

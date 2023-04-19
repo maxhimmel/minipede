@@ -1,4 +1,3 @@
-using System;
 using Minipede.Gameplay.Fx;
 using Minipede.Utility;
 using UnityEngine;
@@ -58,7 +57,8 @@ namespace Minipede.Gameplay
 
 				_signalBus.TryFireId( "Died", new FxSignal(
 					position: _body.position,
-					direction: (_body.position - causer.position.ToVector2()).normalized
+					direction: (_body.position - causer.position.ToVector2()).normalized,
+					_body.transform
 				) );
 
 				return true;

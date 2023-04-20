@@ -90,6 +90,8 @@ namespace Minipede.Gameplay.Player
 		{
 			_explorer = CreateExplorer();
 			_explorerController.Possess( _explorer );
+
+			_ship.AddMinimapMarker();
 		}
 
 		private Explorer CreateExplorer()
@@ -194,6 +196,7 @@ namespace Minipede.Gameplay.Player
 			_explorerController.Possess( _explorer );
 			_explorer.Eject( UnityEngine.Random.insideUnitCircle.normalized );
 
+			_ship.AddMinimapMarker();
 			_ship.Eject( _explorer.Body.position, PlayerDiedCancelToken ).Forget();
 
 			_shipController.UnPossessed += OnShipUnpossessed;

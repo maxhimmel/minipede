@@ -121,6 +121,11 @@ namespace Minipede.Gameplay.Player
 			}
 		}
 
+		public void AddMinimapMarker()
+		{
+			_minimap.AddMarker( transform, _settings.MapMarker );
+		}
+
 		public async UniTaskVoid Eject( Vector2 explorerPosition, CancellationToken cancelToken )
 		{
 			await TaskHelpers.DelaySeconds( _settings.ExplosionDelay, cancelToken );
@@ -139,8 +144,6 @@ namespace Minipede.Gameplay.Player
 
 			_shrapnelFactory.Create( _body.position )
 				.Launch( Random.insideUnitCircle.normalized * _settings.ShrapnelLaunchForce.Random() );
-
-			_minimap.AddMarker( transform, _settings.MapMarker );
 
 			await TaskHelpers.DelaySeconds( 0.15f, cancelToken );
 			_collider.enabled = true;

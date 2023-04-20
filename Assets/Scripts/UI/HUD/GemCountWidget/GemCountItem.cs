@@ -19,6 +19,7 @@ namespace Minipede.Gameplay.UI
 		[SerializeField] private Button _button;
 		[SerializeField] private Image _gaugeFill;
 		[SerializeField] private CanvasGroup _group;
+		[SerializeField] private ParticleSystem _collectVfx;
 
 		private ResourceType _resource;
 		private SignalBus _signalBus;
@@ -44,6 +45,9 @@ namespace Minipede.Gameplay.UI
 			_gaugeFill.color = resource.Color;
 
 			_gaugeWidth = _gaugeFill.rectTransform.sizeDelta.x;
+
+			var mainModule = _collectVfx.main;
+			mainModule.startColor = resource.Color;
 		}
 
 		private void OnEnable()
@@ -68,6 +72,13 @@ namespace Minipede.Gameplay.UI
 				Vector2 offsetMax = _gaugeFill.rectTransform.offsetMax;
 				offsetMax.x = Mathf.Lerp( _gaugeWidth, 0, percentage );
 				_gaugeFill.rectTransform.offsetMax = offsetMax;
+
+				if ( signal.PrevTotal < signal.TotalAmount )
+				{
+					var vfxShape = _collectVfx.shape;
+					vfxShape.position = signal.CollectionSource - _collectVfx.transform.position.ToVector2();
+					_collectVfx.Emit( 1 );
+				}
 			}
 		}
 

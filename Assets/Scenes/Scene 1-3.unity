@@ -1738,6 +1738,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5247978383776880962, guid: 8d595ab280c9a044b9e0fc687b5585c3, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 519420031}
     - target: {fileID: 5247978383776880966, guid: 8d595ab280c9a044b9e0fc687b5585c3, type: 3}
       propertyPath: m_Name
       value: HUD

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Minipede.Gameplay.Treasures;
+using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.Player
@@ -17,7 +18,7 @@ namespace Minipede.Gameplay.Player
 		}
 
 		/// <returns>Total amount collected.</returns>
-		public int Collect( ResourceType resource )
+		public int Collect( ResourceType resource, Vector2 collectionSource )
 		{
 			if ( !_treasures.TryGetValue( resource, out int amount ) )
 			{
@@ -30,7 +31,9 @@ namespace Minipede.Gameplay.Player
 			_signalBus.TryFire( new ResourceAmountChangedSignal()
 			{
 				ResourceType = resource,
-				TotalAmount = newAmount
+				TotalAmount = newAmount,
+				PrevTotal = amount,
+				CollectionSource = collectionSource
 			} );
 
 			return newAmount;
@@ -56,7 +59,8 @@ namespace Minipede.Gameplay.Player
 			_signalBus.TryFire( new ResourceAmountChangedSignal()
 			{
 				ResourceType = resource,
-				TotalAmount = newAmount
+				TotalAmount = newAmount,
+				PrevTotal = total
 			} );
 
 			return newAmount;

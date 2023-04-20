@@ -73,12 +73,17 @@ namespace Minipede.Gameplay.UI
 				offsetMax.x = Mathf.Lerp( _gaugeWidth, 0, percentage );
 				_gaugeFill.rectTransform.offsetMax = offsetMax;
 
-				if ( signal.PrevTotal < signal.TotalAmount )
-				{
-					var vfxShape = _collectVfx.shape;
-					vfxShape.position = signal.CollectionSource - _collectVfx.transform.position.ToVector2();
-					_collectVfx.Emit( 1 );
-				}
+				TryEmitCollectVfx( signal );
+			}
+		}
+
+		private void TryEmitCollectVfx( ResourceAmountChangedSignal signal )
+		{
+			if ( signal.PrevTotal < signal.TotalAmount )
+			{
+				var vfxShape = _collectVfx.shape;
+				vfxShape.position = signal.CollectionSource - _collectVfx.transform.position.ToVector2();
+				_collectVfx.Emit( 1 );
 			}
 		}
 

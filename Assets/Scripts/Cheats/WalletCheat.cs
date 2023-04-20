@@ -23,7 +23,7 @@ namespace Minipede.Cheats
 			{
 				for ( int idx = 0; idx < setting.PreLoad; ++idx )
 				{
-					_inventory.Collect( setting.ResourceType );
+					_inventory.Collect( setting.ResourceType, Vector2.zero );
 				}
 			}
 		}

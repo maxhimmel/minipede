@@ -61,9 +61,9 @@ namespace Minipede.Gameplay.Player
 			_signalBus.TryFire( new BeaconTypeSelectedSignal() );
 		}
 
-		public void Collect( ResourceType resource )
+		public void Collect( ResourceType resource, Vector2 collectionSource )
 		{
-			int amount = _wallet.Collect( resource );
+			int amount = _wallet.Collect( resource, collectionSource );
 			FireBeaconCreationStateChangedSignal( resource, amount );
 		}
 

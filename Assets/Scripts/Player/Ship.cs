@@ -244,7 +244,7 @@ namespace Minipede.Gameplay.Player
 				return false;
 			}
 
-			_inventory.Collect( treasure.Resource );
+			_inventory.Collect( treasure.Resource, treasure.Body.position );
 			treasure.Dispose();
 
 			return true;

@@ -143,6 +143,9 @@ namespace Minipede.Gameplay.Treasures
 	{
 		public ResourceType ResourceType;
 		public int TotalAmount;
+		public int PrevTotal;
+
+		public Vector2 CollectionSource;
 	}
 
 	public class BeaconEquippedSignal

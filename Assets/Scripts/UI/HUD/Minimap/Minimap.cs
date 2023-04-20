@@ -42,7 +42,7 @@ namespace Minipede.Gameplay.UI
 			}
 		}
 
-		private void LateUpdate()
+		private void FixedUpdate()
 		{
 			if ( CanUpdate() )
 			{

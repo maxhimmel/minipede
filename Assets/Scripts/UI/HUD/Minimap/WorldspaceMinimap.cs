@@ -8,6 +8,7 @@ namespace Minipede.Gameplay.UI
 	public class WorldspaceMinimap : Minimap
 	{
 		[SerializeField] private bool _isRadial;
+		[SerializeField] private bool _isCanvasWorldspace = true;
 
 		private ExplorerController _explorer;
 
@@ -59,9 +60,16 @@ namespace Minipede.Gameplay.UI
 		private void FollowExplorer()
 		{
 			var explorerPos = _explorer.Pawn.Body.position;
-			var viewportPos = _camera.WorldToViewportPoint( explorerPos );
 
-			transform.position = new Vector2( viewportPos.x * Screen.width, viewportPos.y * Screen.height );
+			if ( _isCanvasWorldspace )
+			{
+				transform.position = explorerPos;
+			}
+			else
+			{
+				var viewportPos = _camera.WorldToViewportPoint( explorerPos );
+				transform.position = new Vector2( viewportPos.x * Screen.width, viewportPos.y * Screen.height );
+			}
 		}
 	}
 }

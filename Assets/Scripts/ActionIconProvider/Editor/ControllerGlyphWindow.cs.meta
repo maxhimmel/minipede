@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 92b96ddb3f7958f40b7be3ebfdcd3a50
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - m_ViewDataDictionary: {instanceID: 0}
+  - inspectorTargetSerialized: {instanceID: 0}
+  - RewiredCsv: {fileID: 4900000, guid: 9fcb6abf85e8fdd4883985778a5e3792, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

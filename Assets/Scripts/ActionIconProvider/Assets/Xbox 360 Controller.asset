@@ -12,168 +12,171 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79c789a6c608f4842b9bf7313537dcf2, type: 3}
   m_Name: Xbox 360 Controller
   m_EditorClassIdentifier: 
-  _editorControllerName: Xbox 360 Controller
-  _controllerName: Xbox 360 Controller
-  _controllerGuid: d74a350e-fe8b-4e9e-bbcd-efff16d34115
+  _identifier:
+    EditorControllerName: Xbox 360 Controller
+    ControllerName: Xbox 360 Controller
+    ControllerGuid: d74a350e-fe8b-4e9e-bbcd-efff16d34115
+  _spriteAssetName: Xbox
+  _spriteStyle: 0
   _glyphs:
   - Name: Left Stick X
     ElementId: 0
-    Glyph: {fileID: 21300000, guid: ea3fb4941fc524b1cb2698b8d89e52c8, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: ea3fb4941fc524b1cb2698b8d89e52c8, type: 3}
-    IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: ea3fb4941fc524b1cb2698b8d89e52c8, type: 3}
-    IsNegativeLinked: 1
+    SpriteIndex: 20
+    SpriteIndexPositive: 16
+    IsPositiveLinked: 0
+    SpriteIndexNegative: 18
+    IsNegativeLinked: 0
   - Name: Left Stick Y
     ElementId: 1
-    Glyph: {fileID: 21300000, guid: ea3fb4941fc524b1cb2698b8d89e52c8, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: ea3fb4941fc524b1cb2698b8d89e52c8, type: 3}
-    IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: ea3fb4941fc524b1cb2698b8d89e52c8, type: 3}
-    IsNegativeLinked: 1
+    SpriteIndex: 19
+    SpriteIndexPositive: 15
+    IsPositiveLinked: 0
+    SpriteIndexNegative: 17
+    IsNegativeLinked: 0
   - Name: Right Stick X
     ElementId: 2
-    Glyph: {fileID: 21300000, guid: e71e67dcd5e8146f489e6863b2b6e9aa, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: e71e67dcd5e8146f489e6863b2b6e9aa, type: 3}
-    IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: e71e67dcd5e8146f489e6863b2b6e9aa, type: 3}
-    IsNegativeLinked: 1
+    SpriteIndex: 27
+    SpriteIndexPositive: 23
+    IsPositiveLinked: 0
+    SpriteIndexNegative: 25
+    IsNegativeLinked: 0
   - Name: Right Stick Y
     ElementId: 3
-    Glyph: {fileID: 21300000, guid: e71e67dcd5e8146f489e6863b2b6e9aa, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: e71e67dcd5e8146f489e6863b2b6e9aa, type: 3}
-    IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: e71e67dcd5e8146f489e6863b2b6e9aa, type: 3}
-    IsNegativeLinked: 1
+    SpriteIndex: 26
+    SpriteIndexPositive: 22
+    IsPositiveLinked: 0
+    SpriteIndexNegative: 24
+    IsNegativeLinked: 0
   - Name: Left Trigger
     ElementId: 4
-    Glyph: {fileID: 21300000, guid: 27d4a2fb3a1924989848639487c187d9, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 27d4a2fb3a1924989848639487c187d9, type: 3}
+    SpriteIndex: 30
+    SpriteIndexPositive: 30
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 27d4a2fb3a1924989848639487c187d9, type: 3}
+    SpriteIndexNegative: 30
     IsNegativeLinked: 1
   - Name: Right Trigger
     ElementId: 5
-    Glyph: {fileID: 21300000, guid: f81755988983646e1847fc43dfd6874c, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: f81755988983646e1847fc43dfd6874c, type: 3}
+    SpriteIndex: 31
+    SpriteIndexPositive: 31
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: f81755988983646e1847fc43dfd6874c, type: 3}
+    SpriteIndexNegative: 31
     IsNegativeLinked: 1
   - Name: A
     ElementId: 6
-    Glyph: {fileID: 21300000, guid: d5c88de58f52c405d955a4bd83a5fae4, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: d5c88de58f52c405d955a4bd83a5fae4, type: 3}
+    SpriteIndex: 0
+    SpriteIndexPositive: 0
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: d5c88de58f52c405d955a4bd83a5fae4, type: 3}
+    SpriteIndexNegative: 0
     IsNegativeLinked: 1
   - Name: B
     ElementId: 7
-    Glyph: {fileID: 21300000, guid: 83a4cecd325154803854cc052d031cc4, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 83a4cecd325154803854cc052d031cc4, type: 3}
+    SpriteIndex: 1
+    SpriteIndexPositive: 1
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 83a4cecd325154803854cc052d031cc4, type: 3}
+    SpriteIndexNegative: 1
     IsNegativeLinked: 1
   - Name: X
     ElementId: 8
-    Glyph: {fileID: 21300000, guid: 489555ca9f628421db766ad59dde2748, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 489555ca9f628421db766ad59dde2748, type: 3}
+    SpriteIndex: 2
+    SpriteIndexPositive: 2
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 489555ca9f628421db766ad59dde2748, type: 3}
+    SpriteIndexNegative: 2
     IsNegativeLinked: 1
   - Name: Y
     ElementId: 9
-    Glyph: {fileID: 21300000, guid: e543e51c06c3249f98ffd23dba495f4a, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: e543e51c06c3249f98ffd23dba495f4a, type: 3}
+    SpriteIndex: 3
+    SpriteIndexPositive: 3
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: e543e51c06c3249f98ffd23dba495f4a, type: 3}
+    SpriteIndexNegative: 3
     IsNegativeLinked: 1
   - Name: Left Shoulder
     ElementId: 10
-    Glyph: {fileID: 21300000, guid: 91715e470147545b19a3448af6514ff6, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 91715e470147545b19a3448af6514ff6, type: 3}
+    SpriteIndex: 28
+    SpriteIndexPositive: 28
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 91715e470147545b19a3448af6514ff6, type: 3}
+    SpriteIndexNegative: 28
     IsNegativeLinked: 1
   - Name: Right Shoulder
     ElementId: 11
-    Glyph: {fileID: 21300000, guid: 7d0c05049216c41409888892be1aa469, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 7d0c05049216c41409888892be1aa469, type: 3}
+    SpriteIndex: 29
+    SpriteIndexPositive: 29
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 7d0c05049216c41409888892be1aa469, type: 3}
+    SpriteIndexNegative: 29
     IsNegativeLinked: 1
   - Name: Back
     ElementId: 12
-    Glyph: {fileID: 21300000, guid: 54cf7429c9377401e8042b072c614bcd, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 54cf7429c9377401e8042b072c614bcd, type: 3}
+    SpriteIndex: 5
+    SpriteIndexPositive: 5
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 54cf7429c9377401e8042b072c614bcd, type: 3}
+    SpriteIndexNegative: 5
     IsNegativeLinked: 1
   - Name: Start
     ElementId: 13
-    Glyph: {fileID: 21300000, guid: 44ea1cf72cb064aa8b00e533f3573fd8, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 44ea1cf72cb064aa8b00e533f3573fd8, type: 3}
+    SpriteIndex: 4
+    SpriteIndexPositive: 4
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 44ea1cf72cb064aa8b00e533f3573fd8, type: 3}
+    SpriteIndexNegative: 4
     IsNegativeLinked: 1
   - Name: Guide
     ElementId: 22
-    Glyph: {fileID: 21300000, guid: ede44786cc57c476d80823675d696c42, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: ede44786cc57c476d80823675d696c42, type: 3}
+    SpriteIndex: 6
+    SpriteIndexPositive: 6
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: ede44786cc57c476d80823675d696c42, type: 3}
+    SpriteIndexNegative: 6
     IsNegativeLinked: 1
   - Name: Left Stick Button
     ElementId: 14
-    Glyph: {fileID: 21300000, guid: 2fbf5b49d60f54d9e816d294e1864f1a, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 2fbf5b49d60f54d9e816d294e1864f1a, type: 3}
+    SpriteIndex: 32
+    SpriteIndexPositive: 32
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 2fbf5b49d60f54d9e816d294e1864f1a, type: 3}
+    SpriteIndexNegative: 32
     IsNegativeLinked: 1
   - Name: Right Stick Button
     ElementId: 15
-    Glyph: {fileID: 21300000, guid: 1cf998ae2d7f14b298965f53280ecb1e, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 1cf998ae2d7f14b298965f53280ecb1e, type: 3}
+    SpriteIndex: 33
+    SpriteIndexPositive: 33
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 1cf998ae2d7f14b298965f53280ecb1e, type: 3}
+    SpriteIndexNegative: 33
     IsNegativeLinked: 1
   - Name: D-Pad Up
     ElementId: 16
-    Glyph: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
+    SpriteIndex: 8
+    SpriteIndexPositive: 8
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
+    SpriteIndexNegative: 8
     IsNegativeLinked: 1
   - Name: D-Pad Right
     ElementId: 17
-    Glyph: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
+    SpriteIndex: 9
+    SpriteIndexPositive: 9
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
+    SpriteIndexNegative: 9
     IsNegativeLinked: 1
   - Name: D-Pad Down
     ElementId: 18
-    Glyph: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
+    SpriteIndex: 10
+    SpriteIndexPositive: 10
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
+    SpriteIndexNegative: 10
     IsNegativeLinked: 1
   - Name: D-Pad Left
     ElementId: 19
-    Glyph: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
+    SpriteIndex: 11
+    SpriteIndexPositive: 11
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: 001e4858589374061a15b6e5fef416aa, type: 3}
+    SpriteIndexNegative: 11
     IsNegativeLinked: 1
   - Name: Left Stick
     ElementId: 20
-    Glyph: {fileID: 21300000, guid: ea3fb4941fc524b1cb2698b8d89e52c8, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: ea3fb4941fc524b1cb2698b8d89e52c8, type: 3}
+    SpriteIndex: 14
+    SpriteIndexPositive: 14
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: ea3fb4941fc524b1cb2698b8d89e52c8, type: 3}
+    SpriteIndexNegative: 14
     IsNegativeLinked: 1
   - Name: Right Stick
     ElementId: 21
-    Glyph: {fileID: 21300000, guid: e71e67dcd5e8146f489e6863b2b6e9aa, type: 3}
-    GlyphPositive: {fileID: 21300000, guid: e71e67dcd5e8146f489e6863b2b6e9aa, type: 3}
+    SpriteIndex: 21
+    SpriteIndexPositive: 21
     IsPositiveLinked: 1
-    GlyphNegative: {fileID: 21300000, guid: e71e67dcd5e8146f489e6863b2b6e9aa, type: 3}
+    SpriteIndexNegative: 21
     IsNegativeLinked: 1

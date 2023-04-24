@@ -1,0 +1,413 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb2858a9b31f63147982f841b52c1686, type: 3}
+  m_Name: Keyboard
+  m_EditorClassIdentifier: 
+  _spriteAssetName: Keyboard
+  _spriteStyle: 0
+  _glyphs:
+  - Name: None
+    ElementId: 0
+    SpriteIndex: -1
+  - Name: A
+    ElementId: 1
+    SpriteIndex: 10
+  - Name: B
+    ElementId: 2
+    SpriteIndex: 11
+  - Name: C
+    ElementId: 3
+    SpriteIndex: 12
+  - Name: D
+    ElementId: 4
+    SpriteIndex: 13
+  - Name: E
+    ElementId: 5
+    SpriteIndex: 14
+  - Name: F
+    ElementId: 6
+    SpriteIndex: 15
+  - Name: G
+    ElementId: 7
+    SpriteIndex: 16
+  - Name: H
+    ElementId: 8
+    SpriteIndex: 17
+  - Name: I
+    ElementId: 9
+    SpriteIndex: 18
+  - Name: J
+    ElementId: 10
+    SpriteIndex: 19
+  - Name: K
+    ElementId: 11
+    SpriteIndex: 20
+  - Name: L
+    ElementId: 12
+    SpriteIndex: 21
+  - Name: M
+    ElementId: 13
+    SpriteIndex: 22
+  - Name: N
+    ElementId: 14
+    SpriteIndex: 23
+  - Name: O
+    ElementId: 15
+    SpriteIndex: 24
+  - Name: P
+    ElementId: 16
+    SpriteIndex: 25
+  - Name: Q
+    ElementId: 17
+    SpriteIndex: 26
+  - Name: R
+    ElementId: 18
+    SpriteIndex: 27
+  - Name: S
+    ElementId: 19
+    SpriteIndex: 28
+  - Name: T
+    ElementId: 20
+    SpriteIndex: 29
+  - Name: U
+    ElementId: 21
+    SpriteIndex: 30
+  - Name: V
+    ElementId: 22
+    SpriteIndex: 31
+  - Name: W
+    ElementId: 23
+    SpriteIndex: 32
+  - Name: X
+    ElementId: 24
+    SpriteIndex: 33
+  - Name: Y
+    ElementId: 25
+    SpriteIndex: 34
+  - Name: Z
+    ElementId: 26
+    SpriteIndex: 35
+  - Name: 0
+    ElementId: 27
+    SpriteIndex: 0
+  - Name: 1
+    ElementId: 28
+    SpriteIndex: 1
+  - Name: 2
+    ElementId: 29
+    SpriteIndex: 2
+  - Name: 3
+    ElementId: 30
+    SpriteIndex: 3
+  - Name: 4
+    ElementId: 31
+    SpriteIndex: 4
+  - Name: 5
+    ElementId: 32
+    SpriteIndex: 5
+  - Name: 6
+    ElementId: 33
+    SpriteIndex: 6
+  - Name: 7
+    ElementId: 34
+    SpriteIndex: 7
+  - Name: 8
+    ElementId: 35
+    SpriteIndex: 8
+  - Name: 9
+    ElementId: 36
+    SpriteIndex: 9
+  - Name: Keypad 0
+    ElementId: 37
+    SpriteIndex: 0
+  - Name: Keypad 1
+    ElementId: 38
+    SpriteIndex: 1
+  - Name: Keypad 2
+    ElementId: 39
+    SpriteIndex: 2
+  - Name: Keypad 3
+    ElementId: 40
+    SpriteIndex: 3
+  - Name: Keypad 4
+    ElementId: 41
+    SpriteIndex: 4
+  - Name: Keypad 5
+    ElementId: 42
+    SpriteIndex: 5
+  - Name: Keypad 6
+    ElementId: 43
+    SpriteIndex: 6
+  - Name: Keypad 7
+    ElementId: 44
+    SpriteIndex: 7
+  - Name: Keypad 8
+    ElementId: 45
+    SpriteIndex: 8
+  - Name: Keypad 9
+    ElementId: 46
+    SpriteIndex: 9
+  - Name: Keypad .
+    ElementId: 47
+    SpriteIndex: 88
+  - Name: Keypad /
+    ElementId: 48
+    SpriteIndex: 76
+  - Name: Keypad *
+    ElementId: 49
+    SpriteIndex: 77
+  - Name: Keypad -
+    ElementId: 50
+    SpriteIndex: 78
+  - Name: Keypad +
+    ElementId: 51
+    SpriteIndex: 79
+  - Name: Keypad Enter
+    ElementId: 52
+    SpriteIndex: 68
+  - Name: Keypad =
+    ElementId: 53
+    SpriteIndex: 80
+  - Name: Space
+    ElementId: 54
+    SpriteIndex: 69
+  - Name: Backspace
+    ElementId: 55
+    SpriteIndex: 55
+  - Name: Tab
+    ElementId: 56
+    SpriteIndex: 53
+  - Name: Clear
+    ElementId: 57
+    SpriteIndex: -1
+  - Name: Return
+    ElementId: 58
+    SpriteIndex: 68
+  - Name: Pause
+    ElementId: 59
+    SpriteIndex: -1
+  - Name: ESC
+    ElementId: 60
+    SpriteIndex: 54
+  - Name: '!'
+    ElementId: 61
+    SpriteIndex: 89
+  - Name: '"'
+    ElementId: 62
+    SpriteIndex: 100
+  - Name: '#'
+    ElementId: 63
+    SpriteIndex: 91
+  - Name: $
+    ElementId: 64
+    SpriteIndex: 92
+  - Name: '&'
+    ElementId: 65
+    SpriteIndex: 93
+  - Name: 
+    ElementId: 66
+    SpriteIndex: -1
+  - Name: (
+    ElementId: 67
+    SpriteIndex: 96
+  - Name: )
+    ElementId: 68
+    SpriteIndex: 97
+  - Name: '*'
+    ElementId: 69
+    SpriteIndex: 77
+  - Name: +
+    ElementId: 70
+    SpriteIndex: 79
+  - Name: ','
+    ElementId: 71
+    SpriteIndex: 87
+  - Name: '-'
+    ElementId: 72
+    SpriteIndex: 78
+  - Name: .
+    ElementId: 73
+    SpriteIndex: 88
+  - Name: /
+    ElementId: 74
+    SpriteIndex: 76
+  - Name: ':'
+    ElementId: 75
+    SpriteIndex: 99
+  - Name: ;
+    ElementId: 76
+    SpriteIndex: 85
+  - Name: <
+    ElementId: 77
+    SpriteIndex: 101
+  - Name: =
+    ElementId: 78
+    SpriteIndex: 80
+  - Name: '>'
+    ElementId: 79
+    SpriteIndex: 102
+  - Name: '?'
+    ElementId: 80
+    SpriteIndex: 106
+  - Name: '@'
+    ElementId: 81
+    SpriteIndex: 90
+  - Name: '['
+    ElementId: 82
+    SpriteIndex: 82
+  - Name: \
+    ElementId: 83
+    SpriteIndex: 84
+  - Name: ']'
+    ElementId: 84
+    SpriteIndex: 83
+  - Name: ^
+    ElementId: 85
+    SpriteIndex: 94
+  - Name: _
+    ElementId: 86
+    SpriteIndex: 98
+  - Name: Back Quote
+    ElementId: 87
+    SpriteIndex: 81
+  - Name: Delete
+    ElementId: 88
+    SpriteIndex: 71
+  - Name: Up Arrow
+    ElementId: 89
+    SpriteIndex: 56
+  - Name: Down Arrow
+    ElementId: 90
+    SpriteIndex: 58
+  - Name: Right Arrow
+    ElementId: 91
+    SpriteIndex: 57
+  - Name: Left Arrow
+    ElementId: 92
+    SpriteIndex: 59
+  - Name: Insert
+    ElementId: 93
+    SpriteIndex: 70
+  - Name: Home
+    ElementId: 94
+    SpriteIndex: 72
+  - Name: End
+    ElementId: 95
+    SpriteIndex: 73
+  - Name: Page Up
+    ElementId: 96
+    SpriteIndex: 74
+  - Name: Page Down
+    ElementId: 97
+    SpriteIndex: 75
+  - Name: F1
+    ElementId: 98
+    SpriteIndex: 36
+  - Name: F2
+    ElementId: 99
+    SpriteIndex: 37
+  - Name: F3
+    ElementId: 100
+    SpriteIndex: 38
+  - Name: F4
+    ElementId: 101
+    SpriteIndex: 39
+  - Name: F5
+    ElementId: 102
+    SpriteIndex: 40
+  - Name: F6
+    ElementId: 103
+    SpriteIndex: 41
+  - Name: F7
+    ElementId: 104
+    SpriteIndex: 42
+  - Name: F8
+    ElementId: 105
+    SpriteIndex: 43
+  - Name: F9
+    ElementId: 106
+    SpriteIndex: 44
+  - Name: F10
+    ElementId: 107
+    SpriteIndex: 45
+  - Name: F11
+    ElementId: 108
+    SpriteIndex: 46
+  - Name: F12
+    ElementId: 109
+    SpriteIndex: 47
+  - Name: F13
+    ElementId: 110
+    SpriteIndex: -1
+  - Name: F14
+    ElementId: 111
+    SpriteIndex: -1
+  - Name: F15
+    ElementId: 112
+    SpriteIndex: -1
+  - Name: Numlock
+    ElementId: 113
+    SpriteIndex: -1
+  - Name: Caps Lock
+    ElementId: 114
+    SpriteIndex: 52
+  - Name: Scroll Lock
+    ElementId: 115
+    SpriteIndex: -1
+  - Name: Right Shift
+    ElementId: 116
+    SpriteIndex: 51
+  - Name: Left Shift
+    ElementId: 117
+    SpriteIndex: 51
+  - Name: Right Control
+    ElementId: 118
+    SpriteIndex: 49
+  - Name: Left Control
+    ElementId: 119
+    SpriteIndex: 49
+  - Name: Right Alt
+    ElementId: 120
+    SpriteIndex: 50
+  - Name: Left Alt
+    ElementId: 121
+    SpriteIndex: 50
+  - Name: Right Command
+    ElementId: 122
+    SpriteIndex: 60
+  - Name: Left Command
+    ElementId: 123
+    SpriteIndex: 60
+  - Name: Left Windows
+    ElementId: 124
+    SpriteIndex: 48
+  - Name: Right Windows
+    ElementId: 125
+    SpriteIndex: 48
+  - Name: AltGr
+    ElementId: 126
+    SpriteIndex: -1
+  - Name: Help
+    ElementId: 127
+    SpriteIndex: -1
+  - Name: Print
+    ElementId: 128
+    SpriteIndex: -1
+  - Name: SysReq
+    ElementId: 129
+    SpriteIndex: -1
+  - Name: Break
+    ElementId: 130
+    SpriteIndex: -1
+  - Name: Menu
+    ElementId: 131
+    SpriteIndex: -1

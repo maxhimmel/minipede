@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 176fea5c641fc264bbbbd004624b25d7, type: 3}
+  m_Name: Mouse
+  m_EditorClassIdentifier: 
+  _spriteAssetName: Mouse
+  _spriteStyle: 0
+  _glyphs:
+  - Name: Mouse Horizontal
+    ElementId: 0
+    SpriteIndex: 7
+    SpriteIndexPositive: 9
+    IsPositiveLinked: 0
+    SpriteIndexNegative: 11
+    IsNegativeLinked: 0
+  - Name: Mouse Vertical
+    ElementId: 1
+    SpriteIndex: 7
+    SpriteIndexPositive: 8
+    IsPositiveLinked: 0
+    SpriteIndexNegative: 10
+    IsNegativeLinked: 0
+  - Name: Mouse Wheel
+    ElementId: 2
+    SpriteIndex: 4
+    SpriteIndexPositive: 5
+    IsPositiveLinked: 0
+    SpriteIndexNegative: 6
+    IsNegativeLinked: 0
+  - Name: Left Mouse Button
+    ElementId: 3
+    SpriteIndex: 1
+    SpriteIndexPositive: 1
+    IsPositiveLinked: 1
+    SpriteIndexNegative: 1
+    IsNegativeLinked: 1
+  - Name: Right Mouse Button
+    ElementId: 4
+    SpriteIndex: 2
+    SpriteIndexPositive: 2
+    IsPositiveLinked: 1
+    SpriteIndexNegative: 2
+    IsNegativeLinked: 1
+  - Name: Mouse Button 3
+    ElementId: 5
+    SpriteIndex: 3
+    SpriteIndexPositive: 3
+    IsPositiveLinked: 1
+    SpriteIndexNegative: 3
+    IsNegativeLinked: 1
+  - Name: Mouse Button 4
+    ElementId: 6
+    SpriteIndex: -1
+    SpriteIndexPositive: -1
+    IsPositiveLinked: 1
+    SpriteIndexNegative: -1
+    IsNegativeLinked: 1
+  - Name: Mouse Button 5
+    ElementId: 7
+    SpriteIndex: -1
+    SpriteIndexPositive: -1
+    IsPositiveLinked: 1
+    SpriteIndexNegative: -1
+    IsNegativeLinked: 1
+  - Name: Mouse Button 6
+    ElementId: 8
+    SpriteIndex: -1
+    SpriteIndexPositive: -1
+    IsPositiveLinked: 1
+    SpriteIndexNegative: -1
+    IsNegativeLinked: 1
+  - Name: Mouse Button 7
+    ElementId: 9
+    SpriteIndex: -1
+    SpriteIndexPositive: -1
+    IsPositiveLinked: 1
+    SpriteIndexNegative: -1
+    IsNegativeLinked: 1
+  - Name: Mouse Wheel Horizontal
+    ElementId: 10
+    SpriteIndex: -1
+    SpriteIndexPositive: -1
+    IsPositiveLinked: 1
+    SpriteIndexNegative: -1
+    IsNegativeLinked: 1

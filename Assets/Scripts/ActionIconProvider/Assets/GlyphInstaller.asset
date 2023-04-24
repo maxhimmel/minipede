@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2732a04ba2b82c41a15eab556fc7f32, type: 3}
+  m_Name: GlyphInstaller
+  m_EditorClassIdentifier: 
+  _settings:
+    Fallback: {fileID: 11400000, guid: a159c9e2645864445865e93d7ce1d3a1, type: 2}
+    Glyphs:
+    - {fileID: 11400000, guid: 699a9469214e6094796599e6a50b8f10, type: 2}
+    - {fileID: 11400000, guid: a159c9e2645864445865e93d7ce1d3a1, type: 2}
+    - {fileID: 11400000, guid: 878cbd6394f8a814e84097a95feeef06, type: 2}
+    - {fileID: 11400000, guid: a4c372b21a672594dbbea70a37fced73, type: 2}

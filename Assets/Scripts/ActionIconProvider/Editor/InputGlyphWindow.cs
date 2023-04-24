@@ -16,6 +16,9 @@ namespace Minipede.Editor
 		[HideLabel, TabGroup( "Mouse", Icon = SdfIconType.Mouse2 )]
 		public MouseGlyphImporter MouseImporter = new MouseGlyphImporter();
 
+		[HideLabel, TabGroup( "Templates", Icon = SdfIconType.Joystick )]
+		public ControllerGlyphImporter TemplateImporter = new ControllerGlyphImporter();
+
 		[MenuItem( "Tools/Input/Glyph Importer" )]
 		private static void OpenWindow()
 		{
@@ -31,6 +34,7 @@ namespace Minipede.Editor
 			ControllerImporter.Ingest();
 			KeyboardImporter.Ingest();
 			MouseImporter.Ingest();
+			TemplateImporter.Ingest();
 		}
 	}
 }

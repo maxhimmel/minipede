@@ -1,8 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Rewired;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.UI;
 
 #if UNITY_EDITOR
 using Sirenix.Utilities.Editor;
@@ -11,22 +10,16 @@ using UnityEditor;
 
 namespace Minipede
 {
-	[CreateAssetMenu( menuName = "Tools/Input/Controller Glyph Asset" )]
-	public class ControllerGlyphs : InputGlyphs
+	[CreateAssetMenu( menuName = "Tools/Input/Mouse Glyph Asset" )]
+	public class MouseGlyphs : InputGlyphs
 	{
-		public override string InputGuid => _identifier.ControllerGuid;
-
-		[HideLabel]
-		[SerializeField] private ControllerIdentifier _identifier;
+		public override string InputGuid => ControllerType.Mouse.ToString();
 
 		[ListDrawerSettings( IsReadOnly = true, ShowPaging = false )]
 		[SerializeField] private List<ElementGlyph> _glyphs = new List<ElementGlyph>();
 
-		public void Construct( ControllerIdentifier identifier,
-			IList<(int id, string name)> elementIds )
+		public void Construct( IList<(int id, string name)> elementIds )
 		{
-			_identifier = identifier;
-
 			_glyphs = new List<ElementGlyph>( elementIds.Count );
 			foreach ( var e in elementIds )
 			{
@@ -120,7 +113,7 @@ namespace Minipede
 			[BoxGroup( "All/Sprite" ), OnValueChanged( "OnMainGlyphChanged" )]
 			[LabelText( "Index" )]
 			public int SpriteIndex;
-			
+
 			[HorizontalGroup( "All/Sprite/Positive" )]
 			[LabelText( "Positive" )]
 			public int SpriteIndexPositive;

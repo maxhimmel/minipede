@@ -5,26 +5,16 @@ using Sirenix.Utilities.Editor;
 using UnityEditor;
 using UnityEngine;
 
-namespace Minipede
+namespace Minipede.Editor
 {
 	[HideReferenceObjectPicker]
 	[System.Serializable]
-	public class ControllerElements : ISearchFilterable
+	public class KeyboardElements
 	{
 		private const string _glyphAssetPath = "Assets/Scripts/ActionIconProvider/Assets";
 
-		public string EditorControllerName;
-		public string ControllerName;
-		public string ControllerGuid;
-
 		[ListDrawerSettings( IsReadOnly = true, ShowPaging = false )]
-		public List<ControllerElementId> Elements;
-
-		bool ISearchFilterable.IsMatch( string searchString )
-		{
-			searchString = searchString.ToLower();
-			return ControllerName.ToLower().Contains( searchString ) || EditorControllerName.ToLower().Contains( searchString );
-		}
+		public List<KeyboardElementId> Elements;
 
 		[OnInspectorGUI, PropertyOrder( -1 )]
 		private void CreateGlyphAsset()
@@ -32,8 +22,8 @@ namespace Minipede
 			if ( SirenixEditorGUI.MenuButton( EditorGUI.indentLevel, " Create Glyph Asset", false, EditorIcons.ImageCollection.Raw ) )
 			{
 				var savePath = EditorUtility.SaveFilePanelInProject(
-					"Save Controller Glyph Asset",
-					$"{ControllerName}",
+					"Save Keyboard Glyph Asset",
+					"Keyboard",
 					"asset",
 					"Please enter a file name to save the glyph asset to",
 					 _glyphAssetPath
@@ -41,12 +31,9 @@ namespace Minipede
 
 				if ( !string.IsNullOrEmpty( savePath ) )
 				{
-					var newGlyphAsset = ScriptableObject.CreateInstance<ControllerGlyphs>();
+					var newGlyphAsset = ScriptableObject.CreateInstance<KeyboardGlyphs>();
 					newGlyphAsset.Construct(
-						EditorControllerName,
-						ControllerName,
-						ControllerGuid,
-						Elements.Select( e => (e.ElementId, e.ElementIdName) ).ToList()
+						Elements.Select( e => (e.Element.Id, e.Element.Name) ).ToList()
 					);
 
 					AssetDatabase.CreateAsset( newGlyphAsset, savePath );

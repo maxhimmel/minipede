@@ -26,24 +26,6 @@ namespace Minipede
 			}
 		}
 
-		private void Example()
-		{
-			var controller = ReInput.players.GetPlayer( 0 )
-				.controllers.GetLastActiveController();
-
-			var actionId = 0;
-
-			var actionElementMap = ReInput.players.GetPlayer( 0 )
-				.controllers
-				.maps
-				.GetFirstElementMapWithAction( controller, actionId, skipDisabledMaps: true );
-
-			// this is what we want ...
-			//controller.hardwareTypeGuid
-			//actionElementMap.elementIdentifierId
-			//actionElementMap.axisRange
-		}
-
 		public override string GetGlyph( int elementId, AxisRange axisRange = AxisRange.Full )
 		{
 			var element = _glyphs.Find( e => e.ElementId == elementId );

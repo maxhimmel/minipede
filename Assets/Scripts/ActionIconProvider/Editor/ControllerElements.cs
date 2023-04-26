@@ -44,7 +44,7 @@ namespace Minipede.Editor
 					var newGlyphAsset = ScriptableObject.CreateInstance<ControllerGlyphs>();
 					newGlyphAsset.Construct(
 						Identifier,
-						Elements.Select( e => (e.Element.Id, e.Element.Name) ).ToList()
+						Elements.Select( e => (e.Element.Id, e.Element.Name, e.Element.Type) ).ToList()
 					);
 
 					AssetDatabase.CreateAsset( newGlyphAsset, savePath );

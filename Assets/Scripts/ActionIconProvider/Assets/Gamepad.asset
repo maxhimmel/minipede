@@ -21,6 +21,7 @@ MonoBehaviour:
   _glyphs:
   - Name: Left Stick X
     ElementId: 0
+    ElementType: 0
     SpriteIndex: 20
     SpriteIndexPositive: 16
     IsPositiveLinked: 0
@@ -28,6 +29,7 @@ MonoBehaviour:
     IsNegativeLinked: 0
   - Name: Left Stick Y
     ElementId: 1
+    ElementType: 0
     SpriteIndex: 19
     SpriteIndexPositive: 15
     IsPositiveLinked: 0
@@ -35,6 +37,7 @@ MonoBehaviour:
     IsNegativeLinked: 0
   - Name: Right Stick X
     ElementId: 2
+    ElementType: 0
     SpriteIndex: 27
     SpriteIndexPositive: 23
     IsPositiveLinked: 0
@@ -42,6 +45,7 @@ MonoBehaviour:
     IsNegativeLinked: 0
   - Name: Right Stick Y
     ElementId: 3
+    ElementType: 0
     SpriteIndex: 26
     SpriteIndexPositive: 22
     IsPositiveLinked: 0
@@ -49,6 +53,7 @@ MonoBehaviour:
     IsNegativeLinked: 0
   - Name: Action Bottom Row 1
     ElementId: 4
+    ElementType: 1
     SpriteIndex: 0
     SpriteIndexPositive: 0
     IsPositiveLinked: 1
@@ -56,6 +61,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Action Bottom Row 2
     ElementId: 5
+    ElementType: 1
     SpriteIndex: 1
     SpriteIndexPositive: 1
     IsPositiveLinked: 1
@@ -63,6 +69,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Action Bottom Row 3
     ElementId: 6
+    ElementType: 1
     SpriteIndex: -1
     SpriteIndexPositive: -1
     IsPositiveLinked: 1
@@ -70,6 +77,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Action Top Row 1
     ElementId: 7
+    ElementType: 1
     SpriteIndex: 2
     SpriteIndexPositive: 2
     IsPositiveLinked: 1
@@ -77,6 +85,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Action Top Row 2
     ElementId: 8
+    ElementType: 1
     SpriteIndex: 3
     SpriteIndexPositive: 3
     IsPositiveLinked: 1
@@ -84,6 +93,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Action Top Row 3
     ElementId: 9
+    ElementType: 1
     SpriteIndex: -1
     SpriteIndexPositive: -1
     IsPositiveLinked: 1
@@ -91,6 +101,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Left Shoulder 1
     ElementId: 10
+    ElementType: 1
     SpriteIndex: 28
     SpriteIndexPositive: 28
     IsPositiveLinked: 1
@@ -98,6 +109,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Left Shoulder 2
     ElementId: 11
+    ElementType: 0
     SpriteIndex: 30
     SpriteIndexPositive: 30
     IsPositiveLinked: 1
@@ -105,6 +117,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Right Shoulder 1
     ElementId: 12
+    ElementType: 1
     SpriteIndex: 29
     SpriteIndexPositive: 29
     IsPositiveLinked: 1
@@ -112,6 +125,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Right Shoulder 2
     ElementId: 13
+    ElementType: 0
     SpriteIndex: 31
     SpriteIndexPositive: 31
     IsPositiveLinked: 1
@@ -119,6 +133,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Center 1
     ElementId: 14
+    ElementType: 1
     SpriteIndex: 5
     SpriteIndexPositive: 5
     IsPositiveLinked: 1
@@ -126,6 +141,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Center 2
     ElementId: 15
+    ElementType: 1
     SpriteIndex: 4
     SpriteIndexPositive: 4
     IsPositiveLinked: 1
@@ -133,6 +149,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Center 3
     ElementId: 16
+    ElementType: 1
     SpriteIndex: -1
     SpriteIndexPositive: -1
     IsPositiveLinked: 1
@@ -140,6 +157,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Left Stick Button
     ElementId: 17
+    ElementType: 1
     SpriteIndex: 32
     SpriteIndexPositive: 32
     IsPositiveLinked: 1
@@ -147,6 +165,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Right Stick Button
     ElementId: 18
+    ElementType: 1
     SpriteIndex: 33
     SpriteIndexPositive: 33
     IsPositiveLinked: 1
@@ -154,6 +173,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: D-Pad Up
     ElementId: 19
+    ElementType: 1
     SpriteIndex: 8
     SpriteIndexPositive: 8
     IsPositiveLinked: 1
@@ -161,6 +181,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: D-Pad Right
     ElementId: 20
+    ElementType: 1
     SpriteIndex: 9
     SpriteIndexPositive: 9
     IsPositiveLinked: 1
@@ -168,6 +189,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: D-Pad Down
     ElementId: 21
+    ElementType: 1
     SpriteIndex: 10
     SpriteIndexPositive: 10
     IsPositiveLinked: 1
@@ -175,6 +197,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: D-Pad Left
     ElementId: 22
+    ElementType: 1
     SpriteIndex: 11
     SpriteIndexPositive: 11
     IsPositiveLinked: 1
@@ -182,6 +205,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Left Stick
     ElementId: 23
+    ElementType: 100
     SpriteIndex: 14
     SpriteIndexPositive: 14
     IsPositiveLinked: 1
@@ -189,6 +213,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Right Stick
     ElementId: 24
+    ElementType: 100
     SpriteIndex: 21
     SpriteIndexPositive: 21
     IsPositiveLinked: 1
@@ -196,6 +221,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: D-Pad
     ElementId: 25
+    ElementType: 100
     SpriteIndex: 7
     SpriteIndexPositive: 7
     IsPositiveLinked: 1

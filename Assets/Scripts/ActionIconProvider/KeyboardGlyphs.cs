@@ -13,7 +13,7 @@ namespace Minipede
 		[ListDrawerSettings( IsReadOnly = true, ShowPaging = false )]
 		[SerializeField] private List<ElementGlyph> _glyphs = new List<ElementGlyph>();
 
-		public void Construct( IList<(int id, string name)> elementIds )
+		public void Construct( IList<(int id, string name, ControllerElementType type)> elementIds )
 		{
 			_glyphs = new List<ElementGlyph>( elementIds.Count );
 			foreach ( var e in elementIds )
@@ -21,7 +21,8 @@ namespace Minipede
 				_glyphs.Add( new ElementGlyph()
 				{
 					ElementId = e.id,
-					Name = e.name
+					Name = e.name,
+					ElementType = e.type
 				} );
 			}
 		}
@@ -66,6 +67,9 @@ namespace Minipede
 			[BoxGroup( "All/Title/ID" )]
 			[ReadOnly, HideLabel]
 			public int ElementId;
+			[BoxGroup( "All" )]
+			[ReadOnly, HideLabel]
+			public ControllerElementType ElementType;
 
 			[BoxGroup( "All/Sprite" )]
 			[LabelText( "Index" )]

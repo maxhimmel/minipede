@@ -17,6 +17,7 @@ MonoBehaviour:
   _glyphs:
   - Name: Mouse Horizontal
     ElementId: 0
+    ElementType: 0
     SpriteIndex: 7
     SpriteIndexPositive: 9
     IsPositiveLinked: 0
@@ -24,6 +25,7 @@ MonoBehaviour:
     IsNegativeLinked: 0
   - Name: Mouse Vertical
     ElementId: 1
+    ElementType: 0
     SpriteIndex: 7
     SpriteIndexPositive: 8
     IsPositiveLinked: 0
@@ -31,6 +33,7 @@ MonoBehaviour:
     IsNegativeLinked: 0
   - Name: Mouse Wheel
     ElementId: 2
+    ElementType: 0
     SpriteIndex: 4
     SpriteIndexPositive: 5
     IsPositiveLinked: 0
@@ -38,6 +41,7 @@ MonoBehaviour:
     IsNegativeLinked: 0
   - Name: Left Mouse Button
     ElementId: 3
+    ElementType: 1
     SpriteIndex: 1
     SpriteIndexPositive: 1
     IsPositiveLinked: 1
@@ -45,6 +49,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Right Mouse Button
     ElementId: 4
+    ElementType: 1
     SpriteIndex: 2
     SpriteIndexPositive: 2
     IsPositiveLinked: 1
@@ -52,6 +57,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Mouse Button 3
     ElementId: 5
+    ElementType: 1
     SpriteIndex: 3
     SpriteIndexPositive: 3
     IsPositiveLinked: 1
@@ -59,6 +65,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Mouse Button 4
     ElementId: 6
+    ElementType: 1
     SpriteIndex: -1
     SpriteIndexPositive: -1
     IsPositiveLinked: 1
@@ -66,6 +73,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Mouse Button 5
     ElementId: 7
+    ElementType: 1
     SpriteIndex: -1
     SpriteIndexPositive: -1
     IsPositiveLinked: 1
@@ -73,6 +81,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Mouse Button 6
     ElementId: 8
+    ElementType: 1
     SpriteIndex: -1
     SpriteIndexPositive: -1
     IsPositiveLinked: 1
@@ -80,6 +89,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Mouse Button 7
     ElementId: 9
+    ElementType: 1
     SpriteIndex: -1
     SpriteIndexPositive: -1
     IsPositiveLinked: 1
@@ -87,6 +97,7 @@ MonoBehaviour:
     IsNegativeLinked: 1
   - Name: Mouse Wheel Horizontal
     ElementId: 10
+    ElementType: 0
     SpriteIndex: -1
     SpriteIndexPositive: -1
     IsPositiveLinked: 1

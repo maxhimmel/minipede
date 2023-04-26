@@ -23,7 +23,7 @@ namespace Minipede
 		[SerializeField] private List<ElementGlyph> _glyphs = new List<ElementGlyph>();
 
 		public void Construct( ControllerIdentifier identifier,
-			IList<(int id, string name)> elementIds )
+			IList<(int id, string name, ControllerElementType type)> elementIds )
 		{
 			_identifier = identifier;
 
@@ -33,7 +33,8 @@ namespace Minipede
 				_glyphs.Add( new ElementGlyph()
 				{
 					ElementId = e.id,
-					Name = e.name
+					Name = e.name,
+					ElementType = e.type
 				} );
 			}
 		}
@@ -43,7 +44,8 @@ namespace Minipede
 			var element = _glyphs.Find( e => e.ElementId == elementId );
 			if ( element == null || element.ElementId < 0 )
 			{
-				throw new System.NotSupportedException( $"Cannot find element ID '{elementId}'." );
+				//throw new System.NotSupportedException( $"Cannot find element ID '{elementId}'." );
+				return GetRtf( -1 );
 			}
 
 			switch ( axisRange )
@@ -98,6 +100,9 @@ namespace Minipede
 			[BoxGroup( "All/Title/ID" )]
 			[ReadOnly, HideLabel]
 			public int ElementId;
+			[BoxGroup( "All" )]
+			[ReadOnly, HideLabel]
+			public ControllerElementType ElementType;
 
 			[BoxGroup( "All/Sprite" ), OnValueChanged( "OnMainGlyphChanged" )]
 			[LabelText( "Index" )]

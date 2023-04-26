@@ -14,8 +14,7 @@ namespace Minipede.Installers
 		{
 			Container.Bind<InputGlyphBus>()
 				.AsSingle()
-				.WithArguments( _settings )
-				.NonLazy();
+				.WithArguments( _settings );
 		}
 	}
 }

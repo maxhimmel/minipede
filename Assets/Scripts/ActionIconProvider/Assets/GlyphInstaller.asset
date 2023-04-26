@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: GlyphInstaller
   m_EditorClassIdentifier: 
   _settings:
-    Fallback: {fileID: 11400000, guid: 4b1d22c1aec12504a9beb956ee6f090e, type: 2}
-    Glyphs:
-    - {fileID: 11400000, guid: 699a9469214e6094796599e6a50b8f10, type: 2}
+    Keyboard: {fileID: 11400000, guid: 878cbd6394f8a814e84097a95feeef06, type: 2}
+    Mouse: {fileID: 11400000, guid: a4c372b21a672594dbbea70a37fced73, type: 2}
+    JoystickFallback: {fileID: 11400000, guid: 4b1d22c1aec12504a9beb956ee6f090e, type: 2}
+    Joysticks:
     - {fileID: 11400000, guid: a159c9e2645864445865e93d7ce1d3a1, type: 2}
-    - {fileID: 11400000, guid: 878cbd6394f8a814e84097a95feeef06, type: 2}
-    - {fileID: 11400000, guid: a4c372b21a672594dbbea70a37fced73, type: 2}
+    - {fileID: 11400000, guid: 699a9469214e6094796599e6a50b8f10, type: 2}

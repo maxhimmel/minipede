@@ -1,160 +1,280 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Rewired;
+using Sirenix.OdinInspector;
 
 namespace Minipede
 {
 	public class InputGlyphBus
 	{
+		private static readonly List<ControllerTemplateElementTarget> _tempTemplateElementTargets = new List<ControllerTemplateElementTarget>();
+
 		private readonly Settings _settings;
 		private readonly Player _input;
-		private readonly Dictionary<string, InputGlyphs> _glyphs;
-		private readonly ControllerElementResolver _controllerElementResolver;
 
 		public InputGlyphBus( Settings settings,
 			Player input )
 		{
 			_settings = settings;
 			_input = input;
-			
-			_glyphs = settings.Glyphs.ToDictionary( g => g.InputGuid );
-			_controllerElementResolver = new ControllerElementResolver();
 		}
 
-		public string GetGlyph( int actionId, AxisRange axisRange = AxisRange.Full )
+		public string GetGlyph( ControllerType controllerType, int actionId, AxisRange axisRange = AxisRange.Full )
 		{
-			var controller = _input.controllers.GetLastActiveController() ?? _input.controllers.Keyboard;
-
-			string controllerGuid = _controllerElementResolver.GetControllerGuid( controller );
-			int elementId = _controllerElementResolver.GetElementId( _input, controller, actionId );
-
-			if ( !_glyphs.TryGetValue( controllerGuid, out var glyph ) )
+			if ( controllerType == ControllerType.Custom )
 			{
-				glyph = _settings.Fallback;
-				elementId = _controllerElementResolver.Fallback.GetElementId( _input, controller, actionId );
+				throw new System.NotImplementedException();
 			}
+			else if ( controllerType == ControllerType.Keyboard )
+			{
+				int elementId = GetElementId( controllerType, actionId, axisRange );
+				return _settings.Keyboard.GetGlyph( elementId, axisRange );
+			}
+			else if ( controllerType == ControllerType.Mouse )
+			{
+				int elementId = GetElementId( controllerType, actionId, axisRange );
+				return _settings.Mouse.GetGlyph( elementId, axisRange );
+			}
+			else
+			{
+				var controller = _input.controllers.GetLastActiveController( controllerType )
+					?? _input.controllers.Controllers.FirstOrDefault( c => c.type == controllerType );
 
-			return glyph.GetGlyph( elementId, axisRange );//actionElementMap.axisRange );
+				if ( controller == null )
+				{
+					return string.Empty;
+				}
+
+				var joystickGlyph = _settings.Joysticks.FirstOrDefault( j => j.InputGuid == controller.hardwareTypeGuid.ToString() );
+				bool hasJoystickGlyph = joystickGlyph != null;
+
+				var elementId = hasJoystickGlyph
+						? GetElementId( controllerType, actionId, axisRange )
+						: GetTemplateElementId( actionId );
+
+				return hasJoystickGlyph
+					? joystickGlyph.GetGlyph( elementId, axisRange )
+					: _settings.JoystickFallback.GetGlyph( elementId, axisRange );
+			}
 		}
+
+		private int GetElementId( ControllerType controllerType, int actionId, AxisRange axisRange = AxisRange.Full )
+		{
+			//if ( controllerType != ControllerType.Keyboard )
+			//{
+			//	var elementMaps = _input
+			//		.controllers
+			//		.maps
+			//		.ElementMapsWithAction( controllerType, actionId, skipDisabledMaps: true );
+
+			//	var action = elementMaps.FirstOrDefault( e => e.elementType == ControllerElementType.Axis )
+			//		?? elementMaps.FirstOrDefault( e => e.elementType == ControllerElementType.Button );
+
+			//	return action.elementIdentifierId;
+			//}
+			//else
+			{
+				var elementMaps = _input
+					.controllers
+					.maps
+					.ElementMapsWithAction( controllerType, actionId, skipDisabledMaps: true );
+
+				var action = elementMaps
+					.FirstOrDefault( aem =>
+					{
+						if ( aem.axisContribution == Pole.Positive && axisRange == AxisRange.Positive )
+						{
+							return true;
+						}
+						else if ( aem.axisContribution == Pole.Negative && axisRange == AxisRange.Negative )
+						{
+							return true;
+						}
+						else if ( axisRange == AxisRange.Full )
+						{
+							return true;
+						}
+
+						return false;
+					} );
+
+				return action != null
+					? action.elementIdentifierId
+					: -1;
+			}
+		}
+
+		private int GetTemplateElementId( int actionId )
+		{
+			var elementMaps = _input
+				.controllers
+				.maps
+				.ElementMapsWithAction( ControllerType.Joystick, actionId, skipDisabledMaps: true );
+
+			var action = elementMaps.FirstOrDefault( e => e.elementType == ControllerElementType.Axis )
+				?? elementMaps.FirstOrDefault( e => e.elementType == ControllerElementType.Button );
+
+			action
+				.controllerMap
+				.controller
+				.Templates[0]
+				.GetElementTargets( action, _tempTemplateElementTargets );
+
+			return _tempTemplateElementTargets[0].element.id;
+		}
+
+		//public string GetGlyph( ControllerType controllerType, int actionId, AxisRange axisRange = AxisRange.Full )
+		//{
+		//	// these work ...
+		//	//var c = _input.controllers.GetFirstControllerWithTemplate( new System.Guid( _settings.Fallback.InputGuid ) );
+
+		//	var controller = _input.controllers.GetLastActiveController( controllerType )
+		//		?? _input.controllers.Controllers.First( c => c.type == controllerType );
+
+		//	string controllerGuid = controller != null
+		//		? _controllerElementResolver.GetControllerGuid( controller )
+		//		: _settings.JoystickFallback.InputGuid;
+
+		//	int elementId = _controllerElementResolver.GetElementId( _input, controllerType, actionId );
+
+		//	if ( !_joystickGlyphs.TryGetValue( controllerGuid, out var glyph ) )
+		//	{
+		//		glyph = _settings.JoystickFallback;
+		//		elementId = _controllerElementResolver.Fallback.GetElementId( _input, controllerType, actionId );
+		//	}
+
+		//	return glyph.GetGlyph( elementId, axisRange );
+		//}
 
 		[System.Serializable]
 		public class Settings
 		{
-			public InputGlyphs Fallback;
-			public InputGlyphs[] Glyphs;
+			[BoxGroup( "Computer" )]
+			public KeyboardGlyphs Keyboard;
+			[BoxGroup( "Computer" )]
+			public MouseGlyphs Mouse;
+
+			[BoxGroup( "Joysticks" )]
+			public ControllerGlyphs JoystickFallback;
+			[BoxGroup( "Joysticks" )]
+			public ControllerGlyphs[] Joysticks;
 		}
 
-		public class ControllerElementResolver
-		{
-			public IControllerElementProvider Fallback { get; }
+		//public class ControllerElementResolver
+		//{
+		//	public IControllerElementProvider Fallback { get; }
 
-			private readonly Dictionary<ControllerType, IControllerElementProvider> _elementProviders;
+		//	private readonly Dictionary<ControllerType, IControllerElementProvider> _elementProviders;
 
-			public ControllerElementResolver()
-			{
-				Fallback = new TemplateElementProvider();
+		//	public ControllerElementResolver()
+		//	{
+		//		Fallback = new TemplateElementProvider();
 
-				_elementProviders = new Dictionary<ControllerType, IControllerElementProvider>()
-				{
-					{ ControllerType.Joystick, new ControllerElementProvider() },
-					{ ControllerType.Keyboard, new KeyboardElementProvider() },
-					{ ControllerType.Mouse, new MouseElementProvider() },
-				};
-			}
+		//		_elementProviders = new Dictionary<ControllerType, IControllerElementProvider>()
+		//		{
+		//			{ ControllerType.Joystick, new ControllerElementProvider() },
+		//			{ ControllerType.Keyboard, new KeyboardElementProvider() },
+		//			{ ControllerType.Mouse, new MouseElementProvider() },
+		//		};
+		//	}
 
-			public string GetControllerGuid( Controller controller )
-			{
-				return _elementProviders[controller.type]
-					.GetControllerGuid( controller );
-			}
+		//	public string GetControllerGuid( Controller controller )
+		//	{
+		//		return _elementProviders[controller.type]
+		//			.GetControllerGuid( controller );
+		//	}
 
-			public int GetElementId( Player input, Controller controller, int actionId )
-			{
-				return _elementProviders[controller.type]
-					.GetElementId( input, controller, actionId );
-			}
-		}
+		//	public int GetElementId( Player input, ControllerType controllerType, int actionId )
+		//	{
+		//		return _elementProviders[controllerType]
+		//			.GetElementId( input, controllerType, actionId );
+		//	}
+		//}
 
-		public interface IControllerElementProvider
-		{
-			string GetControllerGuid( Controller controller );
-			int GetElementId( Player input, Controller controller, int actionId );
-		}
+		//public interface IControllerElementProvider
+		//{
+		//	string GetControllerGuid( Controller controller );
+		//	int GetElementId( Player input, ControllerType controllerType, int actionId );
+		//}
 
-		public class KeyboardElementProvider : IControllerElementProvider
-		{
-			public string GetControllerGuid( Controller controller )
-			{
-				return ControllerType.Keyboard.ToString();
-			}
+		//public class ControllerElementProvider : IControllerElementProvider
+		//{
+		//	public virtual string GetControllerGuid( Controller controller )
+		//	{
+		//		return controller.hardwareTypeGuid.ToString();
+		//	}
 
-			public int GetElementId( Player input, Controller controller, int actionId )
-			{
-				var actionElementMap = input
-					.controllers
-					.maps
-					.GetFirstElementMapWithAction( controller, actionId, skipDisabledMaps: true );
+		//	public virtual int GetElementId( Player input, ControllerType controllerType, int actionId )
+		//	{
+		//		var elementMaps = input
+		//			.controllers
+		//			.maps
+		//			.ElementMapsWithAction( controllerType, actionId, skipDisabledMaps: true );
 
-				return actionElementMap.elementIdentifierId;
-			}
-		}
+		//		var action = elementMaps.FirstOrDefault( e => e.elementType == ControllerElementType.Axis )
+		//			?? elementMaps.FirstOrDefault( e => e.elementType == ControllerElementType.Button );
 
-		public class MouseElementProvider : IControllerElementProvider
-		{
-			public string GetControllerGuid( Controller controller )
-			{
-				return ControllerType.Mouse.ToString();
-			}
+		//		return action.elementIdentifierId;
+		//		//var actionElementMap = input
+		//		//	.controllers
+		//		//	.maps
+		//		//	.GetFirstElementMapWithAction( controllerType, actionId, skipDisabledMaps: true );
 
-			public int GetElementId( Player input, Controller controller, int actionId )
-			{
-				var actionElementMap = input
-					.controllers
-					.maps
-					.GetFirstElementMapWithAction( controller, actionId, skipDisabledMaps: true );
+		//		//return actionElementMap.elementIdentifierId;
+		//	}
+		//}
 
-				return actionElementMap.elementIdentifierId;
-			}
-		}
+		//public class KeyboardElementProvider : ControllerElementProvider
+		//{
+		//	public override string GetControllerGuid( Controller controller )
+		//	{
+		//		return ControllerType.Keyboard.ToString();
+		//	}
+		//}
 
-		public class ControllerElementProvider : IControllerElementProvider
-		{
-			public string GetControllerGuid( Controller controller )
-			{
-				return controller.hardwareTypeGuid.ToString();
-			}
+		//public class MouseElementProvider : ControllerElementProvider
+		//{
+		//	public override string GetControllerGuid( Controller controller )
+		//	{
+		//		return ControllerType.Mouse.ToString();
+		//	}
+		//}
 
-			public int GetElementId( Player input, Controller controller, int actionId )
-			{
-				var actionElementMap = input
-					.controllers
-					.maps
-					.GetFirstElementMapWithAction( controller, actionId, skipDisabledMaps: true );
+		//public class TemplateElementProvider : ControllerElementProvider
+		//{
+		//	private static readonly List<ControllerTemplateElementTarget> _tempTemplateElementTargets = new List<ControllerTemplateElementTarget>();
 
-				return actionElementMap.elementIdentifierId;
-			}
-		}
+		//	public override int GetElementId( Player input, ControllerType controllerType, int actionId )
+		//	{
+		//		var elementMaps = input
+		//			.controllers
+		//			.maps
+		//			.ElementMapsWithAction( controllerType, actionId, skipDisabledMaps: true );
 
-		public class TemplateElementProvider : IControllerElementProvider
-		{
-			private static readonly List<ControllerTemplateElementTarget> _tempTemplateElementTargets = new List<ControllerTemplateElementTarget>();
+		//		var action = elementMaps.FirstOrDefault( e => e.elementType == ControllerElementType.Axis )
+		//			?? elementMaps.FirstOrDefault( e => e.elementType == ControllerElementType.Button );
 
-			public string GetControllerGuid( Controller controller )
-			{
-				return controller.hardwareTypeGuid.ToString();
-			}
+		//		action
+		//			.controllerMap
+		//			.controller
+		//			.Templates[0]
+		//			.GetElementTargets( action, _tempTemplateElementTargets );
 
-			public int GetElementId( Player input, Controller controller, int actionId )
-			{
-				var actionElementMap = input
-					.controllers
-					.maps
-					.GetFirstElementMapWithAction( controller, actionId, skipDisabledMaps: true );
+		//		return _tempTemplateElementTargets[0].element.id;
 
-				controller.Templates[0].GetElementTargets( actionElementMap, _tempTemplateElementTargets );
+		//		//var actionElementMap = input
+		//		//	.controllers
+		//		//	.maps
+		//		//	.GetFirstElementMapWithAction( controllerType, actionId, skipDisabledMaps: true );
 
-				return _tempTemplateElementTargets[0].element.id;
-			}
-		}
+		//		//actionElementMap
+		//		//	.controllerMap
+		//		//	.controller
+		//		//	.Templates[0]
+		//		//	.GetElementTargets( actionElementMap, _tempTemplateElementTargets );
+
+		//		//return _tempTemplateElementTargets[0].element.id;
+		//	}
+		//}
 	}
 }

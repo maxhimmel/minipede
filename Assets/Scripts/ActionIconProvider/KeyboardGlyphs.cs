@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Minipede
 {
 	[CreateAssetMenu( menuName = "Tools/Input/Keyboard Glyph Asset" )]
-	public class KeyboardGlyphs : InputGlyphs
+	public class KeyboardGlyphs : ControllerGlyphs
 	{
 		public override string InputGuid => ControllerType.Keyboard.ToString();
 

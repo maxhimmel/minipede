@@ -7,7 +7,7 @@ namespace Minipede.Editor
 	public class KeyboardElementId
 	{
 		[HideLabel]
-		public InputElementId Element;
+		public ControllerElementId Element;
 
 		[PropertySpace]
 		public int KeyCode;

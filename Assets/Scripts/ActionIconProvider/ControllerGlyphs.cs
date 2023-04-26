@@ -1,159 +1,33 @@
-using System.Collections.Generic;
-using Rewired;
+﻿using Rewired;
 using Sirenix.OdinInspector;
 using UnityEngine;
-using UnityEngine.UI;
-
-#if UNITY_EDITOR
-using Sirenix.Utilities.Editor;
-using UnityEditor;
-#endif
 
 namespace Minipede
 {
-	[CreateAssetMenu( menuName = "Tools/Input/Controller Glyph Asset" )]
-	public class ControllerGlyphs : InputGlyphs
+	public abstract class ControllerGlyphs : ScriptableObject
 	{
-		public override string InputGuid => _identifier.ControllerGuid;
+		public abstract string InputGuid { get; }
 
-		[HideLabel]
-		[SerializeField] private ControllerIdentifier _identifier;
+		[BoxGroup( "Sprite", ShowLabel = false )]
+		[SerializeField] private string _spriteAssetName;
+		[BoxGroup( "Sprite", ShowLabel = false )]
+		[SerializeField] private Style _spriteStyle;
 
-		[ListDrawerSettings( IsReadOnly = true, ShowPaging = false )]
-		[SerializeField] private List<ElementGlyph> _glyphs = new List<ElementGlyph>();
+		public abstract string GetGlyph( int elementId, AxisRange axisRange = AxisRange.Full );
 
-		public void Construct( ControllerIdentifier identifier,
-			IList<(int id, string name, ControllerElementType type)> elementIds )
+		protected string GetRtf( int spriteIndex )
 		{
-			_identifier = identifier;
+			string style = _spriteStyle == Style.Filled
+				? "-Filled"
+				: string.Empty;
 
-			_glyphs = new List<ElementGlyph>( elementIds.Count );
-			foreach ( var e in elementIds )
-			{
-				_glyphs.Add( new ElementGlyph()
-				{
-					ElementId = e.id,
-					Name = e.name,
-					ElementType = e.type
-				} );
-			}
+			return $"<sprite=\"{_spriteAssetName}{style}\" index={spriteIndex}>";
 		}
 
-		public override string GetGlyph( int elementId, AxisRange axisRange = AxisRange.Full )
+		private enum Style
 		{
-			var element = _glyphs.Find( e => e.ElementId == elementId );
-			if ( element == null || element.ElementId < 0 )
-			{
-				//throw new System.NotSupportedException( $"Cannot find element ID '{elementId}'." );
-				return GetRtf( -1 );
-			}
-
-			switch ( axisRange )
-			{
-				default:
-				case AxisRange.Full:
-					return GetRtf( element.SpriteIndex );
-
-				case AxisRange.Positive:
-					return GetRtf( element.SpriteIndexPositive );
-				case AxisRange.Negative:
-					return GetRtf( element.SpriteIndexNegative );
-			}
-		}
-
-		#region Editor (integration test)
-#if UNITY_EDITOR
-		[Button( ButtonSizes.Gigantic, Icon = SdfIconType.BookmarkCheck, IconAlignment = IconAlignment.LeftEdge )]
-		private void Test()
-		{
-			GameObject testObj = new GameObject( name );
-			var tmp = testObj.AddComponent<TMPro.TextMeshPro>();
-			tmp.enableWordWrapping = false;
-
-			foreach ( var element in _glyphs )
-			{
-				tmp.text += $"{GetRtf( element.SpriteIndex )} : {element.Name}\n";
-				if ( element.SpriteIndexPositive != element.SpriteIndex )
-				{
-					tmp.text += $"   {GetRtf( element.SpriteIndexPositive )} : Positive\n";
-				}
-				if ( element.SpriteIndexNegative != element.SpriteIndex )
-				{
-					tmp.text += $"   {GetRtf( element.SpriteIndexNegative )} : Negative\n";
-				}
-			}
-		}
-#endif
-		#endregion
-
-		[System.Serializable]
-		private class ElementGlyph
-		{
-			private const float _linkWidth = 40;
-
-			[BoxGroup( "All", ShowLabel = false )]
-
-			[HorizontalGroup( "All/Title", Gap = 0 )]
-			[BoxGroup( "All/Title/Name" )]
-			[ReadOnly, HideLabel]
-			public string Name;
-			[BoxGroup( "All/Title/ID" )]
-			[ReadOnly, HideLabel]
-			public int ElementId;
-			[BoxGroup( "All" )]
-			[ReadOnly, HideLabel]
-			public ControllerElementType ElementType;
-
-			[BoxGroup( "All/Sprite" ), OnValueChanged( "OnMainGlyphChanged" )]
-			[LabelText( "Index" )]
-			public int SpriteIndex;
-			
-			[HorizontalGroup( "All/Sprite/Positive" )]
-			[LabelText( "Positive" )]
-			public int SpriteIndexPositive;
-			[HideInInspector]
-			public bool IsPositiveLinked = true;
-
-			[HorizontalGroup( "All/Sprite/Negative" )]
-			[LabelText( "Negative" )]
-			public int SpriteIndexNegative;
-			[HideInInspector]
-			public bool IsNegativeLinked = true;
-
-			#region Editor
-#if UNITY_EDITOR
-			private void OnMainGlyphChanged()
-			{
-				if ( IsPositiveLinked )
-				{
-					SpriteIndexPositive = SpriteIndex;
-				}
-				if ( IsNegativeLinked )
-				{
-					SpriteIndexNegative = SpriteIndex;
-				}
-			}
-
-			[HorizontalGroup( "All/Sprite/Positive", Width = _linkWidth ), OnInspectorGUI]
-			private void TogglePositiveLink()
-			{
-				Undo.RecordObject( Selection.activeObject, "Toggle Positive Glyph Link" );
-				IsPositiveLinked = ToggleGlyphLink( IsPositiveLinked );
-			}
-
-			[HorizontalGroup( "All/Sprite/Negative", Width = _linkWidth ), OnInspectorGUI]
-			private void ToggleNegativeLink()
-			{
-				Undo.RecordObject( Selection.activeObject, "Toggle Negative Glyph Link" );
-				IsNegativeLinked = ToggleGlyphLink( IsNegativeLinked );
-			}
-
-			private bool ToggleGlyphLink( bool linkedState )
-			{
-				return SirenixEditorGUI.ToolbarToggle( linkedState, EditorIcons.Link );
-			}
-#endif
-			#endregion
+			Filled,
+			Transparent
 		}
 	}
 }

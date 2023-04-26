@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Minipede.Editor
 {
-	public class InputGlyphWindow : OdinEditorWindow
+	public class ControllerGlyphWindow : OdinEditorWindow
 	{
 		[HideLabel, TabGroup( "Controllers", Icon = SdfIconType.Controller )]
-		public ControllerGlyphImporter ControllerImporter = new ControllerGlyphImporter();
+		public JoystickGlyphImporter ControllerImporter = new JoystickGlyphImporter();
 
 		[HideLabel, TabGroup( "Keyboard", Icon = SdfIconType.Keyboard )]
 		public KeyboardGlyphImporter KeyboardImporter = new KeyboardGlyphImporter();
@@ -17,12 +17,12 @@ namespace Minipede.Editor
 		public MouseGlyphImporter MouseImporter = new MouseGlyphImporter();
 
 		[HideLabel, TabGroup( "Templates", Icon = SdfIconType.Joystick )]
-		public ControllerGlyphImporter TemplateImporter = new ControllerGlyphImporter();
+		public JoystickGlyphImporter TemplateImporter = new JoystickGlyphImporter();
 
 		[MenuItem( "Tools/Input/Glyph Importer" )]
 		private static void OpenWindow()
 		{
-			var window = GetWindow<InputGlyphWindow>();
+			var window = GetWindow<ControllerGlyphWindow>();
 			window.titleContent = new GUIContent( "Glyph Importer" );
 			window.Show();
 		}

@@ -36,7 +36,7 @@ namespace Minipede.Editor
 				string[] data = lines[idx].Split( "\t" );
 
 				KeyboardElementId elementId = new KeyboardElementId();
-				elementId.Element = new InputElementId()
+				elementId.Element = new ControllerElementId()
 				{
 					Id = int.Parse( data[d++] )
 				};

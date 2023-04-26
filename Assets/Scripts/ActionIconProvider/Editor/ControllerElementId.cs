@@ -1,20 +1,12 @@
-using System;
-using Sirenix.OdinInspector;
+﻿using Rewired;
 
 namespace Minipede.Editor
 {
-	[HideReferenceObjectPicker]
-    [System.Serializable]
-    public class ControllerElementId
-    {
-        [NonSerialized]
-        public ControllerIdentifier ControllerIdentifier;
-
-        [HideLabel]
-        public InputElementId Element;
-
-        [PropertySpace]
-        public string PositiveName;
-        public string NegativeName;
-    }
+	[System.Serializable]
+	public class ControllerElementId
+	{
+		public int Id;
+		public string Name;
+		public ControllerElementType Type;
+	}
 }

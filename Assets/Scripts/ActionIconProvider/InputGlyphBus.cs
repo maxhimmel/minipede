@@ -155,9 +155,9 @@ namespace Minipede
 			public MouseGlyphs Mouse;
 
 			[BoxGroup( "Joysticks" )]
-			public ControllerGlyphs JoystickFallback;
+			public JoystickGlyphs JoystickFallback;
 			[BoxGroup( "Joysticks" )]
-			public ControllerGlyphs[] Joysticks;
+			public JoystickGlyphs[] Joysticks;
 		}
 
 		//public class ControllerElementResolver

@@ -9,7 +9,7 @@ namespace Minipede.Editor
 {
 	[HideReferenceObjectPicker]
 	[System.Serializable]
-	public class ControllerElements : ISearchFilterable
+	public class JoystickElements : ISearchFilterable
 	{
 		private const string _glyphAssetPath = "Assets/Scripts/ActionIconProvider/Assets";
 
@@ -17,7 +17,7 @@ namespace Minipede.Editor
 		public ControllerIdentifier Identifier;
 
 		[ListDrawerSettings( IsReadOnly = true, ShowPaging = false )]
-		public List<ControllerElementId> Elements;
+		public List<JoystickElementId> Elements;
 
 		bool ISearchFilterable.IsMatch( string searchString )
 		{
@@ -41,7 +41,7 @@ namespace Minipede.Editor
 
 				if ( !string.IsNullOrEmpty( savePath ) )
 				{
-					var newGlyphAsset = ScriptableObject.CreateInstance<ControllerGlyphs>();
+					var newGlyphAsset = ScriptableObject.CreateInstance<JoystickGlyphs>();
 					newGlyphAsset.Construct(
 						Identifier,
 						Elements.Select( e => (e.Element.Id, e.Element.Name, e.Element.Type) ).ToList()

@@ -32,7 +32,7 @@ namespace Minipede.Editor
 				string[] data = lines[idx].Split( "," );
 
 				MouseElementId elementId = new MouseElementId();
-				elementId.Element = new InputElementId()
+				elementId.Element = new ControllerElementId()
 				{
 					Id = int.Parse( data[d++] ),
 					Name = data[d++]

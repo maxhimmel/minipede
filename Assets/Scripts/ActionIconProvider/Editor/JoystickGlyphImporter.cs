@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Minipede.Editor
 {
 	[System.Serializable]
-	public class ControllerGlyphImporter
+	public class JoystickGlyphImporter
 	{
 		[BoxGroup( "Raw Data" ), OnValueChanged( "Ingest" )]
 		public TextAsset RewiredCsv;
@@ -15,7 +15,7 @@ namespace Minipede.Editor
 
 		[Searchable( FilterOptions = SearchFilterOptions.ISearchFilterableInterface, Recursive = false )]
 		[ListDrawerSettings( IsReadOnly = true, ListElementLabelName = "@Identifier.EditorControllerName", ShowIndexLabels = true )]
-		public List<ControllerElements> ControllerElements;
+		public List<JoystickElements> ControllerElements;
 
 		public void Ingest()
 		{
@@ -24,7 +24,7 @@ namespace Minipede.Editor
 				return;
 			}
 
-			ControllerElements = new List<ControllerElements>();
+			ControllerElements = new List<JoystickElements>();
 
 			string parsedCsv = RewiredCsv.text.Replace( "\"", "" );
 
@@ -34,14 +34,14 @@ namespace Minipede.Editor
 				int d = 0;
 				string[] data = lines[idx].Split( "," );
 
-				ControllerElementId elementId = new ControllerElementId();
+				JoystickElementId elementId = new JoystickElementId();
 				elementId.ControllerIdentifier = new ControllerIdentifier()
 				{
 					EditorControllerName = data[d++],
 					ControllerName = data[d++],
 					ControllerGuid = data[d++]
 				};
-				elementId.Element = new InputElementId()
+				elementId.Element = new ControllerElementId()
 				{
 					Id = int.Parse( data[d++] ),
 					Name = data[d++]
@@ -50,15 +50,15 @@ namespace Minipede.Editor
 				elementId.NegativeName = data[d++];
 				elementId.Element.Type = (ControllerElementType)int.Parse( data[d++] );
 
-				ControllerElements controller = ControllerElements.Find(
+				JoystickElements controller = ControllerElements.Find(
 					c => c.Identifier.ControllerGuid == elementId.ControllerIdentifier.ControllerGuid
 				);
 
 				if ( controller == null )
 				{
-					controller = new ControllerElements();
+					controller = new JoystickElements();
 					controller.Identifier = elementId.ControllerIdentifier;
-					controller.Elements = new List<ControllerElementId>();
+					controller.Elements = new List<JoystickElementId>();
 
 					ControllerElements.Add( controller );
 				}

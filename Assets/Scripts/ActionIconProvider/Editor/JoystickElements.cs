@@ -44,7 +44,7 @@ namespace Minipede.Editor
 					var newGlyphAsset = ScriptableObject.CreateInstance<JoystickGlyphs>();
 					newGlyphAsset.Construct(
 						Identifier,
-						Elements.Select( e => (e.Element.Id, e.Element.Name, e.Element.Type) ).ToList()
+						Elements.Select( e => (e.Element.Id, e.Element.Name) ).ToList()
 					);
 
 					AssetDatabase.CreateAsset( newGlyphAsset, savePath );

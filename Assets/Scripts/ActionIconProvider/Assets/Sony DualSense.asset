@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteAssetName: DualSense
   _spriteStyle: 0
+  _controllerType: 2
   _identifier:
     EditorControllerName: Sony DualSense
     ControllerName: Sony DualSense

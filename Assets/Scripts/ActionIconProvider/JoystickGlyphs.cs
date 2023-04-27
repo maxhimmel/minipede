@@ -19,12 +19,13 @@ namespace Minipede
 		[HideLabel]
 		[SerializeField] private ControllerIdentifier _identifier;
 
-		[ListDrawerSettings( IsReadOnly = true, ShowPaging = false )]
+		[Space, ListDrawerSettings( IsReadOnly = true, ShowPaging = false )]
 		[SerializeField] private List<ElementGlyph> _glyphs = new List<ElementGlyph>();
 
 		public void Construct( ControllerIdentifier identifier,
-			IList<(int id, string name, ControllerElementType type)> elementIds )
+			IList<(int id, string name)> elementIds )
 		{
+			_controllerType = ControllerType.Joystick;
 			_identifier = identifier;
 
 			_glyphs = new List<ElementGlyph>( elementIds.Count );
@@ -33,8 +34,7 @@ namespace Minipede
 				_glyphs.Add( new ElementGlyph()
 				{
 					ElementId = e.id,
-					Name = e.name,
-					ElementType = e.type
+					Name = e.name
 				} );
 			}
 		}
@@ -99,9 +99,6 @@ namespace Minipede
 			[BoxGroup( "All/Title/ID" )]
 			[ReadOnly, HideLabel]
 			public int ElementId;
-			[BoxGroup( "All" )]
-			[ReadOnly, HideLabel]
-			public ControllerElementType ElementType;
 
 			[BoxGroup( "All/Sprite" ), OnValueChanged( "OnMainGlyphChanged" )]
 			[LabelText( "Index" )]

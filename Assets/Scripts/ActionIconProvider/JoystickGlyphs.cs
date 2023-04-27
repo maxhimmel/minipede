@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Rewired;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -37,6 +38,20 @@ namespace Minipede
 					Name = e.name
 				} );
 			}
+		}
+
+		protected override ActionElementMap SelectElement( IEnumerable<ActionElementMap> elementMaps, ControllerElementType type, AxisRange axisRange = AxisRange.Full )
+		{
+			if ( type == ControllerElementType.Axis || type == ControllerElementType.CompoundElement )
+			{
+				var action = elementMaps.FirstOrDefault( aem => aem.elementType == ControllerElementType.Axis );
+				if ( action != null )
+				{
+					return action;
+				}
+			}
+
+			return base.SelectElement( elementMaps, type, axisRange );
 		}
 
 		public override string GetGlyph( int elementId, AxisRange axisRange = AxisRange.Full )

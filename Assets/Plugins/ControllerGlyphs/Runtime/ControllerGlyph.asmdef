@@ -1,14 +1,9 @@
 {
-    "name": "Minipede",
-    "rootNamespace": "Minipede",
+    "name": "ControllerGlyph",
+    "rootNamespace": "ControllerGlyph",
     "references": [
-        "Cinemachine",
-        "Rewired",
         "Unity.TextMeshPro",
-        "Zenject",
-        "UniTask",
-        "Unity.RenderPipelines.Universal.Runtime",
-        "ControllerGlyph"
+        "Zenject"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

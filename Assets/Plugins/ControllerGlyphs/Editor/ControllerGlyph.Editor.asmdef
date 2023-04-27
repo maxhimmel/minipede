@@ -1,16 +1,12 @@
 {
-    "name": "Minipede",
-    "rootNamespace": "Minipede",
+    "name": "ControllerGlyph.Editor",
+    "rootNamespace": "ControllerGlyph.Editor",
     "references": [
-        "Cinemachine",
-        "Rewired",
-        "Unity.TextMeshPro",
-        "Zenject",
-        "UniTask",
-        "Unity.RenderPipelines.Universal.Runtime",
         "ControllerGlyph"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

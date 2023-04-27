@@ -16,6 +16,7 @@ namespace ControllerGlyph
 	public class JoystickGlyphs : ControllerGlyphs
 	{
 		public override string InputGuid => _identifier.ControllerGuid;
+		public override ControllerType ControllerType => ControllerType.Joystick;
 
 		[HideLabel]
 		[SerializeField] private Core.ControllerIdentifier _identifier;
@@ -26,7 +27,6 @@ namespace ControllerGlyph
 		public void Construct( Core.ControllerIdentifier identifier,
 			IList<(int id, string name)> elementIds )
 		{
-			_controllerType = ControllerType.Joystick;
 			_identifier = identifier;
 
 			_glyphs = new List<ElementGlyph>( elementIds.Count );

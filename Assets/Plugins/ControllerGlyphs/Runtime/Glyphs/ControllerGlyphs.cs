@@ -9,14 +9,12 @@ namespace ControllerGlyph
 	public abstract class ControllerGlyphs : ScriptableObject
 	{
 		public abstract string InputGuid { get; }
+		public abstract ControllerType ControllerType { get; }
 
 		[BoxGroup( "Sprite", ShowLabel = false )]
 		[SerializeField] private string _spriteAssetName;
 		[BoxGroup( "Sprite", ShowLabel = false )]
 		[SerializeField] private Style _spriteStyle;
-
-		[BoxGroup]
-		[SerializeField] protected ControllerType _controllerType;
 
 		public string GetGlyph( Request request )
 		{
@@ -29,7 +27,7 @@ namespace ControllerGlyph
 			var elementMaps = request.Input
 				.controllers
 				.maps
-				.ElementMapsWithAction( _controllerType, request.ActionId, skipDisabledMaps: true );
+				.ElementMapsWithAction( ControllerType, request.ActionId, skipDisabledMaps: true );
 
 			var action = SelectElement( elementMaps, request.ElementType, request.AxisRange );
 

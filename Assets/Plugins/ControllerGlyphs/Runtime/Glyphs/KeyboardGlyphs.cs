@@ -8,15 +8,14 @@ namespace ControllerGlyph
 	[CreateAssetMenu( menuName = "Tools/Input/Keyboard Glyph Asset" )]
 	public class KeyboardGlyphs : ControllerGlyphs
 	{
-		public override string InputGuid => ControllerType.Keyboard.ToString();
+		public override string InputGuid => ControllerType.ToString();
+		public override ControllerType ControllerType => ControllerType.Keyboard;
 
 		[Space, ListDrawerSettings( IsReadOnly = true, ShowPaging = false )]
 		[SerializeField] private List<ElementGlyph> _glyphs = new List<ElementGlyph>();
 
 		public void Construct( IList<(int id, string name)> elementIds )
 		{
-			_controllerType = ControllerType.Keyboard;
-
 			_glyphs = new List<ElementGlyph>( elementIds.Count );
 			foreach ( var e in elementIds )
 			{

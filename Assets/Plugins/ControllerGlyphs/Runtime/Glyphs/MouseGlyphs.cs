@@ -13,15 +13,14 @@ namespace ControllerGlyph
 	[CreateAssetMenu( menuName = "Tools/Input/Mouse Glyph Asset" )]
 	public class MouseGlyphs : ControllerGlyphs
 	{
-		public override string InputGuid => ControllerType.Mouse.ToString();
+		public override string InputGuid => ControllerType.ToString();
+		public override ControllerType ControllerType => ControllerType.Mouse;
 
 		[Space, ListDrawerSettings( IsReadOnly = true, ShowPaging = false )]
 		[SerializeField] private List<ElementGlyph> _glyphs = new List<ElementGlyph>();
 
 		public void Construct( IList<(int id, string name)> elementIds )
 		{
-			_controllerType = ControllerType.Mouse;
-
 			_glyphs = new List<ElementGlyph>( elementIds.Count );
 			foreach ( var e in elementIds )
 			{

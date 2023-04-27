@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c789a6c608f4842b9bf7313537dcf2, type: 3}
+  m_Script: {fileID: 11500000, guid: 3fda4224d308c9d4e9e6009cfe67157a, type: 3}
   m_Name: Gamepad
   m_EditorClassIdentifier: 
   _spriteAssetName: Xbox
   _spriteStyle: 0
+  _controllerType: 2
   _identifier:
     EditorControllerName: Gamepad
     ControllerName: Gamepad

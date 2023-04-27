@@ -5,14 +5,14 @@ using Zenject;
 namespace Minipede.Installers
 {
 	[CreateAssetMenu( menuName = "Tools/Input/Glyph Installer" )]
-	public class InputGlyphInstaller : ScriptableObjectInstaller
+	public class ControllerGlyphInstaller : ScriptableObjectInstaller
 	{
 		[HideLabel]
-		[SerializeField] private InputGlyphBus.Settings _settings;
+		[SerializeField] private ControllerGlyphBus.Settings _settings;
 
 		public override void InstallBindings()
 		{
-			Container.Bind<InputGlyphBus>()
+			Container.Bind<ControllerGlyphBus>()
 				.AsSingle()
 				.WithArguments( _settings );
 		}

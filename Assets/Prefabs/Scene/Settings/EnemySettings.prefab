@@ -67,7 +67,7 @@ MonoBehaviour:
   _minipedeBehavior:
     SegmentRange: {x: 2, y: 6}
   _playerZone:
-    IsEnabled: 1
+    IsEnabled: 0
     SpawnPointId: MinipedePlayerZoneSpawner
     Countdown: 10
     ConsecutiveDelay: 3

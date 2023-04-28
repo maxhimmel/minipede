@@ -1,0 +1,13 @@
+# Rewired version: 1.0.0.0,,,,
+Element Identifier Id,Element Identifier Name,Element Identifier Positive Name,Element Identifier Negative Name,Element Identifier Type
+0,Mouse Horizontal,Mouse Right,Mouse Left,0
+1,Mouse Vertical,Mouse Up,Mouse Down,0
+2,Mouse Wheel,Mouse Wheel Up,Mouse Wheel Down,0
+3,Left Mouse Button,Left Mouse Button,Left Mouse Button,1
+4,Right Mouse Button,Right Mouse Button,Right Mouse Button,1
+5,Mouse Button 3,Mouse Button 3,Mouse Button 3,1
+6,Mouse Button 4,Mouse Button 4,Mouse Button 4,1
+7,Mouse Button 5,Mouse Button 5,Mouse Button 5,1
+8,Mouse Button 6,Mouse Button 6,Mouse Button 6,1
+9,Mouse Button 7,Mouse Button 7,Mouse Button 7,1
+10,Mouse Wheel Horizontal,Mouse Wheel Right,Mouse Wheel Left,0

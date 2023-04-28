@@ -1,0 +1,18 @@
+{
+    "name": "ControllerGlyph.Editor",
+    "rootNamespace": "ControllerGlyph.Editor",
+    "references": [
+        "ControllerGlyph"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

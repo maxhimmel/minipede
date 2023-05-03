@@ -13,7 +13,7 @@ namespace Minipede.Installers
 		[SerializeField] private string _fxId;
 
 		[ShowIf( "IsFxIdValid" )]
-		[ListDrawerSettings( Expanded = true )]
+		[ListDrawerSettings( ShowFoldout = false )]
 		[SerializeReference] private IFxAnimator.ISettings[] _fxSettings = new IFxAnimator.ISettings[0];
 
 		public override void InstallBindings()

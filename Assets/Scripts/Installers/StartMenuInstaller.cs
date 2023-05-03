@@ -22,6 +22,9 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( new LevelBalanceController.Settings() { StartCycle = 0 } );
 
+			Container.Bind<FxFactoryBus>()
+				.AsSingle();
+
 			/* --- */
 
 			Container.DeclareSignal<LevelCycleChangedSignal>()

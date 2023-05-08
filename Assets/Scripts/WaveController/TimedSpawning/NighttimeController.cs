@@ -1,6 +1,7 @@
 using System;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.Player;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -17,16 +18,19 @@ namespace Minipede.Gameplay.Waves
 		private readonly SignalBus _signalBus;
 		private readonly LevelCycleTimer _cycleTimer;
 		private readonly IWaveController _waveController;
+		private readonly IPlayerLifetimeHandler _playerLifetime;
 
 		public NighttimeController( Settings settings,
 			SignalBus signalBus,
 			LevelCycleTimer cycleTimer,
-			IWaveController waveController )
+			IWaveController waveController,
+			IPlayerLifetimeHandler playerLifetime )
 		{
 			_settings = settings;
 			_signalBus = signalBus;
 			_cycleTimer = cycleTimer;
 			_waveController = waveController;
+			_playerLifetime = playerLifetime;
 		}
 
 		public void Initialize()
@@ -36,7 +40,7 @@ namespace Minipede.Gameplay.Waves
 
 		public void Dispose()
 		{
-			_signalBus.Unsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
 		}
 
 		private void OnLevelCycleChanged( LevelCycleChangedSignal signal )
@@ -61,8 +65,8 @@ namespace Minipede.Gameplay.Waves
 			_cycleTimer.Stop();
 			_waveController.Pause();
 
-			await TaskHelpers.DelaySeconds( _settings.Duration, AppHelper.AppQuittingToken );
-			if ( AppHelper.AppQuittingToken.IsCancellationRequested )
+			await TaskHelpers.DelaySeconds( _settings.Duration, _playerLifetime.PlayerDiedCancelToken );
+			if ( _playerLifetime.PlayerDiedCancelToken.IsCancellationRequested )
 			{
 				return;
 			}

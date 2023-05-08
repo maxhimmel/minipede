@@ -67,8 +67,11 @@ namespace Minipede.Gameplay.Player
 
 		public void Dispose()
 		{
-			_playerDiedCancelSource?.Cancel();
-			_playerDiedCancelSource?.Dispose();
+			if ( !_playerDiedCancelSource.IsCancellationRequested )
+			{
+				_playerDiedCancelSource?.Cancel();
+				_playerDiedCancelSource?.Dispose();
+			}
 
 			_input.RemoveInputEventDelegate( OnPaused );
 			_input.RemoveInputEventDelegate( OnResumed );

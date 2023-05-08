@@ -18,6 +18,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private int _mushroomCount;
 		private float _nextReplenishTime;
+		private bool _isActive;
 
 		public MushroomPopulationController( Settings settings,
 			SignalBus signalBus,
@@ -36,12 +37,16 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			_signalBus.Subscribe<BlockSpawnedSignal>( OnMushroomSpawned );
 			_signalBus.Subscribe<BlockDestroyedSignal>( OnMushroomDestroyed );
+
+			_isActive = true;
 		}
 
 		public void Dispose()
 		{
-			_signalBus.Unsubscribe<BlockSpawnedSignal>( OnMushroomSpawned );
-			_signalBus.Unsubscribe<BlockDestroyedSignal>( OnMushroomDestroyed );
+			_isActive = false;
+
+			_signalBus.TryUnsubscribe<BlockSpawnedSignal>( OnMushroomSpawned );
+			_signalBus.TryUnsubscribe<BlockDestroyedSignal>( OnMushroomDestroyed );
 		}
 
 		private void OnMushroomSpawned( BlockSpawnedSignal signal )
@@ -72,6 +77,10 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private bool CanReplenish()
 		{
+			if ( !_isActive )
+			{
+				return false;
+			}
 			if ( _nextReplenishTime > Time.timeSinceLevelLoad )
 			{
 				return false;

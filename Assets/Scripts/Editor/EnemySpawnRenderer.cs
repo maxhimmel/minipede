@@ -14,7 +14,7 @@ namespace Minipede.Editor
 		[ListDrawerSettings(
 			HideAddButton = true, HideRemoveButton = true,
 			ShowPaging = false, ShowItemCount = false,
-			DraggableItems = false, Expanded = true, OnTitleBarGUI = "RefreshPlacements" )]
+			DraggableItems = false, ShowFoldout = false, OnTitleBarGUI = "RefreshPlacements" )]
 		[Space, ToggleGroup( "Main/_drawPlacements" )]
 		[SerializeField] private List<DrawPlacementData> _placements = new List<DrawPlacementData>();
 

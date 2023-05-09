@@ -13,7 +13,7 @@ namespace Minipede.Editor
 	{
 		[HideInPlayMode]
 		[LabelText( "Identifiers" )]
-		[ListDrawerSettings( Expanded = true, IsReadOnly = true, OnTitleBarGUI = "RefreshBindings" )]
+		[ListDrawerSettings( ShowFoldout = false, IsReadOnly = true, OnTitleBarGUI = "RefreshBindings" )]
 		[SerializeField] private List<BindingElement> _bindings;
 
 		[HideInEditorMode]
@@ -106,7 +106,7 @@ namespace Minipede.Editor
 			public string Identifier;
 
 			[HorizontalGroup]
-			[ListDrawerSettings( Expanded = true, IsReadOnly = true )]
+			[ListDrawerSettings( ShowFoldout = false, IsReadOnly = true )]
 			public List<Component> Bindings;
 
 			public int CompareTo( BindingElement other )

@@ -65,15 +65,33 @@ namespace Minipede.Gameplay.Waves
 			_cycleTimer.Stop();
 			_waveController.Pause();
 
-			await TaskHelpers.DelaySeconds( _settings.Duration, _playerLifetime.PlayerDiedCancelToken );
-			if ( _playerLifetime.PlayerDiedCancelToken.IsCancellationRequested )
+			float timer = 0;
+			while ( timer < 1 )
 			{
-				return;
+				timer += Time.deltaTime / _settings.Duration;
+
+				_signalBus.TryFire( new NighttimeStateChangedSignal()
+				{
+					IsNighttime = true,
+					NormalizedProgress = Mathf.Clamp01( timer )
+				} );
+
+				await UniTask.Yield( PlayerLoopTiming.Update, _playerLifetime.PlayerDiedCancelToken );
+				if ( _playerLifetime.PlayerDiedCancelToken.IsCancellationRequested )
+				{
+					return;
+				}
 			}
 
 			_waveController.Play().Forget();
 			_cycleTimer.Play();
 			IsNighttime = false;
+
+			_signalBus.TryFire( new NighttimeStateChangedSignal()
+			{
+				IsNighttime = false,
+				NormalizedProgress = 1
+			} );
 		}
 
 		[System.Serializable]

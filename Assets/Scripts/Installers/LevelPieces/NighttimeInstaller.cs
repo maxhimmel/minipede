@@ -1,3 +1,4 @@
+using Minipede.Gameplay;
 using Minipede.Gameplay.Waves;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,6 +16,9 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<NighttimeController>()
 				.AsSingle()
 				.WithArguments( _settings );
+
+			Container.DeclareSignal<NighttimeStateChangedSignal>()
+				.OptionalSubscriber();
 		}
 	}
 }

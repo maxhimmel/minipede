@@ -106,6 +106,12 @@ namespace Minipede.Gameplay
 			Cycle = cycle;
 		}
 	}
+
+	public class NighttimeStateChangedSignal
+	{
+		public bool IsNighttime;
+		public float NormalizedProgress;
+	}
 }
 
 namespace Minipede.Gameplay.Fx

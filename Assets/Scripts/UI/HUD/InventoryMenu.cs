@@ -1,7 +1,6 @@
-using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
-using Minipede.Utility;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -9,7 +8,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
-    public class InventoryMenu : MonoBehaviour
+	public class InventoryMenu : MonoBehaviour
     {
         [SerializeField] private CanvasGroup _gemGroup;
 
@@ -18,9 +17,7 @@ namespace Minipede.Gameplay.UI
 		[SerializeField] private Button _createBeaconButton;
 
 		[Header( "Animations" )]
-		[SerializeField] private float _gemSlideDuration = 0.3f;
 		[SerializeField] private Vector2 _gemSlideCloseAnchorPos;
-		[SerializeField] private Tweens.Function _gemSlideAnim = Tweens.Function.BounceEaseOut;
 
 		private SignalBus _signalBus;
 
@@ -38,7 +35,10 @@ namespace Minipede.Gameplay.UI
 			{
 				_signalBus.TryFire( new CreateBeaconSignal() );
 			} );
+		}
 
+		private void Start()
+		{
 			OnBeaconUnequipped( new BeaconUnequippedSignal() );
 			OnBeaconTypeSelected( new BeaconTypeSelectedSignal() );
 			OnShowInventory( new ToggleInventorySignal() { IsVisible = false } );
@@ -63,7 +63,6 @@ namespace Minipede.Gameplay.UI
 		private void OnShowInventory( ToggleInventorySignal signal )
 		{
 			_gemGroup.interactable = signal.IsVisible;
-			_beaconContainer.alpha = signal.IsVisible ? 1 : 0;
 
 			foreach ( var button in GetComponentsInChildren<Button>() )
 			{
@@ -74,28 +73,14 @@ namespace Minipede.Gameplay.UI
 				}
 			}
 
-			Vector2 endPos = signal.IsVisible ? Vector2.zero : _gemSlideCloseAnchorPos;
-			Tween( _gemGroup.transform as RectTransform, endPos, _gemSlideDuration, _gemSlideAnim )
-				.Cancellable( AppHelper.AppQuittingToken )
-				.Forget();
-		}
-
-		private async UniTask Tween( RectTransform rectTransform, Vector2 anchorPos, float duration, Tweens.Function anim )
-		{
-			Vector2 start = rectTransform.anchoredPosition;
-			float timer = 0;
-
-			while ( timer < duration )
+			if ( signal.IsVisible )
 			{
-				timer += Time.unscaledDeltaTime;
-				float tweenTime = Tweens.Ease( anim, Mathf.Clamp01( timer ), duration );
-
-				rectTransform.anchoredPosition = Vector2.LerpUnclamped( start, anchorPos, tweenTime );
-
-				await UniTask.Yield( PlayerLoopTiming.Update, AppHelper.AppQuittingToken );
+				_signalBus.FireId( "Show", new FxSignal( Vector2.zero, Vector2.zero, null ) );
 			}
-
-			rectTransform.anchoredPosition = anchorPos;
+			else
+			{
+				_signalBus.FireId( "Hide", new FxSignal( _gemSlideCloseAnchorPos, Vector2.zero, null ) );
+			}
 		}
 
 		private void OnBeaconEquipped( BeaconEquippedSignal signal )

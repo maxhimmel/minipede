@@ -3,18 +3,19 @@ using UnityEditor;
 using UnityEngine;
 using Sirenix.OdinInspector;
 using Minipede.Installers;
+using Sirenix.Utilities.Editor;
 
 namespace Minipede.Editor
 {
 	public class EnemySpawnWindow : OdinEditorWindow
 	{
-		[HideLabel, TabGroup( "Simulate" )]
+		[HideLabel, TabGroup( "Simulate" ), ShowIf( "CanInteract" )]
 		[SerializeField] private EnemySpawnSimulator _simulator = new EnemySpawnSimulator();
 
-		[HideLabel, TabGroup( "Placement" )]
+		[HideLabel, TabGroup( "Placement" ), ShowIf( "CanInteract" )]
 		[SerializeField] private EnemySpawnRenderer _renderer = new EnemySpawnRenderer();
 
-		[FoldoutGroup( "Enemy Settings" )]
+		[FoldoutGroup( "Enemy Settings" ), ShowIf( "CanInteract" )]
 		[InlineEditor( ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden )]
 		[SerializeField] private EnemySettings _enemySettings;
 
@@ -50,11 +51,15 @@ namespace Minipede.Editor
 			SceneView.duringSceneGui -= _renderer.OnSceneGui;
 		}
 
-		private void CacheEnemySettings()
+		private bool TryCacheEnemySettings()
 		{
 			if ( _enemySettings == null )
 			{
 				_enemySettings = GameObject.FindObjectOfType<EnemySettings>();
+				if ( _enemySettings == null )
+				{
+					return false;
+				}
 			}
 
 			if ( _enemySettingsObj == null || _enemySettingsObj.targetObject == null )
@@ -62,18 +67,34 @@ namespace Minipede.Editor
 				_enemySettingsObj = new SerializedObject( _enemySettings );
 				_renderer.AttachEnemySettings( _enemySettingsObj );
 			}
+
+			return CanInteract();
 		}
 
 		protected override void OnGUI()
 		{
-			CacheEnemySettings();
+			base.OnGUI();
+
+			if ( !TryCacheEnemySettings() )
+			{
+				return;
+			}
 
 			if ( !Application.isPlaying )
 			{
 				_enemySettingsObj.UpdateIfRequiredOrScript();
 			}
+		}
 
-			base.OnGUI();
+		[OnInspectorGUI, HideIf( "CanInteract" )]
+		private void DrawErrorMessage()
+		{
+			SirenixEditorGUI.ErrorMessageBox( $"This window requires a scene with an <b>{nameof( EnemySettings )}</b> component." );
+		}
+
+		private bool CanInteract()
+		{
+			return _enemySettingsObj != null;
 		}
 	}
 }

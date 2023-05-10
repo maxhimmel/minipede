@@ -33,21 +33,24 @@ namespace Minipede.Editor
 		private SerializedProperty _sizeProperty;
 		private SerializedProperty _offsetProperty;
 
-		public LevelGraphWrapper()
-		{
-			RefreshReferences();
-		}
-
-		public void RefreshReferences()
+		public bool TryCacheReferences()
 		{
 			if ( LevelGraph == null )
 			{
 				LevelGraph = GameObject.FindObjectOfType<LevelGraph>();
+				if ( LevelGraph == null )
+				{
+					return false;
+				}
 			}
 
 			if ( LevelSettings == null )
 			{
 				LevelSettings = GameObject.FindObjectOfType<LevelGenerationInstaller>();
+				if ( LevelSettings == null )
+				{
+					return false;
+				}
 			}
 
 			if ( _levelSettingsObj == null || _levelSettingsObj.targetObject == null )
@@ -64,13 +67,13 @@ namespace Minipede.Editor
 				_sizeProperty = _graphSettingsProperty.FindPropertyRelative( "Size" );
 				_offsetProperty = _graphSettingsProperty.FindPropertyRelative( "Offset" );
 			}
+
+			return _levelSettingsObj != null;
 		}
 
 		public bool Update()
 		{
-			RefreshReferences();
-
-			if ( _levelSettingsObj != null )
+			if ( TryCacheReferences() )
 			{
 				return _levelSettingsObj.UpdateIfRequiredOrScript();
 			}

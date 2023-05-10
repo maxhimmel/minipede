@@ -5,30 +5,31 @@ using Minipede.Utility;
 using Minipede.Installers;
 using Sirenix.OdinInspector.Editor;
 using Sirenix.OdinInspector;
+using Sirenix.Utilities.Editor;
 
 namespace Minipede.Editor
 {
 	public class LevelGraphWindow : OdinEditorWindow
 	{
-		[BoxGroup( "Main", ShowLabel = false )] 
-		[ToggleGroup( "_drawGraph", ToggleGroupTitle = "Draw Graph", GroupID = "Main/_drawGraph" )]
+		[BoxGroup( "Main", ShowLabel = false ), ShowIf( "CanInteract" )] 
+		[ToggleGroup( "_drawGraph", ToggleGroupTitle = "Draw Graph", GroupID = "Main/_drawGraph" ), ShowIf( "CanInteract" )]
 		[SerializeField] private bool _drawGraph = true;
-		[ToggleGroup( "_drawGraph", GroupID = "Main/_drawGraph" )]
+		[ToggleGroup( "_drawGraph", GroupID = "Main/_drawGraph" ), ShowIf( "CanInteract" )]
 		[SerializeField] private Color _gridColor = Color.red;
-		[ToggleGroup( "_drawGraph", GroupID = "Main/_drawGraph" )]
+		[ToggleGroup( "_drawGraph", GroupID = "Main/_drawGraph" ), ShowIf( "CanInteract" )]
 		[SerializeField] private Color _playerColor = Color.white;
-		[ToggleGroup( "_drawGraph", GroupID = "Main/_drawGraph" )]
+		[ToggleGroup( "_drawGraph", GroupID = "Main/_drawGraph" ), ShowIf( "CanInteract" )]
 		[SerializeField] private Color _playerDepthColor = Color.yellow;
 
-		[BoxGroup( GroupID = "Main/_drawGraph/debug" )]
-		[HorizontalGroup( GroupID = "Main/_drawGraph/debug/CellCoord" )]
+		[BoxGroup( GroupID = "Main/_drawGraph/debug" ), ShowIf( "CanInteract" )]
+		[HorizontalGroup( GroupID = "Main/_drawGraph/debug/CellCoord" ), ShowIf( "CanInteract" )]
 		[SerializeField, ToggleLeft] private bool _debugCellCoord;
-		[HorizontalGroup( GroupID = "Main/_drawGraph/debug/CellCoord" ), ShowIf( "_debugCellCoord" )]
+		[HorizontalGroup( GroupID = "Main/_drawGraph/debug/CellCoord" ), ShowIf( "@_debugCellCoord && CanInteract()" )]
 		[SerializeField, HideLabel] private Vector2Int _cellCoord;
-		[BoxGroup( GroupID = "Main/_drawGraph/debug" ), ShowIf( "_debugCellCoord" )]
+		[BoxGroup( GroupID = "Main/_drawGraph/debug" ), ShowIf( "@_debugCellCoord && CanInteract()" )]
 		[SerializeField] private Color _cellCoordColor = Color.white;
 
-		[FoldoutGroup( "Level Settings" )] 
+		[FoldoutGroup( "Level Settings" ), ShowIf( "CanInteract" )] 
 		[InlineEditor( ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden )]
 		[SerializeField] private LevelGenerationInstaller _levelSettings;
 
@@ -64,12 +65,16 @@ namespace Minipede.Editor
 
 		private void OnSceneGui( SceneView obj )
 		{
+			if ( !TryCacheReferences() )
+			{
+				return;
+			}
+
 			if ( !_drawGraph )
 			{
 				return;
 			}
 
-			CacheReferences();
 			if ( !Application.isPlaying )
 			{
 				_levelGraphWrapper.Update();
@@ -90,15 +95,19 @@ namespace Minipede.Editor
 			DrawDebugCellCoord();
 		}
 
-		private void CacheReferences()
+		private bool TryCacheReferences()
 		{
 			if ( _levelGraphWrapper == null )
 			{
 				_levelGraphWrapper = new LevelGraphWrapper();
 			}
-			_levelGraphWrapper.RefreshReferences();
 
-			_levelSettings = _levelGraphWrapper.LevelSettings;
+			if ( _levelGraphWrapper.TryCacheReferences() )
+			{
+				_levelSettings = _levelGraphWrapper.LevelSettings;
+			}
+
+			return CanInteract();
 		}
 
 		private void DrawRowsAndColumns( int startRow, int rowCount )
@@ -132,146 +141,17 @@ namespace Minipede.Editor
 			Handles.color = _cellCoordColor;
 			Handles.DrawSolidRectangleWithOutline( rect, _cellCoordColor.MultAlpha( 0.2f ), _cellCoordColor );
 		}
+
+		private bool CanInteract()
+		{
+			return _levelSettings != null;
+		}
+
+		[OnInspectorGUI, HideIf( "CanInteract" )]
+		private void DrawErrorMessage()
+		{
+			SirenixEditorGUI.ErrorMessageBox( $"This window requires a scene with a <b>{nameof( LevelGraph )}</b> " +
+				$"and a <b>{nameof( LevelGenerationInstaller )}</b> component." );
+		}
 	}
 }
-
-#region Native Unity Editor (no gameplay settings inspector nesting)
-//using UnityEngine;
-//using UnityEditor;
-//using Minipede.Gameplay.LevelPieces;
-//using Minipede.Utility;
-//using Minipede.Installers;
-
-//namespace Minipede.Editor
-//{
-//	public class LevelGraphWindow : EditorWindow
-//	{
-//		private LevelGraph _levelGraph;
-
-//		private SerializedObject _gameplaySettingsObj;
-//		private SerializedProperty _levelSettingsProperty;
-//		private SerializedProperty _builderSettingsProperty;
-//		private SerializedProperty _graphSettingsProperty;
-//		private SerializedProperty _playerRowsProperty;
-//		private SerializedProperty _playerRowDepthProperty;
-//		private SerializedProperty _dimensionsProperty;
-//		private SerializedProperty _sizeProperty;
-//		private SerializedProperty _offsetProperty;
-
-//		private bool _drawGraph = true;
-//		private Color _gridColor = Color.red;
-//		private Color _playerColor = Color.white;
-//		private Color _playerDepthColor = Color.yellow;
-
-//		[MenuItem( "Minipede/Level Graph" )]
-//		private static void OpenWindow()
-//		{
-//			GetWindow<LevelGraphWindow>( "Level Graph" ).Show();
-//		}
-
-//		private void OnEnable()
-//		{
-//			CacheReferences();
-
-//			SceneView.duringSceneGui += OnSceneGui;
-//		}
-
-//		private void CacheReferences()
-//		{
-//			_levelGraph = FindObjectOfType<LevelGraph>();
-
-//			string[] guids = AssetDatabase.FindAssets( "GameplaySettings" );
-//			string path = AssetDatabase.GUIDToAssetPath( guids[0] );
-//			var gameplaySettings = AssetDatabase.LoadAssetAtPath<GameplaySettings>( path );
-
-//			_gameplaySettingsObj = new SerializedObject( gameplaySettings );
-//			_levelSettingsProperty = _gameplaySettingsObj.FindProperty( "_levelSettings" );
-//			_builderSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Builder" );
-//			_graphSettingsProperty = _levelSettingsProperty.FindPropertyRelative( "Graph" );
-
-//			_playerRowsProperty = _builderSettingsProperty.FindPropertyRelative( "PlayerRows" );
-//			_playerRowDepthProperty = _builderSettingsProperty.FindPropertyRelative( "PlayerRowDepth" );
-
-//			_dimensionsProperty = _graphSettingsProperty.FindPropertyRelative( "Dimensions" );
-//			_sizeProperty = _graphSettingsProperty.FindPropertyRelative( "Size" );
-//			_offsetProperty = _graphSettingsProperty.FindPropertyRelative( "Offset" );
-//		}
-
-//		private void OnDestroy()
-//		{
-//			SceneView.duringSceneGui -= OnSceneGui;
-//		}
-
-//		private void OnGUI()
-//		{
-//			using ( new EditorGUILayout.VerticalScope( EditorStyles.helpBox ) )
-//			{
-//				using ( var check = new EditorGUI.ChangeCheckScope() )
-//				{
-//					_drawGraph = EditorGUILayout.ToggleLeft( "DrawGraph", _drawGraph );
-
-//					EditorGUILayout.Space();
-
-//					_gridColor = EditorGUILayout.ColorField( "GridColor", _gridColor );
-//					_playerColor = EditorGUILayout.ColorField( nameof( LevelBuilder.Settings.PlayerRows ), _playerColor );
-//					_playerDepthColor = EditorGUILayout.ColorField( nameof( LevelBuilder.Settings.PlayerRowDepth ), _playerDepthColor );
-
-//					if ( check.changed )
-//					{
-//						SceneView.RepaintAll();
-//					}
-//				}
-//			}
-
-//			using ( new EditorGUILayout.VerticalScope( EditorStyles.helpBox ) )
-//			{
-//				_gameplaySettingsObj.Update();
-//				EditorGUILayout.PropertyField( _builderSettingsProperty );
-//				EditorGUILayout.PropertyField( _graphSettingsProperty );
-//				_gameplaySettingsObj.ApplyModifiedProperties();
-//			}
-//		}
-
-//		private void OnSceneGui( SceneView obj )
-//		{
-//			if ( !_drawGraph )
-//			{
-//				return;
-//			}
-
-//			// Player area ...
-//			Handles.color = _playerColor;
-//			DrawRowsAndColumns( 0, _playerRowsProperty.intValue - _playerRowDepthProperty.intValue );
-
-//			// Level area ...
-//			Handles.color = _gridColor;
-//			DrawRowsAndColumns( _playerRowsProperty.intValue, _dimensionsProperty.vector2IntValue.Row() );
-
-//			// Player depth area ...
-//			Handles.color = _playerDepthColor;
-//			DrawRowsAndColumns( _playerRowDepthProperty.intValue, _playerRowsProperty.intValue );
-//		}
-
-//		private void DrawRowsAndColumns( int startRow, int rowCount )
-//		{
-//			Vector2 center = _levelGraph.transform.position;
-//			Vector2 size = _sizeProperty.vector2Value;
-
-//			Vector2 centerOffset = size * 0.5f;
-//			centerOffset += _offsetProperty.vector2Value;
-
-//			for ( int row = startRow; row < rowCount; ++row )
-//			{
-//				for ( int col = 0; col < _dimensionsProperty.vector2IntValue.Col(); ++col )
-//				{
-//					Vector2 pos = center + centerOffset
-//						+ Vector2.up * row * size.y
-//						+ Vector2.right * col * size.x;
-
-//					Handles.DrawWireCube( pos, size );
-//				}
-//			}
-//		}
-//	}
-//}
-#endregion

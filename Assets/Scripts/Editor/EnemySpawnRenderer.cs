@@ -60,7 +60,7 @@ namespace Minipede.Editor
 			{
 				_levelGraphWrapper = new LevelGraphWrapper();
 			}
-			_levelGraphWrapper.RefreshReferences();
+			_levelGraphWrapper.TryCacheReferences();
 
 			var enemyInstallersProperty = _enemySettingsObj.FindProperty( "_spawnSettings" );
 			int enemyCount = enemyInstallersProperty.arraySize;

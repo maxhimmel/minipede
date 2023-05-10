@@ -7,11 +7,11 @@ namespace Minipede.Gameplay.LevelPieces
 {
     public class CleansedArea : MonoBehaviour
     {
-		private List<Collider2D> _colliders;
+		private Collider2D[] _colliders;
 		private PollutedAreaController _pollutionController;
 
 		[Inject]
-		public void Construct( List<Collider2D> colliders,
+		public void Construct( Collider2D[] colliders,
 			PollutedAreaController pollutionController )
 		{
 			_colliders = colliders;

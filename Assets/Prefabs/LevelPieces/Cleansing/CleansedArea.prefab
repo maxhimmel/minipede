@@ -68,8 +68,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4854634375789856901}
   - component: {fileID: 7042398886205960440}
+  - component: {fileID: 8809039953329687535}
   - component: {fileID: 1262371954681783091}
-  - component: {fileID: 125507625693801018}
   m_Layer: 2
   m_Name: CleansedArea
   m_TagString: Untagged
@@ -105,6 +105,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 228354b83fcd44f49bfc43ae6ee14e8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8809039953329687535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4854634375789856898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1594defcc53c84343b9241fac3558f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1262371954681783091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118,28 +130,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 8809039953329687535}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &125507625693801018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4854634375789856898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 2902047374098274467}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 3
 --- !u!1 &7365852168077531587
 GameObject:
   m_ObjectHideFlags: 0

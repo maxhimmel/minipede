@@ -29,22 +29,6 @@ namespace Minipede.Gameplay.LevelPieces
 					size:	collider.transform.lossyScale
 				) );
 			}
-
-			// TODO: What about the sprites?
-			// ...
-		}
-
-		public void Deactivate()
-		{
-			foreach ( var collider in _colliders )
-			{
-				collider.enabled = false;
-
-				// TODO: Re-pollute the previously cleansed bounds?
-			}
-
-			// TODO: What about the sprites?
-			// ...
 		}
 
 		public class Factory : UnityPrefabFactory<CleansedArea>

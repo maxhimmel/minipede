@@ -206,7 +206,7 @@ PrefabInstance:
       objectReference: {fileID: 270585087606435208}
     - target: {fileID: 4854634375789856898, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_Name
-      value: CleansedArea_13x13
+      value: CleansedArea_13x13_Plus
       objectReference: {fileID: 0}
     - target: {fileID: 4854634375789856901, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
       propertyPath: m_RootOrder

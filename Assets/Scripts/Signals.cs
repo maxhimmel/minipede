@@ -200,6 +200,30 @@ namespace Minipede.Gameplay.Player
 	}
 }
 
+namespace Minipede.Gameplay.Weapons
+{
+	public class GunEquippedSignal
+	{
+		public Color Type;
+		public Sprite Icon;
+	}
+
+	public class FireRateStateSignal
+	{
+		public float NormalizedCooldown;
+	}
+
+	public class AmmoStateSignal
+	{
+		public float NormalizedAmmo;
+	}
+
+	public class ReloadStateSignal
+	{
+		public float NormalizedTimer;
+	}
+}
+
 namespace Minipede.Gameplay.Audio
 {
 	public class MixerVolumeChangedSignal

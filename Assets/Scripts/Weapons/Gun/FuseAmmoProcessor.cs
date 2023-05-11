@@ -1,5 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
@@ -10,8 +11,9 @@ namespace Minipede.Gameplay.Weapons
 		private bool _isFuseLit;
 		private float _timer;
 
-		public FuseAmmoProcessor( Settings settings ) 
-			: base( settings )
+		public FuseAmmoProcessor( Settings settings,
+			SignalBus signalBus )
+			: base( settings, signalBus )
 		{
 			_timer = settings.FuseDuration;
 		}
@@ -40,6 +42,8 @@ namespace Minipede.Gameplay.Weapons
 			if ( _isFuseLit )
 			{
 				_timer -= Time.deltaTime;
+
+				FireAmmoSignal();
 
 				if ( !HasAmmo() )
 				{

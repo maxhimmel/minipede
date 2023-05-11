@@ -66,6 +66,7 @@ MonoBehaviour:
       - rid: 5904237243981627394
       - rid: 8667173491517161476
       - rid: 5904237243981627396
+      Icon: {fileID: 21300000, guid: dbef0a76fe3974542888e09e324d1836, type: 3}
   references:
     version: 2
     RefIds:

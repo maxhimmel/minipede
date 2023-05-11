@@ -1,5 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
@@ -9,8 +10,9 @@ namespace Minipede.Gameplay.Weapons
 
 		private float _gauge;
 
-		public HeatGaugeAmmoProcessor( Settings settings ) 
-			: base( settings )
+		public HeatGaugeAmmoProcessor( Settings settings,
+			SignalBus signalBus )
+			: base( settings, signalBus )
 		{
 			_gauge = settings.OverheatThreshold;
 		}
@@ -34,6 +36,8 @@ namespace Minipede.Gameplay.Weapons
 			{
 				float coolantAcceleration = Time.deltaTime * _settings.CoolantSpeed;
 				_gauge = Mathf.Min( _settings.OverheatThreshold, _gauge + coolantAcceleration );
+
+				FireAmmoSignal();
 			}
 		}
 

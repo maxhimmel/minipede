@@ -5,6 +5,7 @@ using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
+using Minipede.Gameplay.Weapons;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
@@ -111,6 +112,16 @@ namespace Minipede.Installers
 			Container.DeclareSignal<BeaconCreationStateChangedSignal>()
 				.OptionalSubscriber();
 			Container.DeclareSignal<ToggleInventorySignal>()
+				.OptionalSubscriber();
+
+			// Guns ...
+			Container.DeclareSignal<GunEquippedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<FireRateStateSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<AmmoStateSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<ReloadStateSignal>()
 				.OptionalSubscriber();
 		}
 

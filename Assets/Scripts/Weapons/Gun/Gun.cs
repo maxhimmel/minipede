@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Fx;
+using Minipede.Gameplay.Treasures;
 using Minipede.Installers;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -19,6 +20,7 @@ namespace Minipede.Gameplay.Weapons
 		private readonly ProjectileFactoryBus _factory;
 		private readonly ShotSpot _shotSpot;
 		private readonly IFireSpread _fireSpread;
+		private readonly ResourceType _resourceType;
 		private readonly IAmmoHandler _ammoHandler;
 		private readonly IFireSafety[] _fireSafeties;
 		private readonly IProjectileFiredProcessor[] _projectileFiredProcessors;
@@ -39,6 +41,8 @@ namespace Minipede.Gameplay.Weapons
 			ShotSpot shotSpot,
 			IFireSpread fireSpread,
 
+			[InjectOptional] ResourceType resourceType,
+
 			[InjectOptional] IAmmoHandler ammoHandler,
 			[InjectOptional] IFireSafety[] safeties,
 			[InjectOptional] IProjectileFiredProcessor[] projectileFiredProcessors,
@@ -52,7 +56,7 @@ namespace Minipede.Gameplay.Weapons
 			_factory = factory;
 			_shotSpot = shotSpot;
 			_fireSpread = fireSpread;
-
+			_resourceType = resourceType;
 			_ammoHandler = ammoHandler;
 			_fireSafeties = safeties ?? new IFireSafety[0];
 			_projectileFiredProcessors = projectileFiredProcessors ?? new IProjectileFiredProcessor[0];
@@ -218,30 +222,43 @@ namespace Minipede.Gameplay.Weapons
 			_ammoHandler?.Reload();
 		}
 
+		public GunEquippedSignal CreateEquippedSignal()
+		{
+			return new GunEquippedSignal()
+			{
+				Icon = _settings.Icon,
+				Type = _resourceType != null ? _resourceType.Color : Color.clear
+			};
+		}
+
 		[System.Serializable]
 		public class Settings
 		{
+			[TabGroup( "Main", "Gameplay", SdfIconType.Controller )]
 			public string ShotSpotId;
 
-			[BoxGroup( "Projectile", ShowLabel = false )]
+			[BoxGroup( "Main/Gameplay/Projectile", ShowLabel = false )]
 			public Projectile ProjectilePrefab;
-			[BoxGroup( "Projectile", ShowLabel = false )]
+			[BoxGroup( "Main/Gameplay/Projectile", ShowLabel = false )]
 			public float ProjectileLifetime;
-			[BoxGroup( "Projectile", ShowLabel = false )]
+			[BoxGroup( "Main/Gameplay/Projectile", ShowLabel = false )]
 			public float ProjectileSpeed;
-			[BoxGroup( "Projectile", ShowLabel = false )]
+			[BoxGroup( "Main/Gameplay/Projectile", ShowLabel = false )]
 			public float ProjectileTorque;
 
-			[BoxGroup( "Required" )]
+			[BoxGroup( "Main/Gameplay/Required" )]
 			[HideReferenceObjectPicker]
 			[SerializeReference] public IFireSpread.ISettings FireSpread;
 
-			[FoldoutGroup( "Optional" ), OnInspectorGUI]
+			[FoldoutGroup( "Main/Gameplay/Optional" ), OnInspectorGUI]
 			[InfoBox( "Right-click a module foldout to change its type.", InfoMessageType.None )]
 
-			[FoldoutGroup( "Optional" )]
+			[FoldoutGroup( "Main/Gameplay/Optional" )]
 			[HideReferenceObjectPicker, ListDrawerSettings( ListElementLabelName = "GetModuleLabel" )]
 			[SerializeReference] public IGunModule[] Modules;
+
+			[TabGroup( "Main", "UI", SdfIconType.Brush )]
+			public Sprite Icon;
 		}
 
 		public class Factory : PlaceholderFactory<GunInstaller, Gun> { }

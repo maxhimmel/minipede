@@ -16,21 +16,36 @@ namespace Minipede.Gameplay.Weapons
 		public abstract AmmoData AmmoData { get; }
 
 		protected readonly TSettings _settings;
+		private readonly SignalBus _signalBus;
 
 		private bool _isReloadRequested;
 		protected float _reloadEndTime;
 
-		public AmmoProcessor( TSettings settings )
+		public AmmoProcessor( TSettings settings,
+			SignalBus signalBus )
 		{
 			_settings = settings;
+			_signalBus = signalBus;
 		}
 
 		public void FireEnding()
 		{
-			if ( ReduceAmmo() <= 0 )
+			int remainingAmmo = ReduceAmmo();
+
+			FireAmmoSignal();
+
+			if ( remainingAmmo <= 0 )
 			{
 				OnAmmoEmptied();
 			}
+		}
+
+		protected void FireAmmoSignal()
+		{
+			_signalBus.TryFire( new AmmoStateSignal()
+			{
+				NormalizedAmmo = AmmoData.Normalized
+			} );
 		}
 
 		/// <returns>Remaining ammo count.</returns>
@@ -54,8 +69,13 @@ namespace Minipede.Gameplay.Weapons
 
 		public virtual void FixedTick()
 		{
-			if ( !_isReloadRequested || IsReloading() )
+			if ( !_isReloadRequested )
 			{
+				return;
+			}
+			else if ( IsReloading() )
+			{
+				FireReloadTimeSignal();
 				return;
 			}
 
@@ -74,6 +94,16 @@ namespace Minipede.Gameplay.Weapons
 		}
 
 		protected abstract bool HasAmmo();
+
+		protected void FireReloadTimeSignal()
+		{
+			float remainingTime = _reloadEndTime - Time.timeSinceLevelLoad;
+
+			_signalBus.TryFire( new ReloadStateSignal()
+			{
+				NormalizedTimer = remainingTime / _settings.ReloadDuration
+			} );
+		}
 
 		protected abstract void ReplenishAmmo();
 

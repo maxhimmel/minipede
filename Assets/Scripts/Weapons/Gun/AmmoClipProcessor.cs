@@ -1,5 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Weapons
 {
@@ -9,8 +10,9 @@ namespace Minipede.Gameplay.Weapons
 
 		private int _currentClipCount;
 
-		public AmmoClipProcessor( Settings settings ) 
-			: base( settings )
+		public AmmoClipProcessor( Settings settings,
+			SignalBus signalBus ) 
+			: base( settings, signalBus )
 		{
 			_currentClipCount = settings.ClipSize;
 		}

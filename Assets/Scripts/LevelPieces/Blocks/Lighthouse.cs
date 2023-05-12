@@ -27,18 +27,5 @@ namespace Minipede.Gameplay.LevelPieces
 			_cleansedArea = _cleansedAreaFactory.Create( cleansedAreaPrefab, new Orientation( _body.position ) );
 			_cleansedArea.Activate();
 		}
-
-		protected override void OnTakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
-		{
-			base.OnTakeDamage( instigator, causer, data );
-
-			// TODO: This wouldn't be checked here:
-				// It'd be placed within the FluffyEnemyINVOKER.
-				// Then within there it could do some casting to some interface to see if it can be "disabled."
-			//if ( data is FluffyEnemy )
-			//{
-			//	_cleansedArea.Deactivate();
-			//}
-		}
 	}
 }

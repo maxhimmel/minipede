@@ -46,7 +46,8 @@ namespace ControllerGlyph.Samples
 				ElementType = ControllerElementType.Button
 			};
 
-			_display.text += $"{_glyphBus.GetGlyph( request )} : {data.actionName}\n";
+			_glyphBus.TryGetGlyph( request, out var glyph );
+			_display.text += $"{glyph} : {data.actionName}\n";
 		}
 
 		private void OnAxisReceived( InputActionEventData data )
@@ -64,7 +65,8 @@ namespace ControllerGlyph.Samples
 				ElementType = ControllerElementType.Axis
 			};
 
-			_display.text += $"{_glyphBus.GetGlyph( request )} : {data.actionName}\n";
+			_glyphBus.TryGetGlyph( request, out var glyph );
+			_display.text += $"{glyph} : {data.actionName}\n";
 		}
 
 		private void Update()

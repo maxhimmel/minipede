@@ -9,6 +9,7 @@ namespace Minipede.Installers
 {
     public class AppInstaller : MonoInstaller
     {
+		[SerializeField] private ControllerModel.Settings _controller;
 		[SerializeField] private SceneLoader.Settings _sceneLoader;
 
 		public override void InstallBindings()
@@ -56,6 +57,15 @@ namespace Minipede.Installers
 
 			Container.Bind<Rewired.Player>()
 				.FromResolveGetter<PlayerInputResolver>( resolver => resolver.GetInput() );
+
+			/* --- */
+
+			Container.Bind<ControllerModel>()
+				.AsSingle()
+				.WithArguments( _controller );
+
+			Container.BindInterfacesAndSelfTo<ControllerPoller>()
+				.AsSingle();
 		}
 
 		private void BindMenuSystems()

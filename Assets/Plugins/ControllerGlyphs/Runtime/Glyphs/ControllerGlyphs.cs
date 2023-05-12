@@ -16,10 +16,12 @@ namespace ControllerGlyph
 		[BoxGroup( "Sprite", ShowLabel = false )]
 		[SerializeField] private Style _spriteStyle;
 
-		public string GetGlyph( Request request )
+		public bool TryGetGlyph( Request request, out string glyph )
 		{
 			int elementId = GetElementId( request );
-			return GetGlyph( elementId, request.AxisRange );
+			glyph = GetGlyph( elementId, request.AxisRange );
+
+			return elementId >= 0;
 		}
 
 		protected virtual int GetElementId( Request request )

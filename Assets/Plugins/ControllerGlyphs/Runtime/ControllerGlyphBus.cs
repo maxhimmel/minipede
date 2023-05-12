@@ -16,7 +16,7 @@ namespace ControllerGlyph
 			_input = input;
 		}
 
-		public string GetGlyph( Request request )
+		public bool TryGetGlyph( Request request, out string glyph )
 		{
 			var controllerType = request.Controller;
 			var controllerRequest = request.ToControllerRequest( _input );
@@ -27,11 +27,11 @@ namespace ControllerGlyph
 			}
 			else if ( controllerType == ControllerType.Keyboard )
 			{
-				return _settings.Keyboard.GetGlyph( controllerRequest );
+				return _settings.Keyboard.TryGetGlyph( controllerRequest, out glyph );
 			}
 			else if ( controllerType == ControllerType.Mouse )
 			{
-				return _settings.Mouse.GetGlyph( controllerRequest );
+				return _settings.Mouse.TryGetGlyph( controllerRequest, out glyph );
 			}
 			else
 			{
@@ -40,14 +40,15 @@ namespace ControllerGlyph
 
 				if ( controller == null )
 				{
-					return string.Empty;
+					glyph = string.Empty;
+					return false;
 				}
 
 				var joystickGlyph = _settings.Joysticks.FirstOrDefault( j => j.InputGuid == controller.hardwareTypeGuid.ToString() );
 
 				return joystickGlyph != null
-					? joystickGlyph.GetGlyph( controllerRequest )
-					: _settings.JoystickFallback.GetGlyph( controllerRequest );
+					? joystickGlyph.TryGetGlyph( controllerRequest, out glyph )
+					: _settings.JoystickFallback.TryGetGlyph( controllerRequest, out glyph );
 			}
 		}
 

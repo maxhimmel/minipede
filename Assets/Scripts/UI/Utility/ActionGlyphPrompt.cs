@@ -11,7 +11,7 @@ namespace Minipede.Gameplay.UI
 {
 	public class ActionGlyphPrompt : MonoBehaviour
     {
-        private static ControllerType[] _computerControllers = new ControllerType[2] { 
+        private static readonly ControllerType[] _computerControllers = new ControllerType[2] { 
             ControllerType.Keyboard, ControllerType.Mouse 
         };
 

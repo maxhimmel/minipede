@@ -14,7 +14,7 @@ namespace ControllerGlyph
 			var elementMaps = request.Input
 				.controllers
 				.maps
-				.ElementMapsWithAction( ControllerType, request.ActionId, skipDisabledMaps: true );
+				.ElementMapsWithAction( ControllerType, request.ActionId, request.SkipDisabledMaps );
 
 			var action = base.SelectElement( elementMaps, request.ElementType, request.AxisRange );
 

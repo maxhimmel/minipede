@@ -78,6 +78,9 @@ namespace ControllerGlyph
 			[BoxGroup]
 			public AxisRange AxisRange = AxisRange.Full;
 
+			[BoxGroup]
+			public bool SkipDisabledMaps = false;
+
 			public abstract int GetActionId();
 
 			internal ControllerGlyphs.Request ToControllerRequest( Player input )
@@ -85,7 +88,8 @@ namespace ControllerGlyph
 				return new ControllerGlyphs.Request( input,
 					GetActionId(),
 					ElementType,
-					AxisRange );
+					AxisRange,
+					SkipDisabledMaps );
 			}
 		}
 	}

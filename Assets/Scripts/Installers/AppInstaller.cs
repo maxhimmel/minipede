@@ -64,7 +64,7 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _controller );
 
-			Container.BindInterfacesAndSelfTo<ControllerPoller>()
+			Container.BindInterfacesTo<ControllerPoller>()
 				.AsSingle();
 		}
 

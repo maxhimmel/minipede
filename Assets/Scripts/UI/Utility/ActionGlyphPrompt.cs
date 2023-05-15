@@ -27,6 +27,8 @@ namespace Minipede.Gameplay.UI
         [SerializeField] private ControllerElementType _type;
         [BoxGroup( "Input" )]
         [SerializeField] private AxisRange _axisRange;
+        [BoxGroup( "Input" )]
+        [SerializeField] private bool _skipDisabledMaps;
 
         [FoldoutGroup( "Input/Computers" ), ValueDropdown( "_computerControllers" ), LabelText( "Priority" )]
         [SerializeField] private ControllerType _computerPriority;
@@ -60,7 +62,8 @@ namespace Minipede.Gameplay.UI
             {
                 ActionId = _actionId,
                 AxisRange = _axisRange,
-                ElementType = _type
+                ElementType = _type,
+                SkipDisabledMaps = _skipDisabledMaps
             };
 
             bool isComputerController = false;

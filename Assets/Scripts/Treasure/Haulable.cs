@@ -11,6 +11,7 @@ namespace Minipede.Gameplay.Treasures
 		IDisposable
 	{
 		public Rigidbody2D Body => _body;
+		public Collider2D Collider => _collider;
 		public bool IsFollowing => _followController.IsFollowing;
 		public Vector2 Target => _followController.Target;
 		public float Weight => _settings.Weight;

@@ -1,39 +1,36 @@
 using System.Collections.Generic;
+using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.Treasures
 {
-    public class TreasureHauler : MonoBehaviour
-    {
+	public class TreasureHauler : MonoBehaviour
+	{
 		public event TreaseHaulSignature HaulAmountChanged;
 		public delegate void TreaseHaulSignature( float weight );
 
 		private Settings _settings;
 		private Rigidbody2D _body;
-        private Collider2D _haulTrigger;
-		private TreasureSorter _sorter;
+		private Collider2D _haulTrigger;
 		private HashSet<Haulable> _haulingTreasures;
 		private List<Haulable> _treasuresWithinRange;
 
+		private bool _isHaulingRequested;
 		private float _haulWeight;
 		private bool _isReleasingTreasures;
 		private float _nextReleaseTime;
 		private float _nextCollectTime;
 
 		[Inject]
-        public void Construct( Settings settings,
+		public void Construct( Settings settings,
 			Rigidbody2D body,
-            Collider2D haulTrigger )
-        {
+			Collider2D haulTrigger )
+		{
 			_settings = settings;
-            _body = body;
-            _haulTrigger = haulTrigger;
-
-            haulTrigger.enabled = false;
-
-			_sorter = new TreasureSorter( body );
+			_body = body;
+			_haulTrigger = haulTrigger;
 
 			_haulingTreasures = new HashSet<Haulable>();
 			_treasuresWithinRange = new List<Haulable>();
@@ -83,33 +80,41 @@ namespace Minipede.Gameplay.Treasures
 			StopGrabbing();
 		}
 
+		public void StopGrabbing()
+		{
+			_isHaulingRequested = false;
+			_nextCollectTime = 0;
+		}
+
+		public void StartGrabbing()
+		{
+			_isHaulingRequested = true;
+
+			StopReleasingTreasure();
+		}
+
 		public void StopReleasingTreasure()
 		{
 			_isReleasingTreasures = false;
 			_nextReleaseTime = 0;
 		}
 
-        public void StartGrabbing()
-		{
-            _haulTrigger.enabled = true;
-
-			StopReleasingTreasure();
-		}
-
-        public void StopGrabbing()
-		{
-            _haulTrigger.enabled = false;
-			_treasuresWithinRange.Clear();
-			_nextCollectTime = 0;
-		}
-
 		private void OnTriggerEnter2D( Collider2D collision )
 		{
-            var otherBody = collision.attachedRigidbody;
-            var treasure = otherBody?.GetComponent<Haulable>();
-            if ( treasure != null )
+			if ( collision.TryGetComponentFromBody<Haulable>( out var treasure ) )
 			{
-                _treasuresWithinRange.Add( treasure );
+				if ( !_haulingTreasures.Contains( treasure ) )
+				{
+					_treasuresWithinRange.Add( treasure );
+				}
+			}
+		}
+
+		private void OnTriggerExit2D( Collider2D collision )
+		{
+			if ( collision.TryGetComponentFromBody<Haulable>( out var treasure ) )
+			{
+				_treasuresWithinRange.Remove( treasure );
 			}
 		}
 
@@ -126,7 +131,17 @@ namespace Minipede.Gameplay.Treasures
 				return;
 			}
 
-			_treasuresWithinRange.Sort( _sorter );
+			// Sort from farthest(0) --> closest(N) ...
+			_treasuresWithinRange.Sort( ( lhs, rhs ) =>
+			{
+				float lhsDistSqr = (lhs.Body.position - _body.position).sqrMagnitude;
+				float rhsDistSqr = (rhs.Body.position - _body.position).sqrMagnitude;
+
+				return lhsDistSqr > rhsDistSqr
+					? -1
+					: 1;
+			} );
+
 			int lastIndex = _treasuresWithinRange.Count - 1;
 			var closestTreasure = _treasuresWithinRange[lastIndex];
 
@@ -138,14 +153,15 @@ namespace Minipede.Gameplay.Treasures
 
 				_haulWeight += closestTreasure.Weight;
 				HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
-			}
 
-			_nextCollectTime = Time.timeSinceLevelLoad + _settings.HoldCollectDelay;
+				_nextCollectTime = Time.timeSinceLevelLoad + _settings.HoldCollectDelay;
+			}
 		}
 
 		private bool CanHaulTreasure()
 		{
-			return _treasuresWithinRange.Count > 0
+			return _isHaulingRequested
+				&& _treasuresWithinRange.Count > 0
 				&& _nextCollectTime <= Time.timeSinceLevelLoad;
 		}
 
@@ -166,6 +182,11 @@ namespace Minipede.Gameplay.Treasures
 			treasure.StopFollowing();
 
 			_haulingTreasures.Remove( treasure );
+
+			if ( _haulTrigger.IsTouching( treasure.Collider ) )
+			{
+				_treasuresWithinRange.Add( treasure );
+			}
 
 			_haulWeight = Mathf.Max( 0, _haulWeight - treasure.Weight );
 			HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
@@ -223,26 +244,6 @@ namespace Minipede.Gameplay.Treasures
 
 			[Space, PropertyRange( 0, 1 )]
 			public float WeightScalar;
-		}
-
-		private class TreasureSorter : IComparer<IFollower>
-		{
-			private readonly Rigidbody2D _owner;
-
-			public TreasureSorter( Rigidbody2D owner )
-			{
-				_owner = owner;
-			}
-
-			public int Compare( IFollower lhs, IFollower rhs )
-			{
-				float lhsDistSqr = (lhs.Body.position - _owner.position).sqrMagnitude;
-				float rhsDistSqr = (rhs.Body.position - _owner.position).sqrMagnitude;
-
-				return lhsDistSqr > rhsDistSqr
-					? -1
-					: 1;
-			}
 		}
 	}
 }

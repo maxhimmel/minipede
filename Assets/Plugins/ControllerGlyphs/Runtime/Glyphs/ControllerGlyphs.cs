@@ -29,7 +29,7 @@ namespace ControllerGlyph
 			var elementMaps = request.Input
 				.controllers
 				.maps
-				.ElementMapsWithAction( ControllerType, request.ActionId, skipDisabledMaps: true );
+				.ElementMapsWithAction( ControllerType, request.ActionId, request.SkipDisabledMaps );
 
 			var action = SelectElement( elementMaps, request.ElementType, request.AxisRange );
 
@@ -82,16 +82,19 @@ namespace ControllerGlyph
 			public int ActionId { get; }
 			public ControllerElementType ElementType { get; }
 			public AxisRange AxisRange { get; }
+			public bool SkipDisabledMaps { get; }
 
 			public Request( Player input,
 				int actionId,
 				ControllerElementType elementType,
-				AxisRange axisRange )
+				AxisRange axisRange,
+				bool skipDisabledMaps )
 			{
 				Input = input;
 				ActionId = actionId;
 				ElementType = elementType;
 				AxisRange = axisRange;
+				SkipDisabledMaps = skipDisabledMaps;
 			}
 		}
 	}

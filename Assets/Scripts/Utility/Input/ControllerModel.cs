@@ -1,5 +1,4 @@
 ﻿using Rewired;
-using Zenject;
 
 namespace Minipede.Utility
 {

@@ -163,7 +163,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: <sprite="Xbox-Filled" index=5> Craft
+  m_text: <sprite="Xbox-Filled" index=5> Action
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
   m_sharedMaterial: {fileID: 5416806443266638455, guid: d70f485aa27dc43f79a8fd168f58435c, type: 2}
@@ -291,6 +291,7 @@ MonoBehaviour:
   _actionId: -1
   _type: 1
   _axisRange: 0
+  _skipDisabledMaps: 0
   _computerPriority: 0
 --- !u!114 &475686202735138991
 MonoBehaviour:

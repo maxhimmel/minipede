@@ -1,5 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Treasures;
+using Minipede.Gameplay.UI;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -17,19 +18,24 @@ namespace Minipede.Gameplay.LevelPieces
 		private IInteractable _interactable;
 		private ISelectable _selectable;
 		private IHealthBalanceResolver _healthBalancer;
+		private ActionGlyphController _glyphController;
 
 		[Inject]
 		public void Construct( Settings settings,
 			LootBox lootBox,
+
 			[InjectOptional] IInteractable interactable,
 			[InjectOptional] ISelectable selectable,
-			[InjectOptional] IHealthBalanceResolver healthBalancer )
+			[InjectOptional] IHealthBalanceResolver healthBalancer,
+			[InjectOptional] ActionGlyphController glyphController )
 		{
 			_settings = settings;
 			_lootBox = lootBox;
+
 			_interactable = interactable;
 			_selectable = selectable;
 			_healthBalancer = healthBalancer;
+			_glyphController = glyphController;
 		}
 
 		protected override void HandleDeath( Rigidbody2D victimBody, HealthController health )
@@ -70,12 +76,20 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public void Select()
 		{
-			_selectable?.Select();
+			if ( _selectable != null )
+			{
+				_selectable.Select();
+				_glyphController.ShowAction( ReConsts.Action.Interact );
+			}
 		}
 
 		public void Deselect()
 		{
-			_selectable?.Deselect();
+			if ( _selectable != null )
+			{
+				_selectable.Deselect();
+				_glyphController.HideAction( ReConsts.Action.Interact );
+			}
 		}
 
 		public override void OnDespawned()

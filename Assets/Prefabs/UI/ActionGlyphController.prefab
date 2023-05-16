@@ -96,7 +96,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!1 &2548060365888601519
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,14 +187,6 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: _actionId
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: _promptFormat
-      value: '{0} Plant'
-      objectReference: {fileID: 0}
     - target: {fileID: 6637435006702154872, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -261,7 +253,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6637435006702154872, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 80.16
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6637435006702154872, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -309,6 +301,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 475686202735138991, guid: a70535378b34f0b489ea949d51288d87, type: 3}
+    - {fileID: 3694328003106452018, guid: a70535378b34f0b489ea949d51288d87, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a70535378b34f0b489ea949d51288d87, type: 3}
 --- !u!224 &2839371484619450932 stripped
 RectTransform:

@@ -92,20 +92,28 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2136045927195822331, guid: 54bd9159dfc4860448afec72c809f6e2, type: 3}
     - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
+      propertyPath: _settings.Spawns._items.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
+      propertyPath: _settings.Spawns._items.Array.data[3].Item
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[0]._normalizedWeight
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[1]._normalizedWeight
-      value: 69
+      value: 56
       objectReference: {fileID: 0}
     - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[2]._normalizedWeight
-      value: 26
+      value: 29
       objectReference: {fileID: 0}
     - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[3]._normalizedWeight
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2530257933576413001, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}

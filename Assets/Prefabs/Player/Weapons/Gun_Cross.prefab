@@ -56,7 +56,7 @@ MonoBehaviour:
         rid: 5904237243981627392
     Gun:
       ShotSpotId: ShotSpot
-      ProjectilePrefab: {fileID: -8478961870223082148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      ProjectilePrefab: {fileID: 7261971897863931191, guid: 2589976fdfd5bb54aac82153379fc693, type: 3}
       ProjectileLifetime: 5
       ProjectileSpeed: 30
       ProjectileTorque: 0
@@ -89,12 +89,12 @@ MonoBehaviour:
       data:
         AutoReload: 0
         ReloadDuration: 0
-        FuseDuration: 5
+        FuseDuration: 2.5
         FireReduction: 0
     - rid: 8667173515174084610
       type: {class: BurstFireSafety/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
-        Grouping: 4
+        Grouping: 3
         Delay: 0.35
 --- !u!114 &355851429713502091
 MonoBehaviour:

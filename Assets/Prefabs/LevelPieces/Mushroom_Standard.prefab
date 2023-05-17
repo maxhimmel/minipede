@@ -208,11 +208,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[0]._normalizedWeight
-      value: 83
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[1]._normalizedWeight
-      value: 17
+      value: 62
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2530257933576413001, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}

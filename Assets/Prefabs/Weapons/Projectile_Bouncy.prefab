@@ -85,7 +85,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9066296986510149754, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
       propertyPath: managedReferences[1565558982676316161].Bounces
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9066296986510149754, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
       propertyPath: managedReferences[1565558982676316162].Bounces

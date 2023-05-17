@@ -57,7 +57,7 @@ MonoBehaviour:
     Gun:
       ShotSpotId: ShotSpot
       ProjectilePrefab: {fileID: 5450237367473039805, guid: 8d4aa0ba49ce96d45a0ebab06e42453e, type: 3}
-      ProjectileLifetime: 5
+      ProjectileLifetime: 6
       ProjectileSpeed: 115
       ProjectileTorque: 0
       FireSpread:
@@ -83,17 +83,17 @@ MonoBehaviour:
     - rid: 5904237243981627394
       type: {class: FireRateSafety/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
-        FireRate: 1.5
+        FireRate: 0.8
     - rid: 5904237243981627396
       type: {class: KnockbackProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
-        Impulse: 35
+        Impulse: 25
     - rid: 8667173491517161476
       type: {class: FuseAmmoProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
         AutoReload: 0
         ReloadDuration: 0
-        FuseDuration: 5
+        FuseDuration: 4
         FireReduction: 1
 --- !u!114 &355851429713502091
 MonoBehaviour:

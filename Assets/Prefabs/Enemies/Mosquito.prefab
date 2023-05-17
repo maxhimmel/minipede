@@ -106,6 +106,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
+      propertyPath: _settings.Spawns._items.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[0]._normalizedWeight
       value: 65
       objectReference: {fileID: 0}

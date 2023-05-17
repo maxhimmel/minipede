@@ -16,15 +16,19 @@ namespace Minipede.Installers
 			Container.BindInterfacesTo<CameraCanvasLinker>()
 				.AsSingle();
 
-			Container.Bind<ActionGlyphController>()
+			Container.BindInterfacesAndSelfTo<ActionGlyphController>()
 				.FromSubContainerResolve()
 				.ByMethod( subContainer =>
 				{
-					subContainer.Bind<ActionGlyphController>()
+					subContainer.BindInterfacesAndSelfTo<ActionGlyphController>()
 						.AsSingle();
 
 					subContainer.Bind<ActionGlyphPrompt[]>()
 						.FromMethod( GetComponentsInChildren<ActionGlyphPrompt> )
+						.AsSingle();
+
+					subContainer.Bind<Transform>()
+						.FromMethod( GetComponent<Transform> )
 						.AsSingle();
 				} )
 				.AsSingle();

@@ -1,18 +1,22 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Rewired;
+using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
-	public class ActionGlyphController
+	public class ActionGlyphController : ILateTickable
 	{
+		private readonly Transform _transform;
 		private readonly Dictionary<int, ActionGlyphPrompt> _prompts;
 
-		public ActionGlyphController( ActionGlyphPrompt[] prompts )
+		public ActionGlyphController( Transform transform,
+			ActionGlyphPrompt[] prompts )
 		{
 			_prompts = prompts.ToDictionary( p => p.ActionId );
 
 			HideAll();
+			_transform = transform;
 		}
 
 		public void HideAll()
@@ -39,6 +43,11 @@ namespace Minipede.Gameplay.UI
 		public void ShowAction( int id )
 		{
 			_prompts[id].Show();
+		}
+
+		public void LateTick()
+		{
+			_transform.rotation = Quaternion.identity;
 		}
 	}
 }

@@ -13,10 +13,10 @@ namespace Minipede.Gameplay.UI
 		public ActionGlyphController( Transform transform,
 			ActionGlyphPrompt[] prompts )
 		{
+			_transform = transform;
 			_prompts = prompts.ToDictionary( p => p.ActionId );
 
 			HideAll();
-			_transform = transform;
 		}
 
 		public void HideAll()

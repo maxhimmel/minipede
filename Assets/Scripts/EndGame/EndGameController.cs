@@ -138,7 +138,7 @@ namespace Minipede.Gameplay.LevelPieces
 		[System.Serializable]
 		public class Settings
 		{
-			public string NextLevelName = "Level 0-0";
+			public string NextLevelName = "Scene 0-0";
 
 			[BoxGroup( "Centering" )]
 			public float CenteringDelay;

@@ -1,12 +1,16 @@
 using Minipede.Gameplay;
 using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.Player;
+using UnityEngine;
 using Zenject;
 
 namespace Minipede.Installers
 {
     public class StartMenuInstaller : MonoInstaller
     {
+		[SerializeField] private StaticPlayerPawnLocator.Settings _playerPawnLocator;
+
 		public override void InstallBindings()
 		{
 			Container.BindInterfacesAndSelfTo<StartGameController>()
@@ -24,6 +28,10 @@ namespace Minipede.Installers
 
 			Container.Bind<FxFactoryBus>()
 				.AsSingle();
+
+			Container.BindInterfacesTo<StaticPlayerPawnLocator>()
+				.AsSingle()
+				.WithArguments( _playerPawnLocator );
 
 			/* --- */
 

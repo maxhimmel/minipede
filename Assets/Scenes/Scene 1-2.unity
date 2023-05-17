@@ -3387,6 +3387,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3939424373619522591, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: _endGameSettings.NextLevelName
+      value: Scene 1-3
+      objectReference: {fileID: 0}
     - target: {fileID: 3939424374335804656, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: _spawnSettings.Array.data[6]
       value: 

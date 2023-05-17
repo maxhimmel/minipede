@@ -10,6 +10,7 @@ using Zenject;
 namespace Minipede.Gameplay.Player
 {
     public class PlayerController : IPlayerLifetimeHandler,
+		IPlayerPawnLocator,
 		IInitializable,
 		IDisposable
 	{
@@ -17,7 +18,7 @@ namespace Minipede.Gameplay.Player
 		public event System.Action PlayerDied;
 
 		public CancellationToken PlayerDiedCancelToken => _playerDiedCancelSource.Token;
-		public Vector2 Position => IsExploring ? _explorer.Body.position : _ship.Body.position;
+		public IOrientation Orientation => IsExploring ? _explorer.Orientation : _ship != null ? _ship.Orientation : new Orientation();
 		public bool IsExploring => _explorer != null;
 
 		private readonly Settings _settings;

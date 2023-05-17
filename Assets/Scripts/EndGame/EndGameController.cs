@@ -70,7 +70,7 @@ namespace Minipede.Gameplay.LevelPieces
 			await StartFlyAwaySequence( ship );
 			await StartTakeoffSequence( ship );
 
-			_sceneLoader.Load( "StartMenu" ).Forget();
+			_sceneLoader.Load( _settings.NextLevelName ).Forget();
 
 			// Unload scene
 			// Load transition scene where ship looks like it's flying over scrolling mushrooms
@@ -138,6 +138,8 @@ namespace Minipede.Gameplay.LevelPieces
 		[System.Serializable]
 		public class Settings
 		{
+			public string NextLevelName = "Scene 0-0";
+
 			[BoxGroup( "Centering" )]
 			public float CenteringDelay;
 			[BoxGroup( "Centering" )]

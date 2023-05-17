@@ -12,19 +12,19 @@ namespace Minipede.Gameplay.UI
 		private readonly Settings _settings;
 		private readonly Transform _transform;
 		private readonly Rigidbody2D _root;
-		private readonly ExplorerController _explorerController;
+		private readonly IPlayerPawnLocator _playerPawnLocator;
 		private readonly Dictionary<int, ActionGlyphPrompt> _prompts;
 
 		public ActionGlyphController( Settings settings,
 			Transform transform,
 			Rigidbody2D root,
 			ActionGlyphPrompt[] prompts,
-			ExplorerController explorerController )
+			IPlayerPawnLocator playerPawnLocator )
 		{
 			_settings = settings;
 			_transform = transform;
 			_root = root;
-			_explorerController = explorerController;
+			_playerPawnLocator = playerPawnLocator;
 			_prompts = prompts.ToDictionary( p => p.ActionId );
 
 			HideAll();
@@ -69,18 +69,15 @@ namespace Minipede.Gameplay.UI
 
 		private void MoveExplorerOffset()
 		{
-			if ( _explorerController.Pawn != null )
-			{
-				Vector2 dirAwayFromExplorer = _root.position - _explorerController.Pawn.Orientation.Position;
-				float distFromExplorer = dirAwayFromExplorer.magnitude;
+			Vector2 dirAwayFromExplorer = _root.position - _playerPawnLocator.Orientation.Position;
+			float distFromExplorer = dirAwayFromExplorer.magnitude;
 
-				float offset = _settings.DistanceCurve.Evaluate( distFromExplorer );
-				Vector2 offsetDir = Mathf.Approximately( distFromExplorer, 0 )
-					? Vector2.down
-					: dirAwayFromExplorer / distFromExplorer;
+			float offset = _settings.DistanceCurve.Evaluate( distFromExplorer );
+			Vector2 offsetDir = Mathf.Approximately( distFromExplorer, 0 )
+				? Vector2.down
+				: dirAwayFromExplorer / distFromExplorer;
 
-				_transform.position = _root.position + offsetDir * offset;
-			}
+			_transform.position = _root.position + offsetDir * offset;
 		}
 
 		[System.Serializable]

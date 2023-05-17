@@ -57,6 +57,12 @@ namespace Minipede.Gameplay.Treasures
 
 		private void ClearHaul()
 		{
+			if ( _selectedHaulable != null )
+			{
+				_selectedHaulable.Deselect();
+				_selectedHaulable = null;
+			}
+
 			_haulingTreasures.Clear();
 
 			_haulWeight = 0;

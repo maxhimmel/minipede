@@ -17,6 +17,7 @@ namespace Minipede.Gameplay.Treasures
 		private HashSet<Haulable> _haulingTreasures;
 		private List<Haulable> _treasuresWithinRange;
 
+		private Haulable _selectedHaulable;
 		private bool _isHaulingRequested;
 		private float _haulWeight;
 		private bool _isReleasingTreasures;
@@ -122,6 +123,8 @@ namespace Minipede.Gameplay.Treasures
 		{
 			TryHaulTreasuresWithinRange();
 			TryReleaseHauledTreasure();
+
+			UpdateSelectedHaulable();
 		}
 
 		private void TryHaulTreasuresWithinRange()
@@ -204,6 +207,44 @@ namespace Minipede.Gameplay.Treasures
 		public float GetHauledTreasureWeight()
 		{
 			return _haulWeight * _settings.WeightScalar;
+		}
+
+		private void UpdateSelectedHaulable()
+		{
+			if ( _treasuresWithinRange.Count <= 0 )
+			{
+				if ( _selectedHaulable != null )
+				{
+					_selectedHaulable.Deselect();
+					_selectedHaulable = null;
+				}
+
+				return;
+			}
+
+			Haulable closestHaulable = null;
+			float closestDistSqr = Mathf.Infinity;
+
+			foreach ( var haulable in _treasuresWithinRange )
+			{
+				float distSqr = (haulable.Body.position - _body.position).sqrMagnitude;
+				if ( distSqr < closestDistSqr )
+				{
+					closestDistSqr = distSqr;
+					closestHaulable = haulable;
+				}
+			}
+
+			if ( _selectedHaulable != closestHaulable )
+			{
+				if ( _selectedHaulable != null )
+				{
+					_selectedHaulable.Deselect();
+				}
+
+				_selectedHaulable = closestHaulable;
+				_selectedHaulable.Select();
+			}
 		}
 
 		public bool TryGetFirst<THaulable>( out THaulable result )

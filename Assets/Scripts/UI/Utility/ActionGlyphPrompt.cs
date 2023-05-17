@@ -11,9 +11,7 @@ namespace Minipede.Gameplay.UI
 {
 	public class ActionGlyphPrompt : MonoBehaviour
     {
-        private static readonly ControllerType[] _computerControllers = new ControllerType[2] { 
-            ControllerType.Keyboard, ControllerType.Mouse 
-        };
+        public int ActionId => _actionId;
 
         [BoxGroup( "Widget" )]
         [SerializeField] private string _promptFormat = "{0} Action";
@@ -33,6 +31,10 @@ namespace Minipede.Gameplay.UI
         [FoldoutGroup( "Input/Computers" ), ValueDropdown( "_computerControllers" ), LabelText( "Priority" )]
         [SerializeField] private ControllerType _computerPriority;
 
+        private static readonly ControllerType[] _computerControllers = new ControllerType[2] {
+            ControllerType.Keyboard, ControllerType.Mouse
+        };
+
         private ControllerModel _model;
         private ControllerGlyphBus _glyphBus;
 
@@ -42,6 +44,16 @@ namespace Minipede.Gameplay.UI
 		{
             _model = model;
             _glyphBus = glyphBus;
+		}
+
+        public void Show()
+		{
+            gameObject.SetActive( true );
+		}
+
+        public void Hide()
+		{
+            gameObject.SetActive( false );
 		}
 
 		private void Start()

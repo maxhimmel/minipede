@@ -50,6 +50,7 @@ namespace Minipede.Gameplay.Player
 		private SpriteRenderer _selector;
 		private List<TargetGroupAttachment> _targetGroupAttachments;
 		private IInteractable _interactable;
+		private ActionGlyphController _glyphController;
 		private SignalBus _signalBus;
 
 		private bool _isMoveInputConsumed;
@@ -74,6 +75,7 @@ namespace Minipede.Gameplay.Player
 			[Inject( Id = "Selector" )] SpriteRenderer selector,
 			List<TargetGroupAttachment> targetGroups,
 			IInteractable interactable,
+			ActionGlyphController glyphController,
 			SignalBus signalBus )
 		{
 			_motor = motor;
@@ -89,6 +91,7 @@ namespace Minipede.Gameplay.Player
 			_selector = selector;
 			_targetGroupAttachments = targetGroups;
 			_interactable = interactable;
+			_glyphController = glyphController;
 			_signalBus = signalBus;
 
 			damageController.Died += OnDied;
@@ -302,6 +305,8 @@ namespace Minipede.Gameplay.Player
 				_equippedBeacon.Unequip();
 				_equippedBeacon = null;
 
+				_glyphController.HideAction( ReConsts.Action.Fire );
+
 				_signalBus.TryFire( new BeaconUnequippedSignal() );
 			}
 		}
@@ -329,11 +334,18 @@ namespace Minipede.Gameplay.Player
 		public void Select()
 		{
 			_selector.enabled = true;
+
+			_glyphController.ShowAction( ReConsts.Action.Interact );
+			if ( IsBeaconEquipped() )
+			{
+				_glyphController.ShowAction( ReConsts.Action.Fire );
+			}
 		}
 
 		public void Deselect()
 		{
 			_selector.enabled = false;
+			_glyphController.HideAll();
 		}
 
 		public void SetCollisionActive( bool isActive )

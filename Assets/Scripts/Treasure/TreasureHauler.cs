@@ -17,6 +17,7 @@ namespace Minipede.Gameplay.Treasures
 		private HashSet<Haulable> _haulingTreasures;
 		private List<Haulable> _treasuresWithinRange;
 
+		private Haulable _selectedHaulable;
 		private bool _isHaulingRequested;
 		private float _haulWeight;
 		private bool _isReleasingTreasures;
@@ -70,6 +71,8 @@ namespace Minipede.Gameplay.Treasures
 
 				_haulWeight = Mathf.Max( 0, _haulWeight - haulable.Weight );
 				HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
+
+				SelectClosestHaulable();
 			}
 		}
 
@@ -106,6 +109,8 @@ namespace Minipede.Gameplay.Treasures
 				if ( !_haulingTreasures.Contains( treasure ) )
 				{
 					_treasuresWithinRange.Add( treasure );
+
+					SelectClosestHaulable();
 				}
 			}
 		}
@@ -115,6 +120,8 @@ namespace Minipede.Gameplay.Treasures
 			if ( collision.TryGetComponentFromBody<Haulable>( out var treasure ) )
 			{
 				_treasuresWithinRange.Remove( treasure );
+
+				SelectClosestHaulable();
 			}
 		}
 
@@ -155,6 +162,8 @@ namespace Minipede.Gameplay.Treasures
 				HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
 
 				_nextCollectTime = Time.timeSinceLevelLoad + _settings.HoldCollectDelay;
+
+				SelectClosestHaulable();
 			}
 		}
 
@@ -186,6 +195,7 @@ namespace Minipede.Gameplay.Treasures
 			if ( _haulTrigger.IsTouching( treasure.Collider ) )
 			{
 				_treasuresWithinRange.Add( treasure );
+				SelectClosestHaulable();
 			}
 
 			_haulWeight = Mathf.Max( 0, _haulWeight - treasure.Weight );
@@ -204,6 +214,44 @@ namespace Minipede.Gameplay.Treasures
 		public float GetHauledTreasureWeight()
 		{
 			return _haulWeight * _settings.WeightScalar;
+		}
+
+		private void SelectClosestHaulable()
+		{
+			if ( _treasuresWithinRange.Count <= 0 )
+			{
+				if ( _selectedHaulable != null )
+				{
+					_selectedHaulable.Deselect();
+					_selectedHaulable = null;
+				}
+
+				return;
+			}
+
+			Haulable closestHaulable = null;
+			float closestDistSqr = Mathf.Infinity;
+
+			foreach ( var haulable in _treasuresWithinRange )
+			{
+				float distSqr = (haulable.Body.position - _body.position).sqrMagnitude;
+				if ( distSqr < closestDistSqr )
+				{
+					closestDistSqr = distSqr;
+					closestHaulable = haulable;
+				}
+			}
+
+			if ( _selectedHaulable != closestHaulable )
+			{
+				if ( _selectedHaulable != null )
+				{
+					_selectedHaulable.Deselect();
+				}
+
+				_selectedHaulable = closestHaulable;
+				_selectedHaulable.Select();
+			}
 		}
 
 		public bool TryGetFirst<THaulable>( out THaulable result )

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19c949c0041360c49aa013b03953b0cb, type: 3}
-  m_Name: MosquitoStampede
+  m_Name: Mosquito_Stampede
   m_EditorClassIdentifier: 
   _initalPoolSize: 20
   _prefab: {fileID: 5032499753157185079, guid: 1aca076a0aa19ad4699103c829c57741, type: 3}

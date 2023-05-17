@@ -1,4 +1,5 @@
 using System;
+using Minipede.Gameplay.UI;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -15,12 +16,14 @@ namespace Minipede.Gameplay.Treasures
 		public bool IsFollowing => _followController.IsFollowing;
 		public Vector2 Target => _followController.Target;
 		public float Weight => _settings.Weight;
+		public ActionGlyphController GlyphController => _glyphController;
 
 		private Settings _settings;
 		protected Rigidbody2D _body;
 		private IFollower _followController;
 		protected Lifetimer _lifetimer;
 		private Collider2D _collider;
+		private ActionGlyphController _glyphController;
 
 		private TreasureHauler _hauler;
 		private LineRenderer _tetherRenderer;
@@ -32,13 +35,15 @@ namespace Minipede.Gameplay.Treasures
 			Rigidbody2D body,
 			IFollower followController,
 			Lifetimer lifetimer,
-			Collider2D collider )
+			Collider2D collider,
+			ActionGlyphController glyphController )
 		{
 			_settings = settings;
 			_body = body;
 			_followController = followController;
 			_lifetimer = lifetimer;
 			_collider = collider;
+			_glyphController = glyphController;
 
 			_initialColliderScale = collider.transform.localScale;
 
@@ -148,6 +153,16 @@ namespace Minipede.Gameplay.Treasures
 		public void SetHauler( TreasureHauler hauler )
 		{
 			_hauler = hauler;
+		}
+
+		public void Select()
+		{
+			_glyphController.ShowAction( ReConsts.Action.Fire );
+		}
+
+		public void Deselect()
+		{
+			_glyphController.HideAction( ReConsts.Action.Fire );
 		}
 
 		[System.Serializable]

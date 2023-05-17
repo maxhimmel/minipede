@@ -77,13 +77,13 @@ MonoBehaviour:
     - rid: 5904237243981627393
       type: {class: FireSpread/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
-        Spread: 4
-        Angle: 45.5
+        Spread: 5
+        Angle: 67
         OffsetAngle: 0
     - rid: 5904237243981627394
       type: {class: FireRateSafety/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
-        FireRate: 0.75
+        FireRate: 0.55
     - rid: 5904237243981627395
       type: {class: AccuracyAdjuster/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
@@ -127,7 +127,7 @@ MonoBehaviour:
     - rid: 5904237243981627396
       type: {class: KnockbackProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
-        Impulse: 18
+        Impulse: 28
     - rid: 8667173491517161474
       type: {class: FuseAmmoProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:

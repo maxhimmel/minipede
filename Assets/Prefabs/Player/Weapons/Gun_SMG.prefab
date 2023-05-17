@@ -56,7 +56,7 @@ MonoBehaviour:
         rid: 5904237243981627392
     Gun:
       ShotSpotId: ShotSpot
-      ProjectilePrefab: {fileID: 7261971897863931191, guid: 2589976fdfd5bb54aac82153379fc693, type: 3}
+      ProjectilePrefab: {fileID: -8478961870223082148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
       ProjectileLifetime: 5
       ProjectileSpeed: 30
       ProjectileTorque: 0
@@ -133,7 +133,7 @@ MonoBehaviour:
       data:
         AutoReload: 0
         ReloadDuration: 1
-        FuseDuration: 2.52
+        FuseDuration: 2.83
         FireReduction: 0
 --- !u!114 &355851429713502091
 MonoBehaviour:

@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1830351262087100844, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
       propertyPath: m_LinearDrag
-      value: 5
+      value: 3.71
       objectReference: {fileID: 0}
     - target: {fileID: 8807341101252389148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
       propertyPath: m_Name

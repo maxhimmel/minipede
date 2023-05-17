@@ -71,8 +71,6 @@ namespace Minipede.Gameplay.Treasures
 
 				_haulWeight = Mathf.Max( 0, _haulWeight - haulable.Weight );
 				HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
-
-				SelectClosestHaulable();
 			}
 		}
 
@@ -109,8 +107,6 @@ namespace Minipede.Gameplay.Treasures
 				if ( !_haulingTreasures.Contains( treasure ) )
 				{
 					_treasuresWithinRange.Add( treasure );
-
-					SelectClosestHaulable();
 				}
 			}
 		}
@@ -120,8 +116,6 @@ namespace Minipede.Gameplay.Treasures
 			if ( collision.TryGetComponentFromBody<Haulable>( out var treasure ) )
 			{
 				_treasuresWithinRange.Remove( treasure );
-
-				SelectClosestHaulable();
 			}
 		}
 
@@ -129,6 +123,8 @@ namespace Minipede.Gameplay.Treasures
 		{
 			TryHaulTreasuresWithinRange();
 			TryReleaseHauledTreasure();
+
+			UpdateSelectedHaulable();
 		}
 
 		private void TryHaulTreasuresWithinRange()
@@ -162,8 +158,6 @@ namespace Minipede.Gameplay.Treasures
 				HaulAmountChanged?.Invoke( GetHauledTreasureWeight() );
 
 				_nextCollectTime = Time.timeSinceLevelLoad + _settings.HoldCollectDelay;
-
-				SelectClosestHaulable();
 			}
 		}
 
@@ -195,7 +189,6 @@ namespace Minipede.Gameplay.Treasures
 			if ( _haulTrigger.IsTouching( treasure.Collider ) )
 			{
 				_treasuresWithinRange.Add( treasure );
-				SelectClosestHaulable();
 			}
 
 			_haulWeight = Mathf.Max( 0, _haulWeight - treasure.Weight );
@@ -216,7 +209,7 @@ namespace Minipede.Gameplay.Treasures
 			return _haulWeight * _settings.WeightScalar;
 		}
 
-		private void SelectClosestHaulable()
+		private void UpdateSelectedHaulable()
 		{
 			if ( _treasuresWithinRange.Count <= 0 )
 			{

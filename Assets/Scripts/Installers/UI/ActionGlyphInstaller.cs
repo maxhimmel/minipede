@@ -1,4 +1,5 @@
 using Minipede.Gameplay.UI;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -7,6 +8,9 @@ namespace Minipede.Installers
 	public class ActionGlyphInstaller : MonoInstaller
     {
 		[SerializeField] private Canvas _glyphCanvas;
+
+		[HideLabel, Space]
+		[SerializeField] private ActionGlyphController.Settings _settings;
 
 		public override void InstallBindings()
 		{
@@ -21,7 +25,8 @@ namespace Minipede.Installers
 				.ByMethod( subContainer =>
 				{
 					subContainer.BindInterfacesAndSelfTo<ActionGlyphController>()
-						.AsSingle();
+						.AsSingle()
+						.WithArguments( _settings );
 
 					subContainer.Bind<ActionGlyphPrompt[]>()
 						.FromMethod( GetComponentsInChildren<ActionGlyphPrompt> )

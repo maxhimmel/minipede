@@ -40,7 +40,7 @@ namespace Minipede.Gameplay.Weapons
 
 		private IMemoryPool<Projectile.Settings, Vector2, Quaternion, IMemoryPool, Projectile> CreateMemoryPool( PoolSettings poolSettings )
 		{
-			return _container.Instantiate<MonoPoolableMemoryPool<Projectile.Settings, Vector2, Quaternion, IMemoryPool, Projectile>>( new object[] {
+			return _container.Instantiate<ProjectilePoolableMemoryPool>( new object[] {
 				new MemoryPoolSettings( poolSettings.InitialSize, int.MaxValue, poolSettings.ExpandMethod ),
 				new ComponentFromPrefabFactory<Projectile>( _container, poolSettings.Prefab, GetPoolContainer() )
 			} );
@@ -57,6 +57,11 @@ namespace Minipede.Gameplay.Weapons
 			public Projectile Prefab;
 			public int InitialSize;
 			public PoolExpandMethods ExpandMethod;
+		}
+
+		private class ProjectilePoolableMemoryPool : MonoPoolableMemoryPool<Projectile.Settings, Vector2, Quaternion, IMemoryPool, Projectile>
+		{
+
 		}
 	}
 }

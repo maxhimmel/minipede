@@ -35,15 +35,26 @@ namespace Minipede.Gameplay.Fx
 				_renderer.color = toggle ? data.Color : _initialColor;
 
 				float stepTimer = 0;
-				while ( stepTimer < stepDuration && _isPlaying )
+				while ( CanBlink() && stepTimer < stepDuration )
 				{
 					stepTimer += Time.deltaTime;
 					await UniTask.Yield( PlayerLoopTiming.FixedUpdate );
+				}
+
+				if ( _renderer == null )
+				{
+					_isPlaying = false;
+					return;
 				}
 			}
 
 			_renderer.color = _initialColor;
 			_isPlaying = false;
+		}
+
+		private bool CanBlink()
+		{
+			return _isPlaying && _renderer != null;
 		}
 
         [System.Serializable]

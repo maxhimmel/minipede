@@ -162,6 +162,13 @@ namespace Minipede.Gameplay.Enemies
 
 		private void OnDestroy()
 		{
+			if ( IsAlive )
+			{
+				_onDestroyCancelSource.Cancel();
+				_onDestroyCancelSource.Dispose();
+				_onDestroyCancelSource = null;
+			}
+
 			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
 		}
 

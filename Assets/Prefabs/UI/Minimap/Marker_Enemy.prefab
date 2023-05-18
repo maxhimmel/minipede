@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c03d8a69a9eb0e340a505de450b47417, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _canRotate: 0
   _fader: {fileID: 3980657245099271296}
 --- !u!222 &387687660453001394
 CanvasRenderer:
@@ -81,7 +82,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0bcddc514f724914dba0c20a27186455, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e4c4ad03f82dc470ca1127233f894af0, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

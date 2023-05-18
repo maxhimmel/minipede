@@ -5449,6 +5449,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5296465132159480608}
     m_Modifications:
+    - target: {fileID: 4227690905342035932, guid: a70535378b34f0b489ea949d51288d87, type: 3}
+      propertyPath: m_text
+      value: <sprite="Xbox-Filled" index=5> Craft
+      objectReference: {fileID: 0}
     - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: _actionId
       value: 8

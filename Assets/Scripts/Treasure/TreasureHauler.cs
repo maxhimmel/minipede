@@ -57,11 +57,7 @@ namespace Minipede.Gameplay.Treasures
 
 		private void ClearHaul()
 		{
-			if ( _selectedHaulable != null )
-			{
-				_selectedHaulable.Deselect();
-				_selectedHaulable = null;
-			}
+			DeselectCurrentHaulable();
 
 			_haulingTreasures.Clear();
 
@@ -219,12 +215,7 @@ namespace Minipede.Gameplay.Treasures
 		{
 			if ( _treasuresWithinRange.Count <= 0 )
 			{
-				if ( _selectedHaulable != null )
-				{
-					_selectedHaulable.Deselect();
-					_selectedHaulable = null;
-				}
-
+				DeselectCurrentHaulable();
 				return;
 			}
 
@@ -243,13 +234,19 @@ namespace Minipede.Gameplay.Treasures
 
 			if ( _selectedHaulable != closestHaulable )
 			{
-				if ( _selectedHaulable != null )
-				{
-					_selectedHaulable.Deselect();
-				}
+				DeselectCurrentHaulable();
 
 				_selectedHaulable = closestHaulable;
 				_selectedHaulable.Select();
+			}
+		}
+
+		private void DeselectCurrentHaulable()
+		{
+			if ( _selectedHaulable != null )
+			{
+				_selectedHaulable.Deselect();
+				_selectedHaulable = null;
 			}
 		}
 

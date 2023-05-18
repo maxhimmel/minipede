@@ -5,10 +5,12 @@ using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
-    public class MinimapMarker : MonoBehaviour,
+	public class MinimapMarker : MonoBehaviour,
 		IPoolable<IOrientation, IMemoryPool>,
 		IDisposable
 	{
+		[SerializeField] private CanvasGroup _fader;
+
 		private IMemoryPool _pool;
 
 		public void Dispose()
@@ -27,6 +29,11 @@ namespace Minipede.Gameplay.UI
 
 			transform.localPosition = placement.Position;
 			transform.localRotation = placement.Rotation;
+		}
+
+		public void SetAlpha( float alpha )
+		{
+			_fader.alpha = alpha;
 		}
 	}
 }

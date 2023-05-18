@@ -9,15 +9,12 @@ namespace Minipede.Utility
 	{
 		private readonly SignalBus _signalBus;
 		private readonly TimeController _timeController;
-		private readonly PlayerInputResolver _inputResolver;
 
 		public PauseController( SignalBus signalBus,
-			TimeController timeController,
-			PlayerInputResolver inputResolver )
+			TimeController timeController )
 		{
 			_signalBus = signalBus;
 			_timeController = timeController;
-			_inputResolver = inputResolver;
 		}
 
 		public void Initialize()
@@ -45,19 +42,11 @@ namespace Minipede.Utility
 		private void Pause()
 		{
 			_timeController.SetTimeScale( 0 );
-
-			var input = _inputResolver.GetInput();
-			input.EnableMapRuleSet( nameof( ReConsts.MapEnablerRuleSet.UI ), true );
-			input.EnableMapRuleSet( nameof( ReConsts.MapEnablerRuleSet.Gameplay ), false );
 		}
 
 		private void Resume()
 		{
 			_timeController.SetTimeScale( 1 );
-
-			var input = _inputResolver.GetInput();
-			input.EnableMapRuleSet( nameof( ReConsts.MapEnablerRuleSet.UI ), false );
-			input.EnableMapRuleSet( nameof( ReConsts.MapEnablerRuleSet.Gameplay ), true );
 		}
 	}
 }

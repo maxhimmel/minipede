@@ -56,7 +56,11 @@ namespace Minipede.Gameplay.UI
 				marker.SetAlpha( GetMarkerAlpha( markerDir.magnitude ) );
 
 				((RectTransform)(marker.transform)).anchoredPosition = markerPos;
-				marker.transform.rotation = markerPos.ToLookRotation();
+
+				if ( marker.CanRotate )
+				{
+					marker.transform.rotation = markerPos.ToLookRotation();
+				}
 			}
 		}
 

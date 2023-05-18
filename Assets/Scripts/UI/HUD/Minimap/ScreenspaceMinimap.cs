@@ -37,7 +37,11 @@ namespace Minipede.Gameplay.UI
 
 				var marker = _markers[avatar];
 				marker.transform.localPosition = markerPos;
-				marker.transform.localRotation = (markerPos - center).ToLookRotation();//GetMarkerDirection( avatar );
+
+				if ( marker.CanRotate )
+				{
+					marker.transform.localRotation = (markerPos - center).ToLookRotation();//GetMarkerDirection( avatar );
+				}
 			}
 		}
 

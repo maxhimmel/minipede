@@ -9,6 +9,9 @@ namespace Minipede.Gameplay.UI
 		IPoolable<IOrientation, IMemoryPool>,
 		IDisposable
 	{
+		public bool CanRotate => _canRotate;
+
+		[SerializeField] private bool _canRotate = true;
 		[SerializeField] private CanvasGroup _fader;
 
 		private IMemoryPool _pool;

@@ -9,22 +9,24 @@ namespace Minipede.Gameplay
 		[SerializeField] private string _controlMapName;
 		[SerializeField] private bool _isEnabled;
 
-		private Rewired.Player _input;
+		private PlayerInputResolver _inputResolver;
 
 		[Inject]
-		public void Construct( Rewired.Player input )
+		public void Construct( PlayerInputResolver inputResolver )
 		{
-            _input = input;
+			_inputResolver = inputResolver;
 		}
 
 		private void OnEnable()
 		{
-			_input.EnableMapRuleSet( _controlMapName, _isEnabled );
+			var input = _inputResolver.GetInput();
+			input.EnableMapRuleSet( _controlMapName, _isEnabled );
 		}
 
 		private void OnDisable()
 		{
-			_input.EnableMapRuleSet( _controlMapName, !_isEnabled );
+			var input = _inputResolver.GetInput();
+			input.EnableMapRuleSet( _controlMapName, !_isEnabled );
 		}
 	}
 }

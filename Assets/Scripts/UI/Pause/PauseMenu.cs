@@ -1,5 +1,8 @@
+using Cysharp.Threading.Tasks;
+using Minipede.Utility;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
@@ -10,13 +13,21 @@ namespace Minipede.Gameplay.UI
         [SerializeField] private Button _quitButton;
         [SerializeField] private Button _settingsButton;
 
+        private SceneLoader _sceneLoader;
+
+        [Inject]
+		public void Construct( SceneLoader sceneLoader )
+		{
+            _sceneLoader = sceneLoader;
+		}
+
 		public override void Initialize()
 		{
 			base.Initialize();
 
             _resumeButton.onClick.AddListener( OnResumed );
             _signalBus.Subscribe<PausedSignal>( OnPaused );
-            _quitButton.onClick.AddListener( AppHelper.Quit );
+            _quitButton.onClick.AddListener( OnQuit );
 
             _settingsButton.onClick.AddListener( _menuController.Open<SettingsMenu> );
         }
@@ -36,6 +47,12 @@ namespace Minipede.Gameplay.UI
 			{
                 _menuController.Clear();
 			}
+        }
+
+        private void OnQuit()
+		{
+            _sceneLoader.Load( "StartMenu" ).Forget();
+            _menuController.Clear();
         }
 	}
 }

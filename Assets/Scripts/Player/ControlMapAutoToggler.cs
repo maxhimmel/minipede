@@ -4,7 +4,7 @@ using Zenject;
 
 namespace Minipede.Gameplay
 {
-    public class ControlMapEnabler : MonoBehaviour
+    public class ControlMapAutoToggler : MonoBehaviour
     {
 		[SerializeField] private string _controlMapName;
 		[SerializeField] private bool _isEnabled;
@@ -20,6 +20,11 @@ namespace Minipede.Gameplay
 		private void OnEnable()
 		{
 			_input.EnableMapRuleSet( _controlMapName, _isEnabled );
+		}
+
+		private void OnDisable()
+		{
+			_input.EnableMapRuleSet( _controlMapName, !_isEnabled );
 		}
 	}
 }

@@ -79,7 +79,7 @@ namespace Minipede.Gameplay.UI
             float timer = 0;
             while ( timer < duration )
             {
-                timer += Time.deltaTime;
+                timer += Time.unscaledDeltaTime;
                 float lerpValue = Tweens.Ease( tween, timer, duration );
                 float alpha = Mathf.Lerp( startAlpha, endAlpha, lerpValue );
                 SetAlpha( alpha );

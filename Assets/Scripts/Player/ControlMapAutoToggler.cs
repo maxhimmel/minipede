@@ -6,6 +6,9 @@ namespace Minipede.Gameplay
 {
     public class ControlMapAutoToggler : MonoBehaviour
     {
+		public static bool CanEnable { get; set; } = true;
+		public static bool CanDisable { get; set; } = true;
+
 		[SerializeField] private string _controlMapName;
 		[SerializeField] private bool _isEnabled;
 
@@ -19,14 +22,20 @@ namespace Minipede.Gameplay
 
 		private void OnEnable()
 		{
-			var input = _inputResolver.GetInput();
-			input.EnableMapRuleSet( _controlMapName, _isEnabled );
+			if ( CanEnable )
+			{
+				var input = _inputResolver.GetInput();
+				input.EnableMapRuleSet( _controlMapName, _isEnabled );
+			}
 		}
 
 		private void OnDisable()
 		{
-			var input = _inputResolver.GetInput();
-			input.EnableMapRuleSet( _controlMapName, !_isEnabled );
+			if ( CanDisable )
+			{
+				var input = _inputResolver.GetInput();
+				input.EnableMapRuleSet( _controlMapName, !_isEnabled );
+			}
 		}
 	}
 }

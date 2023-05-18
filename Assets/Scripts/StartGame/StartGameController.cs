@@ -29,6 +29,8 @@ namespace Minipede.Gameplay
 
 		public async void Initialize()
 		{
+			ControlMapAutoToggler.CanDisable = false;
+
 			await _levelGenerator.GenerateLevel()
 				.Cancellable( _playerController.PlayerDiedCancelToken );
 
@@ -41,6 +43,8 @@ namespace Minipede.Gameplay
 
 		public void Dispose()
 		{
+			ControlMapAutoToggler.CanDisable = true;
+
 			_waveController.Interrupt();
 		}
 	}

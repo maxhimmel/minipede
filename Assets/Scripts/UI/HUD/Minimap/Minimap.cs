@@ -10,6 +10,9 @@ namespace Minipede.Gameplay.UI
 	{
 		[SerializeField] protected RectTransform _container;
 
+		[Space]
+		[SerializeField] private AnimationCurve _distanceFadeCurve = AnimationCurve.EaseInOut( 3, 1, 2, 0 );
+
 		protected Camera _camera;
 		private MinimapMarkerFactoryBus _markerFactory;
 		protected Dictionary<Transform, MinimapMarker> _markers;
@@ -56,5 +59,10 @@ namespace Minipede.Gameplay.UI
 		}
 
 		protected abstract void UpdateMap();
+
+		protected float GetMarkerAlpha( float distance )
+		{
+			return _distanceFadeCurve.Evaluate( distance );
+		}
 	}
 }

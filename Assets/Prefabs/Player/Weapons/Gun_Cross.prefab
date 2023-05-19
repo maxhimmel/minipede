@@ -89,7 +89,7 @@ MonoBehaviour:
       data:
         AutoReload: 0
         ReloadDuration: 0
-        FuseDuration: 10
+        FuseDuration: 6
         FireReduction: 0
     - rid: 8667173515174084610
       type: {class: BurstFireSafety/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}

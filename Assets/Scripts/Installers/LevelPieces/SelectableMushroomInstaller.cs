@@ -1,5 +1,4 @@
-﻿using Minipede.Gameplay;
-using Minipede.Gameplay.LevelPieces;
+﻿using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
 using Zenject;
 
@@ -9,12 +8,16 @@ namespace Minipede.Installers
 	{
 		public override void InstallBindings()
 		{
-			Container.Bind<IInteractable>()
-				.To<InteractableMushroom>()
-				.AsSingle();
+			Container.BindInterfacesTo<SelectableMushroom>()
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+				{
+					subContainer.BindInterfacesAndSelfTo<SelectableMushroom>()
+						.AsSingle();
 
-			Container.Bind<ISelectable>()
-				.To<SelectableSpriteToggle>()
+					subContainer.Bind<SelectableSpriteToggle>()
+						.AsSingle();
+				} )
 				.AsSingle();
 		}
 	}

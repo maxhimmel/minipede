@@ -29,8 +29,6 @@ namespace Minipede.Gameplay.LevelPieces
 			_signalBus = signalBus;
 			_replenishWave = replenishWave;
 			_playerLifetime = playerLifetime;
-
-			_nextReplenishTime = Time.timeSinceLevelLoad + _settings.ReplenishCooldown;
 		}
 
 		public void Initialize()
@@ -39,6 +37,7 @@ namespace Minipede.Gameplay.LevelPieces
 			_signalBus.Subscribe<BlockDestroyedSignal>( OnMushroomDestroyed );
 
 			_isActive = true;
+			_nextReplenishTime = Time.timeSinceLevelLoad + _settings.ReplenishCooldown;
 		}
 
 		public void Dispose()

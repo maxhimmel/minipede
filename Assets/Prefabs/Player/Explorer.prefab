@@ -447,7 +447,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hauling:
-    MinSpeed: 0.25
+    MinSpeed: 0.5
   _explorer:
     EjectForce: 25
     EjectInvincibleDuration: 2

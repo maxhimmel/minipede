@@ -5,6 +5,7 @@ namespace Minipede.Gameplay
 	public abstract class StatusEffectInvoker : IDamageInvoker
 	{
 		public ISettings Settings { get; }
+		public bool CanStack => Settings.CanStackEffect;
 		public bool CanApply => _nextApplyTime <= Time.timeSinceLevelLoad;
 		public bool IsExpired => Settings.CanExpire && _expirationTime <= Time.timeSinceLevelLoad;
 
@@ -27,13 +28,17 @@ namespace Minipede.Gameplay
 
 		public DamageResult Invoke( IDamageable damageable, Transform instigator, Transform causer )
 		{
-			if ( !_statusEffectController.TryAdd( this, out var existingStatus ) && existingStatus.CanApply )
+			if ( _statusEffectController.TryAdd( this, out var existingStatus ) )
+			{
+				return this.Apply( damageable, instigator, causer );
+			}
+			else if ( existingStatus.CanApply || existingStatus.CanStack )
 			{
 				return existingStatus.Apply( damageable, instigator, causer );
 			}
 			else
 			{
-				return this.Apply( damageable, instigator, causer );
+				return DamageResult.Empty;
 			}
 		}
 
@@ -57,6 +62,7 @@ namespace Minipede.Gameplay
 
 		public interface ISettings : IDamageInvoker.ISettings
 		{
+			bool CanStackEffect { get; }
 			float ApplyRate { get; }
 			bool CanExpire { get; }
 			float Duration { get; }

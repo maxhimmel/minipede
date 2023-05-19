@@ -15,7 +15,6 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private Settings _settings;
 		private LootBox _lootBox;
-		private IInteractable _interactable;
 		private ISelectable _selectable;
 		private IHealthBalanceResolver _healthBalancer;
 		private ActionGlyphController _glyphController;
@@ -24,7 +23,6 @@ namespace Minipede.Gameplay.LevelPieces
 		public void Construct( Settings settings,
 			LootBox lootBox,
 
-			[InjectOptional] IInteractable interactable,
 			[InjectOptional] ISelectable selectable,
 			[InjectOptional] IHealthBalanceResolver healthBalancer,
 			[InjectOptional] ActionGlyphController glyphController )
@@ -32,7 +30,6 @@ namespace Minipede.Gameplay.LevelPieces
 			_settings = settings;
 			_lootBox = lootBox;
 
-			_interactable = interactable;
 			_selectable = selectable;
 			_healthBalancer = healthBalancer;
 			_glyphController = glyphController;
@@ -64,12 +61,12 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public bool CanBeInteracted()
 		{
-			if ( _interactable == null )
+			if ( _selectable == null )
 			{
 				return false;
 			}
 
-			return _interactable.CanBeInteracted();
+			return _selectable.CanBeInteracted();
 		}
 
 		public void Select()

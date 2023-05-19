@@ -40,13 +40,10 @@ namespace Minipede.Gameplay.LevelPieces
 
 				if ( Application.isPlaying )
 				{
-					var populatorInstance = Container.TryResolve<MushroomPopulationController>();
-					if ( populatorInstance != null )
+					var activeBlocks = Container.TryResolve<ActiveBlocks>();
+					if ( activeBlocks != null )
 					{
-						var countVariable = typeof( MushroomPopulationController ).GetField(
-							"_mushroomCount", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance
-						);
-						mushroomCount = (int)countVariable.GetValue( populatorInstance );
+						mushroomCount = activeBlocks.Actives.Count;
 					}
 				}
 

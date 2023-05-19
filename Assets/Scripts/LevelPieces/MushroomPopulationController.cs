@@ -1,4 +1,3 @@
-using System;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Waves;
 using Sirenix.OdinInspector;
@@ -7,61 +6,37 @@ using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces
 {
-	public class MushroomPopulationController : ITickable,
-		IInitializable,
-		IDisposable
+	public class MushroomPopulationController : IInitializable,
+		ITickable
 	{
 		private readonly Settings _settings;
-		private readonly SignalBus _signalBus;
+		private readonly ActiveBlocks _activeBlocks;
 		private readonly ITimedSpawner _replenishWave;
 		private readonly IPlayerLifetimeHandler _playerLifetime;
 
-		private int _mushroomCount;
 		private float _nextReplenishTime;
 		private bool _isActive;
 
 		public MushroomPopulationController( Settings settings,
-			SignalBus signalBus,
+			ActiveBlocks activeBlocks,
 			ITimedSpawner replenishWave,
 			IPlayerLifetimeHandler playerLifetime )
 		{
 			_settings = settings;
-			_signalBus = signalBus;
+			_activeBlocks = activeBlocks;
 			_replenishWave = replenishWave;
 			_playerLifetime = playerLifetime;
 		}
 
 		public void Initialize()
 		{
-			_signalBus.Subscribe<BlockSpawnedSignal>( OnMushroomSpawned );
-			_signalBus.Subscribe<BlockDestroyedSignal>( OnMushroomDestroyed );
-
 			_isActive = true;
 			_nextReplenishTime = Time.timeSinceLevelLoad + _settings.ReplenishCooldown;
 		}
 
-		public void Dispose()
+		public void Deactivate()
 		{
 			_isActive = false;
-
-			_signalBus.TryUnsubscribe<BlockSpawnedSignal>( OnMushroomSpawned );
-			_signalBus.TryUnsubscribe<BlockDestroyedSignal>( OnMushroomDestroyed );
-		}
-
-		private void OnMushroomSpawned( BlockSpawnedSignal signal )
-		{
-			if ( signal.NewBlock is Mushroom )
-			{
-				++_mushroomCount;
-			}
-		}
-
-		private void OnMushroomDestroyed( BlockDestroyedSignal signal )
-		{
-			if ( signal.Victim is Mushroom )
-			{
-				--_mushroomCount;
-			}
 		}
 
 		public void Tick()
@@ -84,7 +59,7 @@ namespace Minipede.Gameplay.LevelPieces
 			{
 				return false;
 			}
-			if ( _mushroomCount > _settings.MinThreshold )
+			if ( _activeBlocks.Actives.Count > _settings.MinThreshold )
 			{
 				return false;
 			}

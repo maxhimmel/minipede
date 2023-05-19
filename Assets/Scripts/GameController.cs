@@ -67,7 +67,7 @@ namespace Minipede.Gameplay
 
 		private void OnPlayerDied()
 		{
-			_mushroomPopulationController.Dispose();
+			_mushroomPopulationController.Deactivate();
 			_nighttimeController.Dispose();
 			_waveController.Pause();
 			_levelCycleTimer.Stop();

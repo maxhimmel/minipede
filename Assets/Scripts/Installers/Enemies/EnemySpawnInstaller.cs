@@ -19,7 +19,6 @@ namespace Minipede.Installers
 
 		protected System.Type EnemyType => _prefab.GetType();
 
-		[Space]
 		[DisableInPlayMode]
 		[SerializeField] private int _initalPoolSize = 0;
 		[DisableInPlayMode]

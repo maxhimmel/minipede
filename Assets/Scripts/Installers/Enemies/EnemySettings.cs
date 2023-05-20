@@ -17,8 +17,8 @@ namespace Minipede.Installers
 		[Space, FoldoutGroup( "Shared" )]
 		[SerializeField] private PoisonTrailInstaller.Settings _poisonTrail;
 
-		[LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
-		[SerializeField] private EnemySpawnInstaller[] _spawnSettings;
+		[LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false, ListElementLabelName = "LabelName" )]
+		[SerializeField] private EnemySpawnInstaller[] _enemies;
 
 		[FoldoutGroup( "Minipede Spawning" )]
 		[SerializeField, HideLabel] private MinipedeSpawnBehavior.Settings _minipedeBehavior;
@@ -66,7 +66,7 @@ namespace Minipede.Installers
 
 		private void BindSpawnSystem()
 		{
-			foreach ( var settings in _spawnSettings )
+			foreach ( var settings in _enemies )
 			{
 				settings.Install( Container );
 			}

@@ -15,10 +15,6 @@ namespace Minipede.Editor
 		[HideLabel, TabGroup( "Placement" ), ShowIf( "CanInteract" )]
 		[SerializeField] private EnemySpawnRenderer _renderer = new EnemySpawnRenderer();
 
-		[FoldoutGroup( "Enemy Settings" ), ShowIf( "CanInteract" )]
-		[InlineEditor( ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden )]
-		[SerializeField] private EnemySettings _enemySettings;
-
 		private readonly string _saveLoadKey = nameof( EnemySpawnWindow );
 		private SerializedObject _enemySettingsObj;
 
@@ -53,18 +49,9 @@ namespace Minipede.Editor
 
 		private bool TryCacheEnemySettings()
 		{
-			if ( _enemySettings == null )
-			{
-				_enemySettings = GameObject.FindObjectOfType<EnemySettings>();
-				if ( _enemySettings == null )
-				{
-					return false;
-				}
-			}
-
 			if ( _enemySettingsObj == null || _enemySettingsObj.targetObject == null )
 			{
-				_enemySettingsObj = new SerializedObject( _enemySettings );
+				_enemySettingsObj = new SerializedObject( FindObjectOfType<EnemySettings>() );
 				_renderer.AttachEnemySettings( _enemySettingsObj );
 			}
 

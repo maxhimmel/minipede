@@ -1,4 +1,4 @@
-using Minipede.Gameplay.Enemies;
+﻿using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
@@ -7,17 +7,18 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Enemies/Enemy" )]
-	public class EnemySpawnSettings : ScriptableObject
+	[System.Serializable]
+	public class EnemySpawnInstaller
 	{
 		/// <summary>
 		/// This ID should match a <see cref="Transform"/> within the scene being bound using a <see cref="ZenjectBinding"/>.
 		/// </summary>
 		private const string _containerId = "EnemyPool";
 
+		public string LabelName => _prefab != null ? _prefab.name : "Please add a prefab reference";
+
 		protected System.Type EnemyType => _prefab.GetType();
 
-		[Space]
 		[DisableInPlayMode]
 		[SerializeField] private int _initalPoolSize = 0;
 		[DisableInPlayMode]

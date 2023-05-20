@@ -55,15 +55,129 @@ MonoBehaviour:
     InitialPoolSize: 300
     Prefab: {fileID: 709626158554325588, guid: 5dd7133e9e856aa4399ff89acbe2028e, type: 3}
     Lifetime: 10
-  _spawnSettings:
-  - {fileID: 11400000, guid: e0067d59680a90a43b940c63bc6f09aa, type: 2}
-  - {fileID: 11400000, guid: 7056a500decee1c498b91f099097c896, type: 2}
-  - {fileID: 11400000, guid: e084b2466504c27428055ab1e38a8793, type: 2}
-  - {fileID: 11400000, guid: 0409e06026b6c344bbafb1fe8156f898, type: 2}
-  - {fileID: 11400000, guid: 822a2c8cc35004742a4ef1af26eb0075, type: 2}
-  - {fileID: 11400000, guid: a3ee3ce27a01d874db616cf8a18ce79c, type: 2}
-  - {fileID: 11400000, guid: a544608bf1d7516458069e3cfcb8cb4e, type: 2}
-  - {fileID: 11400000, guid: ab5bc5e51cddac04e9edba6b9fbeb625, type: 2}
+  _enemies:
+  - _initalPoolSize: 20
+    _prefab: {fileID: 1177213487019694021, guid: 23f4588b3553ac14c85f96c327827397, type: 3}
+    _spawnPlacement:
+    - Area:
+        RowCol: {x: 32, y: 0}
+        Size: {x: 30, y: 1}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: 180
+  - _initalPoolSize: 5
+    _prefab: {fileID: 1652218027726842911, guid: 065c4eaca3d2a5e44b302bae233886d4, type: 3}
+    _spawnPlacement:
+    - Area:
+        RowCol: {x: 13, y: 0}
+        Size: {x: -1, y: 1}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: -90
+    - Area:
+        RowCol: {x: 13, y: 30}
+        Size: {x: 1, y: 1}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: 90
+  - _initalPoolSize: 20
+    _prefab: {fileID: 682032874086321491, guid: afe0baf7eada72846901d59c2098c7b2, type: 3}
+    _spawnPlacement:
+    - Area:
+        RowCol: {x: 32, y: 0}
+        Size: {x: 30, y: 1}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: 180
+  - _initalPoolSize: 5
+    _prefab: {fileID: 4363904833267379863, guid: bc7cc110e6ac10b4ebdcb436f6c716f3, type: 3}
+    _spawnPlacement:
+    - Area:
+        RowCol: {x: 14, y: 0}
+        Size: {x: -1, y: 15}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: -90
+    - Area:
+        RowCol: {x: 14, y: 30}
+        Size: {x: 1, y: 15}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: 90
+  - _initalPoolSize: 3
+    _prefab: {fileID: 2684825897360372887, guid: 906229d1d0f1153438a4708e901ffaa4, type: 3}
+    _spawnPlacement:
+    - Area:
+        RowCol: {x: 18, y: 0}
+        Size: {x: -1, y: 8}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: -90
+    - Area:
+        RowCol: {x: 18, y: 30}
+        Size: {x: 1, y: 8}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: 90
+  - _initalPoolSize: 20
+    _prefab: {fileID: -5776135086835103509, guid: cccfaedb81881644fbeb3e858069e0a7, type: 3}
+    _spawnPlacement:
+    - Area:
+        RowCol: {x: 32, y: 7}
+        Size: {x: 16, y: 1}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: 180
+  - _initalPoolSize: 20
+    _prefab: {fileID: -1829202905928104995, guid: ab8460df5536ad84399420654ea65097, type: 3}
+    _spawnPlacement:
+    - Area:
+        RowCol: {x: 32, y: 0}
+        Size: {x: 30, y: 1}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 50
+          Item: 135
+        - _normalizedWeight: 50
+          Item: -135
+  - _initalPoolSize: 5
+    _prefab: {fileID: -3327435351028291628, guid: 704094a55d6a0844197a544fb1bae67e, type: 3}
+    _spawnPlacement:
+    - Area:
+        RowCol: {x: 13, y: 0}
+        Size: {x: -1, y: 1}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: 0
+    - Area:
+        RowCol: {x: 13, y: 30}
+        Size: {x: 1, y: 1}
+      Rotation:
+        _allowEmptyRolls: 0
+        _items:
+        - _normalizedWeight: 100
+          Item: 0
   _minipedeBehavior:
     SegmentRange: {x: 2, y: 6}
   _playerZone:

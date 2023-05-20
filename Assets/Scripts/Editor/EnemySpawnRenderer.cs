@@ -62,7 +62,18 @@ namespace Minipede.Editor
 			}
 			_levelGraphWrapper.TryCacheReferences();
 
-			var enemyInstallersProperty = _enemySettingsObj.FindProperty( "_spawnSettings" );
+			if ( _enemySettingsObj == null )
+			{
+				return;
+			}
+
+			var enemyInstallersProperty = _enemySettingsObj.FindProperty( "_enemies" );
+			if ( enemyInstallersProperty == null )
+			{
+				_placementData.Clear();
+				return;
+			}
+
 			int enemyCount = enemyInstallersProperty.arraySize;
 
 			if ( _placements.Count != enemyCount )
@@ -70,8 +81,7 @@ namespace Minipede.Editor
 				for ( int idx = 0; idx < enemyCount; ++idx )
 				{
 					var installerProperty = enemyInstallersProperty.GetArrayElementAtIndex( idx );
-					var installerObj = new SerializedObject( installerProperty.objectReferenceValue );
-					string enemyName = installerProperty.objectReferenceValue.name;
+					string enemyName = installerProperty.FindPropertyRelative( "_prefab" ).stringValue;
 
 					var foundData = _placements.Find( data => data.Name == enemyName );
 					if ( foundData != null )
@@ -89,10 +99,9 @@ namespace Minipede.Editor
 				for ( int idx = 0; idx < enemyCount; ++idx )
 				{
 					var installerProperty = enemyInstallersProperty.GetArrayElementAtIndex( idx );
-					var installerObj = new SerializedObject( installerProperty.objectReferenceValue );
-					string enemyName = installerProperty.objectReferenceValue.name;
+					string enemyName = installerProperty.FindPropertyRelative( "_prefab" ).displayName;
 
-					_placementData.Add( installerObj.FindProperty( "_spawnPlacement" ), _placements[idx] );
+					_placementData.Add( installerProperty.FindPropertyRelative( "_spawnPlacement" ), _placements[idx] );
 				}
 			}
 		}

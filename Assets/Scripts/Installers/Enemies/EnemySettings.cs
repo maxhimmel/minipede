@@ -17,8 +17,8 @@ namespace Minipede.Installers
 		[Space, FoldoutGroup( "Shared" )]
 		[SerializeField] private PoisonTrailInstaller.Settings _poisonTrail;
 
-		[InlineEditor, LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
-		[SerializeField] private EnemySpawnSettings[] _spawnSettings;
+		[LabelText( "Specialized" ), ListDrawerSettings( DraggableItems = false )]
+		[SerializeField] private EnemySpawnInstaller[] _spawnSettings;
 
 		[FoldoutGroup( "Minipede Spawning" )]
 		[SerializeField, HideLabel] private MinipedeSpawnBehavior.Settings _minipedeBehavior;

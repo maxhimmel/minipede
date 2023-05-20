@@ -55,15 +55,7 @@ MonoBehaviour:
     InitialPoolSize: 300
     Prefab: {fileID: 709626158554325588, guid: 5dd7133e9e856aa4399ff89acbe2028e, type: 3}
     Lifetime: 10
-  _spawnSettings:
-  - {fileID: 11400000, guid: e0067d59680a90a43b940c63bc6f09aa, type: 2}
-  - {fileID: 11400000, guid: 7056a500decee1c498b91f099097c896, type: 2}
-  - {fileID: 11400000, guid: e084b2466504c27428055ab1e38a8793, type: 2}
-  - {fileID: 11400000, guid: 0409e06026b6c344bbafb1fe8156f898, type: 2}
-  - {fileID: 11400000, guid: 822a2c8cc35004742a4ef1af26eb0075, type: 2}
-  - {fileID: 11400000, guid: a3ee3ce27a01d874db616cf8a18ce79c, type: 2}
-  - {fileID: 11400000, guid: a544608bf1d7516458069e3cfcb8cb4e, type: 2}
-  - {fileID: 11400000, guid: ab5bc5e51cddac04e9edba6b9fbeb625, type: 2}
+  _spawnSettings: []
   _minipedeBehavior:
     SegmentRange: {x: 2, y: 6}
   _playerZone:

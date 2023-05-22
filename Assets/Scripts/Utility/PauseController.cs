@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Zenject;
 
 namespace Minipede.Utility
@@ -8,12 +9,14 @@ namespace Minipede.Utility
 	{
 		private readonly PauseModel _model;
 		private readonly TimeController _timeController;
+		private readonly Stack<float> _timeScaleStack;
 
 		public PauseController( PauseModel model,
 			TimeController timeController )
 		{
 			_model = model;
 			_timeController = timeController;
+			_timeScaleStack = new Stack<float>();
 		}
 
 		public void Initialize()
@@ -40,12 +43,17 @@ namespace Minipede.Utility
 
 		private void Pause()
 		{
+			_timeScaleStack.Push( _timeController.Scale );
 			_timeController.SetTimeScale( 0 );
 		}
 
 		private void Resume()
 		{
-			_timeController.SetTimeScale( 1 );
+			if ( !_timeScaleStack.TryPop( out var prevScale ) )
+			{
+				prevScale = 1;
+			}
+			_timeController.SetTimeScale( prevScale );
 		}
 	}
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
@@ -29,7 +29,17 @@ namespace Minipede.Gameplay.Weapons
 
 			transform.position = position;
 
+			SetOwner( owner );
+			SetLifetime( duration );
+		}
+
+		public void SetOwner( Transform owner )
+		{
 			_attack.SetOwner( owner );
+		}
+
+		public void SetLifetime( float duration )
+		{
 			_lifetimer.SetDuration( duration );
 		}
 

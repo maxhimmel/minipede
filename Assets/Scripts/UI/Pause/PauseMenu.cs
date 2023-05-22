@@ -6,18 +6,21 @@ using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
-    public class PauseMenu : Menu
+	public class PauseMenu : Menu
     {
         [Header( "Buttons" )]
         [SerializeField] private Button _resumeButton;
         [SerializeField] private Button _quitButton;
         [SerializeField] private Button _settingsButton;
 
+        private PauseModel _pauseModel;
         private SceneLoader _sceneLoader;
 
         [Inject]
-		public void Construct( SceneLoader sceneLoader )
+		public void Construct( PauseModel pauseModel,
+            SceneLoader sceneLoader )
 		{
+            _pauseModel = pauseModel;
             _sceneLoader = sceneLoader;
 		}
 
@@ -26,7 +29,7 @@ namespace Minipede.Gameplay.UI
 			base.Initialize();
 
             _resumeButton.onClick.AddListener( OnResumed );
-            _signalBus.Subscribe<PausedSignal>( OnPaused );
+            _pauseModel.Changed += OnPaused;
             _quitButton.onClick.AddListener( OnQuit );
 
             _settingsButton.onClick.AddListener( _menuController.Open<SettingsMenu> );
@@ -34,12 +37,12 @@ namespace Minipede.Gameplay.UI
 
         private void OnResumed()
 		{
-            _signalBus.Fire( new PausedSignal( isPaused: false ) );
+            _pauseModel.Set( false );
         }
 
-        private void OnPaused( PausedSignal signal )
+        private void OnPaused( PauseModel model )
         {
-            if ( signal.IsPaused )
+            if ( model.IsPaused )
 			{
                 _menuController.Open<PauseMenu>();
 			}

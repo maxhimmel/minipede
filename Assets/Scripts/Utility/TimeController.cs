@@ -6,6 +6,8 @@ namespace Minipede.Utility
 {
     public class TimeController
     {
+        public float Scale => Time.timeScale;
+
         private readonly float _fixedDeltaTime;
 
         public TimeController()

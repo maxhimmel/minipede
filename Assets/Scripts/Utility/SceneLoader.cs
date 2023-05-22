@@ -1,9 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
-using Minipede.Gameplay;
 using Minipede.Gameplay.UI;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-using Zenject;
 
 namespace Minipede.Utility
 {
@@ -14,15 +11,15 @@ namespace Minipede.Utility
 
 		private readonly Settings _settings;
 		private readonly ScreenFadeController _screenFader;
-		private readonly SignalBus _signalBus;
+		private readonly PauseModel _pauseModel;
 
 		public SceneLoader( Settings settings,
 			ScreenFadeController screenFader,
-			SignalBus signalBus )
+			PauseModel pauseModel )
 		{
 			_settings = settings;
 			_screenFader = screenFader;
-			_signalBus = signalBus;
+			_pauseModel = pauseModel;
 		}
 
 		public async UniTask Load( string sceneName, LoadSceneMode mode = LoadSceneMode.Single )
@@ -33,7 +30,7 @@ namespace Minipede.Utility
 			{
 				await SceneManager.LoadSceneAsync( sceneName, mode );
 
-				_signalBus.Fire( new PausedSignal( isPaused: false ) );
+				_pauseModel.Set( false );
 			}
 			await _screenFader.FadeIn( _settings.FadeDuration );
 

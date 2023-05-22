@@ -1,5 +1,4 @@
 ﻿using System;
-using Minipede.Gameplay;
 using Zenject;
 
 namespace Minipede.Utility
@@ -7,29 +6,29 @@ namespace Minipede.Utility
 	public class PauseController : IInitializable,
 		IDisposable
 	{
-		private readonly SignalBus _signalBus;
+		private readonly PauseModel _model;
 		private readonly TimeController _timeController;
 
-		public PauseController( SignalBus signalBus,
+		public PauseController( PauseModel model,
 			TimeController timeController )
 		{
-			_signalBus = signalBus;
+			_model = model;
 			_timeController = timeController;
 		}
 
 		public void Initialize()
 		{
-			_signalBus.Subscribe<PausedSignal>( OnPaused );
+			_model.Changed += OnPaused;
 		}
 
 		public void Dispose()
 		{
-			_signalBus.Unsubscribe<PausedSignal>( OnPaused );
+			_model.Changed -= OnPaused;
 		}
 
-		private void OnPaused( PausedSignal signal )
+		private void OnPaused( PauseModel model )
 		{
-			if ( signal.IsPaused )
+			if ( model.IsPaused )
 			{
 				Pause();
 			}

@@ -24,6 +24,9 @@ namespace Minipede.Installers
 			Container.Bind<TimeController>()
 				.AsSingle();
 
+			Container.Bind<PauseModel>()
+				.AsSingle();
+
 			Container.BindInterfacesAndSelfTo<PauseController>()
 				.AsSingle();
 

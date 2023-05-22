@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
@@ -11,13 +11,16 @@ namespace Minipede.Gameplay.Weapons
 	{
 		private Lifetimer _lifetimer = new Lifetimer();
 		private IAttack _attack;
+		private ParticleSystem _vfx;
 
 		private IMemoryPool _memoryPool;
 
 		[Inject]
-		public void Construct( IAttack attack )
+		public void Construct( IAttack attack,
+			ParticleSystem vfx )
 		{
 			_attack = attack;
+			_vfx = vfx;
 		}
 
 		public void OnSpawned( Transform owner, Vector3 position, float duration, IMemoryPool pool )
@@ -33,6 +36,9 @@ namespace Minipede.Gameplay.Weapons
 		public void StartExpiring()
 		{
 			_lifetimer.Reset();
+
+			_vfx.time = 0;
+			_vfx.Play( withChildren: true );
 		}
 
 		private void Update()

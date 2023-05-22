@@ -92,6 +92,11 @@ MonoBehaviour:
       InitialPoolSize: 20
       Prefab: {fileID: 709626158554325588, guid: 193b708e9ef52cd40b90d7a83b318a17, type: 3}
       Lifetime: 5
+      Trail:
+        PoisonTrailLayer:
+          serializedVersion: 2
+          m_Bits: 1
+        PoisonTrailRadius: 0.25
   _pollutionSettings:
     WinPercentage: 0.3
     CellCoord: {x: 8, y: 0}
@@ -102,6 +107,7 @@ MonoBehaviour:
     - rid: 5904237223658913792
       type: {class: PoisonInvoker/Settings, ns: Minipede.Gameplay, asm: Minipede}
       data:
+        CanStackEffect: 0
         Damage: 1
         ApplyRate: 1
         CanExpire: 0

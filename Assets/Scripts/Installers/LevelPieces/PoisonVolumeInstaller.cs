@@ -1,5 +1,6 @@
 ﻿using System;
 using Minipede.Gameplay.Weapons;
+using UnityEngine;
 using Zenject;
 
 namespace Minipede.Installers
@@ -14,6 +15,10 @@ namespace Minipede.Installers
 				.AsSingle();
 
 			Container.Bind<IAttack>()
+				.FromComponentInChildren()
+				.AsSingle();
+
+			Container.Bind<ParticleSystem>()
 				.FromComponentInChildren()
 				.AsSingle();
 		}

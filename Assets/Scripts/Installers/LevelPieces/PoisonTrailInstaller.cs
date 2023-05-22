@@ -1,4 +1,5 @@
 ﻿using Minipede.Gameplay.Weapons;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -18,7 +19,7 @@ namespace Minipede.Installers
 		{
 			Container.Bind<PoisonTrailFactory>()
 				.AsSingle()
-				.WithArguments( _settings.Lifetime );
+				.WithArguments( _settings.Lifetime, _settings.Trail );
 
 			Container.BindFactory<Transform, Vector3, float, PoisonVolume, PoisonVolume.Factory>()
 				.FromMonoPoolableMemoryPool( pool => pool
@@ -40,6 +41,9 @@ namespace Minipede.Installers
 			public int InitialPoolSize;
 			public GameObject Prefab;
 			public float Lifetime;
+
+			[HideLabel, BoxGroup( "Trail" )]
+			public PoisonTrailFactory.Settings Trail;
 		}
 	}
 }

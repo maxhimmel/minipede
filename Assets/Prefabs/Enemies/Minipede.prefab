@@ -162,7 +162,7 @@ PrefabInstance:
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _monoInstallers.Array.data[0]
       value: 
-      objectReference: {fileID: 3727274275355895124}
+      objectReference: {fileID: 8727508781618746194}
     - target: {fileID: 5381930393984707178, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _monoInstallers.Array.data[1]
       value: 
@@ -336,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da41e65935e48434c9938c8ccf70fdb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3727274275355895124
+--- !u!114 &8727508781618746194
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

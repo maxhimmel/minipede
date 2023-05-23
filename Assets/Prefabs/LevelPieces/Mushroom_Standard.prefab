@@ -428,6 +428,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d106fc2c893a4408243d3eff8c1d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _camera:
+    CameraId: Lighthouse
 --- !u!114 &3649115571912394032
 MonoBehaviour:
   m_ObjectHideFlags: 0

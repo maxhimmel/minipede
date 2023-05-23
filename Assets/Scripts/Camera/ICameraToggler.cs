@@ -1,8 +1,8 @@
 ﻿namespace Minipede.Gameplay.Cameras
 {
-	public interface ICameraToggler<TToggler>
+	public interface ICameraToggler
 	{
-		void Activate( TToggler sender );
-		void Deactivate( TToggler sender );
+		public void Activate();
+		public void Deactivate();
 	}
 }

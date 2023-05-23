@@ -55,6 +55,10 @@ MonoBehaviour:
       HoldCollectDelay: 0.25
       HoldReleaseDelay: 0.25
       WeightScalar: 1
+    ShipCamera:
+      CameraId: Ship
+    ExplorerCamera:
+      CameraId: Explorer
     Inventory:
       GemsToBeacon: 3
     Eject:

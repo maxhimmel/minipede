@@ -103,10 +103,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 585776252675233373}
     m_Modifications:
+    - target: {fileID: 1667578998091106930, guid: 421eda0b72881a44dbf0dc3559332e73, type: 3}
+      propertyPath: m_BoundingShape2D
+      value: 
+      objectReference: {fileID: 6009885152549109949}
     - target: {fileID: 3260236369297953141, guid: 421eda0b72881a44dbf0dc3559332e73, type: 3}
       propertyPath: m_Name
       value: Cameras
       objectReference: {fileID: 0}
+    - target: {fileID: 6691791750135112728, guid: 421eda0b72881a44dbf0dc3559332e73, type: 3}
+      propertyPath: m_BoundingShape2D
+      value: 
+      objectReference: {fileID: 6009885152549109949}
     - target: {fileID: 7208166323278096842, guid: 421eda0b72881a44dbf0dc3559332e73, type: 3}
       propertyPath: m_RootOrder
       value: 0

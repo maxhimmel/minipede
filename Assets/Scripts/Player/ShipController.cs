@@ -14,13 +14,13 @@ namespace Minipede.Gameplay.Player
 		public Ship Pawn => _ship;
 
 		private readonly Rewired.Player _input;
-		private readonly ICameraToggler<Ship> _cameraToggler;
+		private readonly ICameraToggler _cameraToggler;
 		private readonly TimeController _timeController;
 
 		private Ship _ship;
 
 		public ShipController( Rewired.Player input,
-			ICameraToggler<Ship> cameraToggler,
+			ICameraToggler cameraToggler,
 			TimeController timeController )
 		{
 			_input = input;
@@ -30,7 +30,7 @@ namespace Minipede.Gameplay.Player
 
 		public void UnPossess()
 		{
-			_cameraToggler.Deactivate( _ship );
+			_cameraToggler.Deactivate();
 
 			_input.RemoveInputEventDelegate( OnMoveHorizontal );
 			_input.RemoveInputEventDelegate( OnMoveVertical );
@@ -58,7 +58,7 @@ namespace Minipede.Gameplay.Player
 			_input.AddButtonPressedDelegate( OnShowInventory, ReConsts.Action.Loadout );
 
 			pawn.PossessedBy( this );
-			_cameraToggler.Activate( pawn );
+			_cameraToggler.Activate();
 
 			Possessed?.Invoke( pawn );
 		}

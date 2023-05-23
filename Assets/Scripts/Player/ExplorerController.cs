@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Minipede.Gameplay.Cameras;
 using Minipede.Utility;
 using Rewired;
@@ -12,6 +12,7 @@ namespace Minipede.Gameplay.Player
 		public event Action UnPossessed;
 
 		public Explorer Pawn => _explorer;
+		public ICameraToggler CameraToggler => _cameraToggler;
 
 		private readonly Rewired.Player _input;
 		private readonly ICameraToggler _cameraToggler;

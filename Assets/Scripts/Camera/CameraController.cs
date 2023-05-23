@@ -1,11 +1,8 @@
 using Cinemachine;
-using Minipede.Gameplay.Player;
 
 namespace Minipede.Gameplay.Cameras
 {
-	public class CameraController :
-		ICameraToggler<Ship>,
-		ICameraToggler<Explorer>
+	public class CameraController
 	{
 		private readonly VCameraResolver _cameraResolver;
 
@@ -16,17 +13,7 @@ namespace Minipede.Gameplay.Cameras
 			_cameraResolver = cameraResolver;
 		}
 
-		public void Activate( Ship sender )
-		{
-			EnableCamera( "Ship" );
-		}
-
-		public void Activate( Explorer sender )
-		{
-			EnableCamera( "Explorer" );
-		}
-
-		private void EnableCamera( string id )
+		public void Activate( string id )
 		{
 			if ( _currentCamera != null )
 			{
@@ -37,17 +24,7 @@ namespace Minipede.Gameplay.Cameras
 			_currentCamera.enabled = true;
 		}
 
-		public void Deactivate( Ship sender )
-		{
-			DisableCamera( "Ship" );
-		}
-
-		public void Deactivate( Explorer sender )
-		{
-			DisableCamera( "Explorer" );
-		}
-
-		private void DisableCamera( string id )
+		public void Deactivate( string id )
 		{
 			var cam = _cameraResolver.GetCamera( id );
 			cam.enabled = false;

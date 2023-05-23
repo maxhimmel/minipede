@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Minipede.Gameplay.Cameras;
 using Minipede.Utility;
 using Rewired;
@@ -14,13 +14,13 @@ namespace Minipede.Gameplay.Player
 		public Explorer Pawn => _explorer;
 
 		private readonly Rewired.Player _input;
-		private readonly ICameraToggler<Explorer> _cameraToggler;
+		private readonly ICameraToggler _cameraToggler;
 		private readonly InteractionHandlerBus<ExplorerController> _interactionHandler;
 
 		private Explorer _explorer;
 
 		public ExplorerController( Rewired.Player input,
-			ICameraToggler<Explorer> cameraToggler,
+			ICameraToggler cameraToggler,
 			InteractionHandlerBus<ExplorerController> interactionHandler )
 		{
 			_input = input;
@@ -37,7 +37,7 @@ namespace Minipede.Gameplay.Player
 			_input.RemoveInputEventDelegate( OnMoveHorizontal );
 			_input.RemoveInputEventDelegate( OnMoveVertical );
 
-			_cameraToggler.Deactivate( _explorer );
+			_cameraToggler.Deactivate();
 
 			_explorer.ReleaseAllTreasure();
 
@@ -57,7 +57,7 @@ namespace Minipede.Gameplay.Player
 			_input.AddAxisDelegate( OnMoveHorizontal, ReConsts.Action.Horizontal );
 			_input.AddAxisDelegate( OnMoveVertical, ReConsts.Action.Vertical );
 
-			_cameraToggler.Activate( pawn );
+			_cameraToggler.Activate();
 
 			Possessed?.Invoke( pawn );
 		}

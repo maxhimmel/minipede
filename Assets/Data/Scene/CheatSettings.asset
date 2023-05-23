@@ -42,8 +42,8 @@ MonoBehaviour:
       CycleOverride: 0
     UseKeyboardActions: 1
     KeyboardActions:
-    - rid: 4488801707924127744
     - rid: 2384333169979293696
+    - rid: 2384333287779467266
   references:
     version: 2
     RefIds:
@@ -52,7 +52,7 @@ MonoBehaviour:
       data:
         Key: 303
         _enemy: 3
-    - rid: 4488801707924127744
-      type: {class: KillShipAction, ns: Minipede.Cheats, asm: Minipede}
+    - rid: 2384333287779467266
+      type: {class: KillPlayerAction, ns: Minipede.Cheats, asm: Minipede}
       data:
         Key: 13

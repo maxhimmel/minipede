@@ -51,8 +51,12 @@ namespace Minipede.Editor
 		{
 			if ( _enemySettingsObj == null || _enemySettingsObj.targetObject == null )
 			{
-				_enemySettingsObj = new SerializedObject( FindObjectOfType<EnemySettings>() );
-				_renderer.AttachEnemySettings( _enemySettingsObj );
+				var asset = FindObjectOfType<EnemySettings>();
+				if ( asset != null )
+				{
+					_enemySettingsObj = new SerializedObject( asset );
+					_renderer.AttachEnemySettings( _enemySettingsObj );
+				}
 			}
 
 			return CanInteract();

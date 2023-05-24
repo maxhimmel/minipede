@@ -56,11 +56,11 @@ MonoBehaviour:
     RowGeneration:
       _allowEmptyRolls: 0
       _items:
-      - _normalizedWeight: 70
+      - _normalizedWeight: 19
         Item: 1
-      - _normalizedWeight: 20
+      - _normalizedWeight: 24
         Item: 2
-      - _normalizedWeight: 10
+      - _normalizedWeight: 57
         Item: 3
     PoisonDamage:
       Rate: 0.25

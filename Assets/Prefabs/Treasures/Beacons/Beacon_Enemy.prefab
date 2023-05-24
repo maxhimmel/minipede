@@ -143,5 +143,17 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6966468828089067222, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966468828089067222, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966468828089067222, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}

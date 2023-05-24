@@ -233,11 +233,7 @@ namespace Minipede.Gameplay.Enemies
 			_motor.FixedTick();
 			UpdateFacingRotation();
 
-			if ( _isPoisoned && _levelForeman.TryQueryEmptyBlock( _body.position, out var instructions ) )
-			{
-				var spawnPos = instructions.Cell.Center;
-				_poisonTrailFactory.Create( transform, spawnPos );
-			}
+			TryLeavePoisonTrail();
 		}
 
 		private void UpdateFacingRotation()
@@ -249,6 +245,21 @@ namespace Minipede.Gameplay.Enemies
 			Quaternion targetRotation = (velocity / moveSpeed).ToLookRotation();
 
 			transform.rotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
+		}
+
+		private void TryLeavePoisonTrail()
+		{
+			if ( !_isPoisoned )
+			{
+				return;
+			}
+			if ( !_levelForeman.TryQueryEmptyBlock( _body.position, out var instructions ) )
+			{
+				return;
+			}
+
+			var spawnPos = instructions.Cell.Center;
+			_poisonTrailFactory.Create( transform, spawnPos );
 		}
 
 		public override void RecalibrateVelocity()

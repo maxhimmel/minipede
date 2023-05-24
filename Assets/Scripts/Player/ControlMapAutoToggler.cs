@@ -31,6 +31,12 @@ namespace Minipede.Gameplay
 
 		private void OnDisable()
 		{
+			if ( AppHelper.IsQuitting )
+			{
+				// Prevent exception being thrown by Rewired framework.
+				return;
+			}
+
 			if ( CanDisable )
 			{
 				var input = _inputResolver.GetInput();

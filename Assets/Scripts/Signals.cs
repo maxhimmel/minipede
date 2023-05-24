@@ -87,16 +87,6 @@ namespace Minipede.Gameplay
 		bool CanWin { get; }
 	}
 
-	public class PausedSignal
-	{
-		public bool IsPaused;
-
-		public PausedSignal( bool isPaused )
-		{
-			IsPaused = isPaused;
-		}
-	}
-
 	public class LevelCycleChangedSignal
 	{
 		public int Cycle { get; }

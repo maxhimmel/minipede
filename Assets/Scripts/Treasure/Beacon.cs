@@ -18,6 +18,7 @@ namespace Minipede.Gameplay.Treasures
 		private IGunProvider _gunProvider;
 		private Gun.Factory _gunFactory;
 		private PositionConstraint _constraint;
+		private ParticleSystem _cleansedAreaPreviewVfx;
 		private List<Collider2D> _colliders = new List<Collider2D>( 1 );
 		private Rigidbody2D _owner;
 
@@ -25,12 +26,14 @@ namespace Minipede.Gameplay.Treasures
 		public void Construct( ICleansedAreaProvider cleansedAreaProvider,
 			IGunProvider gunProvider,
 			Gun.Factory gunFactory,
-			PositionConstraint constraint )
+			PositionConstraint constraint, 
+			ParticleSystem cleansedAreaPreviewVfx )
 		{
 			CleansedAreaProvider = cleansedAreaProvider;
 			_gunProvider = gunProvider;
 			_gunFactory = gunFactory;
 			_constraint = constraint;
+			_cleansedAreaPreviewVfx = cleansedAreaPreviewVfx;
 		}
 
 		private void Awake()
@@ -51,6 +54,7 @@ namespace Minipede.Gameplay.Treasures
 			SetCollidersEnabled( false );
 			ClearVelocity();
 			ClampOrientation( owner );
+			HideCleansedAreaPreview();
 		}
 
 		public void Unequip()
@@ -117,6 +121,21 @@ namespace Minipede.Gameplay.Treasures
 			{
 				Gun.FixedTick();
 			}
+		}
+
+		public void ShowCleansedAreaPreview( Vector2 position )
+		{
+			_cleansedAreaPreviewVfx.transform.SetParent( null );
+			_cleansedAreaPreviewVfx.transform.SetPositionAndRotation( position, Quaternion.identity );
+
+			_cleansedAreaPreviewVfx.Play( withChildren: true );
+		}
+
+		public void HideCleansedAreaPreview()
+		{
+			_cleansedAreaPreviewVfx.Stop( withChildren: true, ParticleSystemStopBehavior.StopEmittingAndClear );
+
+			_cleansedAreaPreviewVfx.transform.SetParent( transform, worldPositionStays: false );
 		}
 
 		public class Factory : UnityFactory<Beacon>

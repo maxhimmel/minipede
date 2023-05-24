@@ -1,4 +1,3 @@
-using Minipede.Gameplay;
 using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.UI;
 using Minipede.Utility;
@@ -7,7 +6,7 @@ using Zenject;
 
 namespace Minipede.Installers
 {
-    public class AppInstaller : MonoInstaller
+	public class AppInstaller : MonoInstaller
     {
 		[SerializeField] private ControllerModel.Settings _controller;
 		[SerializeField] private SceneLoader.Settings _sceneLoader;
@@ -22,6 +21,9 @@ namespace Minipede.Installers
 				.AsSingle();
 
 			Container.Bind<TimeController>()
+				.AsSingle();
+
+			Container.Bind<PauseModel>()
 				.AsSingle();
 
 			Container.BindInterfacesAndSelfTo<PauseController>()
@@ -42,9 +44,6 @@ namespace Minipede.Installers
 		private void InstallSignals()
 		{
 			SignalBusInstaller.Install( Container );
-
-			Container.DeclareSignal<PausedSignal>()
-				.OptionalSubscriber();
 
 			Container.DeclareSignal<MixerVolumeChangedSignal>()
 				.OptionalSubscriber();

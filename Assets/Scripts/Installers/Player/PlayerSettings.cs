@@ -1,4 +1,5 @@
-﻿using Minipede.Gameplay.LevelPieces;
+﻿using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
@@ -44,9 +45,31 @@ namespace Minipede.Installers
 				.WithArguments( _playerSettings.Controller );
 
 			Container.Bind<ShipController>()
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+				{
+					subContainer.Bind<ShipController>()
+						.AsSingle();
+
+					subContainer.BindInterfacesTo<CameraToggler>()
+						.AsSingle()
+						.WithArguments( _playerSettings.ShipCamera );
+				} )
+				.WithKernel()
 				.AsSingle();
 
 			Container.Bind<ExplorerController>()
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+				{
+					subContainer.Bind<ExplorerController>()
+						.AsSingle();
+
+					subContainer.BindInterfacesTo<CameraToggler>()
+						.AsSingle()
+						.WithArguments( _playerSettings.ExplorerCamera );
+				} )
+				.WithKernel()
 				.AsSingle();
 		}
 
@@ -113,6 +136,11 @@ namespace Minipede.Installers
 			public MushroomInteractionHandler.Settings Explorer;
 			[FoldoutGroup( "Explorer" ), Space]
 			public TreasureHauler.Settings Hauling;
+
+			[FoldoutGroup( "Camera" ), LabelText( "Ship" )]
+			public CameraToggler.Settings ShipCamera;
+			[FoldoutGroup( "Camera" ), LabelText( "Explorer" )]
+			public CameraToggler.Settings ExplorerCamera;
 
 			[FoldoutGroup( "Upgrading" )]
 			public Inventory.Settings Inventory;

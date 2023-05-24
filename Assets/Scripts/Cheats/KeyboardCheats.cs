@@ -56,20 +56,28 @@ namespace Minipede.Cheats
 	}
 
 	[System.Serializable]
-	public class KillShipAction : KeyboardCheats.Action
+	public class KillPlayerAction : KeyboardCheats.Action
 	{
 		public override void PerformAction()
 		{
-			var ship = GameObject.FindObjectOfType<Ship>();
-			if ( ship != null )
+			var explorer = GameObject.FindObjectOfType<Explorer>();
+			if ( explorer != null )
 			{
-				ship.TakeDamage( ship.transform, ship.transform, new KillInvoker.Settings() );
+				explorer.TakeDamage( explorer.transform, explorer.transform, new KillInvoker.Settings() );
+			}
+			else
+			{
+				var ship = GameObject.FindObjectOfType<Ship>();
+				if ( ship != null )
+				{
+					ship.TakeDamage( ship.transform, ship.transform, new KillInvoker.Settings() );
+				}
 			}
 		}
 
 		protected override string GetActionName()
 		{
-			return "Kill Ship";
+			return "Kill Player";
 		}
 	}
 

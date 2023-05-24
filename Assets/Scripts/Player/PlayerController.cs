@@ -28,6 +28,7 @@ namespace Minipede.Gameplay.Player
 		private readonly Explorer.Factory _explorerFactory;
 		private readonly ExplorerController _explorerController;
 		private readonly EjectModel _ejectModel;
+		private readonly PauseModel _pauseModel;
 		private readonly TimeController _timeController;
 		private readonly SignalBus _signalBus;
 
@@ -42,6 +43,7 @@ namespace Minipede.Gameplay.Player
 			Explorer.Factory explorerFactory,
 			ExplorerController explorerController,
 			EjectModel ejectModel,
+			PauseModel pauseModel,
 			TimeController timeController,
 			SignalBus signalBus )
 		{
@@ -52,6 +54,7 @@ namespace Minipede.Gameplay.Player
 			_explorerFactory = explorerFactory;
 			_explorerController = explorerController;
 			_ejectModel = ejectModel;
+			_pauseModel = pauseModel;
 			_timeController = timeController;
 			_signalBus = signalBus;
 		}
@@ -60,8 +63,7 @@ namespace Minipede.Gameplay.Player
 		{
 			_playerDiedCancelSource = AppHelper.CreateLinkedCTS();
 
-			_input.AddButtonPressedDelegate( OnPaused, ReConsts.Action.Pause );
-			_input.AddButtonPressedDelegate( OnResumed, ReConsts.Action.Resume );
+			_input.AddButtonPressedDelegate( OnPauseToggled, ReConsts.Action.Pause );
 
 			_signalBus.Subscribe<IWinStateChangedSignal>( OnWinStateChanged );
 		}
@@ -74,20 +76,14 @@ namespace Minipede.Gameplay.Player
 				_playerDiedCancelSource?.Dispose();
 			}
 
-			_input.RemoveInputEventDelegate( OnPaused );
-			_input.RemoveInputEventDelegate( OnResumed );
+			_input.RemoveInputEventDelegate( OnPauseToggled );
 
 			_signalBus.TryUnsubscribe<IWinStateChangedSignal>( OnWinStateChanged );
 		}
 
-		private void OnPaused( InputActionEventData obj )
+		private void OnPauseToggled( InputActionEventData obj )
 		{
-			_signalBus.Fire( new PausedSignal( isPaused: true ) );
-		}
-
-		private void OnResumed( InputActionEventData obj )
-		{
-			_signalBus.Fire( new PausedSignal( isPaused: false ) );
+			_pauseModel.Toggle();
 		}
 
 		private void OnShipUnpossessed()

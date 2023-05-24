@@ -1,6 +1,5 @@
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
-using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces

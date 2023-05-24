@@ -167,7 +167,7 @@ MonoBehaviour:
       FollowForce: 2
       SnapToCollectorSpeed: 20
       MinFollowDistance: 1.75
-    Weight: 2.59
+    Weight: 2
   _expiration:
     Color: {r: 0, g: 0, b: 0, a: 0}
     Blinks: 10

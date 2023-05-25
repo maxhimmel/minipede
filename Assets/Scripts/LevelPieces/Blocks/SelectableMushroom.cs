@@ -30,7 +30,8 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public bool CanBeInteracted()
 		{
-			return _explorerController.Pawn.TryGetFirstHaulable( out _equippedBeacon );
+			var explorer = _explorerController.Pawn;
+			return explorer != null && explorer.TryGetFirstHaulable( out _equippedBeacon );
 		}
 
 		public void Select()

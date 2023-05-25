@@ -31,6 +31,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5414427396506577512, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8807341101252389148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
       propertyPath: m_Name
       value: Projectile_Explosion

@@ -58,6 +58,7 @@ namespace Minipede.Gameplay.Player
 		private Beacon _equippedBeacon;
 		private bool _isPiloted;
 		private Gun _ejectExplosion;
+		private Gun _repairExplosion;
 		private Gun _defaultGun;
 		private Gun _equippedGun;
 
@@ -98,6 +99,9 @@ namespace Minipede.Gameplay.Player
 
 			_ejectExplosion = _gunFactory.Create( settings.EjectExplosion );
 			_ejectExplosion.SetOwner( transform );
+
+			_repairExplosion = _gunFactory.Create( settings.RepairExplosion );
+			_repairExplosion.SetOwner( transform );
 
 			_defaultGun = _gunFactory.Create( settings.BaseGun );
 			_defaultGun.SetOwner( transform );
@@ -224,6 +228,7 @@ namespace Minipede.Gameplay.Player
 			_motor.FixedTick();
 			_equippedGun.FixedTick();
 			_ejectExplosion.FixedTick();
+			_repairExplosion.FixedTick();
 		}
 
 		public bool Collect( ShipShrapnel shrapnel )
@@ -233,9 +238,13 @@ namespace Minipede.Gameplay.Player
 				return false;
 			}
 
+			shrapnel.Dispose();
+
 			Health.Replenish();
 
-			shrapnel.Dispose();
+			_repairExplosion.Reload();
+			_repairExplosion.StartFiring();
+
 			return true;
 		}
 
@@ -386,6 +395,9 @@ namespace Minipede.Gameplay.Player
 			public ShipShrapnel Shrapnel;
 			[BoxGroup( "Eject" ), MinMaxSlider( 0, 100, ShowFields = true )]
 			public Vector2 ShrapnelLaunchForce;
+
+			[BoxGroup( "Repair" )]
+			public GunInstaller RepairExplosion;
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

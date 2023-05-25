@@ -64,6 +64,7 @@ MonoBehaviour:
         rid: 5904237243981627393
       Modules:
       - rid: 4488801589582626820
+      Icon: {fileID: 0}
   references:
     version: 2
     RefIds:
@@ -174,6 +175,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: FX_Attacked
       objectReference: {fileID: 0}
+    - target: {fileID: 5449658166424251790, guid: a8cdfc01bde48774ba147359ae4d8c44, type: 3}
+      propertyPath: managedReferences[5904237248127434758].Force
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5449658166424251790, guid: a8cdfc01bde48774ba147359ae4d8c44, type: 3}
+      propertyPath: managedReferences[4488801751905599489].Prefab
+      value: 
+      objectReference: {fileID: 5425420268331357763, guid: fc0e268d71ab48a4fb4d922435ec2765, type: 3}
     - target: {fileID: 5449658166424251790, guid: a8cdfc01bde48774ba147359ae4d8c44, type: 3}
       propertyPath: managedReferences[5904237248127434757].Color.b
       value: 0

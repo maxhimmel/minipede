@@ -37,6 +37,7 @@ namespace Minipede.Gameplay.Player
 		private InteractionSelector _interactionSelector;
 		private List<TargetGroupAttachment> _targetGroupAttachments;
 		private SpriteBlinkVfxAnimator _ejectVfx;
+		private SignalBus _signalBus;
 
 		private Vector2 _moveInput;
 		private bool _isMoveInputConsumed;
@@ -51,7 +52,8 @@ namespace Minipede.Gameplay.Player
 			TreasureHauler treasureHauler,
 			InteractionSelector interactionSelector,
 			List<TargetGroupAttachment> targetGroupAttachments,
-			SpriteBlinkVfxAnimator ejectVfx )
+			SpriteBlinkVfxAnimator ejectVfx,
+			SignalBus signalBus )
 		{
 			_settings = settings;
             _damageController = damageController;
@@ -61,12 +63,14 @@ namespace Minipede.Gameplay.Player
 			_interactionSelector = interactionSelector;
 			_targetGroupAttachments = targetGroupAttachments;
 			_ejectVfx = ejectVfx;
+			_signalBus = signalBus;
 
 			damageController.Died += OnDied;
 		}
 
 		public void EnterShip( Ship ship )
 		{
+			_signalBus.FireId( "Pilot", new FxSignal( _body.position, Vector2.up, null ) );
 			_treasureHauler.CollectAll( ship.Body );
 			Dispose();
 		}

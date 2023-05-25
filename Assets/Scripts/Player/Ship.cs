@@ -139,9 +139,6 @@ namespace Minipede.Gameplay.Player
 				return;
 			}
 
-			var direction = (_body.position - explorerPosition).normalized;
-			_signalBus.FireId( "Eject", new FxSignal( _body.position, direction, transform ) );
-
 			_ejectExplosion.Reload();
 			_ejectExplosion.StartFiring();
 

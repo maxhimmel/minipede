@@ -597,6 +597,7 @@ MonoBehaviour:
     ExplosionDelay: 0.5
     Shrapnel: {fileID: 4153180646279382678, guid: e3af0b20e8ed3764b81aedb89fb97c9b, type: 3}
     ShrapnelLaunchForce: {x: 25.469488, y: 40.727703}
+    RepairExplosion: {fileID: 4929814723182570160, guid: 815c0e2ca6a29124593b2f962597f926, type: 3}
 --- !u!114 &7023257299927715439
 MonoBehaviour:
   m_ObjectHideFlags: 0

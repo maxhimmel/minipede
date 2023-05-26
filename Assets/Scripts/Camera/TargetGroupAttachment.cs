@@ -13,7 +13,7 @@ namespace Minipede.Gameplay.Cameras
 		IDisposable
     {
 		public string Id => _settings.BindingId;
-		public bool IsActive { get; private set; }
+		public States State { get; private set; }
 
 		private TargetGroupResolver _targetGroupResolver;
 		private TaskRunner _weightUpdater;
@@ -26,6 +26,8 @@ namespace Minipede.Gameplay.Cameras
 		{
 			_targetGroupResolver = targetGroupResolver;
 			_weightUpdater = new TaskRunner( this.GetCancellationTokenOnDestroy() );
+
+			State = States.Ready;
 		}
 
 		public void Dispose()
@@ -37,6 +39,8 @@ namespace Minipede.Gameplay.Cameras
 		{
 			_pool = null;
 			_targetGroup = null;
+
+			State = States.Ready;
 		}
 
 		public void OnSpawned( Settings settings, Transform parent, IMemoryPool pool )
@@ -45,19 +49,21 @@ namespace Minipede.Gameplay.Cameras
 			_targetGroup = _targetGroupResolver.GetTargetGroup( settings.BindingId );
 			_pool = pool;
 
-			transform.SetParent( parent, false );
+			transform.SetParent( parent );
+			transform.localPosition = Vector3.zero;
 
 			Activate();
 		}
 
 		public void Activate()
 		{
-			if ( IsActive )
+			if ( State == States.Active )
 			{
-				throw new System.NotImplementedException( $"{nameof(TargetGroupAttachment)} has already been activated." );
+				//throw new System.NotImplementedException( $"{nameof(TargetGroupAttachment)} has already been activated. (State: {State})" );
+				return;
 			}
 
-			IsActive = true;
+			State = States.Active;
 
 			_targetGroup.AddMember( transform, 0, _settings.Radius );
 			SetWeight( _settings.Weight, _settings.EaseDuration );
@@ -65,6 +71,14 @@ namespace Minipede.Gameplay.Cameras
 
 		public async UniTaskVoid Deactivate( bool canDispose )
 		{
+			if ( State != States.Active )
+			{
+				//throw new System.NotImplementedException( $"{nameof( TargetGroupAttachment )} hasn't been activated. (State: {State})" );
+				return;
+			}
+
+			State = States.Deactive;
+
 			SetWeight( 0, _settings.EaseDuration );
 
 			if ( _weightUpdater.IsRunning )
@@ -74,8 +88,6 @@ namespace Minipede.Gameplay.Cameras
 			}
 
 			_targetGroup.RemoveMember( transform );
-
-			IsActive = false;
 
 			if ( canDispose )
 			{
@@ -140,6 +152,13 @@ namespace Minipede.Gameplay.Cameras
 
 			[MinValue( 0 ), BoxGroup]
 			public float EaseDuration;
+		}
+
+		public enum States
+		{
+			Ready,
+			Active,
+			Deactive
 		}
 
 		public class Factory : PlaceholderFactory<Settings, Transform, TargetGroupAttachment> { }

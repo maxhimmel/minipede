@@ -162,10 +162,7 @@ namespace Minipede.Gameplay.Player
 
 			foreach ( var targetGroupAttachment in _targetGroupAttachments )
 			{
-				if ( !targetGroupAttachment.IsActive )
-				{
-					targetGroupAttachment.Activate();
-				}
+				targetGroupAttachment.Activate();
 			}
 
 			_minimap.RemoveMarker( transform );

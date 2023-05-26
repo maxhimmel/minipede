@@ -18,6 +18,10 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
+			Container.Bind<Transform>()
+				.FromMethod( GetComponent<Transform> )
+				.AsSingle();
+
 			Container.Bind<Rigidbody2D>()
 				.FromMethod( GetComponent<Rigidbody2D> )
 				.AsSingle();

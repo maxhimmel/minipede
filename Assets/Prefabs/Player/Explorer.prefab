@@ -504,12 +504,12 @@ MonoBehaviour:
     MinSpeed: 0.25
   _explorer:
     EjectForce: 25
-    EjectInvincibleDuration: 2
+    EjectInvincibleDuration: 3
     EjectInvincibleVfx:
       BlinkSettings:
         Color: {r: 0, g: 0, b: 0, a: 0}
-        Blinks: 20
-        Duration: 2
+        Blinks: 30
+        Duration: 3
 --- !u!114 &2170247585523031034
 MonoBehaviour:
   m_ObjectHideFlags: 0

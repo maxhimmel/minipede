@@ -85,7 +85,7 @@ namespace Minipede.Editor
 
 		private bool CanInteract()
 		{
-			return _enemySettingsObj != null;
+			return !BuildPipeline.isBuildingPlayer && _enemySettingsObj != null;
 		}
 	}
 }

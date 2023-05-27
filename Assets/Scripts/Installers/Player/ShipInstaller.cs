@@ -1,4 +1,5 @@
 using Minipede.Gameplay;
+using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Weapons;
 using Sirenix.OdinInspector;
@@ -13,6 +14,9 @@ namespace Minipede.Installers
 
 		[HideLabel]
 		[SerializeField] private Ship.Settings _settings;
+
+		[HideLabel, BoxGroup( "Selection" )]
+		[SerializeField] private Selection _selection;
 
 		public override void InstallBindings()
 		{
@@ -47,8 +51,23 @@ namespace Minipede.Installers
 				.FromResolveGetter<Ship>( ship => ship )
 				.AsSingle();
 
-			Container.Bind<IInteractable>()
-				.To<InteractableShip>()
+			Container.Bind( typeof( ISelectable ), typeof( IInteractable ) )
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+				{
+					subContainer.BindInterfacesTo<SelectableShip>()
+						.AsSingle();
+
+					subContainer.BindInterfacesTo<CameraToggler>()
+						.AsSingle()
+						.WithArguments( _selection.Camera );
+
+					subContainer.Bind<SpriteRenderer>()
+						.FromResolveGetter<DiContainer>( container =>
+							container.ResolveId<SpriteRenderer>( _selection.SelectorName )
+						)
+						.AsSingle();
+				} )
 				.AsSingle();
 
 			/* --- */
@@ -59,6 +78,15 @@ namespace Minipede.Installers
 			Container.Bind<ShipShrapnel.Factory>()
 				.AsSingle()
 				.WithArguments( _settings.Shrapnel );
+		}
+
+		[System.Serializable]
+		private class Selection
+		{
+			public string SelectorName = "Selector";
+
+			[HideLabel]
+			public CameraToggler.Settings Camera;
 		}
 	}
 }

@@ -98,6 +98,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defaultInteraction: 1
+--- !u!1 &1513492826688607107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1176298261099978947}
+  - component: {fileID: 6870115371247575461}
+  m_Layer: 3
+  m_Name: CameraTarget
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1176298261099978947
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513492826688607107}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1530993560611149909}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6870115371247575461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1513492826688607107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fcd2fcbab6f47441b4949063e9969b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _settings:
+    BindingId: Explorer
+    Weight: 0.5
+    Radius: 0
+    EaseDuration: 0.25
 --- !u!1 &1530993560611149911
 GameObject:
   m_ObjectHideFlags: 0
@@ -134,6 +183,7 @@ Transform:
   - {fileID: 1530993562119040138}
   - {fileID: 1928059887342643323}
   - {fileID: 7732738780401821185}
+  - {fileID: 1176298261099978947}
   - {fileID: 3830761863828800710}
   - {fileID: 8704641771483397925}
   m_Father: {fileID: 0}
@@ -190,6 +240,7 @@ MonoBehaviour:
   - {fileID: 5782339924212649437}
   - {fileID: 275483146281030046}
   - {fileID: 5765850429030925598}
+  - {fileID: 6870115371247575461}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -202,7 +253,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1530993560611149911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21da5fdf1ffdd824fbf92e055c3b0d8f, type: 3}
+  m_Script: {fileID: 11500000, guid: 40c9ee9edf12dc3459b522cac42a0480, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
@@ -220,6 +271,8 @@ MonoBehaviour:
     Color: {r: 0, g: 0, b: 0, a: 0}
     Blinks: 10
     Duration: 1
+  _shrapnel:
+    CameraFocusDuration: 1
 --- !u!1 &1530993562119040141
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +470,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1392161911835332213, guid: d403771064e2ffa47a047b649fd2b4b6, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1392161911835332213, guid: d403771064e2ffa47a047b649fd2b4b6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -709,7 +762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5545833687373891259, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5545833687373891259, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
       propertyPath: m_AnchorMax.x

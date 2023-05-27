@@ -47,7 +47,7 @@ namespace Minipede.Gameplay.Player
 		private IMinimap _minimap;
 		private Collider2D _collider;
 		private SpriteRenderer _renderer;
-		private SpriteRenderer _selector;
+		private ISelectable _selector;
 		private List<TargetGroupAttachment> _targetGroupAttachments;
 		private IInteractable _interactable;
 		private ActionGlyphController _glyphController;
@@ -73,7 +73,7 @@ namespace Minipede.Gameplay.Player
 			IMinimap minimap,
 			Collider2D collider,
 			SpriteRenderer renderer,
-			[Inject( Id = "Selector" )] SpriteRenderer selector,
+			ISelectable selector,
 			List<TargetGroupAttachment> targetGroups,
 			IInteractable interactable,
 			ActionGlyphController glyphController,
@@ -336,7 +336,7 @@ namespace Minipede.Gameplay.Player
 
 		public void Select()
 		{
-			_selector.enabled = true;
+			_selector.Select();
 
 			_glyphController.ShowAction( ReConsts.Action.Interact );
 			if ( IsBeaconEquipped() )
@@ -347,7 +347,7 @@ namespace Minipede.Gameplay.Player
 
 		public void Deselect()
 		{
-			_selector.enabled = false;
+			_selector.Deselect();
 			_glyphController.HideAll();
 		}
 

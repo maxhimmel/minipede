@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
-    MinThreshold: 48
+    MinThreshold: 32
     ReplenishCooldown: 10
     ReplenishWave:
       rid: 5904237330888917001

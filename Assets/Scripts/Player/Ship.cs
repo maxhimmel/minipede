@@ -49,7 +49,6 @@ namespace Minipede.Gameplay.Player
 		private SpriteRenderer _renderer;
 		private ISelectable _selector;
 		private List<TargetGroupAttachment> _targetGroupAttachments;
-		private IInteractable _interactable;
 		private ActionGlyphController _glyphController;
 		private SignalBus _signalBus;
 
@@ -75,7 +74,6 @@ namespace Minipede.Gameplay.Player
 			SpriteRenderer renderer,
 			ISelectable selector,
 			List<TargetGroupAttachment> targetGroups,
-			IInteractable interactable,
 			ActionGlyphController glyphController,
 			SignalBus signalBus )
 		{
@@ -91,7 +89,6 @@ namespace Minipede.Gameplay.Player
 			_renderer = renderer;
 			_selector = selector;
 			_targetGroupAttachments = targetGroups;
-			_interactable = interactable;
 			_glyphController = glyphController;
 			_signalBus = signalBus;
 
@@ -331,7 +328,7 @@ namespace Minipede.Gameplay.Player
 				return false;
 			}
 
-			return _interactable.CanBeInteracted();
+			return _selector.CanBeInteracted();
 		}
 
 		public void Select()

@@ -51,7 +51,7 @@ namespace Minipede.Installers
 				.FromResolveGetter<Ship>( ship => ship )
 				.AsSingle();
 
-			Container.Bind( typeof( ISelectable ), typeof( IInteractable ) )
+			Container.Bind( typeof( ISelectable ) )
 				.FromSubContainerResolve()
 				.ByMethod( subContainer =>
 				{

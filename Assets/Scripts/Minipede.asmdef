@@ -8,7 +8,8 @@
         "Zenject",
         "UniTask",
         "Unity.RenderPipelines.Universal.Runtime",
-        "ControllerGlyph"
+        "ControllerGlyph",
+        "ShapesRuntime"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

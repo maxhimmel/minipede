@@ -65,5 +65,12 @@ namespace Minipede.Gameplay.Player
 
 			return newAmount;
 		}
+
+		public int GetAmount( ResourceType resource )
+		{
+			_treasures.TryGetValue( resource, out int amount );
+
+			return amount;
+		}
 	}
 }

@@ -93,6 +93,11 @@ namespace Minipede.Gameplay.Player
 			return _isVisible;
 		}
 
+		public int GetGemCount( ResourceType resource )
+		{
+			return _wallet.GetAmount( resource );
+		}
+
 		[System.Serializable]
 		public class Settings
 		{

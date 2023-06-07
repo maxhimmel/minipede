@@ -4338,11 +4338,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2505915869584853014, guid: 5c1a93f5e15f93f499506b691d8471f0, type: 3}
       propertyPath: m_Name
-      value: PollutionMeter
+      value: PollutionMeter_DEPRECATED
+      objectReference: {fileID: 0}
+    - target: {fileID: 2505915869584853014, guid: 5c1a93f5e15f93f499506b691d8471f0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5649395208326945452, guid: 5c1a93f5e15f93f499506b691d8471f0, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6539033898936015115, guid: 5c1a93f5e15f93f499506b691d8471f0, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7988224118758603867, guid: 5c1a93f5e15f93f499506b691d8471f0, type: 3}
       propertyPath: m_Pivot.x

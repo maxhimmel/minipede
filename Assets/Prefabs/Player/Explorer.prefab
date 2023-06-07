@@ -1047,7 +1047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 4.51
+    MaxSpeed: 5
     Acceleration: 95.11
 --- !u!1 &8534091019002428326
 GameObject:

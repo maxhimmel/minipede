@@ -2,15 +2,14 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using UnityEngine;
-using UnityEngine.UI;
 using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
-    public class PollutionMeter : MonoBehaviour
+	public class PollutionMeter : MonoBehaviour
     {
-        [SerializeField] private Slider _slider;
-        [SerializeField] private Image _winRequirementFill;
+        [SerializeField] private MonoProgressWidget _slider;
+        [SerializeField] private MonoProgressWidget _winRequirementFill;
 
 		[Header( "Animation" )]
 		[SerializeField] private float _animDuration = 0.25f;
@@ -29,8 +28,8 @@ namespace Minipede.Gameplay.UI
 
 			_updateSliderCancelSource = AppHelper.CreateLinkedCTS();
 
-			_slider.normalizedValue = winPercentage.PollutionWinPercentage;
-			_winRequirementFill.fillAmount = winPercentage.PollutionWinPercentage;
+			_slider.SetProgress( winPercentage.PollutionWinPercentage );
+			_winRequirementFill.SetProgress( winPercentage.PollutionWinPercentage );
 		}
 
 		private void OnEnable()
@@ -58,7 +57,7 @@ namespace Minipede.Gameplay.UI
 
 		private async UniTask UpdateSlider( float normalizedValue )
 		{
-			float start = _slider.normalizedValue;
+			float start = _slider.NormalizedProgress;
 			float end = normalizedValue;
 
 			float timer = 0;
@@ -68,8 +67,8 @@ namespace Minipede.Gameplay.UI
 				timer = Mathf.Min( timer, 1 );
 
 				float tweenValue = _tween.Evaluate( timer );
+				_slider.SetProgress( Mathf.LerpUnclamped( start, end, tweenValue ) );
 
-				_slider.normalizedValue = Mathf.LerpUnclamped( start, end, tweenValue );
 				await UniTask.Yield( PlayerLoopTiming.Update, _updateSliderCancelSource.Token );
 			}
 

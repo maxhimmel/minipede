@@ -1828,12 +1828,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb3ce3c00d33ee64785e5ff580e2c3dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _progressPreview: {fileID: 697273039905495843}
   _progressFill:
   - {fileID: 697273039303746859}
-  _progressPreview: {fileID: 697273039905495843}
+  _fillWhenPiloting: 1
   _fillDelay: 2
   _fillDuration: 1
-  _fillWhenPiloting: 0
 --- !u!1 &697273040285942897
 GameObject:
   m_ObjectHideFlags: 0

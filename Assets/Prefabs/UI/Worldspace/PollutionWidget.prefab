@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5759197832349534319}
   - component: {fileID: 2363273064921659694}
-  - component: {fileID: 5759197832349534312}
+  - component: {fileID: 6153818504290491269}
   - component: {fileID: 5759197832349534313}
   - component: {fileID: 5759197832349534318}
+  - component: {fileID: 5759197832349534312}
   m_Layer: 10
   m_Name: FillPreview
   m_TagString: Untagged
@@ -54,7 +55,7 @@ MonoBehaviour:
   _end:
     Time: 1
     _angle: {x: -90, y: -270}
---- !u!114 &5759197832349534312
+--- !u!114 &6153818504290491269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,47 +64,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5759197832349534316}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dd51d29965c9d04599a2fdc8a833c6b, type: 3}
+  m_Script: {fileID: 11500000, guid: fcaa008fdf2b85a42a5978dc15047131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  blendMode: 1
-  scaleMode: 0
-  color: {r: 1, g: 1, b: 1, a: 1}
-  detailLevel: 2
-  renderQueue: -1
-  zTest: 4
-  zOffsetFactor: 0
-  zOffsetUnits: 0
-  colorMask: 15
-  stencilComp: 8
-  stencilOpPass: 0
-  stencilRefID: 0
-  stencilReadMask: 255
-  stencilWriteMask: 255
-  type: 3
-  colorMode: 0
-  colorOuterStart: {r: 1, g: 1, b: 1, a: 1}
-  colorInnerEnd: {r: 1, g: 1, b: 1, a: 1}
-  colorOuterEnd: {r: 1, g: 1, b: 1, a: 1}
-  geometry: 0
-  angUnitInput: 1
-  angRadiansStart: 4.712389
-  angRadiansEnd: 3.4592426
-  radius: 2
-  radiusSpace: 0
-  thickness: 0.25
-  thicknessSpace: 0
-  arcEndCaps: 0
-  matchDashSpacingToSize: 1
-  dashed: 0
-  dashStyle:
-    type: 0
-    space: -2
-    snap: 1
-    size: 16
-    spacing: 0.5
-    offset: 0
-    shapeModifier: 1
+  _shape: {fileID: 5759197832349534312}
+  _settings:
+    UseUnscaledTime: 0
+    BlinksPerSecond: 6
+    Color: {r: 0.25882354, g: 0.7254902, b: 0, a: 0}
 --- !u!33 &5759197832349534313
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -154,6 +122,56 @@ MeshRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 2
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5759197832349534312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759197832349534316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd51d29965c9d04599a2fdc8a833c6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blendMode: 1
+  scaleMode: 0
+  color: {r: 1, g: 1, b: 1, a: 1}
+  detailLevel: 2
+  renderQueue: -1
+  zTest: 4
+  zOffsetFactor: 0
+  zOffsetUnits: 0
+  colorMask: 15
+  stencilComp: 8
+  stencilOpPass: 0
+  stencilRefID: 0
+  stencilReadMask: 255
+  stencilWriteMask: 255
+  type: 3
+  colorMode: 0
+  colorOuterStart: {r: 1, g: 1, b: 1, a: 1}
+  colorInnerEnd: {r: 1, g: 1, b: 1, a: 1}
+  colorOuterEnd: {r: 1, g: 1, b: 1, a: 1}
+  geometry: 0
+  angUnitInput: 1
+  angRadiansStart: 4.712389
+  angRadiansEnd: 3.4592426
+  radius: 2
+  radiusSpace: 0
+  thickness: 0.25
+  thicknessSpace: 0
+  arcEndCaps: 0
+  matchDashSpacingToSize: 1
+  dashed: 0
+  dashStyle:
+    type: 0
+    space: -2
+    snap: 1
+    size: 16
+    spacing: 0.5
+    offset: 0
+    shapeModifier: 1
 --- !u!1 &5759197832418524378
 GameObject:
   m_ObjectHideFlags: 0
@@ -350,10 +368,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5759197833005462267}
-  - component: {fileID: 7780171847914819085}
-  - component: {fileID: 5759197833005462244}
+  - component: {fileID: 7973672495947859445}
   - component: {fileID: 5759197833005462245}
   - component: {fileID: 5759197833005462266}
+  - component: {fileID: 5759197833005462244}
   m_Layer: 10
   m_Name: PollutionWidget
   m_TagString: Untagged
@@ -379,7 +397,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7780171847914819085
+--- !u!114 &7973672495947859445
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -388,62 +406,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 5759197833005462264}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2580e36826d77854290c1daf6ca746cd, type: 3}
+  m_Script: {fileID: 11500000, guid: eb3ce3c00d33ee64785e5ff580e2c3dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cleansedProgressLabel: {fileID: 1868691178749806584}
-  _cleansedProgressFill: {fileID: 6109362284279527986}
-  _cleansedProgressPreview: {fileID: 2363273064921659694}
---- !u!114 &5759197833005462244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5759197833005462264}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8dd51d29965c9d04599a2fdc8a833c6b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  blendMode: 1
-  scaleMode: 0
-  color: {r: 1, g: 0, b: 0, a: 1}
-  detailLevel: 2
-  renderQueue: -1
-  zTest: 4
-  zOffsetFactor: 0
-  zOffsetUnits: 0
-  colorMask: 15
-  stencilComp: 8
-  stencilOpPass: 0
-  stencilRefID: 0
-  stencilReadMask: 255
-  stencilWriteMask: 255
-  type: 3
-  colorMode: 0
-  colorOuterStart: {r: 1, g: 1, b: 1, a: 1}
-  colorInnerEnd: {r: 1, g: 1, b: 1, a: 1}
-  colorOuterEnd: {r: 1, g: 1, b: 1, a: 1}
-  geometry: 0
-  angUnitInput: 1
-  angRadiansStart: 4.712389
-  angRadiansEnd: 1.5707964
-  radius: 2
-  radiusSpace: 0
-  thickness: 0.25
-  thicknessSpace: 0
-  arcEndCaps: 0
-  matchDashSpacingToSize: 1
-  dashed: 0
-  dashStyle:
-    type: 0
-    space: -2
-    snap: 1
-    size: 16
-    spacing: 0.5
-    offset: 0
-    shapeModifier: 1
+  _progressFill:
+  - {fileID: 6109362284279527986}
+  - {fileID: 1868691178749806584}
+  _progressPreview: {fileID: 2363273064921659694}
+  _fillDelay: 0.25
+  _fillDuration: 1
+  _fillWhenPiloting: 0
 --- !u!33 &5759197833005462245
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -494,6 +466,56 @@ MeshRenderer:
   m_SortingLayer: 3
   m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &5759197833005462244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759197833005462264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dd51d29965c9d04599a2fdc8a833c6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blendMode: 1
+  scaleMode: 0
+  color: {r: 1, g: 0, b: 0, a: 1}
+  detailLevel: 2
+  renderQueue: -1
+  zTest: 4
+  zOffsetFactor: 0
+  zOffsetUnits: 0
+  colorMask: 15
+  stencilComp: 8
+  stencilOpPass: 0
+  stencilRefID: 0
+  stencilReadMask: 255
+  stencilWriteMask: 255
+  type: 3
+  colorMode: 0
+  colorOuterStart: {r: 1, g: 1, b: 1, a: 1}
+  colorInnerEnd: {r: 1, g: 1, b: 1, a: 1}
+  colorOuterEnd: {r: 1, g: 1, b: 1, a: 1}
+  geometry: 0
+  angUnitInput: 1
+  angRadiansStart: 4.712389
+  angRadiansEnd: 1.5707964
+  radius: 2
+  radiusSpace: 0
+  thickness: 0.25
+  thicknessSpace: 0
+  arcEndCaps: 0
+  matchDashSpacingToSize: 1
+  dashed: 0
+  dashStyle:
+    type: 0
+    space: -2
+    snap: 1
+    size: 16
+    spacing: 0.5
+    offset: 0
+    shapeModifier: 1
 --- !u!1 &5759197833195259188
 GameObject:
   m_ObjectHideFlags: 0

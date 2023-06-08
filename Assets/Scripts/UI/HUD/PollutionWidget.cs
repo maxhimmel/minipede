@@ -8,7 +8,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
-	public class ArenaPollutionWidget : MonoBehaviour
+	public class PollutionWidget : MonoBehaviour
     {
         [SerializeField] private MonoProgressWidget[] _progressFill;
         [SerializeField] private MonoProgressWidget _progressPreview;

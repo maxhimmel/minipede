@@ -9,9 +9,11 @@ using Zenject;
 namespace Minipede.Gameplay.UI
 {
 	public class PollutionWidget : MonoBehaviour
-    {
-        [SerializeField] private MonoProgressWidget[] _progressFill;
-        [SerializeField] private MonoProgressWidget _progressPreview;
+	{
+		[BoxGroup( "Progress" )]
+		[SerializeField, LabelText( "Preview" )] private MonoProgressWidget _progressPreview;
+		[BoxGroup( "Progress" )]
+        [SerializeField, LabelText( "Fills" )] private MonoProgressWidget[] _progressFill;
 
 		[Header( "Animation" )]
 		[SerializeField] private bool _fillWhenPiloting;

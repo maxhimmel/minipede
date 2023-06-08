@@ -40,7 +40,7 @@ namespace Minipede.Gameplay.UI
 			_winPercentage = winPercentage;
 			_shipController = shipController;
 
-			_progressFillUpdater = new TaskRunner();
+			_progressFillUpdater = new TaskRunner( this.GetCancellationTokenOnDestroy() );
 
 			_prevCleansedPercent = _cleansedPercent = GetPollutionPercent();
 

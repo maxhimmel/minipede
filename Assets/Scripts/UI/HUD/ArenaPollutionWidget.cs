@@ -10,14 +10,16 @@ namespace Minipede.Gameplay.UI
 {
 	public class ArenaPollutionWidget : MonoBehaviour
     {
-        [SerializeField] private MonoProgressWidget _progressFill;
+        [SerializeField] private MonoProgressWidget[] _progressFill;
         [SerializeField] private MonoProgressWidget _progressPreview;
 
 		[Header( "Animation" )]
+		[SerializeField] private bool _fillWhenPiloting;
 		[SerializeField, MinValue( 0 )] private float _fillDelay = 1;
 		[SerializeField, MinValue( 0 )] private float _fillDuration = 1;
 
 		private SignalBus _signalBus;
+		private PollutedAreaController _pollutionController;
 		private IPollutionWinPercentage _winPercentage;
 		private ShipController _shipController;
 
@@ -27,45 +29,72 @@ namespace Minipede.Gameplay.UI
 
 		[Inject]
 		public void Construct( SignalBus signalBus,
+			PollutedAreaController pollutionController,
 			IPollutionWinPercentage winPercentage,
 			ShipController shipController )
 		{
 			_signalBus = signalBus;
+			_pollutionController = pollutionController;
 			_winPercentage = winPercentage;
 			_shipController = shipController;
 
 			_progressFillUpdater = new TaskRunner();
 
-			_prevCleansedPercent = _cleansedPercent = 0;
+			_prevCleansedPercent = _cleansedPercent = GetPollutionPercent();
 
-			_progressFill.SetProgress( 0 );
+			foreach ( var fill in _progressFill )
+			{
+				fill.SetProgress( 0 );
+			}
 			_progressPreview.SetProgress( 0 );
 		}
 
 		private void OnEnable()
 		{
+			if ( _fillWhenPiloting )
+			{
+				_shipController.Possessed += OnShipPossessed;
+			}
+
 			_signalBus.Subscribe<PollutionLevelChangedSignal>( OnPollutionLevelChanged );
-			_shipController.Possessed += OnShipPossessed;
+
+			foreach ( var fill in _progressFill )
+			{
+				fill.SetProgress( GetPollutionPercent() );
+			}
 		}
 
 		private void OnDisable()
 		{
+			if ( _fillWhenPiloting )
+			{
+				_shipController.Possessed -= OnShipPossessed;
+			}
+
 			_signalBus.TryUnsubscribe<PollutionLevelChangedSignal>( OnPollutionLevelChanged );
-			_shipController.Possessed -= OnShipPossessed;
+		}
+
+		private void OnShipPossessed( Ship obj )
+		{
+			StartProgressFill();
 		}
 
 		private void OnPollutionLevelChanged( PollutionLevelChangedSignal signal )
 		{
-			float offsetMax = 1 - _winPercentage.PollutionWinPercentage;
-			float offsetPercent = (signal.NormalizedLevel - _winPercentage.PollutionWinPercentage) / offsetMax;
+			float percent = GetPollutionPercent();
 
 			_progressPreview.gameObject.SetActive( true );
-			_progressPreview.SetProgress( offsetPercent );
+			_progressPreview.SetProgress( percent );
 
-			_cleansedPercent = offsetPercent;
+			_cleansedPercent = percent;
+
+			if ( !_fillWhenPiloting )
+			{
+				StartProgressFill();
+			}
 		}
 
-		private void OnShipPossessed( Ship obj )
+		private void StartProgressFill()
 		{
 			if ( _fillDelay > 0 || _fillDuration > 0 )
 			{
@@ -90,14 +119,29 @@ namespace Minipede.Gameplay.UI
 				timer += Time.deltaTime;
 
 				float fillValue = Mathf.Lerp( _prevCleansedPercent, _cleansedPercent, timer / _fillDuration );
-				_progressFill.SetProgress( fillValue );
+				foreach ( var fill in _progressFill )
+				{
+					fill.SetProgress( fillValue );
+				}
 
 				await UniTask.Yield( PlayerLoopTiming.Update, _progressFillUpdater.CancelToken );
 			}
 
 			_prevCleansedPercent = _cleansedPercent;
 			_progressPreview.gameObject.SetActive( false );
-			_progressFill.SetProgress( _cleansedPercent );
+
+			foreach ( var fill in _progressFill )
+			{
+				fill.SetProgress( _cleansedPercent );
+			}
+		}
+
+		private float GetPollutionPercent()
+		{
+			float offsetMax = 1 - _winPercentage.PollutionWinPercentage;
+			float offsetPercent = (_pollutionController.PollutionPercentage - _winPercentage.PollutionWinPercentage) / offsetMax;
+
+			return offsetPercent;
 		}
 	}
 }

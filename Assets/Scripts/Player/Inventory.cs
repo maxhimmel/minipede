@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Minipede.Gameplay.Treasures;
 using UnityEngine;
 using Zenject;
@@ -8,6 +8,11 @@ namespace Minipede.Gameplay.Player
 	public class Inventory : IInitializable,
 		IDisposable
 	{
+		/// <summary>
+		/// The amount of gems required to craft a beacon.
+		/// </summary>
+		public int GemsToBeacons => _settings.GemsToBeacon;
+
 		private readonly Settings _settings;
 		private readonly Wallet _wallet;
 		private readonly BeaconFactoryBus _beaconFactory;

@@ -48,27 +48,24 @@ namespace Minipede.Gameplay.UI
 
 		private void OnEnable()
 		{
-			_signalBus.Subscribe<ResourceAmountChangedSignal>( OnCollectedTreasure );
+			_signalBus.SubscribeId<ResourceAmountChangedSignal>( _resource, OnCollectedTreasure );
 			_signalBus.Subscribe<BeaconCreationStateChangedSignal>( OnBeaconCreationStateChanged );
 		}
 
 		private void OnDisable()
 		{
-			_signalBus.TryUnsubscribe<ResourceAmountChangedSignal>( OnCollectedTreasure );
+			_signalBus.TryUnsubscribeId<ResourceAmountChangedSignal>( _resource, OnCollectedTreasure );
 			_signalBus.TryUnsubscribe<BeaconCreationStateChangedSignal>( OnBeaconCreationStateChanged );
 		}
 
 		private void OnCollectedTreasure( ResourceAmountChangedSignal signal )
 		{
-			if ( signal.ResourceType == _resource )
-			{
-				float percentage = Mathf.Clamp01( signal.TotalAmount / (float)_gemsToBeacons );
-				Vector2 offsetMax = _gaugeFill.rectTransform.offsetMax;
-				offsetMax.x = Mathf.Lerp( _gaugeWidth, 0, percentage );
-				_gaugeFill.rectTransform.offsetMax = offsetMax;
+			float percentage = Mathf.Clamp01( signal.TotalAmount / (float)_gemsToBeacons );
+			Vector2 offsetMax = _gaugeFill.rectTransform.offsetMax;
+			offsetMax.x = Mathf.Lerp( _gaugeWidth, 0, percentage );
+			_gaugeFill.rectTransform.offsetMax = offsetMax;
 
-				TryEmitCollectVfx( signal );
-			}
+			TryEmitCollectVfx( signal );
 		}
 
 		private void TryEmitCollectVfx( ResourceAmountChangedSignal signal )

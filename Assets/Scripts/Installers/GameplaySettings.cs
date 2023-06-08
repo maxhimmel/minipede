@@ -16,6 +16,7 @@ namespace Minipede.Installers
 {
 	public class GameplaySettings : MonoInstaller
 	{
+		[SerializeField] private ResourceType[] _resourceTypes;
 		[SerializeField] private Beacon _beaconSettings;
 		[SerializeField] private EndGameController.Settings _endGameSettings;
 		[SerializeField] private Audio _audioSettings;
@@ -99,8 +100,13 @@ namespace Minipede.Installers
 		private void DeclareSignals()
 		{
 			// Treasure ...
-			Container.DeclareSignal<ResourceAmountChangedSignal>()
-				.OptionalSubscriber();
+			foreach ( var resource in _resourceTypes )
+			{
+				Container.DeclareSignal<ResourceAmountChangedSignal>()
+					.WithId( resource )
+					.OptionalSubscriber();
+			}
+
 			Container.DeclareSignal<BeaconEquippedSignal>()
 				.OptionalSubscriber();
 			Container.DeclareSignal<BeaconUnequippedSignal>()

@@ -28,7 +28,7 @@ namespace Minipede.Gameplay.Player
 			int newAmount = amount + 1;
 			_treasures[resource] = newAmount;
 
-			_signalBus.TryFire( new ResourceAmountChangedSignal()
+			_signalBus.TryFireId( resource, new ResourceAmountChangedSignal()
 			{
 				ResourceType = resource,
 				TotalAmount = newAmount,
@@ -56,7 +56,7 @@ namespace Minipede.Gameplay.Player
 			int newAmount = total - spendAmount;
 			_treasures[resource] = newAmount;
 
-			_signalBus.TryFire( new ResourceAmountChangedSignal()
+			_signalBus.TryFireId( resource, new ResourceAmountChangedSignal()
 			{
 				ResourceType = resource,
 				TotalAmount = newAmount,

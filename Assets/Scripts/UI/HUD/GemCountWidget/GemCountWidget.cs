@@ -27,22 +27,19 @@ namespace Minipede.Gameplay.UI
 
 		private void OnEnable()
 		{
-			_signalBus.Subscribe<ResourceAmountChangedSignal>( OnResourceAmountChanged );
+			_signalBus.SubscribeId<ResourceAmountChangedSignal>( _resource, OnResourceAmountChanged );
 
 			_count.text = string.Format( _format, _inventory.GetGemCount( _resource ) );
 		}
 
 		private void OnDisable()
 		{
-			_signalBus.TryUnsubscribe<ResourceAmountChangedSignal>( OnResourceAmountChanged );
+			_signalBus.TryUnsubscribeId<ResourceAmountChangedSignal>( _resource, OnResourceAmountChanged );
 		}
 
 		private void OnResourceAmountChanged( ResourceAmountChangedSignal signal )
 		{
-			if ( signal.ResourceType == _resource )
-			{
-				_count.text = string.Format( _format, signal.TotalAmount );
-			}
+			_count.text = string.Format( _format, signal.TotalAmount );
 		}
 	}
 }

@@ -105,6 +105,10 @@ namespace Minipede.Installers
 				Container.DeclareSignal<ResourceAmountChangedSignal>()
 					.WithId( resource )
 					.OptionalSubscriber();
+
+				Container.DeclareSignal<BeaconCreationStateChangedSignal>()
+					.WithId( resource )
+					.OptionalSubscriber();
 			}
 
 			Container.DeclareSignal<BeaconEquippedSignal>()
@@ -114,8 +118,6 @@ namespace Minipede.Installers
 			Container.DeclareSignal<CreateBeaconSignal>()
 				.OptionalSubscriber();
 			Container.DeclareSignal<BeaconTypeSelectedSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<BeaconCreationStateChangedSignal>()
 				.OptionalSubscriber();
 			Container.DeclareSignal<ToggleInventorySignal>()
 				.OptionalSubscriber();

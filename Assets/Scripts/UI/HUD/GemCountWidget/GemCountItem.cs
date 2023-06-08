@@ -49,13 +49,13 @@ namespace Minipede.Gameplay.UI
 		private void OnEnable()
 		{
 			_signalBus.SubscribeId<ResourceAmountChangedSignal>( _resource, OnCollectedTreasure );
-			_signalBus.Subscribe<BeaconCreationStateChangedSignal>( OnBeaconCreationStateChanged );
+			_signalBus.SubscribeId<BeaconCreationStateChangedSignal>( _resource, OnBeaconCreationStateChanged );
 		}
 
 		private void OnDisable()
 		{
 			_signalBus.TryUnsubscribeId<ResourceAmountChangedSignal>( _resource, OnCollectedTreasure );
-			_signalBus.TryUnsubscribe<BeaconCreationStateChangedSignal>( OnBeaconCreationStateChanged );
+			_signalBus.TryUnsubscribeId<BeaconCreationStateChangedSignal>( _resource, OnBeaconCreationStateChanged );
 		}
 
 		private void OnCollectedTreasure( ResourceAmountChangedSignal signal )
@@ -80,10 +80,7 @@ namespace Minipede.Gameplay.UI
 
 		private void OnBeaconCreationStateChanged( BeaconCreationStateChangedSignal signal )
 		{
-			if ( signal.ResourceType == _resource )
-			{
-				_group.interactable = signal.IsUnlocked;
-			}
+			_group.interactable = signal.IsUnlocked;
 		}
 	}
 }

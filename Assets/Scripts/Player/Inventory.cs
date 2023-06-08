@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Minipede.Gameplay.Treasures;
 using UnityEngine;
 using Zenject;
@@ -74,7 +74,7 @@ namespace Minipede.Gameplay.Player
 
 		private void FireBeaconCreationStateChangedSignal( ResourceType resource, int resourceAmount )
 		{
-			_signalBus.TryFire( new BeaconCreationStateChangedSignal()
+			_signalBus.TryFireId( resource, new BeaconCreationStateChangedSignal()
 			{
 				ResourceType = resource,
 				IsUnlocked = resourceAmount >= _settings.GemsToBeacon

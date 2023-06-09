@@ -11,7 +11,6 @@ namespace Minipede.Gameplay.UI
         [SerializeField] private Image _indicator;
 		[SerializeField] private Button _button;
 		[SerializeField] private Image _gaugeFill;
-		[SerializeField] private CanvasGroup _group;
 		[SerializeField] private ParticleSystem _collectVfx;
 
 		private ResourceType _resource;
@@ -42,15 +41,14 @@ namespace Minipede.Gameplay.UI
 		private void OnEnable()
 		{
 			_signalBus.SubscribeId<ResourceAmountChangedSignal>( _resource, TryEmitCollectVfx );
-			_signalBus.SubscribeId<BeaconCreationStateChangedSignal>( _resource, OnBeaconCreationStateChanged );
 		}
 
 		private void OnDisable()
 		{
 			_signalBus.TryUnsubscribeId<ResourceAmountChangedSignal>( _resource, TryEmitCollectVfx );
-			_signalBus.TryUnsubscribeId<BeaconCreationStateChangedSignal>( _resource, OnBeaconCreationStateChanged );
 		}
 
+		// TODO: Separate this into bespoke widget
 		private void TryEmitCollectVfx( ResourceAmountChangedSignal signal )
 		{
 			if ( signal.PrevTotal < signal.TotalAmount )
@@ -59,11 +57,6 @@ namespace Minipede.Gameplay.UI
 				vfxShape.position = signal.CollectionSource - _collectVfx.transform.position.ToVector2();
 				_collectVfx.Emit( 1 );
 			}
-		}
-
-		private void OnBeaconCreationStateChanged( BeaconCreationStateChangedSignal signal )
-		{
-			_group.interactable = signal.IsUnlocked;
 		}
 	}
 }

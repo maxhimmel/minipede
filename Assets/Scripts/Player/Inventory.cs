@@ -98,6 +98,12 @@ namespace Minipede.Gameplay.Player
 			return _isVisible;
 		}
 
+		public bool CanCraftBeacon( ResourceType resource )
+		{
+			int gems = GetGemCount( resource );
+			return gems >= _settings.GemsToBeacon;
+		}
+
 		public int GetGemCount( ResourceType resource )
 		{
 			return _wallet.GetAmount( resource );

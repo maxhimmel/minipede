@@ -6,7 +6,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
-	public class GemCountItem : MonoBehaviour
+	public class GemCraftWidget : MonoBehaviour
     {
         [SerializeField] private Image _indicator;
 		[SerializeField] private Button _button;

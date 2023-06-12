@@ -9,7 +9,6 @@ namespace Minipede.Gameplay.UI
 	public class GunWidget : MonoBehaviour
     {
         [SerializeField] private Image _gunIcon;
-        [SerializeField] private Image _typeColor;
         [SerializeField] private Image _fireRateProgress;
         [SerializeField] private Image _ammoProgress;
 
@@ -37,7 +36,6 @@ namespace Minipede.Gameplay.UI
 		private void OnGunEquipped( GunEquippedSignal signal )
 		{
 			_gunIcon.sprite = signal.Icon;
-			_typeColor.color = signal.Type;
 		}
 
 		private void OnFireRateUpdated( FireRateStateSignal signal )

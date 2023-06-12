@@ -194,7 +194,6 @@ namespace Minipede.Gameplay.Weapons
 {
 	public class GunEquippedSignal
 	{
-		public Color Type;
 		public Sprite Icon;
 	}
 

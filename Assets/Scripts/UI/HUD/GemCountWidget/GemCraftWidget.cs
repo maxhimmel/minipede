@@ -8,9 +8,7 @@ namespace Minipede.Gameplay.UI
 {
 	public class GemCraftWidget : MonoBehaviour
     {
-        [SerializeField] private Image _indicator;
 		[SerializeField] private Button _button;
-		[SerializeField] private Image _gaugeFill;
 		[SerializeField] private ParticleSystem _collectVfx;
 
 		private ResourceType _resource;
@@ -30,9 +28,6 @@ namespace Minipede.Gameplay.UI
 					ResourceType = _resource
 				} );
 			} );
-
-			_indicator.color = resource.Color;
-			_gaugeFill.color = resource.Color;
 
 			var mainModule = _collectVfx.main;
 			mainModule.startColor = resource.Color;

@@ -20,10 +20,11 @@ namespace Minipede.Gameplay.UI
 		{
 			_resource = resource;
 
-			if ( resource != null )
-			{
-				_colorWidget.SetColor( resource.Color );
-			}
+			var color = resource != null
+				? resource.Color
+				: Color.clear;
+
+			_colorWidget.SetColor( color );
 		}
 	}
 }

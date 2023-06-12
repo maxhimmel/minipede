@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Cameras;
-using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.UI;
@@ -15,7 +14,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.Player
 {
-    public class Ship : MonoBehaviour,
+	public class Ship : MonoBehaviour,
 		IPawn<Ship, ShipController>,
 		IDamageController,
 		ICollector<Treasure>,
@@ -50,6 +49,7 @@ namespace Minipede.Gameplay.Player
 		private ISelectable _selector;
 		private List<TargetGroupAttachment> _targetGroupAttachments;
 		private ActionGlyphController _glyphController;
+		private EquippedGunModel _equippedGunModel;
 		private SignalBus _signalBus;
 
 		private bool _isMoveInputConsumed;
@@ -59,7 +59,6 @@ namespace Minipede.Gameplay.Player
 		private Gun _ejectExplosion;
 		private Gun _repairExplosion;
 		private Gun _defaultGun;
-		private Gun _equippedGun;
 
 		[Inject]
         public void Construct( IMotor motor,
@@ -75,6 +74,7 @@ namespace Minipede.Gameplay.Player
 			ISelectable selector,
 			List<TargetGroupAttachment> targetGroups,
 			ActionGlyphController glyphController,
+			EquippedGunModel equippedGunModel,
 			SignalBus signalBus )
 		{
 			_motor = motor;
@@ -90,6 +90,7 @@ namespace Minipede.Gameplay.Player
 			_selector = selector;
 			_targetGroupAttachments = targetGroups;
 			_glyphController = glyphController;
+			_equippedGunModel = equippedGunModel;
 			_signalBus = signalBus;
 
 			damageController.Died += OnDied;
@@ -102,9 +103,9 @@ namespace Minipede.Gameplay.Player
 
 			_defaultGun = _gunFactory.Create( settings.BaseGun );
 			_defaultGun.SetOwner( transform );
-			_equippedGun = _defaultGun;
 
-			_signalBus.TryFire( _equippedGun.CreateEquippedSignal() );
+			_equippedGunModel.SetGun( _defaultGun );
+			_signalBus.TryFire( _defaultGun.CreateEquippedSignal() );
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
@@ -184,12 +185,12 @@ namespace Minipede.Gameplay.Player
 
 		public void StartFiring()
 		{
-			_equippedGun.StartFiring();
+			_equippedGunModel.Gun.StartFiring();
 		}
 
 		public void StopFiring()
 		{
-			_equippedGun.StopFiring();
+			_equippedGunModel.Gun.StopFiring();
 		}
 
 		public void AddMoveInput( Vector2 input )
@@ -220,7 +221,7 @@ namespace Minipede.Gameplay.Player
 		private void FixedUpdate()
 		{
 			_motor.FixedTick();
-			_equippedGun.FixedTick();
+			_equippedGunModel.Gun.FixedTick();
 			_ejectExplosion.FixedTick();
 			_repairExplosion.FixedTick();
 		}
@@ -271,11 +272,12 @@ namespace Minipede.Gameplay.Player
 						Beacon = beacon
 					} );
 
-					_equippedGun = beacon.Gun;
-					_equippedGun.SetOwner( transform );
-					_equippedGun.Emptied += OnGunEmptied;
+					var newGun = beacon.Gun;
+					newGun.SetOwner( transform );
+					newGun.Emptied += OnGunEmptied;
 
-					_signalBus.TryFire( _equippedGun.CreateEquippedSignal() );
+					_equippedGunModel.SetGun( newGun );
+					_signalBus.TryFire( newGun.CreateEquippedSignal() );
 
 					return true;
 				}
@@ -296,11 +298,11 @@ namespace Minipede.Gameplay.Player
 		{
 			if ( IsBeaconEquipped() )
 			{
-				_equippedGun.StopFiring();
-				_equippedGun.Emptied -= OnGunEmptied;
-				_equippedGun = _defaultGun;
-
-				_signalBus.TryFire( _equippedGun.CreateEquippedSignal() );
+				var gun = _equippedGunModel.Gun;
+				gun.StopFiring();
+				gun.Emptied -= OnGunEmptied;
+				_equippedGunModel.SetGun( _defaultGun );
+				_signalBus.TryFire( _defaultGun.CreateEquippedSignal() );
 
 				_equippedBeacon.Unequip();
 				_equippedBeacon = null;

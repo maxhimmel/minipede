@@ -47,4 +47,4 @@ MonoBehaviour:
   _balancing:
     StartCycle: 0
   _timing:
-    CycleDuration: 20
+    CycleDuration: 15

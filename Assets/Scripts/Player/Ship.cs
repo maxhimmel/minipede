@@ -105,7 +105,6 @@ namespace Minipede.Gameplay.Player
 			_defaultGun.SetOwner( transform );
 
 			_equippedGunModel.SetGun( _defaultGun );
-			_signalBus.TryFire( _defaultGun.CreateEquippedSignal() );
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
@@ -277,7 +276,6 @@ namespace Minipede.Gameplay.Player
 					newGun.Emptied += OnGunEmptied;
 
 					_equippedGunModel.SetGun( newGun );
-					_signalBus.TryFire( newGun.CreateEquippedSignal() );
 
 					return true;
 				}
@@ -302,7 +300,6 @@ namespace Minipede.Gameplay.Player
 				gun.StopFiring();
 				gun.Emptied -= OnGunEmptied;
 				_equippedGunModel.SetGun( _defaultGun );
-				_signalBus.TryFire( _defaultGun.CreateEquippedSignal() );
 
 				_equippedBeacon.Unequip();
 				_equippedBeacon = null;

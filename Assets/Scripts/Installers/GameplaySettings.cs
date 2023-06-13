@@ -123,8 +123,6 @@ namespace Minipede.Installers
 				.OptionalSubscriber();
 
 			// Guns ...
-			Container.DeclareSignal<GunEquippedSignal>()
-				.OptionalSubscriber();
 			Container.DeclareSignal<FireRateStateSignal>()
 				.OptionalSubscriber();
 			Container.DeclareSignal<AmmoStateSignal>()

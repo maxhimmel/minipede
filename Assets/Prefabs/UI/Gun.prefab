@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4080fb849a343843b8500156631c905, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isInverted: 0
+  _isInverted: 1
   _image: {fileID: 8727726406627844515}
 --- !u!1 &3942984368020840983
 GameObject:
@@ -772,6 +772,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _progress: {fileID: 8019425365458038207}
+  _fillOnReloadComplete: 0
 --- !u!114 &7866921388545764450
 MonoBehaviour:
   m_ObjectHideFlags: 0

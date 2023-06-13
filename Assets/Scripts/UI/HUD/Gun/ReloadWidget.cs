@@ -8,6 +8,8 @@ namespace Minipede.Gameplay.UI
 	{
 		[SerializeField] private MonoProgressWidget _progress;
 
+		[SerializeField] private bool _fillOnReloadComplete;
+
 		private SignalBus _signalBus;
 
 		[Inject]
@@ -28,7 +30,14 @@ namespace Minipede.Gameplay.UI
 
 		private void OnReloadUpdated( ReloadStateSignal signal )
 		{
-			_progress.SetProgress( signal.NormalizedTimer );
+			if ( signal.NormalizedTimer < 1 )
+			{
+				_progress.SetProgress( signal.NormalizedTimer );
+			}
+			else
+			{
+				_progress.SetProgress( _fillOnReloadComplete ? 1 : 0 );
+			}
 		}
 	}
 }

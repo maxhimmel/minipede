@@ -18,16 +18,16 @@ namespace Minipede.Gameplay.UI
 			_gunModel = gunModel;
 		}
 
+		private void OnDisable()
+		{
+			_gunModel.Changed -= UpdateColor;
+		}
+
 		private void OnEnable()
 		{
 			_gunModel.Changed += UpdateColor;
 
 			UpdateColor( _gunModel.Gun );
-		}
-
-		private void OnDisable()
-		{
-			_gunModel.Changed -= UpdateColor;
 		}
 
 		private void UpdateColor( Gun newGun )

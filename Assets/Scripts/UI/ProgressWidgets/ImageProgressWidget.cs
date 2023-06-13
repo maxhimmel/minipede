@@ -9,7 +9,7 @@ namespace Minipede.Gameplay.UI
 
 		[SerializeField] private Image _image;
 
-		public override void SetProgress( float normalizedProgress )
+		protected override void SetProgress_Internal( float normalizedProgress )
 		{
 			_image.fillAmount = normalizedProgress;
 		}

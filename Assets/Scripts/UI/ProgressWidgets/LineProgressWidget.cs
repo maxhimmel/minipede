@@ -17,8 +17,7 @@ namespace Minipede.Gameplay.UI
 
 		private float _progress;
 
-		[Button]
-		public override void SetProgress( float normalizedProgress )
+		protected override void SetProgress_Internal( float normalizedProgress )
 		{
 			_progress = normalizedProgress;
 

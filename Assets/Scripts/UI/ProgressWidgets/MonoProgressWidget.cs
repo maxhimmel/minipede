@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 namespace Minipede.Gameplay.UI
 {
@@ -7,6 +8,18 @@ namespace Minipede.Gameplay.UI
 	{
 		public abstract float NormalizedProgress { get; }
 
-		public abstract void SetProgress( float normalizedProgress );
+		[SerializeField] private bool _isInverted;
+
+		[Button]
+		public void SetProgress( float normalizedProgress )
+		{
+			float progress = _isInverted
+				? 1 - normalizedProgress
+				: normalizedProgress;
+
+			SetProgress_Internal( progress );
+		}
+
+		protected abstract void SetProgress_Internal( float normalizedProgress );
 	}
 }

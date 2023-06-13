@@ -9,7 +9,7 @@ namespace Minipede.Gameplay.UI
 
 		[SerializeField] private Slider _slider;
 
-		public override void SetProgress( float normalizedProgress )
+		protected override void SetProgress_Internal( float normalizedProgress )
 		{
 			_slider.normalizedValue = normalizedProgress;
 		}

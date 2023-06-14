@@ -104,6 +104,11 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<Inventory>()
 				.AsSingle()
 				.WithArguments( _playerSettings.Inventory );
+
+			/* --- */
+
+			Container.Bind<EquippedGunModel>()
+				.AsSingle();
 		}
 
 		private void BindEjectModules()

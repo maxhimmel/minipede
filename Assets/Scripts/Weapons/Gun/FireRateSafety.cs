@@ -12,6 +12,7 @@ namespace Minipede.Gameplay.Weapons
 		private readonly SignalBus _signalBus;
 
 		private float _nextFireTime;
+		private bool _sentCompletedSignal;
 
 		public FireRateSafety( Settings settings,
 			SignalBus signalBus )
@@ -22,6 +23,7 @@ namespace Minipede.Gameplay.Weapons
 
 		public void Notify( Projectile firedProjectile )
 		{
+			_sentCompletedSignal = false;
 			_nextFireTime = Time.timeSinceLevelLoad + _settings.FireRate;
 		}
 
@@ -29,18 +31,28 @@ namespace Minipede.Gameplay.Weapons
 		{
 			if ( !CanFire() )
 			{
-				float remainingTime = _nextFireTime - Time.timeSinceLevelLoad;
-
-				_signalBus.TryFire( new FireRateStateSignal()
-				{
-					NormalizedCooldown = remainingTime / _settings.FireRate
-				} );
+				SendFireRateSignal();
+			}
+			else if ( !_sentCompletedSignal )
+			{
+				_sentCompletedSignal = true;
+				SendFireRateSignal();
 			}
 		}
 
 		public bool CanFire()
 		{
 			return _nextFireTime <= Time.timeSinceLevelLoad;
+		}
+
+		private void SendFireRateSignal()
+		{
+			float remainingTime = _nextFireTime - Time.timeSinceLevelLoad;
+
+			_signalBus.TryFire( new FireRateStateSignal()
+			{
+				NormalizedCooldown = Mathf.Clamp01( 1 - remainingTime / _settings.FireRate )
+			} );
 		}
 
 		[System.Serializable]

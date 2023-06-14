@@ -1,4 +1,6 @@
-﻿namespace Minipede.Gameplay.Weapons
+﻿using UnityEngine;
+
+namespace Minipede.Gameplay.Weapons
 {
 	public interface IAmmoHandler : IFireSafety,
 		IFireEndProcessor
@@ -15,7 +17,7 @@
 		public static readonly AmmoData Empty = new AmmoData( 0, 1 );
 		public static readonly AmmoData Full = new AmmoData( 1, 1 );
 
-		public float Normalized => CurrentClip / MaxClipSize;
+		public float Normalized => Mathf.Clamp01( CurrentClip / MaxClipSize );
 
 		public float CurrentClip;
 		public float MaxClipSize;

@@ -8,6 +8,11 @@ namespace Minipede.Gameplay.Player
 	public class Inventory : IInitializable,
 		IDisposable
 	{
+		/// <summary>
+		/// The amount of gems required to craft a beacon.
+		/// </summary>
+		public int GemsToBeacons => _settings.GemsToBeacon;
+
 		private readonly Settings _settings;
 		private readonly Wallet _wallet;
 		private readonly BeaconFactoryBus _beaconFactory;
@@ -69,7 +74,7 @@ namespace Minipede.Gameplay.Player
 
 		private void FireBeaconCreationStateChangedSignal( ResourceType resource, int resourceAmount )
 		{
-			_signalBus.TryFire( new BeaconCreationStateChangedSignal()
+			_signalBus.TryFireId( resource, new BeaconCreationStateChangedSignal()
 			{
 				ResourceType = resource,
 				IsUnlocked = resourceAmount >= _settings.GemsToBeacon
@@ -91,6 +96,17 @@ namespace Minipede.Gameplay.Player
 			}
 
 			return _isVisible;
+		}
+
+		public bool CanCraftBeacon( ResourceType resource )
+		{
+			int gems = GetGemCount( resource );
+			return gems >= _settings.GemsToBeacon;
+		}
+
+		public int GetGemCount( ResourceType resource )
+		{
+			return _wallet.GetAmount( resource );
 		}
 
 		[System.Serializable]

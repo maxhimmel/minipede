@@ -192,12 +192,6 @@ namespace Minipede.Gameplay.Player
 
 namespace Minipede.Gameplay.Weapons
 {
-	public class GunEquippedSignal
-	{
-		public Color Type;
-		public Sprite Icon;
-	}
-
 	public class FireRateStateSignal
 	{
 		public float NormalizedCooldown;

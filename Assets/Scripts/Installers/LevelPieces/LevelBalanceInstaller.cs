@@ -19,16 +19,12 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _balancing );
 
-			Container.BindInterfacesAndSelfTo<LevelCycleTimer>()
-				.FromSubContainerResolve()
-				.ByMethod( subContainer =>
-				{
-					subContainer.Bind<LevelCycleTimer>()
-						.AsSingle();
+			/* --- */
 
-					subContainer.BindInstance<LevelCycleTimer.ISettings>( _timing )
-						.AsSingle();
-				} )
+			Container.BindInstance<LevelCycleTimer.ISettings>( _timing )
+				.AsSingle();
+
+			Container.BindInterfacesAndSelfTo<LevelCycleTimer>()
 				.AsSingle();
 
 			/* --- */

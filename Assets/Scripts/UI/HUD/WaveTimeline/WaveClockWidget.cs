@@ -9,6 +9,7 @@ namespace Minipede.Gameplay.UI
 	{
 		[SerializeField] private MonoProgressWidget _clock;
 		[SerializeField] private MonoProgressWidget _dangerSection;
+		[SerializeField] private RotationProgressWidget[] _centerAlignments = new RotationProgressWidget[0];
 
 		private LevelCycleTimer.ISettings _cycleSettings;
 		private NighttimeController.Settings _nighttimeSettings;
@@ -23,7 +24,19 @@ namespace Minipede.Gameplay.UI
 			_nighttimeSettings = nighttimeSettings;
 			_signalBus = signalBus;
 
-			_dangerSection.SetProgress( GetTotalDangerDurationPercent() );
+			InitWidgets();
+		}
+
+		private void InitWidgets()
+		{
+			float totalDangerDurationPercent = GetTotalDangerDurationPercent();
+
+			_dangerSection.SetProgress( totalDangerDurationPercent );
+
+			foreach ( var centering in _centerAlignments )
+			{
+				centering.SetProgress( totalDangerDurationPercent );
+			}
 		}
 
 		private void OnDisable()

@@ -56,7 +56,11 @@ namespace Minipede.Gameplay.LevelPieces
 			_isPlaying = false;
 			_nextCycleUpdateTime = Mathf.Infinity;
 
-			_signalBus.Fire( new LevelCycleProgressSignal() { NormalizedProgress = 0 } );
+			_signalBus.Fire( new LevelCycleProgressSignal() 
+			{ 
+				Cycle = _levelBalancer.Cycle,
+				NormalizedProgress = 0 
+			} );
 		}
 
 		private void FireTimerProgressEvent()
@@ -64,7 +68,11 @@ namespace Minipede.Gameplay.LevelPieces
 			float duration = _nextCycleUpdateTime - Time.timeSinceLevelLoad;
 			float percent = Mathf.Clamp01( 1f - duration / _settings.CycleDuration );
 
-			_signalBus.Fire( new LevelCycleProgressSignal() { NormalizedProgress = percent } );
+			_signalBus.Fire( new LevelCycleProgressSignal()
+			{
+				Cycle = _levelBalancer.Cycle,
+				NormalizedProgress = percent 
+			} );
 		}
 
 

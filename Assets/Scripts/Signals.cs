@@ -35,6 +35,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 	public class LevelCycleProgressSignal
 	{
+		public int Cycle;
 		public float NormalizedProgress;
 	}
 }

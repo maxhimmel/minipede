@@ -20,17 +20,20 @@ namespace Minipede.Gameplay.UI
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			[TableList]
 			public WaveVisual[] Visuals;
 		}
 
 		[System.Serializable]
-		public struct WaveVisual
+		public class WaveVisual
 		{
 			public string Id;
 			public Color Color;
+
+			[PreviewField( Alignment = ObjectFieldAlignment.Left, Height = 30 )]
+			public Sprite Icon;
 		}
 	}
 }

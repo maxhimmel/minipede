@@ -28,11 +28,11 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private void InitShaderProperties()
 		{
-			Vector3 center = Vector3.zero;
-			Bounds combinedBounds = new Bounds();
-			foreach ( var renderer in _renderers )
+			Bounds combinedBounds = _renderers[0].bounds;
+			Vector3 center = combinedBounds.center;
+			for ( int idx = 1; idx < _renderers.Length; ++idx )
 			{
-				var bounds = renderer.bounds;
+				var bounds = _renderers[idx].bounds;
 
 				center += bounds.center;
 				combinedBounds.Encapsulate( bounds );

@@ -7,8 +7,6 @@ namespace Minipede.Gameplay.LevelPieces
 {
 	public class CleansedAreaAnimator
 	{
-		private const float _radiusBuffer = 1;
-
 		private readonly Settings _settings;
 		private readonly SpriteRenderer[] _renderers;
 		private readonly MaterialPropertyBlock _matPropBlock;
@@ -45,7 +43,7 @@ namespace Minipede.Gameplay.LevelPieces
 			UpdateRendererPropertyBlock();
 
 			var combinedExtents = combinedBounds.extents;
-			_maxExtents = _radiusBuffer + Mathf.Max( combinedExtents.x, combinedExtents.y, combinedExtents.z );
+			_maxExtents = _settings.RadiusPadding + Mathf.Max( combinedExtents.x, combinedExtents.y, combinedExtents.z );
 		}
 
 		public async UniTaskVoid Play( CancellationToken cancelToken )
@@ -87,6 +85,8 @@ namespace Minipede.Gameplay.LevelPieces
 			public float Duration = 1;
 			[BoxGroup( "Animation", ShowLabel = false )]
 			public AnimationCurve GrowCurve = AnimationCurve.EaseInOut( 0, 0, 1, 1 );
+			[BoxGroup( "Animation", ShowLabel = false )]
+			public float RadiusPadding = 1;
 		}
 	}
 }

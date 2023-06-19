@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Minipede.Utility;
 using UnityEngine;
 using Zenject;
@@ -9,13 +11,22 @@ namespace Minipede.Gameplay.LevelPieces
     {
 		private Collider2D[] _colliders;
 		private PollutedAreaController _pollutionController;
+		private CleansedAreaAnimator _animator;
+		private CancellationToken _onDestroyCancelToken;
 
 		[Inject]
 		public void Construct( Collider2D[] colliders,
-			PollutedAreaController pollutionController )
+			PollutedAreaController pollutionController,
+			[InjectOptional] CleansedAreaAnimator animator )
 		{
 			_colliders = colliders;
 			_pollutionController = pollutionController;
+
+			_animator = animator;
+			if ( animator != null )
+			{
+				_onDestroyCancelToken = this.GetCancellationTokenOnDestroy();
+			}
 		}
 
 		public void Activate()
@@ -29,6 +40,8 @@ namespace Minipede.Gameplay.LevelPieces
 					size:	collider.transform.lossyScale
 				) );
 			}
+
+			_animator.Play( _onDestroyCancelToken ).Forget();
 		}
 
 		public class Factory : UnityPrefabFactory<CleansedArea>

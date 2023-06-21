@@ -40,5 +40,10 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			return _bounds.Contains( other );
 		}
+
+		public void SetCollisionActive( bool isActive )
+		{
+			_collider.enabled = isActive;
+		}
 	}
 }

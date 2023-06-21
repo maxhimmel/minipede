@@ -80,7 +80,10 @@ namespace Minipede.Gameplay.Weapons
 			}
 
 			_isReloadRequested = false;
+			FireReloadTimeSignal();
+
 			ReplenishAmmo();
+			FireAmmoSignal();
 		}
 
 		public bool CanFire()
@@ -101,7 +104,7 @@ namespace Minipede.Gameplay.Weapons
 
 			_signalBus.TryFire( new ReloadStateSignal()
 			{
-				NormalizedTimer = remainingTime / _settings.ReloadDuration
+				NormalizedTimer = Mathf.Clamp01( 1 - remainingTime / _settings.ReloadDuration )
 			} );
 		}
 

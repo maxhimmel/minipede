@@ -16,14 +16,25 @@ MonoBehaviour:
     Visuals:
     - Id: Gathering
       Color: {r: 1, g: 1, b: 1, a: 1}
+      Icon: {fileID: 0}
     - Id: MinipedeController
       Color: {r: 0.99215686, g: 0.5882353, b: 0.21176471, a: 1}
+      Icon: {fileID: 0}
     - Id: BeeController
       Color: {r: 0.30588236, g: 0.38039216, b: 1, a: 1}
+      Icon: {fileID: 0}
     - Id: DragonflyController
       Color: {r: 0.9529412, g: 1, b: 0.30588236, a: 1}
+      Icon: {fileID: 0}
     - Id: MosquitoController
       Color: {r: 0.3254902, g: 0.96862745, b: 1, a: 1}
+      Icon: {fileID: 0}
+    - Id: Danger
+      Color: {r: 0.8980393, g: 0, b: 0, a: 1}
+      Icon: {fileID: 21300000, guid: 62ccc79667caf4300ad03d3cf8f40523, type: 3}
+    - Id: Nighttime
+      Color: {r: 0.25882354, g: 0.37647063, b: 1, a: 1}
+      Icon: {fileID: 21300000, guid: 96f6771f71ce24c3cabf660e262b1caa, type: 3}
   _minimapMarkers:
   - Prefab: {fileID: 989791784839115656, guid: 761be7b3fc27837479a095b9a0a7fa60, type: 3}
     InitialSize: 10

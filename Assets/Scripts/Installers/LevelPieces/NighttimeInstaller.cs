@@ -13,9 +13,11 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
+			Container.BindInstance( _settings )
+				.AsSingle();
+
 			Container.BindInterfacesAndSelfTo<NighttimeController>()
-				.AsSingle()
-				.WithArguments( _settings );
+				.AsSingle();
 
 			Container.DeclareSignal<NighttimeStateChangedSignal>()
 				.OptionalSubscriber();

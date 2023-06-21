@@ -14,6 +14,8 @@ namespace Minipede.Gameplay.Weapons
 
 		public bool IsFiring => _isFiringRequested;
 		public AmmoData AmmoData => _ammoHandler != null ? _ammoHandler.AmmoData : AmmoData.Full;
+		public ResourceType Type => _resourceType;
+		public Sprite Icon => _settings.Icon;
 
 		private readonly Settings _settings;
 		private readonly SignalBus _signalBus;
@@ -220,15 +222,6 @@ namespace Minipede.Gameplay.Weapons
 		public void Reload()
 		{
 			_ammoHandler?.Reload();
-		}
-
-		public GunEquippedSignal CreateEquippedSignal()
-		{
-			return new GunEquippedSignal()
-			{
-				Icon = _settings.Icon,
-				Type = _resourceType != null ? _resourceType.Color : Color.clear
-			};
 		}
 
 		[System.Serializable]

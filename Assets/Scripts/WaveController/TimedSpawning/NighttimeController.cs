@@ -2,7 +2,6 @@ using System;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
-using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;

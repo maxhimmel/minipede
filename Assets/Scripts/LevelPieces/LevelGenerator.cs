@@ -2,7 +2,9 @@ using Cysharp.Threading.Tasks;
 using Minipede.Installers;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
+using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Minipede.Gameplay.LevelPieces
 {
@@ -11,6 +13,7 @@ namespace Minipede.Gameplay.LevelPieces
 		private readonly LevelGenerationInstaller.Level _settings;
 		private readonly LevelGraph _levelGraph;
 		private readonly MushroomProvider _mushroomProvider;
+		private readonly HashSet<Vector2Int> _blacklistCoordinates;
 
 		public LevelGenerator( LevelGenerationInstaller.Level settings,
 			LevelGraph levelGraph,
@@ -19,6 +22,8 @@ namespace Minipede.Gameplay.LevelPieces
 			_settings = settings;
 			_levelGraph = levelGraph;
 			_mushroomProvider = mushroomProvider;
+
+			_blacklistCoordinates = new HashSet<Vector2Int>( settings.Builder.BlackListCoordinates );
 		}
 
 		public virtual async UniTask GenerateLevel()
@@ -39,7 +44,14 @@ namespace Minipede.Gameplay.LevelPieces
 				int blockCount = _settings.RowGeneration.GetRandomItem();
 				for ( int idx = 0; idx < blockCount; ++idx )
 				{
-					_levelGraph.CreateBlock( standardMushroomPrefab, row, columnIndices[idx] );
+					int col = columnIndices[idx];
+
+					if ( _blacklistCoordinates.Contains( new Vector2Int( row, col ) ) )
+					{
+						continue;
+					}
+
+					_levelGraph.CreateBlock( standardMushroomPrefab, row, col );
 
 					if ( idx + 1 >= blockCount && row <= 0 )
 					{
@@ -60,6 +72,8 @@ namespace Minipede.Gameplay.LevelPieces
 
 			[PropertyRange( 0, "PlayerRows" )]
 			public int PlayerRowDepth;
+
+			public List<Vector2Int> BlackListCoordinates;
 		}
 	}
 }

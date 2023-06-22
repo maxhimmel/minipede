@@ -60,9 +60,10 @@ namespace Minipede.Gameplay.UI
 
 			_signalBus.Subscribe<PollutionLevelChangedSignal>( OnPollutionLevelChanged );
 
+			float pollutionPercent = GetPollutionPercent();
 			foreach ( var fill in _progressFill )
 			{
-				fill.SetProgress( GetPollutionPercent() );
+				fill.SetProgress( pollutionPercent );
 			}
 		}
 

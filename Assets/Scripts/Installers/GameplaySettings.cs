@@ -30,8 +30,18 @@ namespace Minipede.Installers
 				.AsSingle();
 
 			Container.BindInterfacesAndSelfTo<LevelStartSequenceController>()
-				.AsSingle()
-				.WithArguments( _startGameSettings );
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+				{
+					subContainer.BindInterfacesAndSelfTo<LevelStartSequenceController>()
+						.AsSingle()
+						.WithArguments( _startGameSettings );
+
+					subContainer.BindInterfacesAndSelfTo<CameraToggler>()
+						.AsSingle()
+						.WithArguments( _startGameSettings.Camera );
+				} )
+				.AsSingle();
 
 			Container.BindInterfacesAndSelfTo<EndGameController>()
 				.AsSingle()

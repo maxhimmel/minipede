@@ -1,6 +1,7 @@
 using System.Threading;
 using Cinemachine;
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
@@ -20,6 +21,7 @@ namespace Minipede.Gameplay.StartSequence
 		private readonly ShipSpawner _shipSpawner;
 		private readonly BeaconFactoryBus _beaconFactory;
 		private readonly BlockFactoryBus _blockFactory;
+		private readonly ICameraToggler _cameraToggler;
 		private readonly SignalBus _signalBus;
 		private readonly CinemachineSmoothPath _plantPath;
 		private readonly CinemachineSmoothPath _shipPath;
@@ -34,6 +36,7 @@ namespace Minipede.Gameplay.StartSequence
 			ShipSpawner shipSpawner,
 			BeaconFactoryBus beaconFactory,
 			BlockFactoryBus blockFactory,
+			ICameraToggler cameraToggler,
 			SignalBus signalBus,
 			[Inject( Id = "Path_PlantPosition" )] CinemachineSmoothPath plantPath, 
 			[Inject( Id = "Path_ShipPosition" )] CinemachineSmoothPath shipPath, 
@@ -46,6 +49,7 @@ namespace Minipede.Gameplay.StartSequence
 			_shipSpawner = shipSpawner;
 			_beaconFactory = beaconFactory;
 			_blockFactory = blockFactory;
+			_cameraToggler = cameraToggler;
 			_signalBus = signalBus;
 			_plantPath = plantPath;
 			_shipPath = shipPath;
@@ -62,6 +66,7 @@ namespace Minipede.Gameplay.StartSequence
 
 		public async UniTask Play( CancellationToken cancelToken )
 		{
+			//_cameraToggler.Activate(); // No need to activate since it starts activated within the prefab ...
 			_arenaBoundary.SetCollisionActive( false );
 
 			await TaskHelpers.DelaySeconds( _settings.StartDelay, cancelToken );
@@ -92,7 +97,6 @@ namespace Minipede.Gameplay.StartSequence
 			explorer.ReleaseTreasure( beacon );
 			lighthouse.Equip( beacon );
 			_startCleansedArea.Activate();
-
 			_signalBus.TryFire( new StartingAreaCleansedSignal() );
 
 			// Wait for cleansing area to fill up ...
@@ -105,6 +109,9 @@ namespace Minipede.Gameplay.StartSequence
 			var ship = _shipSpawner.Create();
 			ship.PlaySpawnAnimation();
 
+			// Allow players the chance to process the ship being created ...
+			await TaskHelpers.DelaySeconds( _settings.ShipCreatedPauseDuration, cancelToken );
+
 			// TODO: Hide action glyphs during "selection" process ...
 			// ...
 
@@ -116,6 +123,7 @@ namespace Minipede.Gameplay.StartSequence
 			_playerController.TakeOverSpawningProcess( ship );
 
 			_arenaBoundary.SetCollisionActive( true );
+			_cameraToggler.Deactivate();
 		}
 
 		private async UniTask MoveAlongPath( Explorer explorer, CinemachineSmoothPath path, CancellationToken cancelToken )
@@ -147,12 +155,18 @@ namespace Minipede.Gameplay.StartSequence
 		{
 			[BoxGroup( "Animation" )]
 			public float StartDelay = 1;
+
 			[BoxGroup( "Animation" ), Space]
 			public float ExplorerSpeed = 4.5f;
 			[BoxGroup( "Animation" )]
 			public float ArrivalDelay = 0.5f;
 			[BoxGroup( "Animation" )]
 			public float CleansingPauseDuration = 1f;
+			[BoxGroup( "Animation" )]
+			public float ShipCreatedPauseDuration = 1f;
+
+			[BoxGroup( "Animation" ), Space, HideLabel]
+			public CameraToggler.Settings Camera;
 
 			[BoxGroup( "Lighthouse Generation" )]
 			public ResourceType StartBeaconType;

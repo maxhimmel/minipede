@@ -65,8 +65,11 @@ MonoBehaviour:
   _startGameSettings:
     StartDelay: 1
     ExplorerSpeed: 2.8
-    ArrivalDelay: 0.5
+    ArrivalDelay: 0.35
     CleansingPauseDuration: 1
+    ShipCreatedPauseDuration: 0.8
+    Camera:
+      CameraId: StartSequence
     StartBeaconType: {fileID: 11400000, guid: d432b7b8ea45d5b49b561d42e7a5e8e7, type: 2}
     LighthousePrefab: {fileID: 498196694805329005, guid: 8e612db4ee0944542b63c7d02e647f89, type: 3}
     MushroomPrefab: {fileID: 6028368672178385098, guid: 39b8eb6903193ba4e80d13aa656c80e7, type: 3}

@@ -20,6 +20,7 @@ namespace Minipede.Gameplay.StartSequence
 		private readonly ShipSpawner _shipSpawner;
 		private readonly BeaconFactoryBus _beaconFactory;
 		private readonly BlockFactoryBus _blockFactory;
+		private readonly SignalBus _signalBus;
 		private readonly CinemachineSmoothPath _plantPath;
 		private readonly CinemachineSmoothPath _shipPath;
 		private readonly CleansedArea _startCleansedArea;
@@ -33,6 +34,7 @@ namespace Minipede.Gameplay.StartSequence
 			ShipSpawner shipSpawner,
 			BeaconFactoryBus beaconFactory,
 			BlockFactoryBus blockFactory,
+			SignalBus signalBus,
 			[Inject( Id = "Path_PlantPosition" )] CinemachineSmoothPath plantPath, 
 			[Inject( Id = "Path_ShipPosition" )] CinemachineSmoothPath shipPath, 
 			[Inject( Id = "CleansedArea_Start" )] CleansedArea startCleansedArea )
@@ -44,6 +46,7 @@ namespace Minipede.Gameplay.StartSequence
 			_shipSpawner = shipSpawner;
 			_beaconFactory = beaconFactory;
 			_blockFactory = blockFactory;
+			_signalBus = signalBus;
 			_plantPath = plantPath;
 			_shipPath = shipPath;
 			_startCleansedArea = startCleansedArea;
@@ -90,6 +93,8 @@ namespace Minipede.Gameplay.StartSequence
 			lighthouse.Equip( beacon );
 			_startCleansedArea.Activate();
 
+			_signalBus.TryFire( new StartingAreaCleansedSignal() );
+
 			// Wait for cleansing area to fill up ...
 			await TaskHelpers.DelaySeconds( _settings.CleansingPauseDuration, cancelToken );
 
@@ -100,7 +105,7 @@ namespace Minipede.Gameplay.StartSequence
 			var ship = _shipSpawner.Create();
 			ship.PlaySpawnAnimation();
 
-			// TODO: Hide action glyphs during this process ...
+			// TODO: Hide action glyphs during "selection" process ...
 			// ...
 
 			// Move towards ship ...

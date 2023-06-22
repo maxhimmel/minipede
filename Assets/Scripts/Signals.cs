@@ -217,3 +217,11 @@ namespace Minipede.Gameplay.Audio
 		public float Volume;
 	}
 }
+
+namespace Minipede.Gameplay.StartSequence
+{
+	public class StartingAreaCleansedSignal
+	{
+
+	}
+}

@@ -11,26 +11,26 @@ namespace Minipede.Gameplay.LevelPieces
 		public IOrientation Orientation => _owner.ToData();
 
 		private readonly Transform _owner;
-		private readonly PlayerController _playerController;
+		private readonly ExplorerController _explorerController;
 		private readonly SelectableSpriteToggle _spriteToggle;
 		private readonly ICameraToggler _cameraToggler;
 
 		private Beacon _equippedBeacon;
 
 		public SelectableMushroom( Transform owner,
-			PlayerController playerController,
+			ExplorerController explorerController,
 			SelectableSpriteToggle spriteToggle,
 			ICameraToggler cameraToggler )
 		{
 			_owner = owner;
-			_playerController = playerController;
+			_explorerController = explorerController;
 			_spriteToggle = spriteToggle;
 			_cameraToggler = cameraToggler;
 		}
 
 		public bool CanBeInteracted()
 		{
-			var explorer = _playerController.Explorer;
+			var explorer = _explorerController.Pawn;
 			return explorer != null && explorer.TryGetFirstHaulable( out _equippedBeacon );
 		}
 
@@ -45,7 +45,7 @@ namespace Minipede.Gameplay.LevelPieces
 		{
 			_spriteToggle.Deselect();
 			_cameraToggler.Deactivate();
-			_playerController.ExplorerController.CameraToggler.Activate();
+			_explorerController.CameraToggler.Activate();
 
 			_equippedBeacon.HideCleansedAreaPreview();
 			_equippedBeacon = null;

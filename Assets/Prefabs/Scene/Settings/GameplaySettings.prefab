@@ -63,14 +63,15 @@ MonoBehaviour:
     - ResourceType: {fileID: 11400000, guid: d432b7b8ea45d5b49b561d42e7a5e8e7, type: 2}
       Prefab: {fileID: 7339366993331024085, guid: f19a8fe0b4c1b224ba93ea2cf8349117, type: 3}
   _startGameSettings:
-    ExplorerSpeed: 2.8
     StartDelay: 1
+    ExplorerSpeed: 2.8
     ArrivalDelay: 0.5
     CleansingPauseDuration: 1
     StartBeaconType: {fileID: 11400000, guid: d432b7b8ea45d5b49b561d42e7a5e8e7, type: 2}
     LighthousePrefab: {fileID: 498196694805329005, guid: 8e612db4ee0944542b63c7d02e647f89, type: 3}
     MushroomPrefab: {fileID: 6028368672178385098, guid: 39b8eb6903193ba4e80d13aa656c80e7, type: 3}
     LighthouseMushroomPosition: {x: 0, y: -12}
+    ExplorerSpawnPosition: {x: 0, y: -16.5}
   _endGameSettings:
     NextLevelName: StartMenu
     CenteringDelay: 1.3

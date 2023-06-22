@@ -1,12 +1,11 @@
-using System.Collections.Generic;
 using System.Threading;
 using Cinemachine;
 using Cysharp.Threading.Tasks;
-using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -20,9 +19,7 @@ namespace Minipede.Gameplay.StartSequence
 		private readonly Explorer.Factory _explorerFactory;
 		private readonly ShipSpawner _shipSpawner;
 		private readonly BeaconFactoryBus _beaconFactory;
-		private readonly LevelGraph _levelGraph;
 		private readonly BlockFactoryBus _blockFactory;
-		private readonly IOrientation _explorerSpawn;
 		private readonly CinemachineSmoothPath _plantPath;
 		private readonly CinemachineSmoothPath _shipPath;
 		private readonly CleansedArea _startCleansedArea;
@@ -35,9 +32,7 @@ namespace Minipede.Gameplay.StartSequence
 			Explorer.Factory explorerFactory,
 			ShipSpawner shipSpawner,
 			BeaconFactoryBus beaconFactory,
-			LevelGraph levelGraph,
 			BlockFactoryBus blockFactory,
-			[Inject( Id = "Explorer_Spawn" )] IOrientation explorerSpawn,
 			[Inject( Id = "Path_PlantPosition" )] CinemachineSmoothPath plantPath, 
 			[Inject( Id = "Path_ShipPosition" )] CinemachineSmoothPath shipPath, 
 			[Inject( Id = "CleansedArea_Start" )] CleansedArea startCleansedArea )
@@ -48,9 +43,7 @@ namespace Minipede.Gameplay.StartSequence
 			_explorerFactory = explorerFactory;
 			_shipSpawner = shipSpawner;
 			_beaconFactory = beaconFactory;
-			_levelGraph = levelGraph;
 			_blockFactory = blockFactory;
-			_explorerSpawn = explorerSpawn;
 			_plantPath = plantPath;
 			_shipPath = shipPath;
 			_startCleansedArea = startCleansedArea;
@@ -71,11 +64,10 @@ namespace Minipede.Gameplay.StartSequence
 			await TaskHelpers.DelaySeconds( _settings.StartDelay, cancelToken );
 
 			// Create explorer ...
-			var explorer = _explorerFactory.Create( _explorerSpawn );
+			var explorer = _explorerFactory.Create( _settings.ExplorerSpawnPosition );
 
 			// Spawn a beacon for the explorer to drag ...
-			var beaconSpawnPos = new Orientation( _explorerSpawn.Position, _explorerSpawn.Rotation, _explorerSpawn.Parent );
-			beaconSpawnPos.Position += Vector2.right;
+			var beaconSpawnPos = new Orientation( _settings.ExplorerSpawnPosition + Vector2.right );
 			var beacon = _beaconFactory.Create( _settings.StartBeaconType, beaconSpawnPos );
 
 			// Grab the beacon ...
@@ -148,18 +140,26 @@ namespace Minipede.Gameplay.StartSequence
 		[System.Serializable]
 		public class Settings
 		{
-			public float ExplorerSpeed = 4.5f;
+			[BoxGroup( "Animation" )]
 			public float StartDelay = 1;
+			[BoxGroup( "Animation" ), Space]
+			public float ExplorerSpeed = 4.5f;
+			[BoxGroup( "Animation" )]
 			public float ArrivalDelay = 0.5f;
+			[BoxGroup( "Animation" )]
 			public float CleansingPauseDuration = 1f;
 
-			[Space]
+			[BoxGroup( "Lighthouse Generation" )]
 			public ResourceType StartBeaconType;
+			[BoxGroup( "Lighthouse Generation" )]
 			public Lighthouse LighthousePrefab;
-
-			[Space]
+			[BoxGroup( "Lighthouse Generation" )]
 			public Mushroom MushroomPrefab;
+
+			[BoxGroup( "Placements" )]
 			public Vector2 LighthouseMushroomPosition;
+			[BoxGroup( "Placements" )]
+			public Vector2 ExplorerSpawnPosition;
 		}
 	}
 }

@@ -146,6 +146,18 @@ namespace Minipede.Gameplay.Player
 			PlayerSpawned?.Invoke( _ship );
 		}
 
+		public void TakeOverSpawningProcess( Ship ship )
+		{
+			_ship = ship;
+			_ship.Died += OnShipDied;
+
+			_ship.Health.Replenish();
+			_shipController.Possess( _ship );
+			_shipController.UnPossessed += OnShipUnpossessed;
+
+			PlayerSpawned?.Invoke( _ship );
+		}
+
 		private void OnShipDied( Rigidbody2D victimBody, HealthController health )
 		{
 			_signalBus.Fire( new ShipDiedSignal() );

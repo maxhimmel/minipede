@@ -4,6 +4,7 @@ using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
+using Minipede.Gameplay.StartSequence;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.Weapons;
 using Sirenix.OdinInspector;
@@ -18,6 +19,7 @@ namespace Minipede.Installers
 	{
 		[SerializeField] private ResourceType[] _resourceTypes;
 		[SerializeField] private Beacon _beaconSettings;
+		[SerializeField] private LevelStartSequenceController.Settings _startGameSettings;
 		[SerializeField] private EndGameController.Settings _endGameSettings;
 		[SerializeField] private Audio _audioSettings;
 		[SerializeField] private Camera _cameraSettings;
@@ -26,6 +28,10 @@ namespace Minipede.Installers
 		{
 			Container.BindInterfacesAndSelfTo<GameController>()
 				.AsSingle();
+
+			Container.BindInterfacesAndSelfTo<LevelStartSequenceController>()
+				.AsSingle()
+				.WithArguments( _startGameSettings );
 
 			Container.BindInterfacesAndSelfTo<EndGameController>()
 				.AsSingle()

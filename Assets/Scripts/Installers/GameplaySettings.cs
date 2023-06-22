@@ -135,6 +135,10 @@ namespace Minipede.Installers
 				.OptionalSubscriber();
 			Container.DeclareSignal<ReloadStateSignal>()
 				.OptionalSubscriber();
+
+			// Starting level sequence ...
+			Container.DeclareSignal<StartingAreaCleansedSignal>()
+				.OptionalSubscriber();
 		}
 
 		[System.Serializable]

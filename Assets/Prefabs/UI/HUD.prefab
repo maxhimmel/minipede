@@ -2648,6 +2648,7 @@ GameObject:
   - component: {fileID: 5247978383776880961}
   - component: {fileID: 5247978383776880960}
   - component: {fileID: 4080448886978234736}
+  - component: {fileID: 2821530826549144047}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -2695,7 +2696,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 161f513d36c39ee40a95c25a43d0c36e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fader: {fileID: 4080448886978234736}
+  _fader: {fileID: 2821530826549144047}
   _flickerCurve:
     serializedVersion: 2
     m_Curve:
@@ -2937,6 +2938,20 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
+--- !u!114 &2821530826549144047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5247978383776880966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a144285ef5cdd594b99435128ccbd869, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _isInverted: 0
+  _canvas: {fileID: 4080448886978234736}
 --- !u!1 &5248374932420484748
 GameObject:
   m_ObjectHideFlags: 0

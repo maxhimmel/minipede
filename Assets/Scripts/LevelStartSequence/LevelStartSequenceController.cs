@@ -28,7 +28,7 @@ namespace Minipede.Gameplay.StartSequence
 		private readonly CinemachineSmoothPath _shipPath;
 		private readonly CleansedArea _startCleansedArea;
 
-		private bool _isPlaying;
+		private CancellationTokenSource _skipCancelSource;
 		private Mushroom _lighthouseMushroom;
 		private Explorer _explorer;
 		private Beacon _beacon;
@@ -74,26 +74,51 @@ namespace Minipede.Gameplay.StartSequence
 
 		public async UniTask Play( CancellationToken cancelToken )
 		{
-			_isPlaying = true;
+			_skipCancelSource = AppHelper.CreateLinkedCTS( cancelToken );
 
-			HandleSkipInput( cancelToken ).Forget();
-			await UpdateSequence( cancelToken );
+			HandleSkipInput().Forget();
+			await UpdateSequence( _skipCancelSource.Token );
 
-			_isPlaying = false;
+			_skipCancelSource.Dispose();
+			_skipCancelSource = null;
 		}
 
-		private async UniTaskVoid HandleSkipInput( CancellationToken cancelToken )
+		private async UniTaskVoid HandleSkipInput()
 		{
-			while ( _isPlaying )
+			while ( _skipCancelSource != null && _skipCancelSource.Token.CanBeCanceled )
 			{
 				if ( _input.GetButtonTimedPressDown( ReConsts.Action.Fire, _settings.SkipHoldDuration ) )
 				{
-					_isPlaying = false;
-					// Cancel stuff here ...
+					_skipCancelSource.Cancel();
+					_skipCancelSource.Dispose();
+					_skipCancelSource = null;
+
+					Dispose();
+					return;
 				}
 
-				await UniTask.Yield( PlayerLoopTiming.Update, cancelToken );
+				await UniTask.Yield( PlayerLoopTiming.Update, _skipCancelSource.Token );
 			}
+		}
+
+		private void Dispose()
+		{
+			if ( _ship == null )
+			{
+				SpawnShip();
+			}
+			if ( _lighthouseMushroom != null )
+			{
+				PlantBeacon();
+			}
+			if ( _explorer != null )
+			{
+				_explorer.Dispose();
+			}
+
+			_playerController.TakeOverSpawningProcess( _ship );
+
+			EndSequence();
 		}
 
 		private async UniTask UpdateSequence( CancellationToken cancelToken )
@@ -157,14 +182,27 @@ namespace Minipede.Gameplay.StartSequence
 				_settings.LighthousePrefab,
 				_lighthouseMushroom.Orientation
 			);
+			_lighthouseMushroom = null;
 
 			// Plant beacon into lighthouse ...
-			_explorer.ReleaseTreasure( _beacon );
+			_explorer?.ReleaseTreasure( _beacon );
 			_lighthouse.Equip( _beacon );
 
 			// Activate cleansed area ...
-			_startCleansedArea.Activate();
-			_signalBus.TryFire( new StartingAreaCleansedSignal() );
+			bool isSkipped = _skipCancelSource == null;
+			if ( isSkipped )
+			{
+				_startCleansedArea.ImmediateFillCleansedArea();
+			}
+			else
+			{
+				_startCleansedArea.Activate();
+			}
+
+			_signalBus.TryFire( new StartingAreaCleansedSignal()
+			{
+				IsSkipped = isSkipped
+			} );
 		}
 
 		private void SpawnShip()

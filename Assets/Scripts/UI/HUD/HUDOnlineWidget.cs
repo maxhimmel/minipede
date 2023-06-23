@@ -8,7 +8,7 @@ namespace Minipede.Gameplay.UI
 {
 	public class HUDOnlineWidget : MonoBehaviour
     {
-		[SerializeField] private CanvasGroup _fader;
+		[SerializeField] private MonoProgressWidget _fader;
 
 		[Space]
 		[SerializeField] private AnimationCurve _flickerCurve;
@@ -23,7 +23,7 @@ namespace Minipede.Gameplay.UI
 
 		private void Start()
 		{
-			_fader.alpha = 0;
+			_fader.SetProgress( 0 );
 		}
 
 		private void OnEnable()
@@ -50,12 +50,12 @@ namespace Minipede.Gameplay.UI
 			{
 				timer += Time.deltaTime;
 
-				_fader.alpha = _flickerCurve.Evaluate( timer );
+				_fader.SetProgress( _flickerCurve.Evaluate( timer ) );
 
 				await UniTask.Yield( PlayerLoopTiming.Update, AppHelper.AppQuittingToken );
 			}
 
-			_fader.alpha = 1;
+			_fader.SetProgress( 1 );
 		}
 	}
 }

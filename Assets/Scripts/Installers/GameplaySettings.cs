@@ -149,6 +149,8 @@ namespace Minipede.Installers
 			// Starting level sequence ...
 			Container.DeclareSignal<StartingAreaCleansedSignal>()
 				.OptionalSubscriber();
+			Container.DeclareSignal<HUDOnlineSignal>()
+				.OptionalSubscriber();
 		}
 
 		[System.Serializable]

@@ -177,11 +177,12 @@ namespace Minipede.Gameplay.StartSequence
 		{
 			// Replace mushroom w/lighthouse ...
 			GameObject.Destroy( _lighthouseMushroom.gameObject );
+			_lighthouseMushroom = null;
+
 			_lighthouse = (Lighthouse)_blockFactory.Create(
 				_settings.LighthousePrefab,
-				_lighthouseMushroom.Orientation
+				new Orientation( _settings.LighthouseMushroomPosition )
 			);
-			_lighthouseMushroom = null;
 
 			// Plant beacon into lighthouse ...
 			_explorer?.ReleaseTreasure( _beacon );

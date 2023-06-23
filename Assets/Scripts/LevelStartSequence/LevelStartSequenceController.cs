@@ -122,6 +122,8 @@ namespace Minipede.Gameplay.StartSequence
 			explorer.EnterShip( ship );
 			_playerController.TakeOverSpawningProcess( ship );
 
+			_signalBus.TryFire( new HUDOnlineSignal() );
+
 			_arenaBoundary.SetCollisionActive( true );
 			_cameraToggler.Deactivate();
 		}

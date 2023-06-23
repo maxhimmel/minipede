@@ -224,4 +224,9 @@ namespace Minipede.Gameplay.StartSequence
 	{
 
 	}
+
+	public class HUDOnlineSignal
+	{
+
+	}
 }

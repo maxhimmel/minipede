@@ -57,12 +57,13 @@ namespace Minipede.Gameplay
 		{
 			_playerSpawnController.PlayerDied += OnPlayerDied;
 
+			await _audioBankLoader.LoadBanks();
+
+			await _levelGenerator.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
+			_startSequence.CreateLighthouseMushrooms();
+
 			await UniTask.WaitWhile( () => _sceneLoader.IsLoading );
 
-			await _audioBankLoader.LoadBanks();
-			await _levelGenerator.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
-
-			_startSequence.CreateLighthouseMushrooms();
 			await _startSequence.Play( AppHelper.AppQuittingToken ).SuppressCancellationThrow();
 
 			if ( AppHelper.IsQuitting )

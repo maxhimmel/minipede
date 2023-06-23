@@ -67,7 +67,7 @@ MonoBehaviour:
       - {x: 3, y: 17}
       - {x: 4, y: 14}
       - {x: 4, y: 15}
-    SpawnRate: 0.5
+    SpawnRate: 0
     RowGeneration:
       _allowEmptyRolls: 0
       _items:

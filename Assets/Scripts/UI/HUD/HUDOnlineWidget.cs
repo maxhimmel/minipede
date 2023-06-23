@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.StartSequence;
 using Minipede.Utility;
@@ -9,7 +6,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
-    public class HUDOnlineWidget : MonoBehaviour
+	public class HUDOnlineWidget : MonoBehaviour
     {
 		[SerializeField] private CanvasGroup _fader;
 

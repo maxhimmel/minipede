@@ -23,11 +23,17 @@ namespace Minipede.Gameplay.StartSequence
 		private readonly BlockFactoryBus _blockFactory;
 		private readonly ICameraToggler _cameraToggler;
 		private readonly SignalBus _signalBus;
+		private readonly Rewired.Player _input;
 		private readonly CinemachineSmoothPath _plantPath;
 		private readonly CinemachineSmoothPath _shipPath;
 		private readonly CleansedArea _startCleansedArea;
 
+		private bool _isPlaying;
 		private Mushroom _lighthouseMushroom;
+		private Explorer _explorer;
+		private Beacon _beacon;
+		private Lighthouse _lighthouse;
+		private Ship _ship;
 
 		public LevelStartSequenceController( Settings settings,
 			PlayerController playerController,
@@ -38,6 +44,7 @@ namespace Minipede.Gameplay.StartSequence
 			BlockFactoryBus blockFactory,
 			ICameraToggler cameraToggler,
 			SignalBus signalBus,
+			Rewired.Player input,
 			[Inject( Id = "Path_PlantPosition" )] CinemachineSmoothPath plantPath, 
 			[Inject( Id = "Path_ShipPosition" )] CinemachineSmoothPath shipPath, 
 			[Inject( Id = "CleansedArea_Start" )] CleansedArea startCleansedArea )
@@ -51,6 +58,7 @@ namespace Minipede.Gameplay.StartSequence
 			_blockFactory = blockFactory;
 			_cameraToggler = cameraToggler;
 			_signalBus = signalBus;
+			_input = input;
 			_plantPath = plantPath;
 			_shipPath = shipPath;
 			_startCleansedArea = startCleansedArea;
@@ -66,62 +74,118 @@ namespace Minipede.Gameplay.StartSequence
 
 		public async UniTask Play( CancellationToken cancelToken )
 		{
+			_isPlaying = true;
+
+			HandleSkipInput( cancelToken ).Forget();
+			await UpdateSequence( cancelToken );
+
+			_isPlaying = false;
+		}
+
+		private async UniTaskVoid HandleSkipInput( CancellationToken cancelToken )
+		{
+			while ( _isPlaying )
+			{
+				if ( _input.GetButtonTimedPressDown( ReConsts.Action.Fire, _settings.SkipHoldDuration ) )
+				{
+					_isPlaying = false;
+					// Cancel stuff here ...
+				}
+
+				await UniTask.Yield( PlayerLoopTiming.Update, cancelToken );
+			}
+		}
+
+		private async UniTask UpdateSequence( CancellationToken cancelToken )
+		{
+			await StartSequence( cancelToken );
+
+			SpawnExplorer();
+			SpawnBeacon();
+
+			await ExplorerGrabBeacon( cancelToken );
+			await MoveAlongPath( _explorer, _plantPath, cancelToken );
+
+			PlantBeacon();
+			await TaskHelpers.DelaySeconds( _settings.CleansingPauseDuration, cancelToken );
+
+			SpawnShip();
+			await TaskHelpers.DelaySeconds( _settings.ShipCreatedPauseDuration, cancelToken );
+
+			// TODO: Hide action glyphs during "selection" process ...
+				// ...
+
+			await MoveAlongPath( _explorer, _shipPath, cancelToken );
+
+			ExplorerPilotShip();
+			EndSequence();
+		}
+
+		private async UniTask StartSequence( CancellationToken cancelToken )
+		{
 			//_cameraToggler.Activate(); // No need to activate since it starts activated within the prefab ...
 			_arenaBoundary.SetCollisionActive( false );
 
 			await TaskHelpers.DelaySeconds( _settings.StartDelay, cancelToken );
+		}
 
-			// Create explorer ...
-			var explorer = _explorerFactory.Create( _settings.ExplorerSpawnPosition );
+		private void SpawnExplorer()
+		{
+			_explorer = _explorerFactory.Create( _settings.ExplorerSpawnPosition );
+		}
 
-			// Spawn a beacon for the explorer to drag ...
+		private void SpawnBeacon()
+		{
 			var beaconSpawnPos = new Orientation( _settings.ExplorerSpawnPosition + Vector2.right );
-			var beacon = _beaconFactory.Create( _settings.StartBeaconType, beaconSpawnPos );
+			_beacon = _beaconFactory.Create( _settings.StartBeaconType, beaconSpawnPos );
+		}
 
-			// Grab the beacon ...
-			explorer.StartGrabbing();
-			await UniTask.Yield( PlayerLoopTiming.LastPostLateUpdate, cancelToken );
-			explorer.StopGrabbing();
+		private async UniTask ExplorerGrabBeacon( CancellationToken cancelToken )
+		{
+			_explorer.StartGrabbing();
+			{
+				await UniTask.Yield( PlayerLoopTiming.LastPostLateUpdate, cancelToken );
+			}
+			_explorer.StopGrabbing();
+		}
 
-			// Move towards mushroom for beacon planting ...
-			await MoveAlongPath( explorer, _plantPath, cancelToken );
-
-			// Replace specially placed mushroom w/lighthouse ...
+		private void PlantBeacon()
+		{
+			// Replace mushroom w/lighthouse ...
 			GameObject.Destroy( _lighthouseMushroom.gameObject );
-			var lighthouse = (Lighthouse)_blockFactory.Create(
+			_lighthouse = (Lighthouse)_blockFactory.Create(
 				_settings.LighthousePrefab,
 				_lighthouseMushroom.Orientation
 			);
 
 			// Plant beacon into lighthouse ...
-			explorer.ReleaseTreasure( beacon );
-			lighthouse.Equip( beacon );
+			_explorer.ReleaseTreasure( _beacon );
+			_lighthouse.Equip( _beacon );
+
+			// Activate cleansed area ...
 			_startCleansedArea.Activate();
 			_signalBus.TryFire( new StartingAreaCleansedSignal() );
+		}
 
-			// Wait for cleansing area to fill up ...
-			await TaskHelpers.DelaySeconds( _settings.CleansingPauseDuration, cancelToken );
-
+		private void SpawnShip()
+		{
 			// TODO: VFX for creating ship ...
 			// ...
 
-			// Spawn ship ...
-			var ship = _shipSpawner.Create();
-			ship.PlaySpawnAnimation();
+			_ship = _shipSpawner.Create();
+			_ship.PlaySpawnAnimation();
+		}
 
-			// Allow players the chance to process the ship being created ...
-			await TaskHelpers.DelaySeconds( _settings.ShipCreatedPauseDuration, cancelToken );
+		private void ExplorerPilotShip()
+		{
+			_explorer.EnterShip( _ship );
+			_explorer = null;
 
-			// TODO: Hide action glyphs during "selection" process ...
-			// ...
+			_playerController.TakeOverSpawningProcess( _ship );
+		}
 
-			// Move towards ship ...
-			await MoveAlongPath( explorer, _shipPath, cancelToken );
-
-			// Enter and control ship ...
-			explorer.EnterShip( ship );
-			_playerController.TakeOverSpawningProcess( ship );
-
+		private void EndSequence()
+		{
 			_signalBus.TryFire( new HUDOnlineSignal() );
 
 			_arenaBoundary.SetCollisionActive( true );
@@ -155,6 +219,9 @@ namespace Minipede.Gameplay.StartSequence
 		[System.Serializable]
 		public class Settings
 		{
+			[BoxGroup]
+			public float SkipHoldDuration = 1;
+
 			[BoxGroup( "Animation" )]
 			public float StartDelay = 1;
 

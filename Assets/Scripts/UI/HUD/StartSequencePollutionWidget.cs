@@ -42,10 +42,17 @@ namespace Minipede.Gameplay.UI
 
 		private void OnStartingAreaCleansed( StartingAreaCleansedSignal signal )
 		{
-			_preview.gameObject.SetActive( true );
-			_preview.SetProgress( 1 );
+			if ( !signal.IsSkipped )
+			{
+				_preview.gameObject.SetActive( true );
+				_preview.SetProgress( 1 );
 
-			StartProgressFill();
+				StartProgressFill();
+			}
+			else
+			{
+				Cleanup();
+			}
 		}
 
 		private void StartProgressFill()
@@ -78,6 +85,11 @@ namespace Minipede.Gameplay.UI
 				await UniTask.Yield( PlayerLoopTiming.Update, _progressFillUpdater.CancelToken );
 			}
 
+			Cleanup();
+		}
+
+		private void Cleanup()
+		{
 			_preview.gameObject.SetActive( false );
 			_fill.SetProgress( 1 );
 

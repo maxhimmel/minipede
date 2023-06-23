@@ -222,7 +222,7 @@ namespace Minipede.Gameplay.StartSequence
 {
 	public class StartingAreaCleansedSignal
 	{
-
+		public bool IsSkipped;
 	}
 
 	public class HUDOnlineSignal

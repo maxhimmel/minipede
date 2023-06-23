@@ -2,6 +2,7 @@ using System.Threading;
 using Cinemachine;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.Cutscene;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
@@ -23,7 +24,7 @@ namespace Minipede.Gameplay.StartSequence
 		private readonly BlockFactoryBus _blockFactory;
 		private readonly ICameraToggler _cameraToggler;
 		private readonly SignalBus _signalBus;
-		private readonly Rewired.Player _input;
+		private readonly CutsceneModel _cutsceneModel;
 		private readonly CinemachineSmoothPath _plantPath;
 		private readonly CinemachineSmoothPath _shipPath;
 		private readonly CleansedArea _startCleansedArea;
@@ -44,7 +45,7 @@ namespace Minipede.Gameplay.StartSequence
 			BlockFactoryBus blockFactory,
 			ICameraToggler cameraToggler,
 			SignalBus signalBus,
-			Rewired.Player input,
+			CutsceneModel cutsceneModel,
 			[Inject( Id = "Path_PlantPosition" )] CinemachineSmoothPath plantPath, 
 			[Inject( Id = "Path_ShipPosition" )] CinemachineSmoothPath shipPath, 
 			[Inject( Id = "CleansedArea_Start" )] CleansedArea startCleansedArea )
@@ -58,7 +59,7 @@ namespace Minipede.Gameplay.StartSequence
 			_blockFactory = blockFactory;
 			_cameraToggler = cameraToggler;
 			_signalBus = signalBus;
-			_input = input;
+			_cutsceneModel = cutsceneModel;
 			_plantPath = plantPath;
 			_shipPath = shipPath;
 			_startCleansedArea = startCleansedArea;
@@ -74,31 +75,29 @@ namespace Minipede.Gameplay.StartSequence
 
 		public async UniTask Play( CancellationToken cancelToken )
 		{
+			_cutsceneModel.SetPlayState( true );
+			_cutsceneModel.PlayStateChanged += OnCutsceneSkipped;
+
 			_skipCancelSource = AppHelper.CreateLinkedCTS( cancelToken );
 
-			HandleSkipInput().Forget();
 			await UpdateSequence( _skipCancelSource.Token );
 
 			_skipCancelSource.Dispose();
 			_skipCancelSource = null;
 		}
 
-		private async UniTaskVoid HandleSkipInput()
+		private void OnCutsceneSkipped( CutsceneModel model )
 		{
-			while ( _skipCancelSource != null && _skipCancelSource.Token.CanBeCanceled )
+			if ( model.IsPlaying )
 			{
-				if ( _input.GetButtonTimedPressDown( ReConsts.Action.Fire, _settings.SkipHoldDuration ) )
-				{
-					_skipCancelSource.Cancel();
-					_skipCancelSource.Dispose();
-					_skipCancelSource = null;
-
-					Dispose();
-					return;
-				}
-
-				await UniTask.Yield( PlayerLoopTiming.Update, _skipCancelSource.Token );
+				return;
 			}
+
+			_skipCancelSource.Cancel();
+			_skipCancelSource.Dispose();
+			_skipCancelSource = null;
+
+			Dispose();
 		}
 
 		private void Dispose()
@@ -228,6 +227,9 @@ namespace Minipede.Gameplay.StartSequence
 
 			_arenaBoundary.SetCollisionActive( true );
 			_cameraToggler.Deactivate();
+
+			_cutsceneModel.PlayStateChanged -= OnCutsceneSkipped;
+			_cutsceneModel.SetPlayState( false );
 		}
 
 		private async UniTask MoveAlongPath( Explorer explorer, CinemachineSmoothPath path, CancellationToken cancelToken )

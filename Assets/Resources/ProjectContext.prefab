@@ -83,6 +83,7 @@ MonoBehaviour:
     DefaultController: 0
   _sceneLoader:
     FadeDuration: 1
+    FadeInDelay: 0.25
 --- !u!1001 &211998334282719063
 PrefabInstance:
   m_ObjectHideFlags: 0

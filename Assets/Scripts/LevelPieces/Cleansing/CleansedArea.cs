@@ -44,6 +44,11 @@ namespace Minipede.Gameplay.LevelPieces
 			_animator.Play( _onDestroyCancelToken ).Forget();
 		}
 
+		public void ImmediateFillCleansedArea()
+		{
+			_animator.ImmediateFillCleansedArea();
+		}
+
 		public class Factory : UnityPrefabFactory<CleansedArea>
 		{
 			private readonly Transform _areaContainer;

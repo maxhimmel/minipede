@@ -61,8 +61,7 @@ namespace Minipede.Gameplay.LevelPieces
 				await UniTask.Yield( PlayerLoopTiming.Update, cancelToken );
 			}
 
-			_matPropBlock.SetFloat( _settings.RadiusProperty, _maxExtents );
-			UpdateRendererPropertyBlock();
+			ImmediateFillCleansedArea();
 		}
 
 		private void UpdateRendererPropertyBlock()
@@ -71,6 +70,12 @@ namespace Minipede.Gameplay.LevelPieces
 			{
 				renderer.SetPropertyBlock( _matPropBlock );
 			}
+		}
+
+		public void ImmediateFillCleansedArea()
+		{
+			_matPropBlock.SetFloat( _settings.RadiusProperty, _maxExtents );
+			UpdateRendererPropertyBlock();
 		}
 
 		[System.Serializable]

@@ -60,7 +60,10 @@ namespace Minipede.Gameplay.LevelPieces
 					}
 
 					float secondsPerBlock = secondsPerRow / blockCount;
-					await TaskHelpers.DelaySeconds( secondsPerBlock );
+					if ( secondsPerBlock > 0 )
+					{
+						await TaskHelpers.DelaySeconds( secondsPerBlock );
+					}
 				}
 			}
 		}

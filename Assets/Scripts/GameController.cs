@@ -71,7 +71,6 @@ namespace Minipede.Gameplay
 				return;
 			}
 
-			//_playerSpawnController.RespawnPlayer();
 			_waveController.Play().Forget();
 			_levelCycleTimer.Play();
 

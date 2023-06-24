@@ -145,7 +145,7 @@ namespace Minipede.Gameplay.StartSequence
 
 			await MoveAlongPath( _explorer, _shipPath, cancelToken );
 
-			ExplorerPilotShip();
+			await ExplorerPilotShip( cancelToken );
 			EndSequence();
 		}
 
@@ -219,10 +219,15 @@ namespace Minipede.Gameplay.StartSequence
 			_ship.PlaySpawnAnimation();
 		}
 
-		private void ExplorerPilotShip()
+		private async UniTask ExplorerPilotShip( CancellationToken cancelToken )
 		{
 			_explorer.EnterShip( _ship );
 			_explorer = null;
+
+			if ( _settings.PilotShipPauseDuration > 0 )
+			{
+				await TaskHelpers.DelaySeconds( _settings.PilotShipPauseDuration, cancelToken );
+			}
 
 			_playerController.TakeOverSpawningProcess( _ship );
 		}
@@ -281,6 +286,8 @@ namespace Minipede.Gameplay.StartSequence
 			public float CleansingPauseDuration = 1f;
 			[BoxGroup( "Animation" )]
 			public float ShipCreatedPauseDuration = 1f;
+			[BoxGroup( "Animation" )]
+			public float PilotShipPauseDuration = 0.3f;
 
 			[BoxGroup( "Animation" ), Space, HideLabel]
 			public CameraToggler.Settings Camera;

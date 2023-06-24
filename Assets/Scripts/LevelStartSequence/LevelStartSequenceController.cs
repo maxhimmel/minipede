@@ -106,6 +106,10 @@ namespace Minipede.Gameplay.StartSequence
 			{
 				SpawnShip();
 			}
+			if ( _beacon == null )
+			{
+				SpawnBeacon();
+			}
 			if ( _lighthouseMushroom != null )
 			{
 				PlantBeacon();

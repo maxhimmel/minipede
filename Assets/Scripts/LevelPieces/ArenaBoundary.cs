@@ -1,10 +1,9 @@
-using Minipede.Utility;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces
 {
-    public class ArenaBoundary : MonoBehaviour
+	public class ArenaBoundary : MonoBehaviour
     {
 		private Collider2D _collider;
 		private Bounds _bounds;
@@ -43,7 +42,12 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public void SetCollisionActive( bool isActive )
 		{
-			_collider.enabled = isActive;
+			_collider.attachedRigidbody.simulated = isActive;
+
+			// This caused strange behavior when reactivating.
+				// The mosquitos wouldn't detect the arena bounds any longer.
+				// No clue why, but the above solves the issue.
+			//_collider.enabled = isActive; 
 		}
 	}
 }

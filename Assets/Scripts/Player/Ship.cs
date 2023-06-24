@@ -384,6 +384,18 @@ namespace Minipede.Gameplay.Player
 			) );
 		}
 
+		public void SetActionGlyphsActive( bool isActive )
+		{
+			if ( isActive )
+			{
+				_glyphController.Activate();
+			}
+			else
+			{
+				_glyphController.Deactivate();
+			}
+		}
+
 		[System.Serializable]
 		public class Settings
 		{

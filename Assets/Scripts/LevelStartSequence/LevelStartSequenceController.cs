@@ -211,6 +211,7 @@ namespace Minipede.Gameplay.StartSequence
 			// ...
 
 			_ship = _shipSpawner.Create();
+			_ship.SetActionGlyphsActive( false );
 			_ship.PlaySpawnAnimation();
 		}
 
@@ -225,6 +226,8 @@ namespace Minipede.Gameplay.StartSequence
 		private void EndSequence()
 		{
 			_signalBus.TryFire( new HUDOnlineSignal() );
+
+			_ship.SetActionGlyphsActive( true );
 
 			_arenaBoundary.SetCollisionActive( true );
 			_cameraToggler.Deactivate();

@@ -79,8 +79,7 @@ namespace Minipede.Installers
 					_blockSettings.Mushrooms.Standard,
 					_blockSettings.Mushrooms.Poison,
 					_blockSettings.Mushrooms.Flower
-				} )
-				.WhenInjectedInto<LevelGraph>();
+				} );
 
 			Container.Bind<MushroomProvider>()
 				.AsSingle()

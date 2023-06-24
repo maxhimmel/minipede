@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.UI;
@@ -372,6 +373,27 @@ namespace Minipede.Gameplay.Player
 		public void Push( Vector2 velocity )
 		{
 			_body.AddForce( velocity, ForceMode2D.Impulse );
+		}
+
+		public void PlaySpawnAnimation()
+		{
+			_signalBus.FireId( "Spawn", new FxSignal(
+				transform.position,
+				Vector2.up,
+				transform
+			) );
+		}
+
+		public void SetActionGlyphsActive( bool isActive )
+		{
+			if ( isActive )
+			{
+				_glyphController.Activate();
+			}
+			else
+			{
+				_glyphController.Deactivate();
+			}
 		}
 
 		[System.Serializable]

@@ -2,6 +2,7 @@ using System.Text;
 using Minipede.Cheats;
 using Minipede.Gameplay;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.StartSequence;
 using Minipede.Gameplay.Waves;
 using Sirenix.OdinInspector;
 using Sirenix.Utilities;
@@ -99,6 +100,14 @@ namespace Minipede.Installers
 					.WithArguments( _settings.LevelBalance );
 			}
 
+			if ( _settings.CanSkipStartingSequence )
+			{
+				LogCheatActivation<LevelBalanceCheat>( messageBuilder );
+
+				Container.Decorate<ILevelStartSequence>()
+					.With<LevelStartSequenceSkipCheat>();
+			}
+
 			if ( _settings.UseKeyboardActions )
 			{
 				LogCheatActivation<KeyboardCheats>( messageBuilder );
@@ -151,6 +160,9 @@ namespace Minipede.Installers
 			public bool UseLevelBalanceCheat;
 			[ToggleGroup( "UseLevelBalanceCheat", CollapseOthersOnExpand = false ), HideLabel]
 			public LevelBalanceCheat.Settings LevelBalance;
+
+			[ToggleGroup( "CanSkipStartingSequence", "Skip Level-Start Sequence", CollapseOthersOnExpand = false )]
+			public bool CanSkipStartingSequence;
 
 			[ToggleGroup( "UseKeyboardActions", "Keyboard Actions", CollapseOthersOnExpand = false )]
 			public bool UseKeyboardActions;

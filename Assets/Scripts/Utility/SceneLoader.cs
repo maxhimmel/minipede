@@ -31,6 +31,11 @@ namespace Minipede.Utility
 				await SceneManager.LoadSceneAsync( sceneName, mode );
 
 				_pauseModel.Set( false );
+
+				if ( _settings.FadeInDelay > 0 )
+				{
+					await TaskHelpers.DelaySeconds( _settings.FadeInDelay );
+				}
 			}
 			await _screenFader.FadeIn( _settings.FadeDuration );
 
@@ -38,9 +43,10 @@ namespace Minipede.Utility
 		}
 
 		[System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public float FadeDuration;
+			public float FadeInDelay;
 		}
 	}
 }

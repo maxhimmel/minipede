@@ -49,6 +49,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 98f8c31c61a88ba499c267e6dfb86084, type: 2}
   - {fileID: 11400000, guid: e4e87e8bad84fa548a7b8bfc583af271, type: 2}
   - {fileID: 11400000, guid: 3f09ebe44330ec042afd5b23b6863464, type: 2}
+  - {fileID: 11400000, guid: d432b7b8ea45d5b49b561d42e7a5e8e7, type: 2}
   _beaconSettings:
     Factories:
     - ResourceType: {fileID: 11400000, guid: 54fbab5a5bdc833408683a3ef1c0e611, type: 2}
@@ -59,8 +60,23 @@ MonoBehaviour:
       Prefab: {fileID: 8475972488907811713, guid: c3156f1b163d35e40a60bc2e5cbdb5f2, type: 3}
     - ResourceType: {fileID: 11400000, guid: 3f09ebe44330ec042afd5b23b6863464, type: 2}
       Prefab: {fileID: 7339366993331024085, guid: 7b8884182950aa84b875d8576bbf7e26, type: 3}
+    - ResourceType: {fileID: 11400000, guid: d432b7b8ea45d5b49b561d42e7a5e8e7, type: 2}
+      Prefab: {fileID: 7339366993331024085, guid: f19a8fe0b4c1b224ba93ea2cf8349117, type: 3}
+  _startGameSettings:
+    StartDelay: 1
+    ExplorerSpeed: 2.8
+    ArrivalDelay: 0.35
+    CleansingPauseDuration: 1
+    ShipCreatedPauseDuration: 0.8
+    Camera:
+      CameraId: StartSequence
+    StartBeaconType: {fileID: 11400000, guid: d432b7b8ea45d5b49b561d42e7a5e8e7, type: 2}
+    LighthousePrefab: {fileID: 498196694805329005, guid: 8e612db4ee0944542b63c7d02e647f89, type: 3}
+    MushroomPrefab: {fileID: 6028368672178385098, guid: 39b8eb6903193ba4e80d13aa656c80e7, type: 3}
+    LighthouseMushroomPosition: {x: 0, y: -12}
+    ExplorerSpawnPosition: {x: 0, y: -16.5}
   _endGameSettings:
-    NextLevelName: Scene 0-0
+    NextLevelName: StartMenu
     CenteringDelay: 1.3
     CenteringDuration: 0.7
     CenteringAnim: 19

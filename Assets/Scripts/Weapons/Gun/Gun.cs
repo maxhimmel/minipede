@@ -251,6 +251,7 @@ namespace Minipede.Gameplay.Weapons
 			[SerializeReference] public IGunModule[] Modules;
 
 			[TabGroup( "Main", "UI", SdfIconType.Brush )]
+			[PreviewField]
 			public Sprite Icon;
 		}
 

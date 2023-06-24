@@ -7,12 +7,16 @@ namespace ControllerGlyph
 	public class ControllerGlyphBus
 	{
 		private readonly Settings _settings;
-		private readonly Player _input;
 
-		public ControllerGlyphBus( Settings settings,
-			Player input )
+		private Player _input;
+
+		public ControllerGlyphBus( Settings settings )
 		{
 			_settings = settings;
+		}
+
+		public void Initialize( Player input )
+		{
 			_input = input;
 		}
 

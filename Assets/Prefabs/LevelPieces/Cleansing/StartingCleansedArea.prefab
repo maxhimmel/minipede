@@ -63,9 +63,39 @@ PrefabInstance:
       propertyPath: m_LocalScale.y
       value: 8
       objectReference: {fileID: 0}
-    - target: {fileID: 8809039953329687535, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
-      propertyPath: _startActivated
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
+--- !u!1 &903047211920508456 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4854634375789856898, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
+  m_PrefabInstance: {fileID: 5753177661353954986}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2510625407766280736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903047211920508456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 3345265091600629330}
+  _identifier: CleansedArea_Start
+  _useSceneContext: 1
+  _context: {fileID: 0}
+  _bindType: 0
+--- !u!114 &3345265091600629330 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7042398886205960440, guid: ca569003d2a8d3b418a23c3eec234755, type: 3}
+  m_PrefabInstance: {fileID: 5753177661353954986}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 903047211920508456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 228354b83fcd44f49bfc43ae6ee14e8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

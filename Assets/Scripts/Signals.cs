@@ -217,3 +217,16 @@ namespace Minipede.Gameplay.Audio
 		public float Volume;
 	}
 }
+
+namespace Minipede.Gameplay.StartSequence
+{
+	public class StartingAreaCleansedSignal
+	{
+		public bool IsSkipped;
+	}
+
+	public class HUDOnlineSignal
+	{
+
+	}
+}

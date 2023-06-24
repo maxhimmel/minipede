@@ -29,11 +29,11 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<GameController>()
 				.AsSingle();
 
-			Container.BindInterfacesAndSelfTo<LevelStartSequenceController>()
+			Container.BindInterfacesTo<LevelStartSequenceController>()
 				.FromSubContainerResolve()
 				.ByMethod( subContainer =>
 				{
-					subContainer.BindInterfacesAndSelfTo<LevelStartSequenceController>()
+					subContainer.Bind<LevelStartSequenceController>()
 						.AsSingle()
 						.WithArguments( _startGameSettings );
 

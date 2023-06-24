@@ -16,7 +16,7 @@ namespace Minipede.Gameplay
 	{
 		public bool IsReady { get; private set; }
 
-		private readonly LevelStartSequenceController _startSequence;
+		private readonly ILevelStartSequence _startSequence;
 		private readonly PlayerController _playerSpawnController;
 		private readonly LevelGenerator _levelGenerator;
 		private readonly IWaveController _waveController;
@@ -26,7 +26,7 @@ namespace Minipede.Gameplay
 		private readonly LevelCycleTimer _levelCycleTimer;
 		private readonly SceneLoader _sceneLoader;
 
-		public GameController( LevelStartSequenceController startSequence,
+		public GameController( ILevelStartSequence startSequence,
 			PlayerController playerSpawnController,
 			LevelGenerator levelGenerator,
 			IWaveController waveController,

@@ -13,7 +13,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.StartSequence
 {
-	public class LevelStartSequenceController
+	public class LevelStartSequenceController : ILevelStartSequence
     {
 		private readonly Settings _settings;
 		private readonly PlayerController _playerController;
@@ -100,7 +100,7 @@ namespace Minipede.Gameplay.StartSequence
 			Dispose();
 		}
 
-		private void Dispose()
+		public void Dispose()
 		{
 			if ( _ship == null )
 			{

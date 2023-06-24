@@ -74,6 +74,9 @@ namespace Minipede.Installers
 
 			Container.BindInterfacesTo<ControllerPoller>()
 				.AsSingle();
+
+			Container.BindInterfacesTo<ControllerGlyphInitializer>()
+				.AsSingle();
 		}
 
 		private void BindMenuSystems()

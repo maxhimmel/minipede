@@ -46,7 +46,7 @@ PrefabInstance:
     - target: {fileID: 562353908898730655, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: _sampler.Prefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 4929814723182570160, guid: 625f27fa3d994a541b959a2cb9f6974b, type: 3}
+      objectReference: {fileID: 4929814723182570160, guid: 97e6dbcfa5b3a85489ade8c0a578b5e5, type: 3}
     - target: {fileID: 1167896899692391568, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
       value: 0.25098038

@@ -146,7 +146,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    RadiusPadding: 1
+    RadiusPadding: 1.5
 --- !u!114 &1262371954681783091
 MonoBehaviour:
   m_ObjectHideFlags: 0

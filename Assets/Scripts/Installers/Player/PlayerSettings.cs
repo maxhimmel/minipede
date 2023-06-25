@@ -34,8 +34,7 @@ namespace Minipede.Installers
 			Container.BindUnityFactory<Explorer, Explorer.Factory>( _playerSettings.ExplorerPrefab );
 
 			Container.Bind<ShipSpawner>()
-				.AsSingle()
-				.WhenInjectedInto<PlayerController>();
+				.AsSingle();
 		}
 
 		private void BindControllers()

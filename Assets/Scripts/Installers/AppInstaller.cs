@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Audio;
+using Minipede.Gameplay.Cutscene;
 using Minipede.Gameplay.UI;
 using Minipede.Utility;
 using UnityEngine;
@@ -10,6 +11,7 @@ namespace Minipede.Installers
     {
 		[SerializeField] private ControllerModel.Settings _controller;
 		[SerializeField] private SceneLoader.Settings _sceneLoader;
+		[SerializeField] private CutsceneController.Settings _cutscene;
 
 		public override void InstallBindings()
 		{
@@ -38,6 +40,13 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _sceneLoader );
 
+			Container.Bind<CutsceneModel>()
+				.AsSingle();
+
+			Container.BindInterfacesAndSelfTo<CutsceneController>()
+				.AsSingle()
+				.WithArguments( _cutscene );
+
 			BindMenuSystems();
 		}
 
@@ -64,6 +73,9 @@ namespace Minipede.Installers
 				.WithArguments( _controller );
 
 			Container.BindInterfacesTo<ControllerPoller>()
+				.AsSingle();
+
+			Container.BindInterfacesTo<ControllerGlyphInitializer>()
 				.AsSingle();
 		}
 

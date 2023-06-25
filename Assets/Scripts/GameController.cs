@@ -3,6 +3,7 @@ using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
+using Minipede.Gameplay.StartSequence;
 using Minipede.Gameplay.Waves;
 using Minipede.Utility;
 using Zenject;
@@ -15,6 +16,7 @@ namespace Minipede.Gameplay
 	{
 		public bool IsReady { get; private set; }
 
+		private readonly ILevelStartSequence _startSequence;
 		private readonly PlayerController _playerSpawnController;
 		private readonly LevelGenerator _levelGenerator;
 		private readonly IWaveController _waveController;
@@ -24,7 +26,8 @@ namespace Minipede.Gameplay
 		private readonly LevelCycleTimer _levelCycleTimer;
 		private readonly SceneLoader _sceneLoader;
 
-		public GameController( PlayerController playerSpawnController,
+		public GameController( ILevelStartSequence startSequence,
+			PlayerController playerSpawnController,
 			LevelGenerator levelGenerator,
 			IWaveController waveController,
 			MushroomPopulationController mushroomPopulationController,
@@ -33,6 +36,7 @@ namespace Minipede.Gameplay
 			LevelCycleTimer levelCycleTimer,
 			SceneLoader sceneLoader )
 		{
+			_startSequence = startSequence;
 			_playerSpawnController = playerSpawnController;
 			_levelGenerator = levelGenerator;
 			_waveController = waveController;
@@ -53,12 +57,20 @@ namespace Minipede.Gameplay
 		{
 			_playerSpawnController.PlayerDied += OnPlayerDied;
 
+			await _audioBankLoader.LoadBanks();
+
+			await _levelGenerator.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
+			_startSequence.CreateLighthouseMushrooms();
+
 			await UniTask.WaitWhile( () => _sceneLoader.IsLoading );
 
-			await _audioBankLoader.LoadBanks();
-			await _levelGenerator.GenerateLevel().Cancellable( AppHelper.AppQuittingToken );
+			await _startSequence.Play( AppHelper.AppQuittingToken ).SuppressCancellationThrow();
 
-			_playerSpawnController.RespawnPlayer();
+			if ( AppHelper.IsQuitting )
+			{
+				return;
+			}
+
 			_waveController.Play().Forget();
 			_levelCycleTimer.Play();
 

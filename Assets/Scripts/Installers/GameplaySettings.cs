@@ -4,6 +4,7 @@ using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
+using Minipede.Gameplay.StartSequence;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.Weapons;
 using Sirenix.OdinInspector;
@@ -18,6 +19,7 @@ namespace Minipede.Installers
 	{
 		[SerializeField] private ResourceType[] _resourceTypes;
 		[SerializeField] private Beacon _beaconSettings;
+		[SerializeField] private LevelStartSequenceController.Settings _startGameSettings;
 		[SerializeField] private EndGameController.Settings _endGameSettings;
 		[SerializeField] private Audio _audioSettings;
 		[SerializeField] private Camera _cameraSettings;
@@ -25,6 +27,20 @@ namespace Minipede.Installers
 		public override void InstallBindings()
 		{
 			Container.BindInterfacesAndSelfTo<GameController>()
+				.AsSingle();
+
+			Container.BindInterfacesTo<LevelStartSequenceController>()
+				.FromSubContainerResolve()
+				.ByMethod( subContainer =>
+				{
+					subContainer.Bind<LevelStartSequenceController>()
+						.AsSingle()
+						.WithArguments( _startGameSettings );
+
+					subContainer.BindInterfacesAndSelfTo<CameraToggler>()
+						.AsSingle()
+						.WithArguments( _startGameSettings.Camera );
+				} )
 				.AsSingle();
 
 			Container.BindInterfacesAndSelfTo<EndGameController>()
@@ -128,6 +144,12 @@ namespace Minipede.Installers
 			Container.DeclareSignal<AmmoStateSignal>()
 				.OptionalSubscriber();
 			Container.DeclareSignal<ReloadStateSignal>()
+				.OptionalSubscriber();
+
+			// Starting level sequence ...
+			Container.DeclareSignal<StartingAreaCleansedSignal>()
+				.OptionalSubscriber();
+			Container.DeclareSignal<HUDOnlineSignal>()
 				.OptionalSubscriber();
 		}
 

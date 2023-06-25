@@ -6,6 +6,8 @@ namespace Minipede.Gameplay.UI
 {
 	public class GraphicColorWidget : MonoColorWidget
 	{
+		public override Color Color => _graphic.color;
+
 		[FormerlySerializedAs( "_image" )]
 		[SerializeField] private Graphic _graphic;
 

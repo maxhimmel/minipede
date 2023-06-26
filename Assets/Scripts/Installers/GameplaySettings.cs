@@ -26,6 +26,7 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
+			Container.BindInitializableExecutionOrder<GameController>( 10 );
 			Container.BindInterfacesAndSelfTo<GameController>()
 				.AsSingle();
 

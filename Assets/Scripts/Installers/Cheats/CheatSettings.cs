@@ -117,7 +117,7 @@ namespace Minipede.Installers
 					.WithArguments( _settings.KeyboardActions );
 			}
 
-			Debug.LogWarning( messageBuilder );
+			Debug.LogWarning( messageBuilder, this );
 		}
 
 		private void LogCheatActivation<TCheat>( StringBuilder messageBuilder )

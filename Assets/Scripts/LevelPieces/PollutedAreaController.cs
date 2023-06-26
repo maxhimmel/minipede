@@ -8,7 +8,7 @@ namespace Minipede.Gameplay.LevelPieces
 {
 	public class PollutedAreaController : IInitializable
 	{
-		public float PollutionPercentage => (_cleansedCells.Count / (float)_pollutionArea) + _pollutionWinPercentage.PollutionWinPercentage;
+		public float PollutionPercentage => Mathf.Clamp01( (_cleansedCells.Count / (float)_pollutionArea) + _pollutionWinPercentage.PollutionWinPercentage );
 
 		private readonly IPollutionWinPercentage _pollutionWinPercentage;
 		private readonly LevelGraph _levelGraph;

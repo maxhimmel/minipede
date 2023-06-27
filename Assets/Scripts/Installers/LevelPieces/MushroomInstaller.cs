@@ -25,6 +25,10 @@ namespace Minipede.Installers
 				.FromMethod( GetComponentInChildren<SpriteRenderer> )
 				.AsSingle();
 
+			Container.Bind<Collider2D>()
+				.FromMethod( GetComponentInChildren<Collider2D> )
+				.AsSingle();
+
 			/* --- */
 
 			if ( _balances != null )

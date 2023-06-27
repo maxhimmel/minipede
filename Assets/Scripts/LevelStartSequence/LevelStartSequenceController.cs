@@ -180,6 +180,7 @@ namespace Minipede.Gameplay.StartSequence
 		private void PlantBeacon()
 		{
 			// Replace mushroom w/lighthouse ...
+			_lighthouseMushroom.Dispose();
 			GameObject.Destroy( _lighthouseMushroom.gameObject );
 			_lighthouseMushroom = null;
 

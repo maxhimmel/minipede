@@ -55,7 +55,8 @@ MonoBehaviour:
       data:
         BounceSettings:
           Scale: 1
-          Duration: 0.5
+          Duration: 0.85
+          ResetScale: 1
           Curve:
             serializedVersion: 2
             m_Curve:

@@ -842,19 +842,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5307745363276070912]._swarmRange.x
-      value: 9
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5307745363276070912]._swarmRange.y
-      value: 15
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5307745363276070912]._spawnFrequency.x
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5307745363276070912]._spawnFrequency.y
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5307745363276070912]._useNewEnemyPerSpawn

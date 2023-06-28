@@ -1,7 +1,6 @@
 ﻿using System;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Player;
-using Minipede.Gameplay.UI;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;

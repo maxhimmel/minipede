@@ -6299,10 +6299,6 @@ PrefabInstance:
       propertyPath: _promptFormat
       value: '{0} Craft'
       objectReference: {fileID: 0}
-    - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: _overrideGlyphSize
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6637435006702154872, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: m_Pivot.x
       value: 0

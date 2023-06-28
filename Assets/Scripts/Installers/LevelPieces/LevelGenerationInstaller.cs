@@ -73,7 +73,7 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WhenInjectedInto<BlockFactoryBus>();
 
-			Container.Bind<BlockFactoryBus>()
+			Container.BindInterfacesAndSelfTo<BlockFactoryBus>()
 				.AsSingle()
 				.WithArguments( new List<BlockFactoryBus.PoolSettings>() {
 					_blockSettings.Mushrooms.Standard,

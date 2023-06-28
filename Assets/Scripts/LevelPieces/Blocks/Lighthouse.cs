@@ -1,5 +1,7 @@
+using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
+using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.LevelPieces
@@ -25,6 +27,13 @@ namespace Minipede.Gameplay.LevelPieces
 			var cleansedAreaPrefab = beacon.CleansedAreaProvider.GetAsset();
 			_cleansedArea = _cleansedAreaFactory.Create( cleansedAreaPrefab, new Orientation( _body.position ) );
 			_cleansedArea.Activate();
+		}
+
+		public override void OnSpawned( IOrientation placement, IMemoryPool pool )
+		{
+			base.OnSpawned( placement, pool );
+
+			_signalBus.TryFireId( "Spawned", new FxSignal( _body.position, Vector2.up, _body.transform ) );
 		}
 	}
 }

@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 385871805053142293, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+      propertyPath: managedReferences[5788412578443034625].BounceSettings.Curve.m_Curve.Array.data[1].value
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 1756912620891347739, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

@@ -21,7 +21,7 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _waveTimeline );
 
-			Container.Bind<MinimapMarkerFactoryBus>()
+			Container.BindInterfacesAndSelfTo<MinimapMarkerFactoryBus>()
 				.AsSingle()
 				.WithArguments( _minimapMarkers );
 		}

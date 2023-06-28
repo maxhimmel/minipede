@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
@@ -136,6 +138,32 @@ namespace Minipede.Gameplay.Treasures
 			_cleansedAreaPreviewVfx.Stop( withChildren: true, ParticleSystemStopBehavior.StopEmittingAndClear );
 
 			_cleansedAreaPreviewVfx.transform.SetParent( transform, worldPositionStays: false );
+		}
+
+		public void PrepareForLighthouseEquip()
+		{
+			StopFollowing();
+			SetCollidersEnabled( false );
+			ClearVelocity();
+
+			_lifetimer.Pause();
+			Gun.Reload();
+		}
+
+		public async UniTask SnapToPosition( Vector2 destination, float duration, AnimationCurve tween, CancellationToken cancelToken )
+		{
+			float timer = 0;
+			Vector2 startPos = _body.position;
+
+			while ( !_isDisposed && _body != null && timer < duration )
+			{
+				timer = Mathf.Min( timer + Time.deltaTime, duration );
+
+				float easeValue = tween.Evaluate( timer / duration );
+				_body.position = Vector2.LerpUnclamped( startPos, destination, easeValue );
+
+				await UniTask.Yield( PlayerLoopTiming.FixedUpdate, cancelToken );
+			}
 		}
 
 		public class Factory : UnityFactory<Beacon>

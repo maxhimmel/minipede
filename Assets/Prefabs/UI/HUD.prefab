@@ -4960,30 +4960,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4222985164806611833, guid: ae6f174bf74e96c49bde42da31cb8ac2, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4222985164806611833, guid: ae6f174bf74e96c49bde42da31cb8ac2, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4222985164806611833, guid: ae6f174bf74e96c49bde42da31cb8ac2, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4222985164806611833, guid: ae6f174bf74e96c49bde42da31cb8ac2, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4222985164806611833, guid: ae6f174bf74e96c49bde42da31cb8ac2, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4222985164806611833, guid: ae6f174bf74e96c49bde42da31cb8ac2, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7411058652541062570, guid: ae6f174bf74e96c49bde42da31cb8ac2, type: 3}
       propertyPath: m_Name
       value: Gun
@@ -6078,23 +6054,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4227690905342035932, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: m_text
-      value: Craft
+      value: <sprite="Xbox-Filled" index=5> Craft
       objectReference: {fileID: 0}
     - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: _actionId
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: _promptName
-      value: Craft
-      objectReference: {fileID: 0}
-    - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: _promptFormat
       value: '{0} Craft'
-      objectReference: {fileID: 0}
-    - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: _overrideGlyphSize
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6637435006702154872, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: m_Pivot.x
@@ -6205,30 +6173,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8015335916495486452, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}

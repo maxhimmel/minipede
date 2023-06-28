@@ -5,7 +5,6 @@ using Rewired;
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Zenject;
 
 namespace Minipede.Gameplay.UI
@@ -14,16 +13,10 @@ namespace Minipede.Gameplay.UI
     {
         public int ActionId => _actionId;
 
-        [BoxGroup( "Widget" ), FormerlySerializedAs( "_promptFormat" )]
-        [SerializeField] private string _promptName = "Action";
         [BoxGroup( "Widget" )]
-        [SerializeField] private TMP_Text _glyphElement;
+        [SerializeField] private string _promptFormat = "{0} Action";
         [BoxGroup( "Widget" )]
         [SerializeField] private TMP_Text _promptElement;
-        [HorizontalGroup( "Widget/Glyph Size" ), ToggleLeft]
-        [SerializeField] private bool _overrideGlyphSize;
-        [HorizontalGroup( "Widget/Glyph Size" ), EnableIf( "_overrideGlyphSize" ), HideLabel]
-        [SerializeField] private float _glyphSize = 40;
 
         [BoxGroup( "Input" )]
         [ActionIdProperty( typeof( ReConsts.Action ) )]
@@ -110,20 +103,7 @@ namespace Minipede.Gameplay.UI
 				}
             }
 
-            _glyphElement.text = GetFormattedGlyph( glyph );
-            _promptElement.text = _promptName;
-        }
-
-        private string GetFormattedGlyph( string glyph )
-		{
-            if ( _overrideGlyphSize )
-			{
-                return $"<size={_glyphSize}>{glyph}</size>";
-            }
-            else
-            {
-                return glyph;
-            }
+            _promptElement.text = string.Format( _promptFormat, glyph );
         }
 	}
 }

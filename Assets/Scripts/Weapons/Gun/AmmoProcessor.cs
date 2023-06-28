@@ -63,8 +63,11 @@ namespace Minipede.Gameplay.Weapons
 
 		public virtual void Reload()
 		{
-			_isReloadRequested = true;
-			_reloadEndTime = Time.timeSinceLevelLoad + _settings.ReloadDuration;
+			if ( !_isReloadRequested && AmmoData.Normalized < 1 )
+			{
+				_isReloadRequested = true;
+				_reloadEndTime = Time.timeSinceLevelLoad + _settings.ReloadDuration;
+			}
 		}
 
 		public virtual void FixedTick()

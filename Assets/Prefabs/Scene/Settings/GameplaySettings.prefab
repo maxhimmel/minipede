@@ -63,11 +63,13 @@ MonoBehaviour:
     - ResourceType: {fileID: 11400000, guid: d432b7b8ea45d5b49b561d42e7a5e8e7, type: 2}
       Prefab: {fileID: 7339366993331024085, guid: f19a8fe0b4c1b224ba93ea2cf8349117, type: 3}
   _startGameSettings:
+    SkipHoldDuration: 1
     StartDelay: 1
     ExplorerSpeed: 2.8
     ArrivalDelay: 0.35
     CleansingPauseDuration: 1
     ShipCreatedPauseDuration: 0.8
+    PilotShipPauseDuration: 0.3
     Camera:
       CameraId: StartSequence
     StartBeaconType: {fileID: 11400000, guid: d432b7b8ea45d5b49b561d42e7a5e8e7, type: 2}

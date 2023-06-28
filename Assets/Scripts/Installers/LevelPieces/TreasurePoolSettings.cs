@@ -12,7 +12,7 @@ namespace Minipede.Installers
 
 		public override void InstallBindings()
 		{
-			Container.Bind<TreasureFactoryBus>()
+			Container.BindInterfacesAndSelfTo<TreasureFactoryBus>()
 				.AsSingle()
 				.WithArguments( _treasures );
 		}

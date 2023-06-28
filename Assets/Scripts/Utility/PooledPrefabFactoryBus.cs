@@ -5,20 +5,26 @@ using Zenject;
 
 namespace Minipede.Utility
 {
-	public abstract class PooledPrefabFactoryBus<TValue>
+	public abstract class PooledPrefabFactoryBus<TValue> : IInitializable
 		where TValue : Component, IPoolable<IOrientation, IMemoryPool>
 	{
+		private readonly List<PoolSettings> _settings;
 		protected readonly DiContainer _container;
-		private readonly Dictionary<TValue, IMemoryPool<IOrientation, IMemoryPool, TValue>> _pools;
+
+		private Dictionary<TValue, IMemoryPool<IOrientation, IMemoryPool, TValue>> _pools;
 
 		public PooledPrefabFactoryBus( List<PoolSettings> settings,
 			DiContainer container )
 		{
+			_settings = settings;
 			_container = container;
+		}
 
-			_pools = settings.ToDictionary(
-				keySelector:		pool => pool.Prefab,
-				elementSelector:	pool => CreateMemoryPool( pool )
+		public void Initialize()
+		{
+			_pools = _settings.ToDictionary(
+				keySelector: pool => pool.Prefab,
+				elementSelector: pool => CreateMemoryPool( pool )
 			);
 		}
 

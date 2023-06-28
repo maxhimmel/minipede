@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 5
+    MaxSpeed: 4
     ScaleBySpeed: 1
     MatchLinearSpeed: 1
     MaxWaveSpeed: 5
@@ -114,11 +114,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[0]._normalizedWeight
-      value: 45
+      value: 62
       objectReference: {fileID: 0}
     - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[1]._normalizedWeight
-      value: 55
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[2]._normalizedWeight

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 355851429713502091}
   - component: {fileID: 2653605355083645132}
   m_Layer: 10
-  m_Name: Gun_SMG
+  m_Name: Gun_BulletExplosion
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1318238053934752799}
+  - {fileID: 5339021029347042811}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -56,18 +56,16 @@ MonoBehaviour:
         rid: 5904237243981627392
     Gun:
       ShotSpotId: ShotSpot
-      ProjectilePrefab: {fileID: -8478961870223082148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
-      ProjectileLifetime: 5
+      ProjectilePrefab: {fileID: 1349119754400906302, guid: 8d26abd8b2dd57a45a927d1096c1c603, type: 3}
+      ProjectileLifetime: 0.39
       ProjectileSpeed: 30
       ProjectileTorque: 0
       FireSpread:
         rid: 5904237243981627393
       Modules:
       - rid: 5904237243981627394
-      - rid: 8667173491517161475
-      - rid: 5904237243981627395
-      - rid: 5904237243981627396
-      Icon: {fileID: 21300000, guid: a222a9e7d571b458092a70ec97a64a03, type: 3}
+      - rid: 8667173491517161474
+      Icon: {fileID: 21300000, guid: 453d2da821d4541979732bf6bf666460, type: 3}
   references:
     version: 2
     RefIds:
@@ -78,64 +76,20 @@ MonoBehaviour:
     - rid: 5904237243981627393
       type: {class: FireSpread/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
-        Spread: 1
-        Angle: 0
+        Spread: 15
+        Angle: 336
         OffsetAngle: 0
     - rid: 5904237243981627394
       type: {class: FireRateSafety/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
-        FireRate: 0.1
-    - rid: 5904237243981627395
-      type: {class: AccuracyAdjuster/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
-      data:
-        AngleRange: {x: 1, y: 3}
-        MaxAngleOverRecoil:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0.322047
-            outSlope: 0.322047
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.2655218
-          - serializedVersion: 3
-            time: 0.7977246
-            value: 4.9885945
-            inSlope: 11.518182
-            outSlope: 11.518182
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 1
-            value: 10
-            inSlope: 24.775162
-            outSlope: 24.775162
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        ShotsToFullRecoil: 3
-        RebalanceDuration: 0.5
-        FireRate: 0.1
-    - rid: 5904237243981627396
-      type: {class: KnockbackProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
-      data:
-        Impulse: 7
-    - rid: 8667173491517161475
+        FireRate: 0.45
+    - rid: 8667173491517161474
       type: {class: FuseAmmoProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
         AutoReload: 0
-        ReloadDuration: 1
-        FuseDuration: 6.5
-        FireReduction: 0
+        ReloadDuration: 0
+        FuseDuration: 10
+        FireReduction: 0.5
 --- !u!114 &355851429713502091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,11 +123,11 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 4929814723182570160}
-  - {fileID: 2590116265748329531}
+  - {fileID: 2347896206642121601}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!1 &3315631406996961962
+--- !u!1 &7205667922506651397
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -181,8 +135,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1318238053934752799}
-  - component: {fileID: 2590116265748329531}
+  - component: {fileID: 5339021029347042811}
+  - component: {fileID: 2347896206642121601}
   m_Layer: 10
   m_Name: FX
   m_TagString: Untagged
@@ -190,40 +144,40 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1318238053934752799
+--- !u!4 &5339021029347042811
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3315631406996961962}
+  m_GameObject: {fileID: 7205667922506651397}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 393479186455922219}
+  - {fileID: 5764462263365649025}
   m_Father: {fileID: 355851429713502090}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2590116265748329531
+--- !u!114 &2347896206642121601
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3315631406996961962}
+  m_GameObject: {fileID: 7205667922506651397}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bcc23203270452a49ad1cb2def641e2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &6677246400692579605
+--- !u!1001 &1594495160022182335
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1318238053934752799}
+    m_TransformParent: {fileID: 5339021029347042811}
     m_Modifications:
     - target: {fileID: 4027720677535847074, guid: a8cdfc01bde48774ba147359ae4d8c44, type: 3}
       propertyPath: m_Name
@@ -275,8 +229,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8cdfc01bde48774ba147359ae4d8c44, type: 3}
---- !u!4 &393479186455922219 stripped
+--- !u!4 &5764462263365649025 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6476091625121409854, guid: a8cdfc01bde48774ba147359ae4d8c44, type: 3}
-  m_PrefabInstance: {fileID: 6677246400692579605}
+  m_PrefabInstance: {fileID: 1594495160022182335}
   m_PrefabAsset: {fileID: 0}

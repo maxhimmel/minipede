@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 10
+    MaxSpeed: 8
 --- !u!1 &8698359959605993300
 GameObject:
   m_ObjectHideFlags: 0
@@ -205,11 +205,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[0]._normalizedWeight
-      value: 65
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[1]._normalizedWeight
-      value: 35
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 5643293061122707511, guid: 73b7001402e5cb942ba9954e6c878b84, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[2]._normalizedWeight

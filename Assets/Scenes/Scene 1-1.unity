@@ -833,6 +833,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5904237330888917004]._startDelay
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5307745363276070913]._limitEnemies
       value: 0
       objectReference: {fileID: 0}
@@ -849,6 +853,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5904237330888917004]._spawnStagger
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5307745363276070913]._spawnFrequency.x
       value: 45
       objectReference: {fileID: 0}
@@ -863,6 +871,10 @@ PrefabInstance:
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5307745363276070913]._enemies._allowEmptyRolls
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: managedReferences[5904237330888917003]._enemies._allowEmptyRolls
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5307745363276070913]._enemies._items.Array.size

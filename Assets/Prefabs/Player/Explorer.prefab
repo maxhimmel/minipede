@@ -70,6 +70,7 @@ MonoBehaviour:
         BounceSettings:
           Scale: 0.2
           Duration: 0.1
+          ResetScale: 1
           Curve:
             serializedVersion: 2
             m_Curve:
@@ -543,7 +544,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
-    Health: 10
+    Health: 5
   _logDamage: 0
 --- !u!114 &5414009041420245179
 MonoBehaviour:
@@ -1047,7 +1048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 4.51
+    MaxSpeed: 5
     Acceleration: 95.11
 --- !u!1 &8534091019002428326
 GameObject:

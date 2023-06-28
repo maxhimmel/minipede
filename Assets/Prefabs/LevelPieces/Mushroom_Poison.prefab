@@ -154,11 +154,11 @@ PrefabInstance:
       objectReference: {fileID: 1912857232853727992, guid: 0002196434ec4f74cac3f800346ab4c5, type: 3}
     - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[0]._normalizedWeight
-      value: 52
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[1]._normalizedWeight
-      value: 38
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9128865282551747447, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _settings.Spawns._items.Array.data[2]._normalizedWeight

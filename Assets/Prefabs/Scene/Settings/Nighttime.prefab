@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings:
     CycleRate: 3
-    Duration: 45
+    Duration: 30

@@ -23,7 +23,6 @@ namespace Minipede.Gameplay.Player
 
 		private readonly Settings _settings;
 		private readonly Rewired.Player _input;
-		private readonly ShipSpawner _shipSpawner;
 		private readonly ShipController _shipController;
 		private readonly Explorer.Factory _explorerFactory;
 		private readonly ExplorerController _explorerController;
@@ -38,7 +37,6 @@ namespace Minipede.Gameplay.Player
 
 		public PlayerController( Settings settings,
 			Rewired.Player input,
-			ShipSpawner shipSpawner,
 			ShipController shipController,
 			Explorer.Factory explorerFactory,
 			ExplorerController explorerController,
@@ -49,7 +47,6 @@ namespace Minipede.Gameplay.Player
 		{
 			_settings = settings;
 			_input = input;
-			_shipSpawner = shipSpawner;
 			_shipController = shipController;
 			_explorerFactory = explorerFactory;
 			_explorerController = explorerController;
@@ -64,8 +61,6 @@ namespace Minipede.Gameplay.Player
 			_playerDiedCancelSource = AppHelper.CreateLinkedCTS();
 
 			_input.AddButtonPressedDelegate( OnPauseToggled, ReConsts.Action.Pause );
-
-			_signalBus.Subscribe<IWinStateChangedSignal>( OnWinStateChanged );
 		}
 
 		public void Dispose()
@@ -77,21 +72,11 @@ namespace Minipede.Gameplay.Player
 			}
 
 			_input.RemoveInputEventDelegate( OnPauseToggled );
-
-			_signalBus.TryUnsubscribe<IWinStateChangedSignal>( OnWinStateChanged );
 		}
 
 		private void OnPauseToggled( InputActionEventData obj )
 		{
 			_pauseModel.Toggle();
-		}
-
-		private void OnShipUnpossessed()
-		{
-			_explorer = CreateExplorer();
-			_explorerController.Possess( _explorer );
-
-			_ship.AddMinimapMarker();
 		}
 
 		private Explorer CreateExplorer()
@@ -118,34 +103,6 @@ namespace Minipede.Gameplay.Player
 			HandleGameover();
 		}
 
-		private void OnWinStateChanged( IWinStateChangedSignal signal )
-		{
-			if ( signal.CanWin )
-			{
-				_shipController.UnPossessed -= OnShipUnpossessed;
-			}
-		}
-
-		public void RespawnPlayer()
-		{
-			if ( _ship == null )
-			{
-				_ship = _shipSpawner.Create();
-				_ship.Died += OnShipDied;
-			}
-			else
-			{
-				_ship.Body.MovePosition( _shipSpawner.SpawnPoint.Position );
-				_ship.Body.MoveRotation( 0 );
-			}
-
-			_ship.Health.Replenish();
-			_shipController.Possess( _ship );
-			_shipController.UnPossessed += OnShipUnpossessed;
-
-			PlayerSpawned?.Invoke( _ship );
-		}
-
 		public void TakeOverSpawningProcess( Ship ship )
 		{
 			_ship = ship;
@@ -153,9 +110,17 @@ namespace Minipede.Gameplay.Player
 
 			_ship.Health.Replenish();
 			_shipController.Possess( _ship );
-			_shipController.UnPossessed += OnShipUnpossessed;
+			_shipController.ExitedShip += OnExplorerExitedShip;
 
 			PlayerSpawned?.Invoke( _ship );
+		}
+
+		private void OnExplorerExitedShip( Ship ship )
+		{
+			_explorer = CreateExplorer();
+			_explorerController.Possess( _explorer );
+
+			ship.AddMinimapMarker();
 		}
 
 		private void OnShipDied( Rigidbody2D victimBody, HealthController health )
@@ -169,7 +134,6 @@ namespace Minipede.Gameplay.Player
 		{
 			_timeController.SetTimeScale( _settings.EjectSlomo );
 
-			_shipController.UnPossessed -= OnShipUnpossessed;
 			_shipController.UnPossess();
 
 			while ( !_ejectModel.Choice.HasValue )
@@ -184,8 +148,7 @@ namespace Minipede.Gameplay.Player
 				{
 					HandleGameover();
 				}
-
-				if ( !_ejectModel.Choice.HasValue )
+				else
 				{
 					_ejectModel.UpdateCountdown();
 					if ( _ejectModel.Countdown <= 0 )
@@ -211,8 +174,6 @@ namespace Minipede.Gameplay.Player
 			_ship.AddMinimapMarker();
 			_ship.PlayParkingAnimation();
 			_ship.Eject( _explorer.Body.position, PlayerDiedCancelToken ).Forget();
-
-			_shipController.UnPossessed += OnShipUnpossessed;
 		}
 
 		private void HandleGameover()

@@ -10,6 +10,7 @@ namespace Minipede.Gameplay.Player
 	{
 		public event Action<Ship> Possessed;
 		public event Action UnPossessed;
+		public event Action<Ship> ExitedShip;
 
 		public Ship Pawn => _ship;
 
@@ -93,8 +94,12 @@ namespace Minipede.Gameplay.Player
 
 		private void OnExitShip( InputActionEventData obj )
 		{
-			_ship.PlayParkingAnimation();
+			var ship = _ship;
+
 			UnPossess();
+			ship.PlayParkingAnimation();
+
+			ExitedShip?.Invoke( ship );
 		}
 
 		private void OnShowInventory( InputActionEventData obj )

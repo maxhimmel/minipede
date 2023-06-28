@@ -40,7 +40,10 @@ namespace Minipede.Gameplay.LevelPieces
 					size:	collider.transform.lossyScale
 				) );
 			}
+		}
 
+		public void PlayFillAnimation()
+		{
 			_animator.Play( _onDestroyCancelToken ).Forget();
 		}
 

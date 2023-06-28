@@ -66,7 +66,6 @@ MonoBehaviour:
       - rid: 5904237243981627394
       - rid: 8667173491517161474
       - rid: 5904237243981627395
-      - rid: 5904237243981627396
       Icon: {fileID: 21300000, guid: 453d2da821d4541979732bf6bf666460, type: 3}
   references:
     version: 2
@@ -125,10 +124,6 @@ MonoBehaviour:
         ShotsToFullRecoil: 10
         RebalanceDuration: 0.5
         FireRate: 0.2
-    - rid: 5904237243981627396
-      type: {class: KnockbackProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
-      data:
-        Impulse: 28
     - rid: 8667173491517161474
       type: {class: FuseAmmoProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:

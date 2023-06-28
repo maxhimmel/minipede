@@ -192,6 +192,7 @@ namespace Minipede.Gameplay.StartSequence
 			_lighthouseMushroom = null;
 
 			_startCleansedArea.Activate();
+			_startCleansedArea.PlayFillAnimation();
 			_signalBus.TryFire( new StartingAreaCleansedSignal()
 			{
 				IsSkipped = false

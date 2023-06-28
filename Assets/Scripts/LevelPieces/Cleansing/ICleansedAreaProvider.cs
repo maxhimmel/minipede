@@ -17,7 +17,9 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public CleansedArea GetAsset()
 		{
-			return _sampler.GetRandomPrefab();
+			return _sampler.Count > 0
+				? _sampler.GetRandomPrefab()
+				: null;
 		}
 	}
 }

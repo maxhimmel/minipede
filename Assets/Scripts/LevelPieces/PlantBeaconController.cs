@@ -12,25 +12,33 @@ namespace Minipede.Gameplay.LevelPieces
 		private readonly Settings _settings;
 		private readonly LevelGraph _levelGraph;
 		private readonly BlockFactoryBus _blockFactory;
+		private readonly CleansedArea.Factory _cleansedAreaFactory;
 
 		public PlantBeaconController( Settings settings,
 			LevelGraph levelGraph,
-			BlockFactoryBus blockFactory )
+			BlockFactoryBus blockFactory,
+			CleansedArea.Factory cleansedAreaFactory )
 		{
 			_settings = settings;
 			_levelGraph = levelGraph;
 			_blockFactory = blockFactory;
+			_cleansedAreaFactory = cleansedAreaFactory;
 		}
 
 		public async UniTask<Response> PlantBeacon( Request request )
 		{
 			Prepare( request );
+			var cleansedArea = ActiveNewCleansedArea( request );
+			
 			await MoveBeaconToMushroom( request );
 			await UpdateMushroomConversion( request );
+
 			var lighthouse = CreateLighthouseWithBeacon( request );
+			cleansedArea.PlayFillAnimation();
 
 			return new Response()
 			{
+				CleansedArea = cleansedArea,
 				Lighthouse = lighthouse
 			};
 		}
@@ -41,6 +49,20 @@ namespace Minipede.Gameplay.LevelPieces
 
 			request.Beacon.PrepareForLighthouseEquip();
 			request.Mushroom.PrepareForLighthouseConversion();
+		}
+
+		private CleansedArea ActiveNewCleansedArea( Request request )
+		{
+			var cleansedAreaPrefab = request.Beacon.CleansedAreaProvider.GetAsset();
+			if ( cleansedAreaPrefab == null )
+			{
+				return null;
+			}
+
+			var newArea = _cleansedAreaFactory.Create( cleansedAreaPrefab, new Orientation( request.Mushroom.transform.position ) );
+			newArea.Activate();
+
+			return newArea;
 		}
 
 		private async UniTask MoveBeaconToMushroom( Request request )
@@ -90,6 +112,7 @@ namespace Minipede.Gameplay.LevelPieces
 
 		public class Response
 		{
+			public CleansedArea CleansedArea;
 			public Lighthouse Lighthouse;
 		}
 

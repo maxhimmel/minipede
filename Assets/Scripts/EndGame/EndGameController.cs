@@ -43,6 +43,8 @@ namespace Minipede.Gameplay.LevelPieces
 
 			if ( signal.CanWin )
 			{
+				HandleEndSequence();
+
 				// Design idea: FINAL HORDE
 					// Start spawning a crazy assortment of never ending enemies!
 					// Also start counting down the remainder of the pollution area.
@@ -52,16 +54,23 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private void OnShipPossessed( Ship ship )
 		{
-			if ( !_canWin )
+			if ( _canWin )
 			{
-				return;
+				HandleEndSequence();
 			}
+		}
 
-			_shipController.EnterEvacuationMode();
+		private void HandleEndSequence()
+		{
+			var ship = _shipController.Pawn;
+			if ( ship != null )
+			{
+				_shipController.EnterEvacuationMode();
 
-			PlayEndSequence( ship )
-				.Cancellable( AppHelper.AppQuittingToken )
-				.Forget();
+				PlayEndSequence( ship )
+					.Cancellable( AppHelper.AppQuittingToken )
+					.Forget();
+			}
 		}
 
 		private async UniTask PlayEndSequence( Ship ship )

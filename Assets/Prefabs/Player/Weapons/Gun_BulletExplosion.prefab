@@ -65,7 +65,6 @@ MonoBehaviour:
       Modules:
       - rid: 5904237243981627394
       - rid: 8667173491517161474
-      - rid: 5904237243981627395
       Icon: {fileID: 21300000, guid: 453d2da821d4541979732bf6bf666460, type: 3}
   references:
     version: 2
@@ -78,52 +77,12 @@ MonoBehaviour:
       type: {class: FireSpread/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
         Spread: 15
-        Angle: 330
+        Angle: 336
         OffsetAngle: 0
     - rid: 5904237243981627394
       type: {class: FireRateSafety/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:
         FireRate: 0.45
-    - rid: 5904237243981627395
-      type: {class: AccuracyAdjuster/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
-      data:
-        AngleRange: {x: 0, y: 0}
-        MaxAngleOverRecoil:
-          serializedVersion: 2
-          m_Curve:
-          - serializedVersion: 3
-            time: 0
-            value: 1
-            inSlope: 0.322047
-            outSlope: 0.322047
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0
-            outWeight: 0.2655218
-          - serializedVersion: 3
-            time: 0.7977246
-            value: 4.9885945
-            inSlope: 11.518182
-            outSlope: 11.518182
-            tangentMode: 0
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0.33333334
-          - serializedVersion: 3
-            time: 1
-            value: 10
-            inSlope: 24.775162
-            outSlope: 24.775162
-            tangentMode: 34
-            weightedMode: 0
-            inWeight: 0.33333334
-            outWeight: 0
-          m_PreInfinity: 2
-          m_PostInfinity: 2
-          m_RotationOrder: 4
-        ShotsToFullRecoil: 10
-        RebalanceDuration: 0.5
-        FireRate: 0.2
     - rid: 8667173491517161474
       type: {class: FuseAmmoProcessor/Settings, ns: Minipede.Gameplay.Weapons, asm: Minipede}
       data:

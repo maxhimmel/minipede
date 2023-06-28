@@ -74,16 +74,14 @@ MonoBehaviour:
     - rid: 5904237319612268571
       type: {class: TimedEnemySpawner/Settings, ns: Minipede.Gameplay.Waves, asm: Minipede}
       data:
-        _name: Beetle, Earwig, Inchworm
+        _name: Beetle & Earwig
         _enemies:
           _allowEmptyRolls: 0
           _items:
-          - _normalizedWeight: 45
+          - _normalizedWeight: 50
             Item: {fileID: 11400000, guid: f14c2f6ccbf1ca041a04e3eec13dad84, type: 2}
-          - _normalizedWeight: 45
+          - _normalizedWeight: 50
             Item: {fileID: 11400000, guid: bb8decc9bbfb94b4783ddb7fcd24e946, type: 2}
-          - _normalizedWeight: 10
-            Item: {fileID: 11400000, guid: 5a4724cefe5876d49b7a60b7bae5e3ba, type: 2}
         _startDelay: 5
         _spawnFrequency: {x: 5, y: 9}
         _limitEnemies: 1

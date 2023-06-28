@@ -204,7 +204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b217459b8ed5bb14982b3c36f712939e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _image: {fileID: 4336471941424114057}
+  _graphic: {fileID: 4336471941424114057}
 --- !u!1 &3907031191781823237
 GameObject:
   m_ObjectHideFlags: 0
@@ -795,11 +795,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4227690905342035932, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: m_text
-      value: <sprite="Xbox-Filled" index=5> Fire
+      value: Fire
       objectReference: {fileID: 0}
     - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: _actionId
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
+      propertyPath: _promptName
+      value: Fire
       objectReference: {fileID: 0}
     - target: {fileID: 4306021255015716347, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: _promptFormat
@@ -918,6 +922,30 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8015335916495486452, guid: a70535378b34f0b489ea949d51288d87, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8638149782620904436, guid: a70535378b34f0b489ea949d51288d87, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}

@@ -688,6 +688,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: ActionGlyphController
       objectReference: {fileID: 0}
+    - target: {fileID: 908392177381950904, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 908392177381950904, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 908392177381950904, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 908392177381950904, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 908392177381950904, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 908392177381950904, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1237574194283322973, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
@@ -749,8 +773,16 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4663918519637412791, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
+      propertyPath: _promptName
+      value: Grab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4663918519637412791, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
       propertyPath: _promptFormat
       value: '{0} Grab'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4663918519637412791, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
+      propertyPath: _computerPriority
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5545833687373891259, guid: 26bd753e6a2a5614992c3a32e8c5340d, type: 3}
       propertyPath: m_Pivot.x

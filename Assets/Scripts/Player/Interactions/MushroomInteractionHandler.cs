@@ -1,4 +1,5 @@
-﻿using Minipede.Gameplay.LevelPieces;
+﻿using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Treasures;
 
 namespace Minipede.Gameplay.Player
@@ -6,13 +7,13 @@ namespace Minipede.Gameplay.Player
 	public class MushroomInteractionHandler : InteractionHandler<ExplorerController, Mushroom>
 	{
 		private readonly Settings _settings;
-		private readonly LevelGraph _levelGraph;
+		private readonly PlantBeaconController _plantBeaconController;
 
 		public MushroomInteractionHandler( Settings settings,
-			LevelGraph levelGraph )
+			PlantBeaconController plantBeaconController )
 		{
 			_settings = settings;
-			_levelGraph = levelGraph;
+			_plantBeaconController = plantBeaconController;
 		}
 
 		protected override bool Handle( ExplorerController explorerController, Mushroom mushroom )
@@ -24,11 +25,16 @@ namespace Minipede.Gameplay.Player
 				throw new System.NotSupportedException( $"Cannot interact with a {nameof( Mushroom )} without a beacon." );
 			}
 
-			explorer.ReleaseTreasure( beacon );
-			mushroom.Dispose();
+			_plantBeaconController.PlantBeacon( new PlantBeaconController.Request()
+			{
+				Explorer = explorer,
+				Beacon = beacon,
+				Mushroom = mushroom,
+				LighthousePrefab = _settings.LighthousePrefab,
+				SnapToGrid = true,
+				CancelToken = AppHelper.AppQuittingToken
 
-			var newLighthouse = _levelGraph.CreateBlock( _settings.LighthousePrefab, mushroom.transform.position );
-			newLighthouse.Equip( beacon );
+			} ).Forget();
 
 			return true;
 		}

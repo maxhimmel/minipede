@@ -1,4 +1,4 @@
-﻿using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
@@ -78,11 +78,11 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WhenInjectedInto<ExplorerController>();
 
-			Container.BindInterfacesAndSelfTo<ShipInteractionHandler>()
+			Container.BindInterfacesTo<ShipInteractionHandler>()
 				.AsCached()
 				.WhenInjectedInto<InteractionHandlerBus<ExplorerController>>();
 
-			Container.BindInterfacesAndSelfTo<MushroomInteractionHandler>()
+			Container.BindInterfacesTo<MushroomInteractionHandler>()
 				.AsCached()
 				.WithArguments( _playerSettings.Explorer )
 				.WhenInjectedInto<InteractionHandlerBus<ExplorerController>>();
@@ -92,6 +92,12 @@ namespace Minipede.Installers
 			Container.BindInstance( _playerSettings.Hauling )
 				.AsSingle()
 				.WhenInjectedInto<TreasureHauler>();
+
+			/* --- */
+
+			Container.Bind<PlantBeaconController>()
+				.AsSingle()
+				.WithArguments( _playerSettings.PlantingBeacon );
 		}
 
 		private void BindInventoryManagement()
@@ -140,6 +146,8 @@ namespace Minipede.Installers
 			public MushroomInteractionHandler.Settings Explorer;
 			[FoldoutGroup( "Explorer" ), Space]
 			public TreasureHauler.Settings Hauling;
+			[FoldoutGroup( "Explorer" ), Space]
+			public PlantBeaconController.Settings PlantingBeacon;
 
 			[FoldoutGroup( "Camera" ), LabelText( "Ship" )]
 			public CameraToggler.Settings ShipCamera;

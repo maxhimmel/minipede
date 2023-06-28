@@ -22,6 +22,7 @@ namespace Minipede.Gameplay.StartSequence
 		private readonly ShipSpawner _shipSpawner;
 		private readonly BeaconFactoryBus _beaconFactory;
 		private readonly BlockFactoryBus _blockFactory;
+		private readonly PlantBeaconController _plantBeaconController;
 		private readonly ICameraToggler _cameraToggler;
 		private readonly SignalBus _signalBus;
 		private readonly CutsceneModel _cutsceneModel;
@@ -33,7 +34,6 @@ namespace Minipede.Gameplay.StartSequence
 		private Mushroom _lighthouseMushroom;
 		private Explorer _explorer;
 		private Beacon _beacon;
-		private Lighthouse _lighthouse;
 		private Ship _ship;
 
 		public LevelStartSequenceController( Settings settings,
@@ -43,6 +43,7 @@ namespace Minipede.Gameplay.StartSequence
 			ShipSpawner shipSpawner,
 			BeaconFactoryBus beaconFactory,
 			BlockFactoryBus blockFactory,
+			PlantBeaconController plantBeaconController,
 			ICameraToggler cameraToggler,
 			SignalBus signalBus,
 			CutsceneModel cutsceneModel,
@@ -57,6 +58,7 @@ namespace Minipede.Gameplay.StartSequence
 			_shipSpawner = shipSpawner;
 			_beaconFactory = beaconFactory;
 			_blockFactory = blockFactory;
+			_plantBeaconController = plantBeaconController;
 			_cameraToggler = cameraToggler;
 			_signalBus = signalBus;
 			_cutsceneModel = cutsceneModel;
@@ -112,7 +114,7 @@ namespace Minipede.Gameplay.StartSequence
 			}
 			if ( _lighthouseMushroom != null )
 			{
-				PlantBeacon();
+				ImmediatePlantBeacon();
 			}
 			if ( _explorer != null )
 			{
@@ -134,14 +136,11 @@ namespace Minipede.Gameplay.StartSequence
 			await ExplorerGrabBeacon( cancelToken );
 			await MoveAlongPath( _explorer, _plantPath, cancelToken );
 
-			PlantBeacon();
+			await PlantBeacon( cancelToken );
 			await TaskHelpers.DelaySeconds( _settings.CleansingPauseDuration, cancelToken );
 
 			SpawnShip();
 			await TaskHelpers.DelaySeconds( _settings.ShipCreatedPauseDuration, cancelToken );
-
-			// TODO: Hide action glyphs during "selection" process ...
-				// ...
 
 			await MoveAlongPath( _explorer, _shipPath, cancelToken );
 
@@ -177,36 +176,49 @@ namespace Minipede.Gameplay.StartSequence
 			_explorer.StopGrabbing();
 		}
 
-		private void PlantBeacon()
+		private async UniTask PlantBeacon( CancellationToken cancelToken )
+		{
+			await _plantBeaconController.PlantBeacon( new PlantBeaconController.Request()
+			{
+				Explorer = _explorer,
+				Beacon = _beacon,
+				Mushroom = _lighthouseMushroom,
+				LighthousePrefab = _settings.LighthousePrefab,
+				SnapToGrid = false,
+				CancelToken = cancelToken
+			} );
+
+			GameObject.Destroy( _lighthouseMushroom.gameObject );
+			_lighthouseMushroom = null;
+
+			_startCleansedArea.Activate();
+			_signalBus.TryFire( new StartingAreaCleansedSignal()
+			{
+				IsSkipped = false
+			} );
+		}
+
+		private void ImmediatePlantBeacon()
 		{
 			// Replace mushroom w/lighthouse ...
 			_lighthouseMushroom.Dispose();
 			GameObject.Destroy( _lighthouseMushroom.gameObject );
 			_lighthouseMushroom = null;
 
-			_lighthouse = (Lighthouse)_blockFactory.Create(
+			var lighthouse = (Lighthouse)_blockFactory.Create(
 				_settings.LighthousePrefab,
 				new Orientation( _settings.LighthouseMushroomPosition )
 			);
 
 			// Plant beacon into lighthouse ...
 			_explorer?.ReleaseTreasure( _beacon );
-			_lighthouse.Equip( _beacon );
+			lighthouse.Equip( _beacon );
 
 			// Activate cleansed area ...
-			bool isSkipped = _skipCancelSource == null;
-			if ( isSkipped )
-			{
-				_startCleansedArea.ImmediateFillCleansedArea();
-			}
-			else
-			{
-				_startCleansedArea.Activate();
-			}
-
+			_startCleansedArea.ImmediateFillCleansedArea();
 			_signalBus.TryFire( new StartingAreaCleansedSignal()
 			{
-				IsSkipped = isSkipped
+				IsSkipped = true
 			} );
 		}
 
@@ -273,9 +285,6 @@ namespace Minipede.Gameplay.StartSequence
 		[System.Serializable]
 		public class Settings
 		{
-			[BoxGroup]
-			public float SkipHoldDuration = 1;
-
 			[BoxGroup( "Animation" )]
 			public float StartDelay = 1;
 

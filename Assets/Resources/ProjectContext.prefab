@@ -87,6 +87,7 @@ MonoBehaviour:
     FadeInDelay: 0.25
   _cutscene:
     HoldSkipDuration: 1
+    RecentButtonQueryDuration: 1
 --- !u!1001 &211998334282719063
 PrefabInstance:
   m_ObjectHideFlags: 0

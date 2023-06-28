@@ -41,14 +41,18 @@ namespace Minipede.Gameplay.Fx
 				}
 			}
 
-			_renderer.transform.localScale = _initialScale;
+			if ( data.ResetScale )
+			{
+				_renderer.transform.localScale = _initialScale;
+			}
 		}
 
         [System.Serializable]
-		public struct Settings
+		public class Settings
 		{
 			public float Scale;
 			public float Duration;
+			public bool ResetScale = true;
 
 			[InfoBox( "This is additively applied to the current scale." )]
 			public AnimationCurve Curve;

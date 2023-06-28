@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 5
+    MaxSpeed: 4
     ScaleBySpeed: 1
     MatchLinearSpeed: 1
     MaxWaveSpeed: 5

@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _settings:
-    MaxSpeed: 10
+    MaxSpeed: 8
 --- !u!1001 &3581288573245851663
 PrefabInstance:
   m_ObjectHideFlags: 0

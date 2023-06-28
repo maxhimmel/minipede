@@ -59,9 +59,12 @@ namespace Minipede.Gameplay.LevelPieces
 				return null;
 			}
 
-			var newArea = _cleansedAreaFactory.Create( cleansedAreaPrefab, new Orientation( request.Mushroom.transform.position ) );
-			newArea.Activate();
+			var newArea = _cleansedAreaFactory.Create( 
+				cleansedAreaPrefab, 
+				new Orientation( request.Mushroom.transform.position ) 
+			);
 
+			newArea.Activate();
 			return newArea;
 		}
 

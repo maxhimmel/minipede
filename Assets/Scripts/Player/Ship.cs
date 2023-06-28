@@ -169,7 +169,6 @@ namespace Minipede.Gameplay.Player
 		public void UnPossess()
 		{
 			_isPiloted = false;
-			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
 
 			foreach ( var targetGroupAttachment in _targetGroupAttachments )
 			{
@@ -382,6 +381,13 @@ namespace Minipede.Gameplay.Player
 				Vector2.up,
 				transform
 			) );
+
+			PlayParkingAnimation();
+		}
+
+		public void PlayParkingAnimation()
+		{
+			_renderer.color = new Color( 0.2f, 0.2f, 0.2f, 1 );
 		}
 
 		public void SetActionGlyphsActive( bool isActive )

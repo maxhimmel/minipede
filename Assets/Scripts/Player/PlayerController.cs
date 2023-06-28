@@ -209,6 +209,7 @@ namespace Minipede.Gameplay.Player
 			_explorer.Eject( UnityEngine.Random.insideUnitCircle.normalized );
 
 			_ship.AddMinimapMarker();
+			_ship.PlayParkingAnimation();
 			_ship.Eject( _explorer.Body.position, PlayerDiedCancelToken ).Forget();
 
 			_shipController.UnPossessed += OnShipUnpossessed;

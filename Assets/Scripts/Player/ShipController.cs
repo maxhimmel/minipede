@@ -93,6 +93,7 @@ namespace Minipede.Gameplay.Player
 
 		private void OnExitShip( InputActionEventData obj )
 		{
+			_ship.PlayParkingAnimation();
 			UnPossess();
 		}
 

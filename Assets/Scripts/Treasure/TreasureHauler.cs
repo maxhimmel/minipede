@@ -136,17 +136,7 @@ namespace Minipede.Gameplay.Treasures
 				return;
 			}
 
-			// Sort from farthest(0) --> closest(N) ...
-			_treasuresWithinRange.Sort( ( lhs, rhs ) =>
-			{
-				float lhsDistSqr = (lhs.Body.position - _body.position).sqrMagnitude;
-				float rhsDistSqr = (rhs.Body.position - _body.position).sqrMagnitude;
-
-				return lhsDistSqr > rhsDistSqr
-					? -1
-					: 1;
-			} );
-
+			SortTreasuresInRange();
 			int lastIndex = _treasuresWithinRange.Count - 1;
 			var closestTreasure = _treasuresWithinRange[lastIndex];
 
@@ -168,6 +158,30 @@ namespace Minipede.Gameplay.Treasures
 			return _isHaulingRequested
 				&& _treasuresWithinRange.Count > 0
 				&& _nextCollectTime <= Time.timeSinceLevelLoad;
+		}
+
+		private void SortTreasuresInRange()
+		{
+			// Sort from farthest(0) --> closest(N) ...
+			_treasuresWithinRange.Sort( ( lhs, rhs ) =>
+			{
+				// Prioritize shrapnel to the end ...
+				if ( lhs is ShipShrapnel )
+				{
+					return 1;
+				}
+				else if ( rhs is ShipShrapnel )
+				{
+					return -1;
+				}
+
+				float lhsDistSqr = (lhs.Body.position - _body.position).sqrMagnitude;
+				float rhsDistSqr = (rhs.Body.position - _body.position).sqrMagnitude;
+
+				return lhsDistSqr > rhsDistSqr
+					? -1
+					: 1;
+			} );
 		}
 
 		private void TryReleaseHauledTreasure()
@@ -219,18 +233,9 @@ namespace Minipede.Gameplay.Treasures
 				return;
 			}
 
-			Haulable closestHaulable = null;
-			float closestDistSqr = Mathf.Infinity;
-
-			foreach ( var haulable in _treasuresWithinRange )
-			{
-				float distSqr = (haulable.Body.position - _body.position).sqrMagnitude;
-				if ( distSqr < closestDistSqr )
-				{
-					closestDistSqr = distSqr;
-					closestHaulable = haulable;
-				}
-			}
+			SortTreasuresInRange();
+			int lastIndex = _treasuresWithinRange.Count - 1;
+			var closestHaulable = _treasuresWithinRange[lastIndex];
 
 			if ( _selectedHaulable != closestHaulable )
 			{

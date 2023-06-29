@@ -1,3 +1,4 @@
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Utility;
@@ -13,11 +14,17 @@ namespace Minipede.Gameplay.UI
 		[SerializeField] private float _showDuration = 1.5f;
 
 		private SignalBus _signalBus;
+		private CancellationTokenSource _cancelSource;
 
 		[Inject]
 		public void Construct( SignalBus signalBus )
 		{
 			_signalBus = signalBus;
+		}
+
+		private void Awake()
+		{
+			_cancelSource = AppHelper.CreateLinkedCTS( this.GetCancellationTokenOnDestroy() );
 		}
 
 		private void OnDisable()
@@ -40,26 +47,26 @@ namespace Minipede.Gameplay.UI
 		private async UniTaskVoid UpdateReveal()
 		{
 			float fadeInTime = 0;
-			while ( this != null && fadeInTime < _fadeDuration )
+			while ( fadeInTime < _fadeDuration )
 			{
 				fadeInTime += Time.deltaTime;
 				SetFaderProgress( fadeInTime / _fadeDuration );
-				await UniTask.Yield( PlayerLoopTiming.Update, AppHelper.AppQuittingToken );
+				await UniTask.Yield( PlayerLoopTiming.Update, _cancelSource.Token );
 			}
 
 			float showTime = 0;
-			while ( this != null && showTime < _showDuration )
+			while ( showTime < _showDuration )
 			{
 				showTime += Time.deltaTime;
-				await UniTask.Yield( PlayerLoopTiming.Update, AppHelper.AppQuittingToken );
+				await UniTask.Yield( PlayerLoopTiming.Update, _cancelSource.Token );
 			}
 
 			float fadeOutTime = _fadeDuration;
-			while ( this != null && fadeOutTime > 0 )
+			while ( fadeOutTime > 0 )
 			{
 				fadeOutTime -= Time.deltaTime;
 				SetFaderProgress( fadeOutTime / _fadeDuration );
-				await UniTask.Yield( PlayerLoopTiming.Update, AppHelper.AppQuittingToken );
+				await UniTask.Yield( PlayerLoopTiming.Update, _cancelSource.Token );
 			}
 		}
 

@@ -70,6 +70,8 @@ namespace Minipede.Gameplay.LevelPieces
 
 		private async UniTask MoveBeaconToMushroom( Request request )
 		{
+			request.Beacon.PlayPlantAnimation( request.Mushroom );
+
 			await request.Beacon.SnapToPosition( 
 				request.Mushroom.transform.position, 
 				_settings.BeaconSnapDuration, 

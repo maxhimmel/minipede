@@ -144,6 +144,8 @@ namespace Minipede.Gameplay.Player
 			_ejectExplosion.Reload();
 			_ejectExplosion.StartFiring();
 
+			TryKnockbackHaulables();
+
 			_collider.enabled = false;
 
 			_shrapnelFactory.Create( _body.position )
@@ -151,6 +153,28 @@ namespace Minipede.Gameplay.Player
 
 			await TaskHelpers.DelaySeconds( 0.15f, cancelToken );
 			_collider.enabled = true;
+		}
+
+		private void TryKnockbackHaulables()
+		{
+			var overlaps = Physics2D.OverlapCircleAll(
+				_body.position,
+				_settings.ExplosionRadius,
+				_settings.ExplosionLayer
+			);
+
+			foreach ( var collider in overlaps )
+			{
+				if ( collider.TryGetComponentFromBody<Haulable>( out var haulable ) )
+				{
+					haulable.Body.AddExplosionForce(
+						_settings.ExplosionForce,
+						_body.position,
+						_settings.ExplosionRadius,
+						_settings.ExplosionMode
+					);
+				}
+			}
 		}
 
 		public void PossessedBy( ShipController controller )
@@ -419,6 +443,15 @@ namespace Minipede.Gameplay.Player
 
 			[BoxGroup( "Repair" )]
 			public GunInstaller RepairExplosion;
+
+			[BoxGroup( "Explosions" )]
+			public LayerMask ExplosionLayer;
+			[BoxGroup( "Explosions" )]
+			public float ExplosionForce = 10;
+			[BoxGroup( "Explosions" )]
+			public float ExplosionRadius = 3;
+			[BoxGroup( "Explosions" )]
+			public ForceMode2D ExplosionMode = ForceMode2D.Impulse;
 		}
 
 		public class Factory : PlaceholderFactory<Ship> { }

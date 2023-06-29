@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2057e16f04fe644b7ec1948c0620a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isInverted: 0
   _disc: {fileID: 5759197832349534312}
   _start:
     Time: 0
@@ -265,6 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a6b12f07a3e194fb137ce449fb4527, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isInverted: 0
   _format: '{0:F0}%'
   _text: {fileID: 5759197832418524356}
 --- !u!114 &5759197832418524356
@@ -409,13 +411,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb3ce3c00d33ee64785e5ff580e2c3dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _progressPreview: {fileID: 2363273064921659694}
   _progressFill:
   - {fileID: 6109362284279527986}
   - {fileID: 1868691178749806584}
-  _progressPreview: {fileID: 2363273064921659694}
+  _animation: 2
   _fillDelay: 0.25
   _fillDuration: 1
-  _fillWhenPiloting: 0
 --- !u!33 &5759197833005462245
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -563,6 +565,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2057e16f04fe644b7ec1948c0620a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isInverted: 0
   _disc: {fileID: 5759197833195259184}
   _start:
     Time: 0

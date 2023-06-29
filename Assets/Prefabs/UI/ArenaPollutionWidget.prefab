@@ -1791,6 +1791,7 @@ GameObject:
   m_Component:
   - component: {fileID: 697273040202279485}
   - component: {fileID: 697273040202279484}
+  - component: {fileID: 3575963452075450070}
   m_Layer: 0
   m_Name: ArenaPollutionWidget
   m_TagString: Untagged
@@ -1834,9 +1835,22 @@ MonoBehaviour:
   _progressPreview: {fileID: 697273039905495843}
   _progressFill:
   - {fileID: 697273039303746859}
-  _fillWhenPiloting: 1
+  _animation: 1
   _fillDelay: 2
   _fillDuration: 1
+--- !u!114 &3575963452075450070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697273040202279486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59c8ef4f8ae4ba45b34fe135e451a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startEnabled: 1
 --- !u!1 &697273040285942897
 GameObject:
   m_ObjectHideFlags: 0

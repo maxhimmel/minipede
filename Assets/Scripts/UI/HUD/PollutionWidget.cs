@@ -16,7 +16,7 @@ namespace Minipede.Gameplay.UI
         [SerializeField, LabelText( "Fills" )] private MonoProgressWidget[] _progressFill;
 
 		[Header( "Animation" )]
-		[SerializeField] private bool _fillWhenPiloting;
+		[SerializeField, LabelText( "Mode" )] private AnimationMode _animation;
 		[SerializeField, MinValue( 0 )] private float _fillDelay = 1;
 		[SerializeField, MinValue( 0 )] private float _fillDuration = 1;
 
@@ -53,23 +53,30 @@ namespace Minipede.Gameplay.UI
 
 		private void OnEnable()
 		{
-			if ( _fillWhenPiloting )
+			if ( _animation == AnimationMode.OnPilot )
 			{
 				_shipController.Possessed += OnShipPossessed;
 			}
 
 			_signalBus.Subscribe<PollutionLevelChangedSignal>( OnPollutionLevelChanged );
 
-			float pollutionPercent = GetPollutionPercent();
-			foreach ( var fill in _progressFill )
+			if ( _animation == AnimationMode.CatchUpOnEnable )
 			{
-				fill.SetProgress( pollutionPercent );
+				OnPollutionLevelChanged( new PollutionLevelChangedSignal() );
+			}
+			else
+			{
+				float pollutionPercent = GetPollutionPercent();
+				foreach ( var fill in _progressFill )
+				{
+					fill.SetProgress( pollutionPercent );
+				}
 			}
 		}
 
 		private void OnDisable()
 		{
-			if ( _fillWhenPiloting )
+			if ( _animation == AnimationMode.OnPilot )
 			{
 				_shipController.Possessed -= OnShipPossessed;
 			}
@@ -91,7 +98,7 @@ namespace Minipede.Gameplay.UI
 
 			_cleansedPercent = percent;
 
-			if ( !_fillWhenPiloting )
+			if ( _animation != AnimationMode.OnPilot )
 			{
 				StartProgressFill();
 			}
@@ -145,6 +152,13 @@ namespace Minipede.Gameplay.UI
 			float offsetPercent = (_pollutionController.PollutionPercentage - _winPercentage.PollutionWinPercentage) / offsetMax;
 
 			return offsetPercent;
+		}
+
+		private enum AnimationMode
+		{
+			OnPilot,
+			CatchUpOnEnable,
+			FillOnEnable
 		}
 	}
 }

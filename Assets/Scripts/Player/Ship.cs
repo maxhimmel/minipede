@@ -37,6 +37,8 @@ namespace Minipede.Gameplay.Player
 		public Rigidbody2D Body => _body;
 		public IOrientation Orientation => new Orientation( _body.position, _body.transform.rotation, _body.transform.parent );
 
+		private readonly static Collider2D[] _explosionBuffer = new Collider2D[30];
+
 		private IMotor _motor;
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
@@ -157,14 +159,16 @@ namespace Minipede.Gameplay.Player
 
 		private void TryKnockbackHaulables()
 		{
-			var overlaps = Physics2D.OverlapCircleAll(
+			int overlapCount = Physics2D.OverlapCircleNonAlloc(
 				_body.position,
 				_settings.ExplosionRadius,
+				_explosionBuffer,
 				_settings.ExplosionLayer
 			);
 
-			foreach ( var collider in overlaps )
+			for ( int idx = 0; idx < overlapCount; ++idx )
 			{
+				var collider = _explosionBuffer[idx];
 				if ( collider.TryGetComponentFromBody<Haulable>( out var haulable ) )
 				{
 					haulable.Body.AddExplosionForce(

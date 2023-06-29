@@ -314,18 +314,16 @@ namespace Minipede.Gameplay.Enemies
 
 		public void CreateSegments( int count, Vector2 direction )
 		{
-			Vector2 spawnPos = _body.position;
 			List<MinipedeController> segments = new List<MinipedeController>( count );
 
 			for ( int idx = 0; idx < count; ++idx )
 			{
 				var segment = _enemyFactory.Create<MinipedeController>( new Orientation(
-					spawnPos + direction * _levelGraph.Data.Size.x,
+					_body.position,
 					(-direction).ToLookRotation(),
 					transform.parent
 				) );
 
-				spawnPos = segment.Body.position;
 				segments.Add( segment );
 			}
 

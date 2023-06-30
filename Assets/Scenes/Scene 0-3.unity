@@ -905,6 +905,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: aa0381c0ff8d3d34889e6d16565e9496, type: 2}
     - target: {fileID: 3939424374335804656, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: _enemies.Array.data[5]._prefab
+      value: 
+      objectReference: {fileID: -5776135086835103509, guid: 82c01729946f0a64a819732933e7a972, type: 3}
+    - target: {fileID: 3939424374335804656, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: _enemies.Array.data[6]._prefab
       value: 
       objectReference: {fileID: 5032499753157185079, guid: 1aca076a0aa19ad4699103c829c57741, type: 3}

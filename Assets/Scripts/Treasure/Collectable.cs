@@ -7,7 +7,7 @@ namespace Minipede.Gameplay.Treasures
 	public abstract class Collectable<TCollectable> : Haulable
 		where TCollectable : MonoBehaviour
 	{
-		private SignalBus _signalBus;
+		protected SignalBus _signalBus;
 
 		protected bool _isDisposed;
 

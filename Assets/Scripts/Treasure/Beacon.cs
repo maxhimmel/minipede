@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.LevelPieces;
 using Minipede.Gameplay.Weapons;
 using Minipede.Utility;
@@ -148,6 +149,15 @@ namespace Minipede.Gameplay.Treasures
 
 			_lifetimer.Pause();
 			Gun.Reload();
+		}
+
+		public void PlayPlantAnimation( Mushroom destination )
+		{
+			_signalBus.TryFireId( "Plant", new FxSignal(
+				_body.position,
+				destination.transform,
+				transform
+			) );
 		}
 
 		public async UniTask SnapToPosition( Vector2 destination, float duration, AnimationCurve tween, CancellationToken cancelToken )

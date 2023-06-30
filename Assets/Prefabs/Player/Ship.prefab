@@ -685,6 +685,12 @@ MonoBehaviour:
     Shrapnel: {fileID: 4153180646279382678, guid: e3af0b20e8ed3764b81aedb89fb97c9b, type: 3}
     ShrapnelLaunchForce: {x: 25.469488, y: 40.727703}
     RepairExplosion: {fileID: 4929814723182570160, guid: 815c0e2ca6a29124593b2f962597f926, type: 3}
+    ExplosionLayer:
+      serializedVersion: 2
+      m_Bits: 512
+    ExplosionForce: 3
+    ExplosionRadius: 3
+    ExplosionMode: 1
   _selection:
     SelectorName: Selector
     Camera:

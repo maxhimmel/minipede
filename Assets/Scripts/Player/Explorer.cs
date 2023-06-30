@@ -5,6 +5,7 @@ using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
@@ -194,12 +195,27 @@ namespace Minipede.Gameplay.Player
 			_ejectVfx.Play( new FxSignal( transform.position, direction, transform ) );
 		}
 
+		public void DisableHUD()
+		{
+			var hud = transform.Find( _settings.HUDId );
+			if ( hud != null )
+			{
+				hud.gameObject.SetActive( false );
+			}
+		}
+
 		[System.Serializable]
 		public class Settings
 		{
+			[BoxGroup( "Eject" )]
 			public float EjectForce;
+			[BoxGroup( "Eject" )]
 			public float EjectInvincibleDuration;
+			[BoxGroup( "Eject" )]
 			public SpriteBlinkVfxAnimator.Settings EjectInvincibleVfx;
+
+			[BoxGroup( "UI" )]
+			public string HUDId = "HUD_Explorer";
 		}
 
 		public class Factory : UnityFactory<Explorer>

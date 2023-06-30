@@ -159,6 +159,7 @@ namespace Minipede.Gameplay.StartSequence
 		private void SpawnExplorer()
 		{
 			_explorer = _explorerFactory.Create( _settings.ExplorerSpawnPosition );
+			_explorer.DisableHUD();
 		}
 
 		private void SpawnBeacon()

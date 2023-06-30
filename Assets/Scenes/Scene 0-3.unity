@@ -1150,7 +1150,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5391471354250264589]._startDelay
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5391471354250264590]._maxEnemies
@@ -1174,7 +1174,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5391471354250264592]._startDelay
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5391471354250264593]._maxEnemies
@@ -1190,7 +1190,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5391471354250264594]._startDelay
-      value: 3
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5904237330888917004]._startDelay
@@ -1474,11 +1474,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5391471354250264589]._spawnFrequency.x
-      value: 45
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5391471354250264589]._spawnFrequency.y
-      value: 45
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3939424374541811792, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: managedReferences[5391471354250264590]._spawnFrequency.x

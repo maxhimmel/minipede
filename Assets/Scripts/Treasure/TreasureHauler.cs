@@ -165,12 +165,23 @@ namespace Minipede.Gameplay.Treasures
 			// Sort from farthest(0) --> closest(N) ...
 			_treasuresWithinRange.Sort( ( lhs, rhs ) =>
 			{
-				// Prioritize shrapnel to the end ...
+				// Prioritize shrapnel to the end.
+					// Since there's only one shrapnel existing at a time we can keep it simple ...
 				if ( lhs is ShipShrapnel )
 				{
 					return 1;
 				}
 				else if ( rhs is ShipShrapnel )
+				{
+					return -1;
+				}
+
+				// Next priority are beacons ...
+				if ( lhs is Beacon && !(rhs is Beacon) )
+				{
+					return 1;
+				}
+				else if ( rhs is Beacon && !(lhs is Beacon) )
 				{
 					return -1;
 				}

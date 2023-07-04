@@ -14,10 +14,8 @@ namespace Minipede.Installers
 		[FoldoutGroup( "Minimap" )]
 		[SerializeField] private List<MinimapMarkerFactoryBus.PoolSettings> _minimapMarkers;
 
-		[FoldoutGroup( "Spawn Warning" ), HideLabel]
-		[SerializeField] private EnemySpawnWarningWidget.Settings _enemySpawnWidget;
 		[FoldoutGroup( "Spawn Warning" )]
-		[SerializeField] private List<EnemySpawnMarkerFactoryBus.PoolSettings> _enemySpawnMarkers;
+		[SerializeField] private EnemySpawnMarkerFactoryBus.PoolSettings _enemySpawnMarker;
 
 		public override void InstallBindings()
 		{
@@ -33,11 +31,11 @@ namespace Minipede.Installers
 
 			Container.BindInterfacesAndSelfTo<EnemySpawnMarkerFactoryBus>()
 				.AsSingle()
-				.WithArguments( _enemySpawnMarkers );
+				.WithArguments( new List<EnemySpawnMarkerFactoryBus.PoolSettings>() { _enemySpawnMarker } );
 
 			Container.BindInterfacesTo<EnemySpawnWarningWidget>()
 				.AsSingle()
-				.WithArguments( _enemySpawnWidget );
+				.WithArguments( new EnemySpawnWarningWidget.Settings() { MarkerPrefab = _enemySpawnMarker.Prefab } );
 		}
 	}
 }

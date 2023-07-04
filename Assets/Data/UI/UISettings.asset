@@ -45,9 +45,7 @@ MonoBehaviour:
   - Prefab: {fileID: 989791784839115656, guid: 6b45b3d9d369b0346accfc4ef92b2331, type: 3}
     InitialSize: 1
     ExpandMethod: 0
-  _enemySpawnWidget:
-    MarkerPrefab: {fileID: -2400802404416725128, guid: 80f3a100dbd1d6544967fc30310fa269, type: 3}
-  _enemySpawnMarkers:
-  - Prefab: {fileID: -2400802404416725128, guid: 80f3a100dbd1d6544967fc30310fa269, type: 3}
+  _enemySpawnMarker:
+    Prefab: {fileID: 7743119047996389448, guid: fe3414050420b224ea4b82ab0fb1a86b, type: 3}
     InitialSize: 10
     ExpandMethod: 0

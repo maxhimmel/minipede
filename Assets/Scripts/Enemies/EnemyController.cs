@@ -29,6 +29,7 @@ namespace Minipede.Gameplay.Enemies
 		public CancellationToken OnDestroyCancelToken => _onDestroyCancelSource.Token;
 		public Rigidbody2D Body => _body;
 
+		private SharedSettings _sharedSettings;
 		protected Rigidbody2D _body;
 		private IDamageController _damageController;
 		protected ILevelInitializer _levelInitializer;
@@ -44,7 +45,8 @@ namespace Minipede.Gameplay.Enemies
 		private IMemoryPool _memoryPool;
 
 		[Inject]
-		public void Construct( Rigidbody2D body,
+		public void Construct( SharedSettings sharedSettings,
+			Rigidbody2D body,
 			IDamageController damageController,
 			ILevelInitializer levelInitializer, 
 			LevelGraph levelGraph,
@@ -55,6 +57,7 @@ namespace Minipede.Gameplay.Enemies
 			IHealthBalanceResolver healthBalancer,
 			ISpeedBalanceResolver speedBalancer )
 		{
+			_sharedSettings = sharedSettings;
 			_body = body;
 			_damageController = damageController;
 			_levelInitializer = levelInitializer;
@@ -170,6 +173,12 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+		}
+
+		[System.Serializable]
+		public class SharedSettings
+		{
+			public float SpawnDelay = 1;
 		}
 
 		public class Factory : PlaceholderFactory<IOrientation, EnemyController> { }

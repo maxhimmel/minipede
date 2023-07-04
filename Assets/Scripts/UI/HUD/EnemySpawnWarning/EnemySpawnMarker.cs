@@ -1,8 +1,8 @@
+using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Fx;
 using Minipede.Utility;
-using System;
-using System.Threading;
 using TMPro;
 using UnityEngine;
 using Zenject;
@@ -20,7 +20,6 @@ namespace Minipede.Gameplay.UI
 		[Header( "Animation" )]
 		[SerializeField] private float _diposeAnimationDuration = 0.25f;
 		[SerializeField] private BounceScaler.Settings _countBounce;
-
 
 		private SignalBus _signalBus;
 

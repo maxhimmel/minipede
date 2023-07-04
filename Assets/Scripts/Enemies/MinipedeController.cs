@@ -376,11 +376,10 @@ namespace Minipede.Gameplay.Enemies
 				var segmentCoord = _levelGraph.WorldPosToCellCoord( segment._body.position );
 
 				var moveDir = destCoord - segmentCoord;
-				if ( moveDir.Col() != 0 )
-				{
-					segment._columnDir.x = (int)Mathf.Sign( moveDir.Col() );
-				}
 				segment._rowDir.y = this._rowDir.y;
+				segment._columnDir.x = moveDir.Col() != 0
+					? (int)Mathf.Sign( moveDir.Col() )
+					: RandomExtensions.Sign();
 
 				segment._motor.StopMoving();
 				segment._motor.SetDestination( destCoord, segment.OnDestroyCancelToken )

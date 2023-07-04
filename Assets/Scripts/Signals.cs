@@ -70,6 +70,11 @@ namespace Minipede.Gameplay.Enemies.Spawning
 		public int CurrentWave;
 		public IReadOnlyList<string> IdQueue;
 	}
+
+	public class SpawnWarningChangedSignal
+	{
+		public SpawnWarningModel Model;
+	}
 }
 
 namespace Minipede.Gameplay

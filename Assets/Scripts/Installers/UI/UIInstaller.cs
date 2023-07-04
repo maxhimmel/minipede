@@ -1,19 +1,21 @@
 using System.Collections.Generic;
 using Minipede.Gameplay.UI;
-using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Installers
 {
-    [CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/UIInstaller" )]
+	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Managers/UIInstaller" )]
     public class UIInstaller : ScriptableObjectInstaller
     {
 		[SerializeField] private WaveTimelineVisuals.Settings _waveTimeline;
 
 		[FoldoutGroup( "Minimap" )]
 		[SerializeField] private List<MinimapMarkerFactoryBus.PoolSettings> _minimapMarkers;
+
+		[FoldoutGroup( "Spawn Warning" )]
+		[SerializeField] private EnemySpawnMarkerFactoryBus.PoolSettings _enemySpawnMarker;
 
 		public override void InstallBindings()
 		{
@@ -24,6 +26,16 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<MinimapMarkerFactoryBus>()
 				.AsSingle()
 				.WithArguments( _minimapMarkers );
+
+			/* --- */
+
+			Container.BindInterfacesAndSelfTo<EnemySpawnMarkerFactoryBus>()
+				.AsSingle()
+				.WithArguments( new List<EnemySpawnMarkerFactoryBus.PoolSettings>() { _enemySpawnMarker } );
+
+			Container.BindInterfacesTo<EnemySpawnWarningWidget>()
+				.AsSingle()
+				.WithArguments( new EnemySpawnWarningWidget.Settings() { MarkerPrefab = _enemySpawnMarker.Prefab } );
 		}
 	}
 }

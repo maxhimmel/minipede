@@ -45,6 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speedScalarId: EnemySpeedScalar
+  _settings:
+    SpawnDelay: 1.5
   _damage:
     HitMask:
       serializedVersion: 2

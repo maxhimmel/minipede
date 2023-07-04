@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Fx
 {
@@ -11,7 +12,7 @@ namespace Minipede.Gameplay.Fx
 		private readonly BounceScaler _bouncer;
 
 		public BounceVfxAnimator( Settings settings,
-			SpriteRenderer renderer )
+			[InjectOptional( Id = "Renderer" )] Transform renderer )
 		{
 			_settings = settings;
 			_bouncer = new BounceScaler( renderer );

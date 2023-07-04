@@ -621,6 +621,7 @@ MonoBehaviour:
     Builder:
       PlayerRows: 8
       PlayerRowDepth: 4
+      BlackListCoordinates: []
     SpawnRate: 0.5
     RowGeneration:
       _allowEmptyRolls: 0
@@ -1183,6 +1184,10 @@ PrefabInstance:
     - target: {fileID: 6245295741714866270, guid: be6bf557c0df83b408f3a99a32638df0, type: 3}
       propertyPath: m_Name
       value: EnemySettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 6245295741714874272, guid: be6bf557c0df83b408f3a99a32638df0, type: 3}
+      propertyPath: _settings.SpawnDelay
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6245295741714874273, guid: be6bf557c0df83b408f3a99a32638df0, type: 3}
       propertyPath: m_RootOrder

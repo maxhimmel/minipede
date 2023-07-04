@@ -33,6 +33,8 @@ namespace Minipede.Installers
 				.OptionalSubscriber();
 			Container.DeclareSignal<EnemyDestroyedSignal>()
 				.OptionalSubscriber();
+			Container.DeclareSignal<SpawnWarningChangedSignal>()
+				.OptionalSubscriber();
 
 			BindSharedSettings();
 			BindSpawnSystem();

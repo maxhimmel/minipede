@@ -2,6 +2,7 @@ using Minipede.Gameplay;
 using Minipede.Gameplay.Enemies;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.Player;
+using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.UI;
@@ -133,11 +134,7 @@ namespace Minipede.Cheats
 					return;
 
 				case Enemy.Minipede:
-					spawnBuilder.Build<MinipedeController>()
-						//.WithPlacement( transform.ToData() )
-						.WithRandomPlacement()
-						.WithSpawnBehavior()
-						.Create();
+					SpawnMinipede( spawnBuilder, 0 );
 					return;
 
 				case Enemy.Mosquito:
@@ -156,6 +153,20 @@ namespace Minipede.Cheats
 						.Create();
 					return;
 			}
+		}
+
+		private void SpawnMinipede( EnemySpawnBuilder spawnBuilder, int segmentCount )
+		{
+			MinipedeController newHead = spawnBuilder.Build<MinipedeController>()
+				.WithRandomPlacement()
+				.Create();
+
+			if ( segmentCount > 0 )
+			{
+				newHead.CreateSegments( segmentCount, newHead.transform.right );
+			}
+
+			newHead.StartMainBehavior();
 		}
 
 		protected override string GetActionName()

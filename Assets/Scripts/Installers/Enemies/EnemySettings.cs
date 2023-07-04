@@ -123,6 +123,9 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<MinipedeDeathHandler>()
 				.AsSingle()
 				.NonLazy();
+
+			Container.BindInterfacesAndSelfTo<EnemySpawnWarningController>()
+				.AsSingle();
 		}
 	}
 }

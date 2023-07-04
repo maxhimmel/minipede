@@ -30,6 +30,10 @@ namespace Minipede.Installers
 				.FromMethod( GetComponentInChildren<SpriteRenderer> )
 				.AsSingle();
 
+			Container.Bind<Transform>()
+				.WithId( "Renderer" )
+				.FromResolveGetter<SpriteRenderer>( renderer => renderer.transform );
+
 			Container.Bind<Collider2D>()
 				.FromMethod( GetComponentInChildren<Collider2D> )
 				.AsSingle();

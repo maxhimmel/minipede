@@ -6,22 +6,23 @@ using Cysharp.Threading.Tasks;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Fx
 {
 	public class RotationVfxAnimator : IFxAnimator
 	{
 		private readonly Settings _settings;
-		private readonly SpriteRenderer _renderer;
+		private readonly Transform _renderer;
 		private readonly Quaternion _initialLocalRotation;
 		private readonly CancellationToken _destroyCancelToken;
 
 		public RotationVfxAnimator( Settings settings,
-			SpriteRenderer renderer )
+			[Inject( Id = "Renderer" )] Transform renderer )
 		{
 			_settings = settings;
 			_renderer = renderer;
-			_initialLocalRotation = renderer.transform.localRotation;
+			_initialLocalRotation = renderer.localRotation;
 			_destroyCancelToken = renderer.GetCancellationTokenOnDestroy();
 		}
 
@@ -33,11 +34,11 @@ namespace Minipede.Gameplay.Fx
 		private async UniTask Play()
 		{
 			float randAngle = _settings.AngleRange.Random();
-			_renderer.transform.localRotation *= Quaternion.Euler( 0, 0, randAngle );
+			_renderer.localRotation *= Quaternion.Euler( 0, 0, randAngle );
 
 			await TaskHelpers.DelaySeconds( _settings.Duration, _destroyCancelToken );
 
-			_renderer.transform.localRotation = _initialLocalRotation;
+			_renderer.localRotation = _initialLocalRotation;
 		}
 
 		[System.Serializable]

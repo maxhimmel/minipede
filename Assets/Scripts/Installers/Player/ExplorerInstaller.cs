@@ -26,6 +26,10 @@ namespace Minipede.Installers
 				.FromMethod( GetComponent<Transform> )
 				.AsSingle();
 
+			Container.Bind<Transform>()
+				.WithId( "Renderer" )
+				.FromResolveGetter<SpriteRenderer>( renderer => renderer.transform );
+
 			/* --- */
 
 			Container.BindInstance( _explorer )

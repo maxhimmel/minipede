@@ -30,8 +30,6 @@ namespace Minipede.Gameplay.Enemies
 		public CancellationToken OnDestroyCancelToken => _onDestroyCancelSource.Token;
 		public Rigidbody2D Body => _body;
 
-		private const int _spawnActivatedFrameTolerance = 2;
-
 		private SharedSettings _sharedSettings;
 		protected Rigidbody2D _body;
 		private IDamageController _damageController;
@@ -49,7 +47,6 @@ namespace Minipede.Gameplay.Enemies
 		private IMemoryPool _memoryPool;
 		private float _spawnDelayEndTime;
 		private bool _isSpawnWarningActive;
-		private int _spawnedFrameTolerance;
 
 		[Inject]
 		public void Construct( SharedSettings sharedSettings,
@@ -81,7 +78,7 @@ namespace Minipede.Gameplay.Enemies
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
-			if ( _isSpawnWarningActive || --_spawnedFrameTolerance >= 0 )
+			if ( _isSpawnWarningActive )
 			{
 				return 0;
 			}
@@ -190,7 +187,6 @@ namespace Minipede.Gameplay.Enemies
 				{
 					_isSpawnWarningActive = false;
 					_body.simulated = true;
-					_spawnedFrameTolerance = _spawnActivatedFrameTolerance;
 					_spawnWarningController.Remove( _body.position );
 				}
 

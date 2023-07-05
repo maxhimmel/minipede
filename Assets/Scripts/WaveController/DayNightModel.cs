@@ -10,9 +10,9 @@
 		public float DaytimeDuration => _settings.DaytimeDuration;
 		public float NighttimeDuration => _settings.NighttimeDuration;
 
-		private readonly Settings _settings;
+		private readonly ISettings _settings;
 
-		public DayNightModel( Settings settings )
+		public DayNightModel( ISettings settings )
 		{
 			_settings = settings;
 		}
@@ -29,9 +29,18 @@
 			Changed?.Invoke( this );
 		}
 
-		[System.Serializable]
-		public class Settings
+		public interface ISettings
 		{
+			public float DaytimeDuration { get; }
+			public float NighttimeDuration { get; }
+		}
+
+		[System.Serializable]
+		public class Settings : ISettings
+		{
+			float ISettings.DaytimeDuration => DaytimeDuration;
+			float ISettings.NighttimeDuration => NighttimeDuration;
+
 			public float DaytimeDuration;
 			public float NighttimeDuration;
 		}

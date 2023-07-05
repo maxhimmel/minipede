@@ -23,7 +23,7 @@ namespace Minipede.Installers
 
 			/* --- */
 
-			Container.BindInstance( _dayNight )
+			Container.BindInstance<DayNightModel.ISettings>( _dayNight )
 				.AsSingle();
 
 			Container.Bind<DayNightModel>()

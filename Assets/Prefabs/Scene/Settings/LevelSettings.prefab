@@ -117,7 +117,7 @@ MonoBehaviour:
           m_Bits: 1
         PoisonTrailRadius: 0.25
   _pollutionSettings:
-    WinPercentage: 0.3
+    WinPercentage: 0.7
     CellCoord: {x: 8, y: 0}
     Size: {x: 30, y: 24}
   references:

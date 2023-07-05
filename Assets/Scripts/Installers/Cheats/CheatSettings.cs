@@ -84,6 +84,7 @@ namespace Minipede.Installers
 
 			if ( _settings.UseLevelCycleCheat )
 			{
+				messageBuilder.Append( "<color=black>DEPRECATED --> </color>" );
 				LogCheatActivation<LevelCycleCheat>( messageBuilder );
 
 				Container.Decorate<LevelCycleTimer.ISettings>()

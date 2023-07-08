@@ -8,41 +8,36 @@ namespace Minipede.Gameplay.UI
 	{
 		[SerializeField] private MonoSpriteWidget _icon;
 
-		private NighttimeController _nighttime;
 		private WaveTimelineVisuals _visuals;
-		private SignalBus _signalBus;
+		private DayNightModel _dayNightModel;
 
 		[Inject]
-		public void Construct( NighttimeController nighttime,
-			WaveTimelineVisuals visuals, 
-			SignalBus signalBus )
+		public void Construct( WaveTimelineVisuals visuals, 
+			DayNightModel dayNightModel )
 		{
-			_nighttime = nighttime;
 			_visuals = visuals;
-			_signalBus = signalBus;
+			_dayNightModel = dayNightModel;
 		}
 
 		private void OnDisable()
 		{
-			_signalBus.TryUnsubscribe<NighttimeStateChangedSignal>( OnWaveModeChanged );
+			_dayNightModel.Changed -= OnDayNightChanged;
 		}
 
 		private void OnEnable()
 		{
-			_signalBus.Subscribe<NighttimeStateChangedSignal>( OnWaveModeChanged );
+			_dayNightModel.Changed += OnDayNightChanged;
 
-			OnWaveModeChanged( new NighttimeStateChangedSignal()
-			{
-				IsNighttime = _nighttime.IsNighttime
-			} );
+			OnDayNightChanged( _dayNightModel );
 		}
 
-		private void OnWaveModeChanged( NighttimeStateChangedSignal signal )
+		private void OnDayNightChanged( DayNightModel model )
 		{
-			var mode = signal.IsNighttime
-				? Modes.Nighttime
-				: Modes.Danger;
+			SetIcon( model.IsDaytime ? Modes.Danger : Modes.Nighttime );
+		}
 
+		private void SetIcon( Modes mode )
+		{
 			var visual = _visuals.GetVisual( mode.ToString() );
 			_icon.SetSprite( visual.Icon );
 		}

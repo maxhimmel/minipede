@@ -47,6 +47,9 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _cutscene );
 
+			Container.BindFactory<Object, IPlacement, IPlacement.Factory>()
+				.FromFactory<PrefabFactory<IPlacement>>();
+
 			BindMenuSystems();
 		}
 

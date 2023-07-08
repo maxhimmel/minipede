@@ -19,31 +19,25 @@ namespace Minipede.Gameplay
 		private readonly ILevelStartSequence _startSequence;
 		private readonly PlayerController _playerSpawnController;
 		private readonly LevelGenerator _levelGenerator;
-		private readonly IWaveController _waveController;
+		private readonly DayNightController _dayNightController;
 		private readonly MushroomPopulationController _mushroomPopulationController;
-		private readonly NighttimeController _nighttimeController;
 		private readonly AudioBankLoader _audioBankLoader;
-		private readonly LevelCycleTimer _levelCycleTimer;
 		private readonly SceneLoader _sceneLoader;
 
 		public GameController( ILevelStartSequence startSequence,
 			PlayerController playerSpawnController,
 			LevelGenerator levelGenerator,
-			IWaveController waveController,
+			DayNightController dayNightController,
 			MushroomPopulationController mushroomPopulationController,
-			NighttimeController nighttimeController,
 			AudioBankLoader audioBankLoader,
-			LevelCycleTimer levelCycleTimer,
 			SceneLoader sceneLoader )
 		{
 			_startSequence = startSequence;
 			_playerSpawnController = playerSpawnController;
 			_levelGenerator = levelGenerator;
-			_waveController = waveController;
+			_dayNightController = dayNightController;
 			_mushroomPopulationController = mushroomPopulationController;
-			_nighttimeController = nighttimeController;
 			_audioBankLoader = audioBankLoader;
-			_levelCycleTimer = levelCycleTimer;
 			_sceneLoader = sceneLoader;
 		}
 
@@ -71,8 +65,7 @@ namespace Minipede.Gameplay
 				return;
 			}
 
-			_waveController.Play().Forget();
-			_levelCycleTimer.Play();
+			_dayNightController.Play( AppHelper.AppQuittingToken );
 
 			IsReady = true;
 		}
@@ -80,9 +73,7 @@ namespace Minipede.Gameplay
 		private void OnPlayerDied()
 		{
 			_mushroomPopulationController.Deactivate();
-			_nighttimeController.Dispose();
-			_waveController.Pause();
-			_levelCycleTimer.Stop();
+			_dayNightController.Stop();
 		}
 	}
 }

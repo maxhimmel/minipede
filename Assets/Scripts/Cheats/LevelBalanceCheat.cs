@@ -41,7 +41,7 @@ namespace Minipede.Cheats
 		{
 			public bool DisableIncrementing;
 
-			[HorizontalGroup, LabelText( "Override Cycle" )]
+			[HorizontalGroup, ToggleLeft, LabelText( "Cycle Override" )]
 			public bool IsOverridingCycle;
 			[HorizontalGroup]
 			[MinValue( 0 ), EnableIf( "IsOverridingCycle" ), HideLabel]

@@ -1,11 +1,14 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 
 namespace Minipede.Utility
 {
     public static class TaskHelpers
     {
+		public delegate void ProgressUpdated( float normalizedProgress );
+
         public static async UniTask DelaySeconds( float seconds, CancellationToken cancellationToken = default )
 		{
             if ( seconds <= 0 )
@@ -44,6 +47,29 @@ namespace Minipede.Utility
 			}
 
 			return result;
+		}
+
+		public static async UniTask UpdateTimer( float duration, 
+			PlayerLoopTiming loop, 
+			CancellationToken cancelToken, 
+			ProgressUpdated callback )
+		{
+			if ( duration <= 0 )
+			{
+				callback.Invoke( 1 );
+				return;
+			}
+
+			float timer = 0;
+			while ( timer < duration )
+			{
+				timer += Time.deltaTime;
+
+				float progress = Mathf.Clamp01( timer / duration );
+				callback.Invoke( progress );
+
+				await UniTask.Yield( loop, cancelToken );
+			}
 		}
 	}
 }

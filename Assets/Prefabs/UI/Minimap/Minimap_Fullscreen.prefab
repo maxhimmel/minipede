@@ -52,7 +52,7 @@ MonoBehaviour:
   _components:
   - {fileID: 8904770592774868642}
   _identifier: MinimapMarkerPool
-  _useSceneContext: 0
+  _useSceneContext: 1
   _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &8710225333735311105
@@ -107,6 +107,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 8904770592774868642}
+  _distanceFadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 2
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 3
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _isRadial: 0
 --- !u!114 &6209776688808592752
 MonoBehaviour:
@@ -123,6 +147,6 @@ MonoBehaviour:
   _components:
   - {fileID: 7140640435707672983}
   _identifier: 
-  _useSceneContext: 0
+  _useSceneContext: 1
   _context: {fileID: 0}
   _bindType: 1

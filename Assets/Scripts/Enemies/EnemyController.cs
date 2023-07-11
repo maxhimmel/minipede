@@ -2,7 +2,9 @@ using System;
 using System.Threading;
 using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.Minimap;
 using Minipede.Gameplay.Treasures;
+using Minipede.Gameplay.UI;
 using Minipede.Installers;
 using Minipede.Utility;
 using UnityEngine;
@@ -13,7 +15,8 @@ namespace Minipede.Gameplay.Enemies
 	public class EnemyController : MonoBehaviour,
 		IDamageController,
 		IPoolable<IOrientation, IMemoryPool>,
-		IDisposable
+		IDisposable,
+		IMapMarker
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -29,6 +32,8 @@ namespace Minipede.Gameplay.Enemies
 		public bool IsAlive => _onDestroyCancelSource != null && !OnDestroyCancelToken.IsCancellationRequested;
 		public CancellationToken OnDestroyCancelToken => _onDestroyCancelSource.Token;
 		public Rigidbody2D Body => _body;
+		public Transform Avatar => _body.transform;
+		public MinimapMarker MarkerPrefab => _sharedSettings.MapMarkerPrefab;
 
 		private SharedSettings _sharedSettings;
 		protected Rigidbody2D _body;
@@ -223,6 +228,7 @@ namespace Minipede.Gameplay.Enemies
 		public class SharedSettings
 		{
 			public float SpawnDelay = 1;
+			public MinimapMarker MapMarkerPrefab;
 		}
 
 		public class Factory : PlaceholderFactory<IOrientation, EnemyController> { }

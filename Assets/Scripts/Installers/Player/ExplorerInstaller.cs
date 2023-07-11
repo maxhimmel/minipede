@@ -13,7 +13,7 @@ namespace Minipede.Installers
 		[BoxGroup( "Hauling" ), HideLabel]
 		[SerializeField] private TreasureHaulDecorator.Settings _hauling;
 
-		[BoxGroup( "Explorer" ), HideLabel]
+		[HideLabel]
 		[SerializeField] private Explorer.Settings _explorer;
 
 		public override void InstallBindings()

@@ -29,9 +29,7 @@ namespace Minipede.Installers
 							subContainer.Bind<ShotSpot>()
 								.AsSingle();
 
-							subContainer.Bind<Transform>()
-								.FromResolveGetter<DiContainer>( container => container.ResolveId<Transform>( _settings.Gun.ShotSpotId ) )
-								.AsSingle();
+							subContainer.BindInstance( _settings.Gun.ShotSpot );
 						} )
 						.AsSingle();
 
@@ -60,15 +58,5 @@ namespace Minipede.Installers
 			[FoldoutGroup( "Gun" ), HideLabel]
 			public Gun.Settings Gun = new Gun.Settings();
 		}
-
-#if UNITY_EDITOR
-		private void OnValidate()
-		{
-			if ( string.IsNullOrEmpty( _settings.Gun.ShotSpotId ) )
-			{
-				_settings.Gun.ShotSpotId = "ShotSpot";
-			}
-		}
-#endif
 	}
 }

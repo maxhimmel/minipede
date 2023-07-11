@@ -12,7 +12,7 @@ namespace Minipede.Gameplay.UI
 		/// </summary>
 		private const string _containerId = "EnemySpawnMarkerPool";
 
-		public EnemySpawnMarkerFactoryBus( List<PoolSettings> settings, 
+		public EnemySpawnMarkerFactoryBus( Settings settings, 
 			DiContainer container ) 
 			: base( settings, container )
 		{

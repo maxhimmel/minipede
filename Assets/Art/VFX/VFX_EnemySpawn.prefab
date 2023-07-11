@@ -4941,7 +4941,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_EnemySpawn
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7949079039482525430, guid: c3378edbd1de30a488dfa19ea8e17d4d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c3378edbd1de30a488dfa19ea8e17d4d, type: 3}
 --- !u!4 &859114047618026765 stripped
 Transform:

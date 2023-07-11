@@ -1,10 +1,14 @@
 #if !NOT_UNITY3D
 
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Zenject
 {
+#if ZENJECT_SKIP_SCENEBINDINGS
+    [Obsolete( "This shit is so unoptimzed. Do not use.", false )]
+#endif
     public class ZenjectBinding : MonoBehaviour
     {
         [Tooltip("The component to add to the Zenject container")]

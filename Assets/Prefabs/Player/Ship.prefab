@@ -661,6 +661,7 @@ MonoBehaviour:
   - {fileID: 2937489552209690830}
   - {fileID: 622521135646168124}
   - {fileID: 3238386549910477314}
+  - {fileID: 6103728061925229934}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -767,8 +768,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5248903297680318733}
+  - component: {fileID: 6103728061925229934}
   - component: {fileID: 1009203128244414980}
-  - component: {fileID: 308824403283130322}
   - component: {fileID: 8809021365377689855}
   m_Layer: 10
   m_Name: Selector
@@ -792,6 +793,22 @@ Transform:
   m_Father: {fileID: 6378720963097473949}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6103728061925229934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7760947009083922744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 1009203128244414980}
+  _identifier: Selector
+  _bindType: 0
 --- !u!212 &1009203128244414980
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -844,24 +861,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &308824403283130322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7760947009083922744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 1009203128244414980}
-  _identifier: Selector
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 0
 --- !u!114 &8809021365377689855
 MonoBehaviour:
   m_ObjectHideFlags: 0

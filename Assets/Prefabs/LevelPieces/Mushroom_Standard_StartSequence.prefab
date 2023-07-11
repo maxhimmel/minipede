@@ -67,6 +67,30 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3719399576149750935, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719399576149750935, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719399576149750935, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719399576149750935, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719399576149750935, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3719399576149750935, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4481131651188872115, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
       propertyPath: m_Size.x
       value: 2
@@ -85,7 +109,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4481131652700956522, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
       propertyPath: _monoInstallers.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4481131652700956522, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
       propertyPath: _monoInstallers.Array.data[2]
@@ -99,6 +123,10 @@ PrefabInstance:
       propertyPath: _monoInstallers.Array.data[4]
       value: 
       objectReference: {fileID: 7180721613534256711}
+    - target: {fileID: 4481131652700956522, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+      propertyPath: _monoInstallers.Array.data[5]
+      value: 
+      objectReference: {fileID: 3813471610530103268}
     - target: {fileID: 4481131652700956525, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -169,6 +197,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29914ffa63c49b84289f87d568510bc2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3813471610530103268 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 896821278294944780, guid: 084e42b3de5deb040bdd4b8f3fd7ff7e, type: 3}
+  m_PrefabInstance: {fileID: 4079709354090484712}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7180721613534256711 stripped

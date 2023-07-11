@@ -13,15 +13,17 @@ MonoBehaviour:
   m_Name: TreasurePoolSettings
   m_EditorClassIdentifier: 
   _treasures:
-  - Prefab: {fileID: 5201620892933447158, guid: 3cc2ef870756d7940a9b04d9151bfc68, type: 3}
-    InitialSize: 30
-    ExpandMethod: 0
-  - Prefab: {fileID: 2615201194833307321, guid: 43166c5a202509b46ad64760a3f1e6a6, type: 3}
-    InitialSize: 15
-    ExpandMethod: 0
-  - Prefab: {fileID: 1912857232853727992, guid: 0002196434ec4f74cac3f800346ab4c5, type: 3}
-    InitialSize: 15
-    ExpandMethod: 0
-  - Prefab: {fileID: 2136045927195822331, guid: 54bd9159dfc4860448afec72c809f6e2, type: 3}
-    InitialSize: 15
-    ExpandMethod: 0
+    PreExistLog: 0
+    Pools:
+    - Prefab: {fileID: 5201620892933447158, guid: 3cc2ef870756d7940a9b04d9151bfc68, type: 3}
+      InitialSize: 30
+      ExpandMethod: 0
+    - Prefab: {fileID: 2615201194833307321, guid: 43166c5a202509b46ad64760a3f1e6a6, type: 3}
+      InitialSize: 15
+      ExpandMethod: 0
+    - Prefab: {fileID: 1912857232853727992, guid: 0002196434ec4f74cac3f800346ab4c5, type: 3}
+      InitialSize: 15
+      ExpandMethod: 0
+    - Prefab: {fileID: 2136045927195822331, guid: 54bd9159dfc4860448afec72c809f6e2, type: 3}
+      InitialSize: 15
+      ExpandMethod: 0

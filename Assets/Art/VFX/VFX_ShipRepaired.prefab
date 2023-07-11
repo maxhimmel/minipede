@@ -102,11 +102,6 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
---- !u!198 &2980553120916280383 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 4155764736166186940, guid: fb731aabf33b85247a2022c110dcd61a, type: 3}
-  m_PrefabInstance: {fileID: 1220813358108924803}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2857887232637775173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -158,15 +153,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7949079039482525430, guid: c3378edbd1de30a488dfa19ea8e17d4d, type: 3}
-      propertyPath: _components.Array.data[0]
-      value: 
-      objectReference: {fileID: 2980553120916280383}
     - target: {fileID: 8548708768275296170, guid: c3378edbd1de30a488dfa19ea8e17d4d, type: 3}
       propertyPath: m_Name
       value: VFX_ShipRepaired
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: c3378edbd1de30a488dfa19ea8e17d4d, type: 3}
 --- !u!4 &859114047618026765 stripped
 Transform:

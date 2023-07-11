@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5213868655640189281}
   - component: {fileID: 7227590687041018358}
   - component: {fileID: 6173454206308658460}
-  - component: {fileID: 7734759087521511727}
+  - component: {fileID: 3522269271045984590}
   m_Layer: 5
   m_Name: Nighttime
   m_TagString: Untagged
@@ -85,10 +85,11 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 1514847543954027283}
+  - {fileID: 3522269271045984590}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &7734759087521511727
+--- !u!114 &3522269271045984590
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,15 +98,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 472953197752055915}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 9133689936807979379}
   - {fileID: 7227590687041018358}
   _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &1216774621774795321
 GameObject:

@@ -639,7 +639,7 @@ GameObject:
   - component: {fileID: 1108580060837546594}
   - component: {fileID: 293863661709160701}
   - component: {fileID: 6793243951126026586}
-  - component: {fileID: 3306316988571197635}
+  - component: {fileID: 1763378438026691255}
   m_Layer: 5
   m_Name: EnemySpawnMarker_BigNumber
   m_TagString: Untagged
@@ -811,10 +811,11 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 3588037183829505250}
+  - {fileID: 1763378438026691255}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &3306316988571197635
+--- !u!114 &1763378438026691255
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -823,12 +824,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9064720654357428480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 1106030726762346243}
   _identifier: Renderer
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 3

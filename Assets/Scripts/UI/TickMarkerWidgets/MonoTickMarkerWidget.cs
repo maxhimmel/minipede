@@ -50,7 +50,9 @@ namespace Minipede.Gameplay.UI
 
 		private IPlacement CreateTickMarker()
 		{
-			var newPlacement = _placementFactory.Create( _placementPrefab );
+			var newPlacement = Application.isPlaying
+				? _placementFactory.Create( _placementPrefab )
+				: Instantiate( _placementPrefab );
 
 			if ( newPlacement is MonoBehaviour mono )
 			{

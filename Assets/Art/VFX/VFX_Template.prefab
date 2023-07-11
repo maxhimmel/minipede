@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3190077851368792136}
   - component: {fileID: 7057642533691691891}
   - component: {fileID: 5206531432318073973}
-  - component: {fileID: 7949079039482525430}
   m_Layer: 10
   m_Name: VFX_Template
   m_TagString: Untagged
@@ -48,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _settings:
     AttachToSource: 0
+  _mode: 0
 --- !u!114 &5206531432318073973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,21 +66,3 @@ MonoBehaviour:
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &7949079039482525430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8548708768275296170}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 0}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 0

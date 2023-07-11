@@ -398,9 +398,9 @@ GameObject:
   - component: {fileID: 3893868145268687937}
   - component: {fileID: 3893868145268687936}
   - component: {fileID: 6607812264087886826}
-  - component: {fileID: 2170247585523031034}
   - component: {fileID: 8179803750665747592}
   - component: {fileID: 5414009041420245179}
+  - component: {fileID: 5698376608150594802}
   m_Layer: 3
   m_Name: Explorer
   m_TagString: Untagged
@@ -487,6 +487,7 @@ MonoBehaviour:
   - {fileID: 621673674669009977}
   - {fileID: 8380373327094449874}
   - {fileID: 7158025836103528223}
+  - {fileID: 5698376608150594802}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
@@ -512,26 +513,7 @@ MonoBehaviour:
         Color: {r: 0, g: 0, b: 0, a: 0}
         Blinks: 30
         Duration: 3
---- !u!114 &2170247585523031034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3893868145268687941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 6005190890166369503}
-  - {fileID: 3893868146414949131}
-  - {fileID: 942187885745718133}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 0
+    HUDId: HUD_Explorer
 --- !u!114 &8179803750665747592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,6 +562,24 @@ MonoBehaviour:
           Weight: 0.025
           Radius: 0
           EaseDuration: 0.25
+--- !u!114 &5698376608150594802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3893868145268687941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 3893868146414949131}
+  - {fileID: 6005190890166369503}
+  - {fileID: 942187885745718133}
+  _identifier: 
+  _bindType: 0
 --- !u!1 &3893868145885426223
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,7 +739,7 @@ GameObject:
   - component: {fileID: 2075097114695644341}
   - component: {fileID: 2890279017022005838}
   - component: {fileID: 6015665134812203132}
-  - component: {fileID: 4819254500813171627}
+  - component: {fileID: 7645459648036236592}
   m_Layer: 3
   m_Name: EnemyDetector
   m_TagString: Untagged
@@ -824,11 +824,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 7645459648036236592}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &4819254500813171627
+--- !u!114 &7645459648036236592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -837,14 +838,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3969514174693890738}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 2075097114695644341}
   _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 3
 --- !u!1 &4344266008109228705
 GameObject:
@@ -1064,7 +1063,7 @@ GameObject:
   - component: {fileID: 2773465095520661107}
   - component: {fileID: 7675005023626145859}
   - component: {fileID: 5652100170396073049}
-  - component: {fileID: 8158251281662262552}
+  - component: {fileID: 4888307739545655454}
   m_Layer: 0
   m_Name: Collector
   m_TagString: Untagged
@@ -1149,11 +1148,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 4888307739545655454}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &8158251281662262552
+--- !u!114 &4888307739545655454
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1162,14 +1162,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8534091019002428326}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 7675005023626145859}
   _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 3
 --- !u!1 &8919390910141417506
 GameObject:

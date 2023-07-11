@@ -84,11 +84,21 @@ namespace Minipede.Installers
 
 			if ( _settings.UseLevelCycleCheat )
 			{
+				messageBuilder.Append( "<color=black>DEPRECATED --> </color>" );
 				LogCheatActivation<LevelCycleCheat>( messageBuilder );
 
 				Container.Decorate<LevelCycleTimer.ISettings>()
 					.With<LevelCycleCheat>()
 					.WithArguments( _settings.LevelCycle );
+			}
+
+			if ( _settings.UseDayNightCheat )
+			{
+				LogCheatActivation<DayNightCheat>( messageBuilder );
+
+				Container.Decorate<DayNightModel.ISettings>()
+					.With<DayNightCheat>()
+					.WithArguments( _settings.DayNight );
 			}
 
 			if ( _settings.UseLevelBalanceCheat )
@@ -151,10 +161,15 @@ namespace Minipede.Installers
 			[ToggleGroup( "IsShipGod", "God Mode: Ship", CollapseOthersOnExpand = false )]
 			public bool IsShipGod;
 
-			[ToggleGroup( "UseLevelCycleCheat", "Level Cycle Timing", CollapseOthersOnExpand = false )]
+			[ToggleGroup( "UseLevelCycleCheat", "[DEPRECATED] Level Cycle Timing", CollapseOthersOnExpand = false )]
 			public bool UseLevelCycleCheat;
 			[ToggleGroup( "UseLevelCycleCheat", CollapseOthersOnExpand = false ), HideLabel]
 			public LevelCycleCheat.Settings LevelCycle;
+
+			[ToggleGroup( "UseDayNightCheat", "Day/Night Timing", CollapseOthersOnExpand = false )]
+			public bool UseDayNightCheat;
+			[ToggleGroup( "UseDayNightCheat", CollapseOthersOnExpand = false ), HideLabel]
+			public DayNightModel.Settings DayNight;
 
 			[ToggleGroup( "UseLevelBalanceCheat", "Level Balancer", CollapseOthersOnExpand = false )]
 			public bool UseLevelBalanceCheat;

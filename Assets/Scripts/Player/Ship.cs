@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Fx;
+using Minipede.Gameplay.Minimap;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.UI;
@@ -22,7 +23,8 @@ namespace Minipede.Gameplay.Player
 		ICollector<Beacon>,
 		ICollector<ShipShrapnel>,
 		ISelectable,
-		IPushable
+		IPushable,
+		IMapMarker
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -36,6 +38,8 @@ namespace Minipede.Gameplay.Player
 		public HealthController Health => _damageController.Health;
 		public Rigidbody2D Body => _body;
 		public IOrientation Orientation => new Orientation( _body.position, _body.transform.rotation, _body.transform.parent );
+		public Transform Avatar => _body.transform;
+		public MinimapMarker MarkerPrefab => _settings.MapMarker;
 
 		private readonly static Collider2D[] _explosionBuffer = new Collider2D[30];
 
@@ -46,7 +50,7 @@ namespace Minipede.Gameplay.Player
 		private Inventory _inventory;
 		private Gun.Factory _gunFactory;
 		private ShipShrapnel.Factory _shrapnelFactory;
-		private IMinimap _minimap;
+		private MinimapModel _minimap;
 		private Collider2D _collider;
 		private SpriteRenderer _renderer;
 		private ISelectable _selector;
@@ -71,7 +75,7 @@ namespace Minipede.Gameplay.Player
 			Inventory inventory,
 			Gun.Factory gunFactory,
 			ShipShrapnel.Factory shrapnelFactory,
-			IMinimap minimap,
+			MinimapModel minimap,
 			Collider2D collider,
 			SpriteRenderer renderer,
 			ISelectable selector,
@@ -132,7 +136,7 @@ namespace Minipede.Gameplay.Player
 
 		public void AddMinimapMarker()
 		{
-			_minimap.AddMarker( transform, _settings.MapMarker );
+			_minimap.AddMarker( this );
 		}
 
 		public async UniTaskVoid Eject( Vector2 explorerPosition, CancellationToken cancelToken )
@@ -191,7 +195,7 @@ namespace Minipede.Gameplay.Player
 				targetGroupAttachment.Activate();
 			}
 
-			_minimap.RemoveMarker( transform );
+			_minimap.RemoveMarker( this );
 		}
 
 		public void UnPossess()

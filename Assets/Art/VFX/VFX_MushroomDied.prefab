@@ -138,7 +138,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX_MushroomDied
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7949079039482525430, guid: c3378edbd1de30a488dfa19ea8e17d4d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c3378edbd1de30a488dfa19ea8e17d4d, type: 3}
 --- !u!1 &929122665767265184 stripped
 GameObject:

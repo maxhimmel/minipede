@@ -29,6 +29,10 @@ namespace Minipede.Installers
 				.FromMethod( GetComponentInChildren<SpriteRenderer> )
 				.AsSingle();
 
+			Container.Bind<Transform>()
+				.WithId( "Renderer" )
+				.FromResolveGetter<SpriteRenderer>( renderer => renderer.transform );
+
 			/* --- */
 
 			Container.BindInterfacesTo<HealthBalanceResolver>()

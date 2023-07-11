@@ -97,6 +97,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7208166323278096842}
+  - component: {fileID: 3185470129217109788}
   m_Layer: 0
   m_Name: Cameras
   m_TagString: Untagged
@@ -128,6 +129,27 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3185470129217109788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3260236369297953141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b8885be15911d408b94e60f9619c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _installers:
+  - {fileID: 553119268787676366}
+  - {fileID: 5285468443869104705}
+  - {fileID: 5478862679284828275}
+  - {fileID: 6271831499826095182}
+  - {fileID: 3018027124461462424}
+  - {fileID: 9070291059048036164}
+  - {fileID: 7750887372244813746}
+  - {fileID: 3842994766323716908}
 --- !u!1 &4904788179773015625
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,7 +207,7 @@ GameObject:
   - component: {fileID: 8980723704276631711}
   - component: {fileID: 816591429727540357}
   - component: {fileID: 6691791750135112728}
-  - component: {fileID: 4804052207591204139}
+  - component: {fileID: 3018027124461462424}
   m_Layer: 0
   m_Name: Cam_Lighthouse
   m_TagString: Untagged
@@ -304,7 +326,7 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 0}
   m_ConfineScreenEdges: 1
   m_Damping: 3.39
---- !u!114 &4804052207591204139
+--- !u!114 &3018027124461462424
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -313,14 +335,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5274135878447248241}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 5871074535188097099}
   _identifier: Lighthouse
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &7032357108756404986
 GameObject:
@@ -423,7 +443,7 @@ GameObject:
   - component: {fileID: 2866590080285779424}
   - component: {fileID: 5568785637147249201}
   - component: {fileID: 2465981407684551684}
-  - component: {fileID: 7813258789605506759}
+  - component: {fileID: 9070291059048036164}
   m_Layer: 0
   m_Name: Cam_ShipPreview
   m_TagString: Untagged
@@ -542,7 +562,7 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 0}
   m_ConfineScreenEdges: 1
   m_Damping: 3.39
---- !u!114 &7813258789605506759
+--- !u!114 &9070291059048036164
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -551,14 +571,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7480416345693324038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 1829887942984973050}
   _identifier: ShipPreview
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &8853885061053852317
 GameObject:
@@ -702,7 +720,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8853885061153088300}
   - component: {fileID: 8853885061153088299}
-  - component: {fileID: 8853885061153088301}
+  - component: {fileID: 7750887372244813746}
   m_Layer: 0
   m_Name: ViewTarget_Ship
   m_TagString: Untagged
@@ -741,7 +759,7 @@ MonoBehaviour:
   m_RotationMode: 0
   m_UpdateMethod: 1
   m_Targets: []
---- !u!114 &8853885061153088301
+--- !u!114 &7750887372244813746
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -750,14 +768,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8853885061153088298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 8853885061153088299}
   _identifier: Ship
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &8853885061739566035
 GameObject:
@@ -772,7 +788,7 @@ GameObject:
   - component: {fileID: 8853885061739566037}
   - component: {fileID: 8853885061739566036}
   - component: {fileID: 8853885061739566041}
-  - component: {fileID: 8853885061739566042}
+  - component: {fileID: 6271831499826095182}
   m_Layer: 0
   m_Name: Cam_Explorer
   m_TagString: Untagged
@@ -891,7 +907,7 @@ MonoBehaviour:
   m_BoundingShape2D: {fileID: 0}
   m_ConfineScreenEdges: 1
   m_Damping: 3.39
---- !u!114 &8853885061739566042
+--- !u!114 &6271831499826095182
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -900,14 +916,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8853885061739566035}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 8853885061739566039}
   _identifier: Explorer
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &8853885061818885841
 GameObject:
@@ -921,7 +935,7 @@ GameObject:
   - component: {fileID: 8853885061818885843}
   - component: {fileID: 8853885061818885842}
   - component: {fileID: 8853885061818885846}
-  - component: {fileID: 8853885061818885847}
+  - component: {fileID: 5478862679284828275}
   m_Layer: 0
   m_Name: Cam_Ship
   m_TagString: Untagged
@@ -1023,7 +1037,7 @@ MonoBehaviour:
   m_FocusTarget: {fileID: 0}
   m_FocusOffset: 0
   m_Profile: {fileID: 11400000, guid: 7fd346c76c44f9742bd979273332729e, type: 2}
---- !u!114 &8853885061818885847
+--- !u!114 &5478862679284828275
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1032,14 +1046,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8853885061818885841}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 8853885061818885843}
   _identifier: Ship
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &8853885061971453710
 GameObject:
@@ -1166,7 +1178,7 @@ GameObject:
   - component: {fileID: 8853885061988734273}
   - component: {fileID: 8853885061988734399}
   - component: {fileID: 8853885061988734398}
-  - component: {fileID: 8853885061988734274}
+  - component: {fileID: 553119268787676366}
   m_Layer: 0
   m_Name: MainCamera
   m_TagString: Untagged
@@ -1299,7 +1311,7 @@ MonoBehaviour:
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
---- !u!114 &8853885061988734274
+--- !u!114 &553119268787676366
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1308,15 +1320,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8853885061988734396}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 8853885061988734399}
   - {fileID: 8853885061988734273}
   _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &8853885062447606834
 GameObject:
@@ -1328,7 +1338,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8853885062447606837}
   - component: {fileID: 8853885062447606836}
-  - component: {fileID: 8853885062447606835}
+  - component: {fileID: 3842994766323716908}
   m_Layer: 0
   m_Name: ViewTarget_Explorer
   m_TagString: Untagged
@@ -1367,7 +1377,7 @@ MonoBehaviour:
   m_RotationMode: 0
   m_UpdateMethod: 1
   m_Targets: []
---- !u!114 &8853885062447606835
+--- !u!114 &3842994766323716908
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1376,14 +1386,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8853885062447606834}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 8853885062447606836}
   _identifier: Explorer
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &8853885062539470353
 GameObject:
@@ -1485,7 +1493,7 @@ GameObject:
   - component: {fileID: 6728015293479406940}
   - component: {fileID: 4993735739293950804}
   - component: {fileID: 4795679258094751552}
-  - component: {fileID: 185780412256657437}
+  - component: {fileID: 5285468443869104705}
   m_Layer: 0
   m_Name: Cam_StartSequence
   m_TagString: Untagged
@@ -1587,7 +1595,7 @@ MonoBehaviour:
   m_FocusTarget: {fileID: 0}
   m_FocusOffset: 0
   m_Profile: {fileID: 11400000, guid: 7fd346c76c44f9742bd979273332729e, type: 2}
---- !u!114 &185780412256657437
+--- !u!114 &5285468443869104705
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1596,12 +1604,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9045497760485540912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 6728015293479406940}
   _identifier: StartSequence
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0

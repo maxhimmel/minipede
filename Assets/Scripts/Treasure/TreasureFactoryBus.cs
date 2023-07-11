@@ -12,7 +12,7 @@ namespace Minipede.Gameplay.Treasures
 		/// </summary>
 		private const string _containerId = "TreasurePool";
 
-		public TreasureFactoryBus( List<PoolSettings> settings, 
+		public TreasureFactoryBus( Settings settings, 
 			DiContainer container ) 
 			: base( settings, container )
 		{

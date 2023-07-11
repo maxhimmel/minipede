@@ -51,15 +51,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7949079039482525430, guid: c3378edbd1de30a488dfa19ea8e17d4d, type: 3}
-      propertyPath: _components.Array.data[0]
-      value: 
-      objectReference: {fileID: 1495318344456255769}
     - target: {fileID: 8548708768275296170, guid: c3378edbd1de30a488dfa19ea8e17d4d, type: 3}
       propertyPath: m_Name
       value: VFX_EjectExplosion
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 0}
   m_SourcePrefab: {fileID: 100100000, guid: c3378edbd1de30a488dfa19ea8e17d4d, type: 3}
 --- !u!4 &2944352865023655596 stripped
 Transform:
@@ -178,8 +175,3 @@ PrefabInstance:
     - {fileID: 4948917956195466284, guid: 662372284ddeee54fad3c2462587922e, type: 3}
     - {fileID: 3275800543088581281, guid: 662372284ddeee54fad3c2462587922e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 662372284ddeee54fad3c2462587922e, type: 3}
---- !u!198 &1495318344456255769 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 5631561037677923580, guid: 662372284ddeee54fad3c2462587922e, type: 3}
-  m_PrefabInstance: {fileID: 6550242604582811109}
-  m_PrefabAsset: {fileID: 0}

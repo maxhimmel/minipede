@@ -3,16 +3,17 @@ using Cysharp.Threading.Tasks;
 using Minipede.Utility;
 using Sirenix.OdinInspector;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Fx
 {
     public class BounceScaler
     {
-		private readonly SpriteRenderer _renderer;
+		private readonly Transform _renderer;
 		private readonly Vector2 _initialScale;
 		private readonly CancellationToken _destroyedCancelToken;
 
-		public BounceScaler( SpriteRenderer renderer )
+		public BounceScaler( [Inject( Id = "Renderer" )] Transform renderer )
 		{
 			_renderer = renderer;
 			_initialScale = renderer.transform.localScale;

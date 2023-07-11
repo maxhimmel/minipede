@@ -40,6 +40,12 @@ namespace Minipede.Utility
 				var block = _currentCell.Block;
 				return block is Mushroom;
 			}
+
+			public bool IsLighthouse()
+			{
+				var block = _currentCell.Block;
+				return block is Lighthouse;
+			}
 		}
 
 		public class DemolishInstructions : InternalInstructions

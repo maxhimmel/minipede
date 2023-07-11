@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speedScalarId: EnemySpeedScalar
+  _settings:
+    SpawnDelay: 1.5
+    MapMarkerPrefab: {fileID: 989791784839115656, guid: 761be7b3fc27837479a095b9a0a7fa60, type: 3}
   _damage:
     HitMask:
       serializedVersion: 2

@@ -222,7 +222,8 @@ namespace Zenject
 
         protected void InstallSceneBindings(List<MonoBehaviour> injectableMonoBehaviours)
         {
-            foreach (var binding in injectableMonoBehaviours.OfType<ZenjectBinding>())
+#if !ZENJECT_SKIP_SCENEBINDINGS
+            foreach ( var binding in injectableMonoBehaviours.OfType<ZenjectBinding>())
             {
                 if (binding == null)
                 {
@@ -263,8 +264,10 @@ namespace Zenject
                     InstallZenjectBinding(binding);
                 }
             }
+#endif
         }
 
+#if !ZENJECT_SKIP_SCENEBINDINGS
         void InstallZenjectBinding(ZenjectBinding binding)
         {
             if (!binding.enabled)
@@ -326,6 +329,7 @@ namespace Zenject
                 }
             }
         }
+#endif
 
         protected abstract void GetInjectableMonoBehaviours(List<MonoBehaviour> components);
     }

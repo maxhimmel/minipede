@@ -75,11 +75,15 @@ namespace Minipede.Installers
 
 			Container.BindInterfacesAndSelfTo<BlockFactoryBus>()
 				.AsSingle()
-				.WithArguments( new List<BlockFactoryBus.PoolSettings>() {
-					_blockSettings.Mushrooms.Standard,
-					_blockSettings.Mushrooms.Poison,
-					_blockSettings.Mushrooms.Flower
-				} );
+				.WithArguments( new PooledPrefabFactoryBus<BlockActor>.Settings() {
+					PreExistLog = _blockSettings.MushroomPoolLogging,
+					Pools = new List<BlockFactoryBus.PoolSettings>() {
+						_blockSettings.Mushrooms.Standard,
+						_blockSettings.Mushrooms.Poison,
+						_blockSettings.Mushrooms.Flower
+					} 
+				} 
+			);
 
 			Container.Bind<MushroomProvider>()
 				.AsSingle()
@@ -131,6 +135,8 @@ namespace Minipede.Installers
 		{
 			[HideLabel, FoldoutGroup( "Gameplay" )]
 			public Mushroom.Settings Settings;
+			[FoldoutGroup( "Mushrooms" )]
+			public PooledPrefabFactoryBus<BlockActor>.LogLevel MushroomPoolLogging;
 			[HideLabel, FoldoutGroup( "Mushrooms" )]
 			public BlockFactoryBus.Settings Mushrooms;
 			[HideLabel, FoldoutGroup( "Poison" )]

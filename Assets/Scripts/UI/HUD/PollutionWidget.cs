@@ -22,7 +22,6 @@ namespace Minipede.Gameplay.UI
 
 		private SignalBus _signalBus;
 		private PollutedAreaController _pollutionController;
-		private IPollutionWinPercentage _winPercentage;
 		private ShipController _shipController;
 
 		private float _prevCleansedPercent;
@@ -32,17 +31,15 @@ namespace Minipede.Gameplay.UI
 		[Inject]
 		public void Construct( SignalBus signalBus,
 			PollutedAreaController pollutionController,
-			IPollutionWinPercentage winPercentage,
 			ShipController shipController )
 		{
 			_signalBus = signalBus;
 			_pollutionController = pollutionController;
-			_winPercentage = winPercentage;
 			_shipController = shipController;
 
 			_progressFillUpdater = new TaskRunner( this.GetCancellationTokenOnDestroy() );
 
-			_prevCleansedPercent = _cleansedPercent = GetPollutionPercent();
+			_prevCleansedPercent = _cleansedPercent = pollutionController.PollutionPercentage;
 
 			foreach ( var fill in _progressFill )
 			{
@@ -66,10 +63,9 @@ namespace Minipede.Gameplay.UI
 			}
 			else
 			{
-				float pollutionPercent = GetPollutionPercent();
 				foreach ( var fill in _progressFill )
 				{
-					fill.SetProgress( pollutionPercent );
+					fill.SetProgress( _pollutionController.PollutionPercentage );
 				}
 			}
 		}
@@ -91,7 +87,7 @@ namespace Minipede.Gameplay.UI
 
 		private void OnPollutionLevelChanged( PollutionLevelChangedSignal signal )
 		{
-			float percent = GetPollutionPercent();
+			float percent = _pollutionController.PollutionPercentage;
 
 			_progressPreview.gameObject.SetActive( true );
 			_progressPreview.SetProgress( percent );
@@ -144,14 +140,6 @@ namespace Minipede.Gameplay.UI
 			{
 				fill.SetProgress( _cleansedPercent );
 			}
-		}
-
-		private float GetPollutionPercent()
-		{
-			float offsetMax = 1 - _winPercentage.PollutionWinPercentage;
-			float offsetPercent = (_pollutionController.PollutionPercentage - _winPercentage.PollutionWinPercentage) / offsetMax;
-
-			return offsetPercent;
 		}
 
 		private enum AnimationMode

@@ -17,25 +17,22 @@ namespace Minipede.Gameplay.UI
 		[EnableIf( "_overrideCurrentMode" ), HideLabel]
 		[SerializeField] private Modes _overrideMode;
 
-		private NighttimeController _nighttime;
 		private WaveTimelineVisuals _visuals;
-		private SignalBus _signalBus;
+		private DayNightModel _dayNightModel;
 
 		[Inject]
-		public void Construct( NighttimeController nighttime,
-			WaveTimelineVisuals visuals,
-			SignalBus signalBus )
+		public void Construct( WaveTimelineVisuals visuals,
+			DayNightModel dayNightModel )
 		{
-			_nighttime = nighttime;
 			_visuals = visuals;
-			_signalBus = signalBus;
+			_dayNightModel = dayNightModel;
 		}
 
 		private void OnDisable()
 		{
 			if ( !_overrideCurrentMode )
 			{
-				_signalBus.TryUnsubscribe<NighttimeStateChangedSignal>( OnWaveModeChanged );
+				_dayNightModel.Changed -= OnDayNightChanged;
 			}
 		}
 
@@ -43,23 +40,21 @@ namespace Minipede.Gameplay.UI
 		{
 			if ( !_overrideCurrentMode )
 			{
-				_signalBus.Subscribe<NighttimeStateChangedSignal>( OnWaveModeChanged );
+				_dayNightModel.Changed += OnDayNightChanged;
 			}
-
-			OnWaveModeChanged( new NighttimeStateChangedSignal()
+			else
 			{
-				IsNighttime = _overrideCurrentMode 
-					? _overrideMode == Modes.Nighttime
-					: _nighttime.IsNighttime
-			} );
+				SetColor( _overrideMode );
+			}
 		}
 
-		private void OnWaveModeChanged( NighttimeStateChangedSignal signal )
+		private void OnDayNightChanged( DayNightModel model )
 		{
-			var mode = signal.IsNighttime
-				? Modes.Nighttime
-				: Modes.Danger;
+			SetColor( model.IsDaytime ? Modes.Danger : Modes.Nighttime );
+		}
 
+		private void SetColor( Modes mode )
+		{
 			var visual = _visuals.GetVisual( mode.ToString() );
 			_palette.SetColor( visual.Color );
 		}

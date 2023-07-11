@@ -13,6 +13,8 @@ namespace Minipede.Installers
 		[FoldoutGroup( "Shared" )]
 		[SerializeField] private string _speedScalarId = "EnemySpeedScalar";
 		[Space, FoldoutGroup( "Shared" )]
+		[SerializeField] private EnemyController.SharedSettings _settings;
+		[Space, FoldoutGroup( "Shared" )]
 		[SerializeField] private DamageTrigger.Settings _damage;
 		[Space, FoldoutGroup( "Shared" )]
 		[SerializeField] private PoisonTrailInstaller.Settings _poisonTrail;
@@ -33,6 +35,8 @@ namespace Minipede.Installers
 				.OptionalSubscriber();
 			Container.DeclareSignal<EnemyDestroyedSignal>()
 				.OptionalSubscriber();
+			Container.DeclareSignal<SpawnWarningChangedSignal>()
+				.OptionalSubscriber();
 
 			BindSharedSettings();
 			BindSpawnSystem();
@@ -42,6 +46,9 @@ namespace Minipede.Installers
 		private void BindSharedSettings()
 		{
 			Container.BindInstance( _damage );
+
+			Container.BindInstance( _settings )
+				.AsSingle();
 
 			Container.Bind<Scalar>()
 				.WithId( _speedScalarId )
@@ -116,6 +123,9 @@ namespace Minipede.Installers
 			Container.BindInterfacesAndSelfTo<MinipedeDeathHandler>()
 				.AsSingle()
 				.NonLazy();
+
+			Container.BindInterfacesAndSelfTo<EnemySpawnWarningController>()
+				.AsSingle();
 		}
 	}
 }

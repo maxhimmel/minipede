@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Minipede.Gameplay.UI
 {
-	public class ScreenspaceMinimap : Minimap
+	public class ScreenspaceMinimap : MinimapWidget
     {
 		[SerializeField] private bool _isRadial;
 
-		protected override void UpdateMap()
+		protected override void UpdateMarkers()
 		{
 			var containerRect = _container.rect;
 			var radius = 0.5f * Mathf.Min( containerRect.width, containerRect.height );
@@ -16,7 +16,7 @@ namespace Minipede.Gameplay.UI
 
 			foreach ( var avatar in _markers.Keys )
 			{
-				var avatarPos = avatar.position;
+				var avatarPos = avatar.Avatar.position;
 				var viewportPos = _camera.WorldToViewportPoint( avatarPos )
 					.Clamp( Vector2.zero, Vector2.one );
 

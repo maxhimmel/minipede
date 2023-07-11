@@ -29,7 +29,7 @@ MonoBehaviour:
     DisableLevelGeneration: 0
     UseFakeWinPercentage: 0
     LevelWonResolver:
-      WinPercentage: 1
+      WinPercentage: 0.05
     IsShipGod: 0
     UseLevelCycleCheat: 0
     LevelCycle:

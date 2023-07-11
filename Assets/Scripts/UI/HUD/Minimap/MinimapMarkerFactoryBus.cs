@@ -1,5 +1,4 @@
 ﻿using Minipede.Utility;
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -8,11 +7,11 @@ namespace Minipede.Gameplay.UI
 	public class MinimapMarkerFactoryBus : PooledPrefabFactoryBus<MinimapMarker>
 	{
 		/// <summary>
-		/// This ID should match a <see cref="Transform"/> within the scene being bound using a <see cref="ZenjectBinding"/>.
+		/// This ID should match what's inside <see cref="Installers.MinimapWidgetInstaller"/>.
 		/// </summary>
 		private const string _containerId = "MinimapMarkerPool";
 
-		public MinimapMarkerFactoryBus( List<PoolSettings> settings,
+		public MinimapMarkerFactoryBus( Settings settings,
 			DiContainer container )
 			: base( settings, container )
 		{

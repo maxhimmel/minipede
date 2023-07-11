@@ -86,7 +86,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1065185790656252751}
   - component: {fileID: 8582965032140314780}
-  - component: {fileID: 5511062328793181678}
+  - component: {fileID: 7328856649075564989}
+  - component: {fileID: 7290965433597979694}
   m_Layer: 5
   m_Name: Minimap_Standard
   m_TagString: Untagged
@@ -128,8 +129,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 7449471481800540456}
+  _distanceFadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 2
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 3
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _isRadial: 0
---- !u!114 &5511062328793181678
+--- !u!114 &7328856649075564989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -138,15 +163,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 4795723765383549007}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 8582965032140314780}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 1
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 7290965433597979694}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
+--- !u!114 &7290965433597979694
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4795723765383549007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1bd5e5a578b7d4bb4c55476c5b521d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _markerContainer: {fileID: 7449471481800540456}
+  _minimapMarkers: []
 --- !u!1 &5696588734075197152
 GameObject:
   m_ObjectHideFlags: 0
@@ -156,7 +195,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7449471481800540456}
-  - component: {fileID: 2642940517184080614}
   - component: {fileID: 3911805219323979822}
   - component: {fileID: 3994137142715067254}
   m_Layer: 5
@@ -187,24 +225,6 @@ RectTransform:
   m_AnchoredPosition: {x: 30, y: 30}
   m_SizeDelta: {x: 383.93726, y: 196.43298}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &2642940517184080614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696588734075197152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 7449471481800540456}
-  _identifier: MinimapMarkerPool
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 0
 --- !u!222 &3911805219323979822
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -13,7 +13,7 @@ namespace Minipede.Installers
 		[BoxGroup( "Hauling" ), HideLabel]
 		[SerializeField] private TreasureHaulDecorator.Settings _hauling;
 
-		[BoxGroup( "Explorer" ), HideLabel]
+		[HideLabel]
 		[SerializeField] private Explorer.Settings _explorer;
 
 		public override void InstallBindings()
@@ -25,6 +25,10 @@ namespace Minipede.Installers
 			Container.Bind<Transform>()
 				.FromMethod( GetComponent<Transform> )
 				.AsSingle();
+
+			Container.Bind<Transform>()
+				.WithId( "Renderer" )
+				.FromResolveGetter<SpriteRenderer>( renderer => renderer.transform );
 
 			/* --- */
 

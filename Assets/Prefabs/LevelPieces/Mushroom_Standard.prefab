@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1424951761807833503}
   - component: {fileID: 8220381074229830424}
-  - component: {fileID: 8322652173409445653}
+  - component: {fileID: 896821278294944780}
   m_Layer: 0
   m_Name: Selector
   m_TagString: Untagged
@@ -166,7 +166,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &8322652173409445653
+--- !u!114 &896821278294944780
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -175,14 +175,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3204273550517734759}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 8220381074229830424}
   _identifier: Selector
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1001 &4541519490096869679
 PrefabInstance:
@@ -441,7 +439,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _monoInstallers.Array.size
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: _monoInstallers.Array.data[1]
@@ -463,6 +461,10 @@ PrefabInstance:
       propertyPath: _monoInstallers.Array.data[5]
       value: 
       objectReference: {fileID: 6573292045900385711}
+    - target: {fileID: 6093263636819055871, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
+      propertyPath: _monoInstallers.Array.data[6]
+      value: 
+      objectReference: {fileID: 896821278294944780}
     - target: {fileID: 6093263637641906255, guid: 1a7e8b24ed373d64bae7b12a0ab4512f, type: 3}
       propertyPath: m_Color.b
       value: 0.019607844

@@ -1,7 +1,10 @@
 using System;
 using System.Threading;
+using Minipede.Gameplay.Enemies.Spawning;
 using Minipede.Gameplay.LevelPieces;
+using Minipede.Gameplay.Minimap;
 using Minipede.Gameplay.Treasures;
+using Minipede.Gameplay.UI;
 using Minipede.Installers;
 using Minipede.Utility;
 using UnityEngine;
@@ -12,7 +15,8 @@ namespace Minipede.Gameplay.Enemies
 	public class EnemyController : MonoBehaviour,
 		IDamageController,
 		IPoolable<IOrientation, IMemoryPool>,
-		IDisposable
+		IDisposable,
+		IMapMarker
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -28,7 +32,10 @@ namespace Minipede.Gameplay.Enemies
 		public bool IsAlive => _onDestroyCancelSource != null && !OnDestroyCancelToken.IsCancellationRequested;
 		public CancellationToken OnDestroyCancelToken => _onDestroyCancelSource.Token;
 		public Rigidbody2D Body => _body;
+		public Transform Avatar => _body.transform;
+		public MinimapMarker MarkerPrefab => _sharedSettings.MapMarkerPrefab;
 
+		private SharedSettings _sharedSettings;
 		protected Rigidbody2D _body;
 		private IDamageController _damageController;
 		protected ILevelInitializer _levelInitializer;
@@ -37,14 +44,18 @@ namespace Minipede.Gameplay.Enemies
 		protected SignalBus _signalBus;
 		private LootBox _lootBox;
 		private LevelGenerationInstaller.Level _levelSettings;
+		private EnemySpawnWarningController _spawnWarningController;
 		private IHealthBalanceResolver _healthBalancer;
 		private ISpeedBalanceResolver _speedBalancer;
 
 		private CancellationTokenSource _onDestroyCancelSource;
 		private IMemoryPool _memoryPool;
+		private float _spawnDelayEndTime;
+		private bool _isSpawnWarningActive;
 
 		[Inject]
-		public void Construct( Rigidbody2D body,
+		public void Construct( SharedSettings sharedSettings,
+			Rigidbody2D body,
 			IDamageController damageController,
 			ILevelInitializer levelInitializer, 
 			LevelGraph levelGraph,
@@ -52,9 +63,11 @@ namespace Minipede.Gameplay.Enemies
 			SignalBus signalBus,
 			LootBox lootBox,
 			LevelGenerationInstaller.Level levelSettings,
+			EnemySpawnWarningController spawnWarningController,
 			IHealthBalanceResolver healthBalancer,
 			ISpeedBalanceResolver speedBalancer )
 		{
+			_sharedSettings = sharedSettings;
 			_body = body;
 			_damageController = damageController;
 			_levelInitializer = levelInitializer;
@@ -63,12 +76,18 @@ namespace Minipede.Gameplay.Enemies
 			_signalBus = signalBus;
 			_lootBox = lootBox;
 			_levelSettings = levelSettings;
+			_spawnWarningController = spawnWarningController;
 			_healthBalancer = healthBalancer;
 			_speedBalancer = speedBalancer;
 		}
 
 		public int TakeDamage( Transform instigator, Transform causer, IDamageInvoker.ISettings data )
 		{
+			if ( _isSpawnWarningActive )
+			{
+				return 0;
+			}
+
 			return _damageController.TakeDamage( instigator, causer, data );
 		}
 
@@ -100,6 +119,12 @@ namespace Minipede.Gameplay.Enemies
 			_damageController.Died -= OnDied;
 			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
 
+			if ( _isSpawnWarningActive )
+			{
+				_spawnWarningController.Remove( _body.position );
+				_isSpawnWarningActive = false;
+			}
+
 			_signalBus.Fire( new EnemyDestroyedSignal() { Victim = this } );
 		}
 
@@ -107,6 +132,11 @@ namespace Minipede.Gameplay.Enemies
 		{
 			_memoryPool = pool;
 			_onDestroyCancelSource = AppHelper.CreateLinkedCTS();
+
+			_isSpawnWarningActive = true;
+			_body.simulated = false;
+			_spawnDelayEndTime = Time.timeSinceLevelLoad + _sharedSettings.SpawnDelay;
+			_spawnWarningController.Add( placement.Position );
 
 			OnLevelCycleChanged();
 			Health.Replenish();
@@ -146,7 +176,29 @@ namespace Minipede.Gameplay.Enemies
 				return;
 			}
 
+			if ( HandleSpawnWarning() )
+			{
+				return;
+			}
+
 			FixedTick();
+		}
+
+		private bool HandleSpawnWarning()
+		{
+			if ( _isSpawnWarningActive )
+			{
+				if ( _spawnDelayEndTime <= Time.timeSinceLevelLoad )
+				{
+					_isSpawnWarningActive = false;
+					_body.simulated = true;
+					_spawnWarningController.Remove( _body.position );
+				}
+
+				return true;
+			}
+
+			return false;
 		}
 
 		protected virtual void FixedTick()
@@ -170,6 +222,13 @@ namespace Minipede.Gameplay.Enemies
 			}
 
 			_signalBus.TryUnsubscribe<LevelCycleChangedSignal>( OnLevelCycleChanged );
+		}
+
+		[System.Serializable]
+		public class SharedSettings
+		{
+			public float SpawnDelay = 1;
+			public MinimapMarker MapMarkerPrefab;
 		}
 
 		public class Factory : PlaceholderFactory<IOrientation, EnemyController> { }

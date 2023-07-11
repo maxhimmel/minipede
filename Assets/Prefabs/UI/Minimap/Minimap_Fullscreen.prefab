@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8904770592774868642}
-  - component: {fileID: 3130197565042522111}
   m_Layer: 5
   m_Name: Area
   m_TagString: Untagged
@@ -37,24 +36,6 @@ RectTransform:
   m_AnchoredPosition: {x: 100, y: 100}
   m_SizeDelta: {x: -200, y: -200}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &3130197565042522111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5954459601522477012}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 8904770592774868642}
-  _identifier: MinimapMarkerPool
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 0
 --- !u!1 &8710225333735311105
 GameObject:
   m_ObjectHideFlags: 0
@@ -65,7 +46,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7996433682895288304}
   - component: {fileID: 7140640435707672983}
-  - component: {fileID: 6209776688808592752}
+  - component: {fileID: 7466422365728468928}
+  - component: {fileID: 5605898481601861419}
   m_Layer: 5
   m_Name: Minimap_Fullscreen
   m_TagString: Untagged
@@ -107,8 +89,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _container: {fileID: 8904770592774868642}
+  _distanceFadeCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 2
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 3
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   _isRadial: 0
---- !u!114 &6209776688808592752
+--- !u!114 &7466422365728468928
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,12 +123,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 8710225333735311105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 7140640435707672983}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 1
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 5605898481601861419}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
+--- !u!114 &5605898481601861419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8710225333735311105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1bd5e5a578b7d4bb4c55476c5b521d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _markerContainer: {fileID: 8904770592774868642}
+  _minimapMarkers: []

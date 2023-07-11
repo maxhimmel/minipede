@@ -8,7 +8,7 @@ namespace Minipede.Installers
 	[CreateAssetMenu( menuName = AppHelper.MenuNamePrefix + "Collectables/TreasurePoolSettings" )]
 	public class TreasurePoolSettings : ScriptableObjectInstaller
 	{
-		[SerializeField] private List<TreasureFactoryBus.PoolSettings> _treasures;
+		[SerializeField] private TreasureFactoryBus.Settings _treasures;
 
 		public override void InstallBindings()
 		{

@@ -11,7 +11,7 @@ namespace Minipede.Gameplay.LevelPieces
 		private readonly LevelGenerationInstaller.Level _levelSettings;
 		private readonly Block.Factory _fallbackFactory;
 
-		public BlockFactoryBus( List<PoolSettings> settings,
+		public BlockFactoryBus( PooledPrefabFactoryBus<Block>.Settings settings,
 			DiContainer container,
 			LevelGenerationInstaller.Level levelSettings,
 			Block.Factory fallbackFactory )
@@ -46,7 +46,7 @@ namespace Minipede.Gameplay.LevelPieces
 		}
 
 		[System.Serializable]
-		public class Settings
+		public new class Settings
 		{
 			public PoolSettings Standard;
 			public PoolSettings Poison;

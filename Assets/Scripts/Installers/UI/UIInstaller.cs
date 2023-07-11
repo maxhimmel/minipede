@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Minipede.Gameplay.Minimap;
 using Minipede.Gameplay.UI;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -12,6 +13,8 @@ namespace Minipede.Installers
 		[SerializeField] private WaveTimelineVisuals.Settings _waveTimeline;
 
 		[FoldoutGroup( "Spawn Warning" )]
+		[SerializeField] private EnemySpawnMarkerFactoryBus.LogLevel _enemySpawnLogLevel;
+		[FoldoutGroup( "Spawn Warning" )]
 		[SerializeField] private EnemySpawnMarkerFactoryBus.PoolSettings _enemySpawnMarker;
 
 		public override void InstallBindings()
@@ -24,7 +27,12 @@ namespace Minipede.Installers
 
 			Container.BindInterfacesAndSelfTo<EnemySpawnMarkerFactoryBus>()
 				.AsSingle()
-				.WithArguments( new List<EnemySpawnMarkerFactoryBus.PoolSettings>() { _enemySpawnMarker } );
+				.WithArguments( new EnemySpawnMarkerFactoryBus.Settings()
+				{
+					PreExistLog = _enemySpawnLogLevel,
+					Pools = new List<EnemySpawnMarkerFactoryBus.PoolSettings>() { _enemySpawnMarker }
+				} );
+				
 
 			Container.BindInterfacesTo<EnemySpawnWarningWidget>()
 				.AsSingle()

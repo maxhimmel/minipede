@@ -3,6 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Fx;
+using Minipede.Gameplay.Minimap;
 using Minipede.Gameplay.Movement;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.UI;
@@ -22,7 +23,8 @@ namespace Minipede.Gameplay.Player
 		ICollector<Beacon>,
 		ICollector<ShipShrapnel>,
 		ISelectable,
-		IPushable
+		IPushable,
+		IMapMarker
 	{
 		public event IDamageController.OnHit Damaged {
 			add => _damageController.Damaged += value;
@@ -36,6 +38,8 @@ namespace Minipede.Gameplay.Player
 		public HealthController Health => _damageController.Health;
 		public Rigidbody2D Body => _body;
 		public IOrientation Orientation => new Orientation( _body.position, _body.transform.rotation, _body.transform.parent );
+		public Transform Avatar => _body.transform;
+		public MinimapMarker MarkerPrefab => _settings.MapMarker;
 
 		private readonly static Collider2D[] _explosionBuffer = new Collider2D[30];
 

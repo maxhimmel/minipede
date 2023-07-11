@@ -1,4 +1,5 @@
 using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.Minimap;
 using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.UI;
 using Minipede.Utility;
@@ -8,8 +9,12 @@ using Zenject;
 
 namespace Minipede.Gameplay
 {
-	public class ShipShrapnel : Collectable<ShipShrapnel>
+	public class ShipShrapnel : Collectable<ShipShrapnel>,
+		IMapMarker
 	{
+		public Transform Avatar => _body.transform;
+		public MinimapMarker MarkerPrefab => _markerPrefab;
+
 		private Settings _shrapnelSettings;
 		private IMinimap _minimap;
 		private MinimapMarker _markerPrefab;

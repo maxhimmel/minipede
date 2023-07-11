@@ -139,7 +139,10 @@ namespace Minipede.Gameplay.Enemies
 
 			if ( _motor.IsMoving && _levelForeman.TryQueryFilledBlock( _body.position, out var instructions ) )
 			{
-				instructions.Kill( transform, transform );
+				if ( !instructions.IsLighthouse() )
+				{
+					instructions.Kill( transform, transform );
+				}
 			}
 		}
 

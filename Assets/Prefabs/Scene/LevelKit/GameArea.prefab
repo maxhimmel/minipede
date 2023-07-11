@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 812181650746567794}
   - component: {fileID: 812181650746567792}
-  - component: {fileID: 812181650746567795}
   m_Layer: 2
   m_Name: MinipedeSpawner_RHS
   m_TagString: Untagged
@@ -45,24 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2764b51865b43794c9bfec05ab65a185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &812181650746567795
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812181650746567805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 812181650746567792}
-  _identifier: MinipedePlayerZoneSpawner
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 1
 --- !u!1 &812181650805172372
 GameObject:
   m_ObjectHideFlags: 0
@@ -162,6 +143,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 812181651012109758}
+  - component: {fileID: 7124007653202752911}
+  - component: {fileID: 2685495136708177724}
   m_Layer: 0
   m_Name: GameArea
   m_TagString: Untagged
@@ -193,6 +176,43 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7124007653202752911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812181651012109755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53b8885be15911d408b94e60f9619c60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _installers:
+  - {fileID: 2685495136708177724}
+  - {fileID: 6206200694365233325}
+  - {fileID: 8460759875179392715}
+  - {fileID: 5293684740985980393}
+  - {fileID: 9053739462229110501}
+  - {fileID: 3587562429028812881}
+  - {fileID: 4638518154297430902}
+--- !u!114 &2685495136708177724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812181651012109755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 812181651091854728}
+  - {fileID: 812181651289978056}
+  _identifier: 
+  _bindType: 0
 --- !u!1 &812181651091854769
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,8 +226,7 @@ GameObject:
   - component: {fileID: 812181651091854772}
   - component: {fileID: 812181651091854775}
   - component: {fileID: 812181651091854731}
-  - component: {fileID: 812181651091854730}
-  - component: {fileID: 812181651091854773}
+  - component: {fileID: 9074134822033608092}
   m_Layer: 6
   m_Name: Arena
   m_TagString: Untagged
@@ -313,11 +332,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scriptableObjectInstallers: []
-  _monoInstallers: []
+  _monoInstallers:
+  - {fileID: 9074134822033608092}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &812181651091854730
+--- !u!114 &9074134822033608092
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -326,32 +346,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 812181651091854769}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 812181651091854728}
-  _identifier: 
-  _useSceneContext: 1
-  _context: {fileID: 0}
-  _bindType: 0
---- !u!114 &812181651091854773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812181651091854769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 812181651091854775}
   _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 3
 --- !u!1 &812181651229238603
 GameObject:
@@ -515,7 +515,6 @@ GameObject:
   m_Component:
   - component: {fileID: 812181651289978059}
   - component: {fileID: 812181651289978056}
-  - component: {fileID: 812181651289978057}
   m_Layer: 0
   m_Name: LevelGraph
   m_TagString: Untagged
@@ -554,24 +553,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f78c0de34e11b3643a711d47732a52fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &812181651289978057
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812181651289978100}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 812181651289978056}
-  _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 0
 --- !u!1 &812181651335612452
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,9 +563,9 @@ GameObject:
   m_Component:
   - component: {fileID: 812181651335612453}
   - component: {fileID: 812181651335612475}
-  - component: {fileID: 812181651335612474}
+  - component: {fileID: 9053739462229110501}
   m_Layer: 2
-  m_Name: SpawnPoint
+  m_Name: SpawnPoint_Ship
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -617,7 +598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2764b51865b43794c9bfec05ab65a185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &812181651335612474
+--- !u!114 &9053739462229110501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -626,14 +607,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 812181651335612452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 812181651335612475}
   _identifier: PlayerSpawn
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 1
 --- !u!1 &812181651465702854
 GameObject:
@@ -1032,7 +1011,6 @@ GameObject:
   m_Component:
   - component: {fileID: 812181652264974934}
   - component: {fileID: 812181652264974932}
-  - component: {fileID: 812181652264974935}
   m_Layer: 2
   m_Name: MinipedeSpawner_LHS
   m_TagString: Untagged
@@ -1067,24 +1045,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2764b51865b43794c9bfec05ab65a185, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &812181652264974935
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 812181652264974929}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 812181652264974932}
-  _identifier: MinipedePlayerZoneSpawner
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 1
 --- !u!1 &812181652432878596
 GameObject:
   m_ObjectHideFlags: 0
@@ -1186,7 +1146,7 @@ GameObject:
   - component: {fileID: 812181652597737095}
   - component: {fileID: 812181652597737114}
   - component: {fileID: 812181652597737093}
-  - component: {fileID: 812181652597737092}
+  - component: {fileID: 4638518154297430902}
   m_Layer: 2
   m_Name: CleansedAreaContainer
   m_TagString: Untagged
@@ -1267,7 +1227,7 @@ CompositeCollider2D:
       - {x: -14.999971, y: -16}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
---- !u!114 &812181652597737092
+--- !u!114 &4638518154297430902
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1276,14 +1236,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 812181652597737094}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 812181652597737095}
   _identifier: CleansedAreaContainer
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &812181652688777775
 GameObject:
@@ -1411,6 +1369,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 812181652744507753}
+  - component: {fileID: 3587562429028812881}
   m_Layer: 2
   m_Name: MinipedeSpawners
   m_TagString: Untagged
@@ -1435,6 +1394,23 @@ Transform:
   m_Father: {fileID: 812181652688777772}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3587562429028812881
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 812181652744507752}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 812181652264974932}
+  - {fileID: 812181650746567792}
+  _identifier: MinipedePlayerZoneSpawner
+  _bindType: 1
 --- !u!1 &1541001525633680472
 GameObject:
   m_ObjectHideFlags: 0
@@ -1445,7 +1421,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3976307417251720005}
   - component: {fileID: 5984671378523657492}
-  - component: {fileID: 6683723166538469904}
+  - component: {fileID: 8460759875179392715}
   m_Layer: 0
   m_Name: Path_PlantPosition
   m_TagString: Untagged
@@ -1493,7 +1469,7 @@ MonoBehaviour:
     roll: 90
   - position: {x: 2, y: -12, z: 0}
     roll: 90
---- !u!114 &6683723166538469904
+--- !u!114 &8460759875179392715
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1502,14 +1478,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1541001525633680472}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 5984671378523657492}
   _identifier: Path_PlantPosition
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &3288524144361331291
 GameObject:
@@ -1753,7 +1727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7446396526337947480}
   - component: {fileID: 7073197106206244376}
-  - component: {fileID: 4425084556570924983}
+  - component: {fileID: 5293684740985980393}
   m_Layer: 0
   m_Name: Path_ShipPosition
   m_TagString: Untagged
@@ -1801,7 +1775,7 @@ MonoBehaviour:
     roll: 90
   - position: {x: 1, y: -14, z: 0}
     roll: 90
---- !u!114 &4425084556570924983
+--- !u!114 &5293684740985980393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1810,14 +1784,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7184377964356157926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 7073197106206244376}
   _identifier: Path_ShipPosition
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &8162358617968943288
 GameObject:
@@ -2271,7 +2243,7 @@ GameObject:
   - component: {fileID: 8879931922800259304}
   - component: {fileID: 8879931922800259311}
   - component: {fileID: 8879931922800259310}
-  - component: {fileID: 8879931922800259305}
+  - component: {fileID: 1405155540808842388}
   m_Layer: 0
   m_Name: ArenaCenter
   m_TagString: Untagged
@@ -2326,10 +2298,11 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 8879931922800259311}
+  - {fileID: 1405155540808842388}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &8879931922800259305
+--- !u!114 &1405155540808842388
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2338,14 +2311,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8879931922800259309}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 8879931922800259304}
   _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1001 &812181651679160088
 PrefabInstance:
@@ -2404,11 +2375,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd0a7595ed623f34ca716c26b4fb2166, type: 3}
+--- !u!1 &562165241966813488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 903047211920508456, guid: cd0a7595ed623f34ca716c26b4fb2166, type: 3}
+  m_PrefabInstance: {fileID: 812181651679160088}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6206200694365233325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562165241966813488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _components:
+  - {fileID: 2677871602165848394}
+  _identifier: CleansedArea_Start
+  _bindType: 0
 --- !u!4 &562165241966813495 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 903047211920508463, guid: cd0a7595ed623f34ca716c26b4fb2166, type: 3}
   m_PrefabInstance: {fileID: 812181651679160088}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2677871602165848394 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3345265091600629330, guid: cd0a7595ed623f34ca716c26b4fb2166, type: 3}
+  m_PrefabInstance: {fileID: 812181651679160088}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 562165241966813488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 228354b83fcd44f49bfc43ae6ee14e8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &7841948682741199121 stripped
 BoxCollider2D:
   m_CorrespondingSourceObject: {fileID: 7462816632244311561, guid: cd0a7595ed623f34ca716c26b4fb2166, type: 3}

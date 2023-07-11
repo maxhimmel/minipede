@@ -9,8 +9,26 @@ using Zenject;
 
 namespace Minipede.Editor
 {
-    public class ZenjectBindingWindow : OdinEditorWindow
+	public class ZenjectBindingWindow : OdinEditorWindow
 	{
+		[MenuItem( "Tools/Zenject/Query Scene Bindings" )]
+		private static void OpenWindow()
+		{
+			GetWindow<ZenjectBindingWindow>( "Scene Binding IDs" ).Show();
+		}
+
+#if ZENJECT_SKIP_SCENEBINDINGS
+		[PropertyOrder( -1 )]
+		[OnInspectorGUI]
+		private void DrawDisableInstructions()
+		{
+			SirenixEditorGUI.ErrorMessageBox( 
+				"ZenjectBindings have been disabled. " +
+				"To re-enable them remove the <b>ZENJECT_SKIP_SCENEBINDINGS</b> script define symbol " +
+				"from ProjectSettings > Player > Other Settings." );
+		}
+#endif
+
 		[HideInPlayMode]
 		[LabelText( "Identifiers" )]
 		[ListDrawerSettings( ShowFoldout = false, IsReadOnly = true, OnTitleBarGUI = "RefreshBindings" )]
@@ -19,12 +37,6 @@ namespace Minipede.Editor
 		[HideInEditorMode]
 		[InfoBox( "Only viewable outside play-mode.", InfoMessageType = InfoMessageType.Error )]
 		[SerializeField, DisplayAsString, HideLabel] private string _placeholder = string.Empty;
-
-		[MenuItem( "Minipede/Zenject Binding IDs" )]
-		private static void OpenWindow()
-		{
-			GetWindow<ZenjectBindingWindow>( "Scene Binding IDs" ).Show();
-		}
 
 		protected override void OnDestroy()
 		{
@@ -64,15 +76,22 @@ namespace Minipede.Editor
 		{
 			var lookup = new Dictionary<string, List<Component>>();
 
+#pragma warning disable CS0618 // Type or member is obsolete
 			var sceneBindings = FindObjectsOfType<ZenjectBinding>( includeInactive: true );
+#pragma warning restore CS0618 // Type or member is obsolete
+
 			foreach ( var zenjectBinding in sceneBindings )
 			{
-				if ( string.IsNullOrEmpty( zenjectBinding.Identifier ) )
+				if ( zenjectBinding.Components == null || zenjectBinding.Components.Length <= 0 )
 				{
 					continue;
 				}
 
-				if ( lookup.TryGetValue( zenjectBinding.Identifier, out var bindings ) )
+				string identifier = string.IsNullOrEmpty( zenjectBinding.Identifier )
+					? "NULL"
+					: zenjectBinding.Identifier;
+
+				if ( lookup.TryGetValue( identifier, out var bindings ) )
 				{
 					foreach ( var component in zenjectBinding.Components )
 					{
@@ -81,7 +100,7 @@ namespace Minipede.Editor
 				}
 				else
 				{
-					lookup.Add( zenjectBinding.Identifier, new List<Component>( zenjectBinding.Components ) );
+					lookup.Add( identifier, new List<Component>( zenjectBinding.Components ) );
 				}
 			}
 

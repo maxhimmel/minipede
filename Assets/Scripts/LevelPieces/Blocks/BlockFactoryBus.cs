@@ -9,16 +9,13 @@ namespace Minipede.Gameplay.LevelPieces
 	public class BlockFactoryBus : PooledPrefabFactoryBus<Block>
 	{
 		private readonly LevelGenerationInstaller.Level _levelSettings;
-		private readonly Block.Factory _fallbackFactory;
 
 		public BlockFactoryBus( PooledPrefabFactoryBus<Block>.Settings settings,
 			DiContainer container,
-			LevelGenerationInstaller.Level levelSettings,
-			Block.Factory fallbackFactory )
+			LevelGenerationInstaller.Level levelSettings )
 			: base( settings, container )
 		{
 			_levelSettings = levelSettings;
-			_fallbackFactory = fallbackFactory;
 		}
 
 		protected override Transform GetPoolContainer()
@@ -29,12 +26,6 @@ namespace Minipede.Gameplay.LevelPieces
 		public override Block Create( Block prefab, IOrientation placement )
 		{
 			var newBlock = base.Create( prefab, placement );
-
-			if ( newBlock == null )
-			{
-				newBlock = _fallbackFactory.Create( prefab, placement );
-				newBlock.OnSpawned( placement, null );
-			}
 
 			newBlock.transform.localScale = new Vector3(
 				_levelSettings.Graph.Size.x,

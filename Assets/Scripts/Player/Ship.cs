@@ -50,7 +50,7 @@ namespace Minipede.Gameplay.Player
 		private Inventory _inventory;
 		private Gun.Factory _gunFactory;
 		private ShipShrapnel.Factory _shrapnelFactory;
-		private IMinimap _minimap;
+		private MinimapModel _minimap;
 		private Collider2D _collider;
 		private SpriteRenderer _renderer;
 		private ISelectable _selector;
@@ -75,7 +75,7 @@ namespace Minipede.Gameplay.Player
 			Inventory inventory,
 			Gun.Factory gunFactory,
 			ShipShrapnel.Factory shrapnelFactory,
-			IMinimap minimap,
+			MinimapModel minimap,
 			Collider2D collider,
 			SpriteRenderer renderer,
 			ISelectable selector,
@@ -136,7 +136,7 @@ namespace Minipede.Gameplay.Player
 
 		public void AddMinimapMarker()
 		{
-			_minimap.AddMarker( transform, _settings.MapMarker );
+			_minimap.AddMarker( this );
 		}
 
 		public async UniTaskVoid Eject( Vector2 explorerPosition, CancellationToken cancelToken )
@@ -195,7 +195,7 @@ namespace Minipede.Gameplay.Player
 				targetGroupAttachment.Activate();
 			}
 
-			_minimap.RemoveMarker( transform );
+			_minimap.RemoveMarker( this );
 		}
 
 		public void UnPossess()

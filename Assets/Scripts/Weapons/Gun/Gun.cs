@@ -228,7 +228,7 @@ namespace Minipede.Gameplay.Weapons
 		public class Settings
 		{
 			[TabGroup( "Main", "Gameplay", SdfIconType.Controller )]
-			public string ShotSpotId;
+			public Transform ShotSpot;
 
 			[BoxGroup( "Main/Gameplay/Projectile", ShowLabel = false )]
 			public Projectile ProjectilePrefab;

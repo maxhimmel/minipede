@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 355851429713502090}
   - component: {fileID: 4929814723182570160}
-  - component: {fileID: 355851429713502091}
   - component: {fileID: 2653605355083645132}
   m_Layer: 10
   m_Name: Gun_Empty
@@ -55,7 +54,7 @@ MonoBehaviour:
       Type:
         rid: 5904237243981627392
     Gun:
-      ShotSpotId: ShotSpot
+      ShotSpot: {fileID: 355851429713502090}
       ProjectilePrefab: {fileID: -8478961870223082148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
       ProjectileLifetime: 0
       ProjectileSpeed: 0
@@ -82,24 +81,6 @@ MonoBehaviour:
         Spread: 1
         Angle: 0
         OffsetAngle: 0
---- !u!114 &355851429713502091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 355851429713502089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 355851429713502090}
-  _identifier: ShotSpot
-  _useSceneContext: 0
-  _context: {fileID: 0}
-  _bindType: 0
 --- !u!114 &2653605355083645132
 MonoBehaviour:
   m_ObjectHideFlags: 0

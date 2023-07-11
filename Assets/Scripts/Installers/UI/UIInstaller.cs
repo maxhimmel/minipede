@@ -11,9 +11,6 @@ namespace Minipede.Installers
     {
 		[SerializeField] private WaveTimelineVisuals.Settings _waveTimeline;
 
-		[FoldoutGroup( "Minimap" )]
-		[SerializeField] private List<MinimapMarkerFactoryBus.PoolSettings> _minimapMarkers;
-
 		[FoldoutGroup( "Spawn Warning" )]
 		[SerializeField] private EnemySpawnMarkerFactoryBus.PoolSettings _enemySpawnMarker;
 
@@ -22,10 +19,6 @@ namespace Minipede.Installers
 			Container.Bind<WaveTimelineVisuals>()
 				.AsSingle()
 				.WithArguments( _waveTimeline );
-
-			Container.BindInterfacesAndSelfTo<MinimapMarkerFactoryBus>()
-				.AsSingle()
-				.WithArguments( _minimapMarkers );
 
 			/* --- */
 
@@ -36,6 +29,11 @@ namespace Minipede.Installers
 			Container.BindInterfacesTo<EnemySpawnWarningWidget>()
 				.AsSingle()
 				.WithArguments( new EnemySpawnWarningWidget.Settings() { MarkerPrefab = _enemySpawnMarker.Prefab } );
+
+			/* --- */
+
+			Container.Bind<MinimapModel>()
+				.AsSingle();
 		}
 	}
 }

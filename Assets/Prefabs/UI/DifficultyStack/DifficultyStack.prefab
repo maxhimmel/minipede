@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8124088319547495637}
   - component: {fileID: 8124088319547495595}
   - component: {fileID: 8124088319547495636}
+  - component: {fileID: 7431335525475381906}
   m_Layer: 5
   m_Name: DifficultyStack
   m_TagString: Untagged
@@ -68,3 +69,16 @@ MonoBehaviour:
   _placementPrefab: {fileID: 881137683450281132, guid: bba43b11b1b9ad74ab11d83137a70cd0, type: 3}
   _start: {x: 0, y: -405.06}
   _end: {x: 0, y: 405.06}
+--- !u!114 &7431335525475381906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8124088319547495638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f59c8ef4f8ae4ba45b34fe135e451a1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _startEnabled: 0

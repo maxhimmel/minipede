@@ -51,32 +51,6 @@ MonoBehaviour:
     RespawnDelay: 1
     Explorer:
       LighthousePrefab: {fileID: 1717750769360294968, guid: dba92f41fcdafff42981a668cf65b33e, type: 3}
-      ConvertToLighthousePause: 0.25
-      BeaconSnapDuration: 0.25
-      BeaconSnapCurve:
-        serializedVersion: 2
-        m_Curve:
-        - serializedVersion: 3
-          time: 0
-          value: 0
-          inSlope: -1.4714417
-          outSlope: -1.4714417
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0.0611441
-        - serializedVersion: 3
-          time: 1
-          value: 1
-          inSlope: 0
-          outSlope: 0
-          tangentMode: 0
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
     Hauling:
       HoldCollectDelay: 0.25
       HoldReleaseDelay: 0.25

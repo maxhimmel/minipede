@@ -93,7 +93,7 @@ namespace Minipede.Gameplay.UI
 			_preview.gameObject.SetActive( false );
 			_fill.SetProgress( 1 );
 
-			gameObject.SetActive( false );
+			this.enabled = false;
 		}
 	}
 }

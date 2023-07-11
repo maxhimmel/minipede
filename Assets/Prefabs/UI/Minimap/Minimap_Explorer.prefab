@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3047277364401606431}
   - component: {fileID: 7011681492120643824}
-  - component: {fileID: 4008209877075570457}
+  - component: {fileID: 5871808075288505361}
+  - component: {fileID: 8739083705216537728}
   m_Layer: 5
   m_Name: Minimap_Explorer
   m_TagString: Untagged
@@ -78,7 +79,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _isRadial: 1
   _isCanvasWorldspace: 1
---- !u!114 &4008209877075570457
+--- !u!114 &5871808075288505361
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -87,15 +88,29 @@ MonoBehaviour:
   m_GameObject: {fileID: 1996423067845887690}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 08eca9f7688a0a24685b89133b020c8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 7011681492120643824}
-  _identifier: 
-  _useSceneContext: 1
-  _context: {fileID: 0}
-  _bindType: 1
+  _scriptableObjectInstallers: []
+  _monoInstallers:
+  - {fileID: 8739083705216537728}
+  _installerPrefabs: []
+  _autoRun: 1
+  _kernel: {fileID: 0}
+--- !u!114 &8739083705216537728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996423067845887690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1bd5e5a578b7d4bb4c55476c5b521d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _markerContainer: {fileID: 777972489764775644}
+  _minimapMarkers: []
 --- !u!1 &7751961433548098066
 GameObject:
   m_ObjectHideFlags: 0
@@ -105,7 +120,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 777972489764775644}
-  - component: {fileID: 6597409667396878842}
   - component: {fileID: 99988940290433919}
   - component: {fileID: 7434286547893747988}
   m_Layer: 5
@@ -135,24 +149,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &6597409667396878842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7751961433548098066}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _components:
-  - {fileID: 777972489764775644}
-  _identifier: MinimapMarkerPool
-  _useSceneContext: 1
-  _context: {fileID: 0}
-  _bindType: 0
 --- !u!222 &99988940290433919
 CanvasRenderer:
   m_ObjectHideFlags: 0

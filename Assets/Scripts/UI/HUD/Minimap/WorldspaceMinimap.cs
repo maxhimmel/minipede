@@ -5,7 +5,7 @@ using Zenject;
 
 namespace Minipede.Gameplay.UI
 {
-	public class WorldspaceMinimap : Minimap
+	public class WorldspaceMinimap : MinimapWidget
 	{
 		[SerializeField] private bool _isRadial;
 		[SerializeField] private bool _isCanvasWorldspace = true;
@@ -24,7 +24,7 @@ namespace Minipede.Gameplay.UI
 				&& _explorer.Pawn != null;
 		}
 
-		protected override void UpdateMap()
+		protected override void UpdateMarkers()
 		{
 			FollowExplorer();
 
@@ -35,7 +35,7 @@ namespace Minipede.Gameplay.UI
 
 			foreach ( var avatar in _markers.Keys )
 			{
-				var avatarPos = avatar.transform.position.ToVector2();
+				var avatarPos = avatar.Avatar.position.ToVector2();
 				var markerDir = avatarPos - explorerPos;
 				var markerPos = new Vector2()
 				{
@@ -57,10 +57,9 @@ namespace Minipede.Gameplay.UI
 
 				((RectTransform)(marker.transform)).anchoredPosition = markerPos;
 
-				if ( marker.CanRotate )
-				{
-					marker.transform.rotation = markerPos.ToLookRotation();
-				}
+				marker.transform.rotation = marker.CanRotate
+					? markerPos.ToLookRotation()
+					: Quaternion.identity;
 			}
 		}
 

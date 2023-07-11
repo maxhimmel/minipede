@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Minipede.Gameplay.Minimap;
 using Minipede.Gameplay.UI;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,9 +12,8 @@ namespace Minipede.Installers
     {
 		[SerializeField] private WaveTimelineVisuals.Settings _waveTimeline;
 
-		[FoldoutGroup( "Minimap" )]
-		[SerializeField] private List<MinimapMarkerFactoryBus.PoolSettings> _minimapMarkers;
-
+		[FoldoutGroup( "Spawn Warning" )]
+		[SerializeField] private EnemySpawnMarkerFactoryBus.LogLevel _enemySpawnLogLevel;
 		[FoldoutGroup( "Spawn Warning" )]
 		[SerializeField] private EnemySpawnMarkerFactoryBus.PoolSettings _enemySpawnMarker;
 
@@ -23,19 +23,25 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _waveTimeline );
 
-			Container.BindInterfacesAndSelfTo<MinimapMarkerFactoryBus>()
-				.AsSingle()
-				.WithArguments( _minimapMarkers );
-
 			/* --- */
 
 			Container.BindInterfacesAndSelfTo<EnemySpawnMarkerFactoryBus>()
 				.AsSingle()
-				.WithArguments( new List<EnemySpawnMarkerFactoryBus.PoolSettings>() { _enemySpawnMarker } );
+				.WithArguments( new EnemySpawnMarkerFactoryBus.Settings()
+				{
+					PreExistLog = _enemySpawnLogLevel,
+					Pools = new List<EnemySpawnMarkerFactoryBus.PoolSettings>() { _enemySpawnMarker }
+				} );
+				
 
 			Container.BindInterfacesTo<EnemySpawnWarningWidget>()
 				.AsSingle()
 				.WithArguments( new EnemySpawnWarningWidget.Settings() { MarkerPrefab = _enemySpawnMarker.Prefab } );
+
+			/* --- */
+
+			Container.Bind<MinimapModel>()
+				.AsSingle();
 		}
 	}
 }

@@ -863,7 +863,7 @@ GameObject:
   - component: {fileID: 5435900557562183208}
   - component: {fileID: 3267869182735405064}
   - component: {fileID: 3410628338234249984}
-  - component: {fileID: 7719752100849018218}
+  - component: {fileID: 4003039144944354421}
   m_Layer: 5
   m_Name: Gems
   m_TagString: Untagged
@@ -937,10 +937,11 @@ MonoBehaviour:
   _scriptableObjectInstallers: []
   _monoInstallers:
   - {fileID: 5399765041812088734}
+  - {fileID: 4003039144944354421}
   _installerPrefabs: []
   _autoRun: 1
   _kernel: {fileID: 0}
---- !u!114 &7719752100849018218
+--- !u!114 &4003039144944354421
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -949,15 +950,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1725474932265010825}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0166d8ff8d905b048b2448179e1f5d11, type: 3}
+  m_Script: {fileID: 11500000, guid: 73dfda461152b7b4db9a865d839aedf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _components:
   - {fileID: 7866498412998774134}
   - {fileID: 4066062881212917227}
   _identifier: 
-  _useSceneContext: 0
-  _context: {fileID: 0}
   _bindType: 0
 --- !u!1 &1881746912736110116
 GameObject:

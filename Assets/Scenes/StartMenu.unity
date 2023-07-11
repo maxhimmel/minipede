@@ -1350,7 +1350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b754045155b710f4e8b7efe6f5c9a3ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _entryLevel: Scene 1-1
+  _entryLevel: Scene 0-1
   _canvasGroup: {fileID: 926616560}
   _startButton: {fileID: 1765814690}
   _settingsButton: {fileID: 1038585252}

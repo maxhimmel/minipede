@@ -1,12 +1,11 @@
-﻿using Shapes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Minipede.Gameplay.UI
 {
-	public class ShapeRendererColorBlinker : MonoBehaviour
+	public class ColorBlinkerWidget : MonoBehaviour
 	{
-		[SerializeField] private ShapeRenderer _shape;
+		[SerializeField] private MonoColorWidget _widget;
 
 		[BoxGroup( "Settings" )]
 		[SerializeField, HideLabel] private Settings _settings;
@@ -16,7 +15,7 @@ namespace Minipede.Gameplay.UI
 
 		private void Start()
 		{
-			_initialColor = _shape.Color;
+			_initialColor = _widget.Color;
 		}
 
 		private void OnEnable()
@@ -35,7 +34,7 @@ namespace Minipede.Gameplay.UI
 			float lerp = time / totalBlinkCycleDuration;
 			Color newColor = Color.Lerp( _initialColor, _settings.Color, lerp );
 
-			_shape.Color = newColor;
+			_widget.SetColor( newColor );
 		}
 
 		[System.Serializable]

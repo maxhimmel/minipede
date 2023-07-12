@@ -369,6 +369,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3939424373617636101, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: _pollutionSettings.WinPercentage
+      value: 0.55
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424373617636101, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: _levelSettings.RowGeneration._items.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424373617636101, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: _levelSettings.RowGeneration._items.Array.data[0]._normalizedWeight
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424373617636101, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: _levelSettings.RowGeneration._items.Array.data[1]._normalizedWeight
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424373617636101, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: _levelSettings.RowGeneration._items.Array.data[2]._normalizedWeight
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3939424373617636101, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
+      propertyPath: _levelSettings.RowGeneration._items.Array.data[3]._normalizedWeight
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 3939424373619522591, guid: a613272194e1b484f9c8d6d54647693e, type: 3}
       propertyPath: _endGameSettings.NextLevelName
       value: Scene 1-1

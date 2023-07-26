@@ -1,0 +1,87 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3568790529560745546
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8807341101252389148, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_Name
+      value: Projectile_ExtraBouncy
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8989135174480422560, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066296986510149754, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: _damageHandlers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066296986510149754, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: _damageHandlers.Array.data[0]
+      value: 8773330401866285057
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066296986510149754, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: _damageHandlers.Array.data[1]
+      value: 8773330401866285057
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066296986510149754, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: managedReferences[8773330401866285057]
+      value: Minipede Minipede.Gameplay.Weapons.ProjectileBounceHandler/Settings
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066296986510149754, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: managedReferences[8773330401866285057].Bounces
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066296986510149754, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: managedReferences[8773330401866285057].Bounciness
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9066296986510149754, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}
+      propertyPath: managedReferences[8773330401866285057].IsUnlimited
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8dfb5461df0360641ad0bef98de0e307, type: 3}

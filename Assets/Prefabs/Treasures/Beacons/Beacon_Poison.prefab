@@ -46,7 +46,7 @@ PrefabInstance:
     - target: {fileID: 562353908898730655, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: _sampler.Prefabs.Array.data[0]
       value: 
-      objectReference: {fileID: 4929814723182570160, guid: 97e6dbcfa5b3a85489ade8c0a578b5e5, type: 3}
+      objectReference: {fileID: 5792442390667723769, guid: 5f921c7f09aaddb4ba82c9a756a254d7, type: 3}
     - target: {fileID: 1167896899692391568, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
       value: 0.25098038
@@ -134,6 +134,30 @@ PrefabInstance:
     - target: {fileID: 1530993560611149911, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: m_Name
       value: Beacon_Poison
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203265182130154400, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203265182130154400, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203265182130154400, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203265182130154400, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203265182130154400, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203265182130154400, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3658312417446665557, guid: a0b6884e719a37b4cbcd3744e846562d, type: 3}
       propertyPath: _sampler.Prefabs.Array.size

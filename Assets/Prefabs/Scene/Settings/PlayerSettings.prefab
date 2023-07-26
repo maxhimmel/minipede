@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerSettings:
-    ShipPrefab: {fileID: 6378720964115801289, guid: 6e94192d214948143a4ff9f4f50c4fcb, type: 3}
+    ShipPrefab: {fileID: 2606052675341511317, guid: 1fa44167042387f4caa97bb3b51c8972, type: 3}
     ExplorerPrefab: {fileID: 6295317173650423721, guid: e0aa3e4d8444a6549b25836ce7001373, type: 3}
     SpawnPointId: PlayerSpawn
     RespawnDelay: 1

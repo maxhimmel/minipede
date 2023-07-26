@@ -53,7 +53,7 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 1032
     Type:
-      rid: 5904237223658913793
+      rid: 8773330426357612544
   _poisonTrail:
     InitialPoolSize: 300
     Prefab: {fileID: 709626158554325588, guid: 5dd7133e9e856aa4399ff89acbe2028e, type: 3}
@@ -196,5 +196,7 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 5904237223658913793
-      type: {class: KillInvoker/Settings, ns: Minipede.Gameplay, asm: Minipede}
+    - rid: 8773330426357612544
+      type: {class: DamageInvoker/Settings, ns: Minipede.Gameplay, asm: Minipede}
+      data:
+        Damage: 10

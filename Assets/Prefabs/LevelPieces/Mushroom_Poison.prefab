@@ -206,7 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93850e656ceaa6a478ad0c2637f798ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _balances: {fileID: 11400000, guid: 12bef4cd7635ed543bf98c2e47baa00e, type: 2}
+  _balances: {fileID: 11400000, guid: 8dc9b7bb6066b6044b668ec315dcb2d0, type: 2}
 --- !u!114 &7223752588216721313
 MonoBehaviour:
   m_ObjectHideFlags: 0

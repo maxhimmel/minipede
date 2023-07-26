@@ -1,0 +1,123 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3012824085522464414
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 355851429713502089, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_Name
+      value: Gun_SMG_Upgrade_Laser
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 355851429713502090, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: _settings.Gun.ProjectileSpeed
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: _settings.Gun.Modules.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: _settings.Gun.Modules.Array.data[2]
+      value: 5904237243981627396
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627396].Impulse
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627394].FireRate
+      value: 0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[8667173491517161475].FuseDuration
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627395].MaxAngleOverRecoil.m_Curve.Array.data[1].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627395].MaxAngleOverRecoil.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627395].MaxAngleOverRecoil.m_Curve.Array.data[0].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627395].MaxAngleOverRecoil.m_Curve.Array.data[1].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627395].MaxAngleOverRecoil.m_Curve.Array.data[2].inSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627395].MaxAngleOverRecoil.m_Curve.Array.data[0].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627395].MaxAngleOverRecoil.m_Curve.Array.data[1].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627395].MaxAngleOverRecoil.m_Curve.Array.data[2].outSlope
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627395].MaxAngleOverRecoil.m_Curve.Array.data[1].outWeight
+      value: 0.24479273
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929814723182570160, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}
+      propertyPath: managedReferences[5904237243981627395].MaxAngleOverRecoil.m_Curve.Array.data[2].tangentMode
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 72a02225cfd8f1c458cd5e520e68a1b3, type: 3}

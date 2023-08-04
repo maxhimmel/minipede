@@ -165,6 +165,7 @@ namespace Minipede.Gameplay.Treasures
 	}
 	public class CreateBeaconSignal
 	{
+		public ResourceType Resource;
 	}
 
 	public class BeaconCreationProcessChangedSignal

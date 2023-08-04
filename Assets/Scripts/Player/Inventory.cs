@@ -12,11 +12,10 @@ namespace Minipede.Gameplay.Player
 		/// The amount of gems required to craft a beacon.
 		/// </summary>
 		public int GemsToBeacons => _settings.GemsToBeacon;
+		public ResourceType Resource => _resourceType;
 
 		private readonly Settings _settings;
 		private readonly Wallet _wallet;
-		private readonly BeaconFactoryBus _beaconFactory;
-		private readonly ShipController _shipController;
 		private readonly SignalBus _signalBus;
 
 		private ResourceType _resourceType;
@@ -24,27 +23,21 @@ namespace Minipede.Gameplay.Player
 
 		public Inventory( Settings settings,
 			Wallet wallet,
-			BeaconFactoryBus beaconFactory,
-			ShipController shipController,
 			SignalBus signalBus )
 		{
 			_settings = settings;
 			_wallet = wallet;
-			_beaconFactory = beaconFactory;
-			_shipController = shipController;
 			_signalBus = signalBus;
 		}
 
 		public void Dispose()
 		{
 			_signalBus.TryUnsubscribe<BeaconTypeSelectedSignal>( OnBeaconTypeSelected );
-			_signalBus.TryUnsubscribe<CreateBeaconSignal>( OnCreateBeacon );
 		}
 
 		public void Initialize()
 		{
 			_signalBus.Subscribe<BeaconTypeSelectedSignal>( OnBeaconTypeSelected );
-			_signalBus.Subscribe<CreateBeaconSignal>( OnCreateBeacon );
 		}
 
 		private void OnBeaconTypeSelected( BeaconTypeSelectedSignal signal )
@@ -52,15 +45,10 @@ namespace Minipede.Gameplay.Player
 			_resourceType = signal.ResourceType;
 		}
 
-		private void OnCreateBeacon( CreateBeaconSignal signal )
+		public void SpendGemsOnBeacon( ResourceType beaconType )
 		{
-			var spawnOrientation = _shipController.Pawn.Orientation;
-			var newBeacon = _beaconFactory.Create( _resourceType, spawnOrientation );
-
-			_shipController.Pawn.Collect( newBeacon );
-
-			int remainingAmount = _wallet.Spend( _resourceType, _settings.GemsToBeacon );
-			FireBeaconCreationStateChangedSignal( _resourceType, remainingAmount );
+			int remainingAmount = _wallet.Spend( beaconType, _settings.GemsToBeacon );
+			FireBeaconCreationStateChangedSignal( beaconType, remainingAmount );
 
 			_resourceType = null;
 			_signalBus.TryFire( new BeaconTypeSelectedSignal() );

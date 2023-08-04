@@ -11,6 +11,7 @@ namespace Minipede.Gameplay.Player
 		public float NormalizedCraftTime => Mathf.Clamp01( _craftingTimer / _settings.ConfirmDuration );
 
 		private readonly Settings _settings;
+		private readonly Inventory _inventory;
 		private readonly SignalBus _signalBus;
 		private readonly Dictionary<Vector2, ResourceType> _directionToResource;
 
@@ -20,9 +21,11 @@ namespace Minipede.Gameplay.Player
 		private bool _isCrafting;
 
 		public CraftingModel( Settings settings,
+			Inventory inventory,
 			SignalBus signalBus )
 		{
 			_settings = settings;
+			_inventory = inventory;
 			_signalBus = signalBus;
 
 			_directionToResource = new Dictionary<Vector2, ResourceType>()
@@ -65,12 +68,16 @@ namespace Minipede.Gameplay.Player
 				return false;
 			}
 
+			_signalBus.TryFire( new CreateBeaconSignal()
+			{
+				Resource = _selectedResource
+			} );
+
 			_isCrafting = false;
 			_craftingTimer = 0;
 			_selectedResource = null;
 			_selectionDirection = Vector2.zero;
 
-			_signalBus.TryFire( new CreateBeaconSignal() );
 			return true;
 		}
 
@@ -103,6 +110,11 @@ namespace Minipede.Gameplay.Player
 			}
 
 			var resource = GetBeaconType( resourceDirection );
+			if ( !_inventory.CanCraftBeacon( resource ) )
+			{
+				return;
+			}
+
 			if ( resource != _selectedResource )
 			{
 				_selectedResource = resource;

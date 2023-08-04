@@ -27,7 +27,8 @@ namespace Minipede.Gameplay.Fx
 
 			while ( timer < 1 )
 			{
-				timer += Time.deltaTime / data.Duration;
+				float delta = data.UseUnscaledTime ? Time.unscaledDeltaTime : Time.deltaTime;
+				timer += delta / data.Duration;
 
 				float curveTime = Mathf.Lerp( 0, curveDuration, timer );
 				float scalar = data.Curve.Evaluate( curveTime ) * data.Scale;
@@ -54,6 +55,7 @@ namespace Minipede.Gameplay.Fx
 			public float Scale;
 			public float Duration;
 			public bool ResetScale = true;
+			public bool UseUnscaledTime;
 
 			[InfoBox( "This is additively applied to the current scale." )]
 			public AnimationCurve Curve;

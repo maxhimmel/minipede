@@ -224,6 +224,14 @@ namespace Minipede.Gameplay.Player
 			_equippedGunModel.Gun.StopFiring();
 		}
 
+		public void StopMoving()
+		{
+			_isMoveInputConsumed = true;
+			_moveInput = Vector2.zero;
+
+			_motor.SetDesiredVelocity( Vector2.zero );
+		}
+
 		public void AddMoveInput( Vector2 input )
 		{
 			_isMoveInputConsumed = false;

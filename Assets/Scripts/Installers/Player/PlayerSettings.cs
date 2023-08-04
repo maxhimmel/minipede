@@ -48,7 +48,8 @@ namespace Minipede.Installers
 				.ByMethod( subContainer =>
 				{
 					subContainer.Bind<ShipController>()
-						.AsSingle();
+						.AsSingle()
+						.WithArguments( _playerSettings.Ship );
 
 					subContainer.BindInterfacesTo<CameraToggler>()
 						.AsSingle()
@@ -141,6 +142,9 @@ namespace Minipede.Installers
 			public string SpawnPointId;
 			[FoldoutGroup( "Spawning" )]
 			public float RespawnDelay;
+
+			[FoldoutGroup( "Ship" ), HideLabel]
+			public ShipController.Settings Ship;
 
 			[FoldoutGroup( "Explorer" ), HideLabel]
 			public MushroomInteractionHandler.Settings Explorer;

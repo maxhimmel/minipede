@@ -1,8 +1,10 @@
 using System;
 using Minipede.Gameplay.Cameras;
+using Minipede.Gameplay.Treasures;
 using Minipede.Utility;
 using Rewired;
 using UnityEngine;
+using Zenject;
 
 namespace Minipede.Gameplay.Player
 {
@@ -14,19 +16,29 @@ namespace Minipede.Gameplay.Player
 
 		public Ship Pawn => _ship;
 
+		private readonly Settings _settings;
 		private readonly Rewired.Player _input;
 		private readonly ICameraToggler _cameraToggler;
+		private readonly CraftingModel _craftingModel;
 		private readonly TimeController _timeController;
+		private readonly SignalBus _signalBus;
 
 		private Ship _ship;
+		private bool _isCraftingOpen;
 
-		public ShipController( Rewired.Player input,
+		public ShipController( Settings settings,
+			Rewired.Player input,
 			ICameraToggler cameraToggler,
-			TimeController timeController )
+			CraftingModel craftingModel,
+			TimeController timeController,
+			SignalBus signalBus )
 		{
+			_settings = settings;
 			_input = input;
 			_cameraToggler = cameraToggler;
+			_craftingModel = craftingModel;
 			_timeController = timeController;
+			_signalBus = signalBus;
 		}
 
 		public void UnPossess()
@@ -39,6 +51,8 @@ namespace Minipede.Gameplay.Player
 			_input.RemoveInputEventDelegate( OnStopFiring );
 			_input.RemoveInputEventDelegate( OnExitShip );
 			_input.RemoveInputEventDelegate( OnShowInventory );
+
+			_signalBus.Unsubscribe<CreateBeaconSignal>( OnBeaconCreated );
 
 			_ship.UnPossess();
 			_ship = null;
@@ -55,8 +69,10 @@ namespace Minipede.Gameplay.Player
 			_input.AddButtonPressedDelegate( OnStartFiring, ReConsts.Action.Fire );
 			_input.AddButtonReleasedDelegate( OnStopFiring, ReConsts.Action.Fire );
 			_input.AddButtonPressedDelegate( OnExitShip, ReConsts.Action.Interact );
-			_input.AddButtonPressedDelegate( OnShowInventory, ReConsts.Action.Inventory );
-			_input.AddButtonPressedDelegate( OnShowInventory, ReConsts.Action.Loadout );
+			_input.AddButtonPressedDelegate( OnShowInventory, ReConsts.Action.Eject ); // TODO: Better name for this action?
+			_input.AddButtonReleasedDelegate( OnHideInventory, ReConsts.Action.Eject );
+
+			_signalBus.Subscribe<CreateBeaconSignal>( OnBeaconCreated );
 
 			pawn.PossessedBy( this );
 			_cameraToggler.Activate();
@@ -74,26 +90,59 @@ namespace Minipede.Gameplay.Player
 
 		private void OnMoveHorizontal( InputActionEventData data )
 		{
-			_ship.AddMoveInput( Vector2.right * data.GetAxis() );
+			var direction = Vector2.right * data.GetAxis();
+			if ( !_isCraftingOpen )
+			{
+				_ship.AddMoveInput( direction );
+			}
+			else
+			{
+				_craftingModel.AddBeaconSelectionInput( direction );
+			}
 		}
 
 		private void OnMoveVertical( InputActionEventData data )
 		{
-			_ship.AddMoveInput( Vector2.up * data.GetAxis() );
+			var direction = Vector2.up * data.GetAxis();
+			if ( !_isCraftingOpen )
+			{
+				_ship.AddMoveInput( direction );
+			}
+			else
+			{
+				_craftingModel.AddBeaconSelectionInput( direction );
+			}
 		}
 
 		private void OnStartFiring( InputActionEventData obj )
 		{
+			if ( _isCraftingOpen )
+			{
+				_craftingModel.StartCrafting();
+				return;
+			}
+
 			_ship.StartFiring();
 		}
 
 		private void OnStopFiring( InputActionEventData obj )
 		{
+			if ( _isCraftingOpen )
+			{
+				_craftingModel.StopCrafting();
+				return;
+			}
+
 			_ship.StopFiring();
 		}
 
 		private void OnExitShip( InputActionEventData obj )
 		{
+			if ( _isCraftingOpen )
+			{
+				return;
+			}
+
 			var ship = _ship;
 
 			UnPossess();
@@ -104,12 +153,34 @@ namespace Minipede.Gameplay.Player
 
 		private void OnShowInventory( InputActionEventData obj )
 		{
-			bool isVisible = _ship.ToggleInventory();
+			if ( _ship.TryShowInventory() )
+			{
+				_isCraftingOpen = true;
+				_ship.StopMoving();
 
-			_timeController.SetTimeScale( isVisible ? 0 : 1 );
+				_timeController.SetTimeScale( _settings.CraftingSlomo );
+			}
+		}
 
-			_input.EnableMapRuleSet( nameof( ReConsts.MapEnablerRuleSet.UI ), isVisible );
-			_input.EnableMapRuleSet( nameof( ReConsts.MapEnablerRuleSet.Gameplay ), !isVisible );
+		private void OnHideInventory( InputActionEventData obj )
+		{
+			if ( _ship.TryHideInventory() )
+			{
+				_isCraftingOpen = false;
+				_timeController.SetTimeScale( 1 );
+			}
+		}
+
+		private void OnBeaconCreated( CreateBeaconSignal signal )
+		{
+			OnHideInventory( new InputActionEventData() );
+		}
+
+		[System.Serializable]
+		public class Settings
+		{
+			[Range( 0, 1 )]
+			public float CraftingSlomo = 0.05f;
 		}
 	}
 }

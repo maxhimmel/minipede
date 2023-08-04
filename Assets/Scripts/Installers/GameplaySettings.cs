@@ -136,6 +136,8 @@ namespace Minipede.Installers
 				.OptionalSubscriber();
 			Container.DeclareSignal<BeaconTypeSelectedSignal>()
 				.OptionalSubscriber();
+			Container.DeclareSignal<BeaconCreationProcessChangedSignal>()
+				.OptionalSubscriber();
 			Container.DeclareSignal<ToggleInventorySignal>()
 				.OptionalSubscriber();
 

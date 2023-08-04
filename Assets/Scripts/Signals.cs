@@ -161,9 +161,15 @@ namespace Minipede.Gameplay.Treasures
 	public class BeaconTypeSelectedSignal
 	{
 		public ResourceType ResourceType;
+		public Vector2 SelectDirection;
 	}
 	public class CreateBeaconSignal
 	{
+	}
+
+	public class BeaconCreationProcessChangedSignal
+	{
+		public float NormalizedTime;
 	}
 
 	public class BeaconCreationStateChangedSignal

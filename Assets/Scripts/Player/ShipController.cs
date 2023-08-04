@@ -60,6 +60,7 @@ namespace Minipede.Gameplay.Player
 
 			_signalBus.Unsubscribe<CreateBeaconSignal>( OnBeaconCreated );
 
+			_ship.CollectedGem -= OnGemCollected;
 			_ship.UnPossess();
 			_ship = null;
 
@@ -80,6 +81,7 @@ namespace Minipede.Gameplay.Player
 
 			_signalBus.Subscribe<CreateBeaconSignal>( OnBeaconCreated );
 
+			_ship.CollectedGem += OnGemCollected;
 			pawn.PossessedBy( this );
 			_cameraToggler.Activate();
 
@@ -185,6 +187,11 @@ namespace Minipede.Gameplay.Player
 			_ship.Collect( beacon );
 
 			OnHideInventory( new InputActionEventData() );
+		}
+
+		private void OnGemCollected( Treasure treasure )
+		{
+			_inventory.Collect( treasure.Resource, treasure.Body.position );
 		}
 
 		[System.Serializable]

@@ -34,6 +34,7 @@ namespace Minipede.Gameplay.Player
 			add => _damageController.Died += value;
 			remove => _damageController.Died -= value;
 		}
+		public event System.Action<Treasure> CollectedGem;
 
 		public HealthController Health => _damageController.Health;
 		public Rigidbody2D Body => _body;
@@ -47,7 +48,6 @@ namespace Minipede.Gameplay.Player
 		private Rigidbody2D _body;
 		private IDamageController _damageController;
 		private Settings _settings;
-		private Inventory _inventory;
 		private Gun.Factory _gunFactory;
 		private ShipShrapnel.Factory _shrapnelFactory;
 		private MinimapModel _minimap;
@@ -72,7 +72,6 @@ namespace Minipede.Gameplay.Player
 			IDamageController damageController,
 			Settings settings,
 			Rigidbody2D body,
-			Inventory inventory,
 			Gun.Factory gunFactory,
 			ShipShrapnel.Factory shrapnelFactory,
 			MinimapModel minimap,
@@ -88,7 +87,6 @@ namespace Minipede.Gameplay.Player
 			_damageController = damageController;
 			_settings = settings;
 			_body = body;
-			_inventory = inventory;
 			_gunFactory = gunFactory;
 			_shrapnelFactory = shrapnelFactory;
 			_minimap = minimap;
@@ -289,7 +287,7 @@ namespace Minipede.Gameplay.Player
 				return false;
 			}
 
-			_inventory.Collect( treasure.Resource, treasure.Body.position );
+			CollectedGem?.Invoke( treasure );
 			treasure.Dispose();
 
 			return true;

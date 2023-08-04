@@ -18,6 +18,7 @@ namespace Minipede.Installers
 	public class GameplaySettings : MonoInstaller
 	{
 		[SerializeField] private ResourceType[] _resourceTypes;
+		[SerializeField] private Crafting _crafting;
 		[SerializeField] private Beacon _beaconSettings;
 		[SerializeField] private LevelStartSequenceController.Settings _startGameSettings;
 		[SerializeField] private EndGameController.Settings _endGameSettings;
@@ -48,12 +49,27 @@ namespace Minipede.Installers
 				.AsSingle()
 				.WithArguments( _endGameSettings );
 
+			BindCrafting();
 			BindCameraSystems();
 			BindTreasure();
 			BindAudio();
 			BindFxPool();
 
 			DeclareSignals();
+		}
+
+		private void BindCrafting()
+		{
+			Container.Bind<CraftingModel>()
+				.AsSingle()
+				.WithArguments( new CraftingModel.Settings()
+				{
+					Resources = _resourceTypes,
+					ConfirmDuration = _crafting.ConfirmDuration
+				} );
+
+			Container.BindInterfacesAndSelfTo<CraftingController>()
+				.AsSingle();
 		}
 
 		private void BindCameraSystems()
@@ -154,6 +170,13 @@ namespace Minipede.Installers
 				.OptionalSubscriber();
 			Container.DeclareSignal<HUDOnlineSignal>()
 				.OptionalSubscriber();
+		}
+
+		[System.Serializable]
+		public class Crafting
+		{
+			[MinValue( 0 )]
+			public float ConfirmDuration = 1;
 		}
 
 		[System.Serializable]

@@ -1,48 +1,59 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using Minipede.Gameplay.Treasures;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
 namespace Minipede.Gameplay.Player
 {
-	public class Inventory : IInitializable,
-		IDisposable
+	public class Inventory : ILateTickable
 	{
 		/// <summary>
 		/// The amount of gems required to craft a beacon.
 		/// </summary>
 		public int GemsToBeacons => _settings.GemsToBeacon;
-		public ResourceType Resource => _resourceType;
+		public ResourceType Resource => _selectedResource;
+		public float NormalizedCraftTime => Mathf.Clamp01( _craftingTimer / _settings.ConfirmCraftDuration );
 
 		private readonly Settings _settings;
 		private readonly Wallet _wallet;
 		private readonly SignalBus _signalBus;
+		private readonly Dictionary<Vector2, ResourceType> _directionToResource;
 
-		private ResourceType _resourceType;
+		private ResourceType _selectedResource;
 		private bool _isVisible;
+		private Vector2 _selectionDirection;
+		private float _craftingTimer;
+		private bool _isCrafting;
 
 		public Inventory( Settings settings,
 			Wallet wallet,
+			ResourceType[] resources,
 			SignalBus signalBus )
 		{
 			_settings = settings;
 			_wallet = wallet;
 			_signalBus = signalBus;
+
+			Debug.Assert( resources.Length == 4, "Expecting 4 resource types." );
+			_directionToResource = new Dictionary<Vector2, ResourceType>()
+			{
+				{ Vector2.up,		resources[0] },
+				{ Vector2.right,    resources[1] },
+				{ Vector2.down,     resources[2] },
+				{ Vector2.left,     resources[3] }
+			};
 		}
 
-		public void Dispose()
+		public void SelectResourceType( ResourceType resourceType, Vector2 direction = default )
 		{
-			_signalBus.TryUnsubscribe<BeaconTypeSelectedSignal>( OnBeaconTypeSelected );
-		}
+			_selectedResource = resourceType;
 
-		public void Initialize()
-		{
-			_signalBus.Subscribe<BeaconTypeSelectedSignal>( OnBeaconTypeSelected );
-		}
-
-		private void OnBeaconTypeSelected( BeaconTypeSelectedSignal signal )
-		{
-			_resourceType = signal.ResourceType;
+			_signalBus.TryFire( new BeaconTypeSelectedSignal()
+			{
+				ResourceType = _selectedResource,
+				SelectDirection = direction
+			} );
 		}
 
 		public void SpendGemsOnBeacon( ResourceType beaconType )
@@ -50,8 +61,8 @@ namespace Minipede.Gameplay.Player
 			int remainingAmount = _wallet.Spend( beaconType, _settings.GemsToBeacon );
 			FireBeaconCreationStateChangedSignal( beaconType, remainingAmount );
 
-			_resourceType = null;
-			_signalBus.TryFire( new BeaconTypeSelectedSignal() );
+			_selectedResource = null;
+			SelectResourceType( null );
 		}
 
 		public void Collect( ResourceType resource, Vector2 collectionSource )
@@ -114,7 +125,7 @@ namespace Minipede.Gameplay.Player
 				IsVisible = false
 			} );
 
-			_signalBus.TryFire( new BeaconTypeSelectedSignal() );
+			SelectResourceType( null );
 
 			return true;
 		}
@@ -130,11 +141,115 @@ namespace Minipede.Gameplay.Player
 			return _wallet.GetAmount( resource );
 		}
 
+		public void StartCrafting()
+		{
+			_isCrafting = true;
+		}
+
+		public void StopCrafting()
+		{
+			_isCrafting = false;
+		}
+
+		/// <returns>True when a beacon is crafted.</returns>
+		public bool UpdateCraftingTimer()
+		{
+			if ( !_isCrafting && _craftingTimer <= 0 )
+			{
+				return false;
+			}
+
+			int direction = _isCrafting ? 1 : -1;
+			_craftingTimer += Time.unscaledDeltaTime * direction;
+
+			_signalBus.TryFire( new BeaconCreationProcessChangedSignal()
+			{
+				NormalizedTime = NormalizedCraftTime
+			} );
+
+			if ( _craftingTimer < _settings.ConfirmCraftDuration )
+			{
+				return false;
+			}
+
+			_signalBus.TryFire( new CreateBeaconSignal()
+			{
+				Resource = _selectedResource
+			} );
+
+			_isCrafting = false;
+			_craftingTimer = 0;
+			_selectedResource = null;
+			_selectionDirection = Vector2.zero;
+
+			return true;
+		}
+
+		public void AddBeaconSelectionInput( Vector2 direction )
+		{
+			_selectionDirection += direction;
+		}
+
+		public void SelectBeacon()
+		{
+			if ( _selectionDirection == Vector2.zero )
+			{
+				return;
+			}
+
+			var selectDir = _selectionDirection.normalized;
+			_selectionDirection = Vector2.zero;
+
+			float greatestAlignment = 0;
+			Vector2 resourceDirection = Vector2.zero;
+
+			foreach ( var direction in _directionToResource.Keys )
+			{
+				float alignment = Vector2.Dot( selectDir, direction );
+				if ( greatestAlignment < alignment )
+				{
+					greatestAlignment = alignment;
+					resourceDirection = direction;
+				}
+			}
+
+			var resource = GetBeaconType( resourceDirection );
+			if ( !CanCraftBeacon( resource ) )
+			{
+				return;
+			}
+
+			if ( resource != _selectedResource )
+			{
+				_selectedResource = resource;
+				_craftingTimer = 0;
+
+				_signalBus.TryFire( new BeaconCreationProcessChangedSignal() );
+
+				SelectResourceType( _selectedResource, resourceDirection );
+			}
+		}
+
+		public ResourceType GetBeaconType( Vector2 direction )
+		{
+			_directionToResource.TryGetValue( direction, out var result );
+			return result;
+		}
+
+		public void LateTick()
+		{
+			SelectBeacon();
+			UpdateCraftingTimer();
+		}
+
 		[System.Serializable]
 		public class Settings
 		{
 			[Tooltip( "The amount of gems required to create 1 beacon." )]
 			public int GemsToBeacon;
+
+			[MinValue( 0 )]
+			public float ConfirmCraftDuration = 1;
 		}
 	}
 }

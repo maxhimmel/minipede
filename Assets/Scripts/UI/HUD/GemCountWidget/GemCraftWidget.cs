@@ -1,3 +1,4 @@
+using Minipede.Gameplay.Player;
 using Minipede.Gameplay.Treasures;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,21 +11,18 @@ namespace Minipede.Gameplay.UI
 		[SerializeField] private Button _button;
 
 		private ResourceType _resource;
-		private SignalBus _signalBus;
+		private Inventory _inventory;
 
 		[Inject]
 		public void Construct( ResourceType resource,
-			SignalBus signalBus )
+			Inventory inventory )
 		{
 			_resource = resource;
-			_signalBus = signalBus;
+			_inventory = inventory;
 
 			_button.onClick.AddListener( () =>
 			{
-				_signalBus.TryFire( new BeaconTypeSelectedSignal()
-				{
-					ResourceType = _resource
-				} );
+				_inventory.SelectResourceType( _resource );
 			} );
 		}
 	}

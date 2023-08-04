@@ -21,7 +21,6 @@ namespace Minipede.Gameplay.Player
 		private readonly ICameraToggler _cameraToggler;
 		private readonly BeaconFactoryBus _beaconFactory;
 		private readonly Inventory _inventory;
-		private readonly CraftingModel _craftingModel;
 		private readonly TimeController _timeController;
 		private readonly SignalBus _signalBus;
 
@@ -33,7 +32,6 @@ namespace Minipede.Gameplay.Player
 			ICameraToggler cameraToggler,
 			BeaconFactoryBus beaconFactory,
 			Inventory inventory,
-			CraftingModel craftingModel,
 			TimeController timeController,
 			SignalBus signalBus )
 		{
@@ -42,7 +40,6 @@ namespace Minipede.Gameplay.Player
 			_cameraToggler = cameraToggler;
 			_beaconFactory = beaconFactory;
 			_inventory = inventory;
-			_craftingModel = craftingModel;
 			_timeController = timeController;
 			_signalBus = signalBus;
 		}
@@ -105,7 +102,7 @@ namespace Minipede.Gameplay.Player
 			}
 			else
 			{
-				_craftingModel.AddBeaconSelectionInput( direction );
+				_inventory.AddBeaconSelectionInput( direction );
 			}
 		}
 
@@ -118,7 +115,7 @@ namespace Minipede.Gameplay.Player
 			}
 			else
 			{
-				_craftingModel.AddBeaconSelectionInput( direction );
+				_inventory.AddBeaconSelectionInput( direction );
 			}
 		}
 
@@ -126,7 +123,7 @@ namespace Minipede.Gameplay.Player
 		{
 			if ( _isCraftingOpen )
 			{
-				_craftingModel.StartCrafting();
+				_inventory.StartCrafting();
 				return;
 			}
 
@@ -137,7 +134,7 @@ namespace Minipede.Gameplay.Player
 		{
 			if ( _isCraftingOpen )
 			{
-				_craftingModel.StopCrafting();
+				_inventory.StopCrafting();
 				return;
 			}
 

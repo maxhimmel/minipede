@@ -9,14 +9,14 @@ namespace Minipede.Gameplay.UI
     {
         [SerializeField] private MonoProgressWidget _progress;
 
-		private CraftingModel _craftModel;
+		private Inventory _inventory;
 		private SignalBus _signalBus;
 
         [Inject]
-		public void Construct( CraftingModel craftModel,
+		public void Construct( Inventory inventory,
 			SignalBus signalBus )
 		{
-			_craftModel = craftModel;
+			_inventory = inventory;
             _signalBus = signalBus;
 		}
 
@@ -33,7 +33,7 @@ namespace Minipede.Gameplay.UI
 
 			OnBeaconCreationProcessChanged( new BeaconCreationProcessChangedSignal()
 			{
-				NormalizedTime = _craftModel.NormalizedCraftTime
+				NormalizedTime = _inventory.NormalizedCraftTime
 			} );
 		}
 

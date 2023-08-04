@@ -350,31 +350,10 @@ namespace Minipede.Gameplay.Player
 			}
 		}
 
-		private bool IsBeaconEquipped()
+		public bool IsBeaconEquipped()
 		{
 			return _equippedBeacon != null;
 		}
-
-		public bool ToggleInventory()
-		{
-			return _inventory.ToggleVisibility();
-		}
-
-		public bool TryShowInventory()
-		{
-			if ( IsBeaconEquipped() )
-			{
-				return false;
-			}
-
-			return _inventory.TryShow();
-		}
-
-		public bool TryHideInventory()
-		{
-			return _inventory.TryHide();
-		}
-
 
 		public bool CanBeInteracted()
 		{

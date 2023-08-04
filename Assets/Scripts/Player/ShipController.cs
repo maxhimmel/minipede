@@ -159,7 +159,7 @@ namespace Minipede.Gameplay.Player
 
 		private void OnShowInventory( InputActionEventData obj )
 		{
-			if ( _ship.TryShowInventory() )
+			if ( !_ship.IsBeaconEquipped() && _inventory.TryShow() )
 			{
 				_isCraftingOpen = true;
 				_ship.StopMoving();
@@ -170,7 +170,7 @@ namespace Minipede.Gameplay.Player
 
 		private void OnHideInventory( InputActionEventData obj )
 		{
-			if ( _ship.TryHideInventory() )
+			if ( _inventory.TryHide() )
 			{
 				_isCraftingOpen = false;
 				_timeController.SetTimeScale( 1 );

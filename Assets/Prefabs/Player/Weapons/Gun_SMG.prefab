@@ -133,7 +133,7 @@ MonoBehaviour:
       data:
         AutoReload: 0
         ReloadDuration: 1
-        FuseDuration: 6.5
+        FuseDuration: 4
         FireReduction: 0
 --- !u!114 &2653605355083645132
 MonoBehaviour:

@@ -83,19 +83,52 @@ namespace Minipede.Gameplay.Player
 
 		public bool ToggleVisibility()
 		{
-			_isVisible = !_isVisible;
-
-			_signalBus.TryFire( new ToggleInventorySignal()
-			{
-				IsVisible = _isVisible
-			} );
-
 			if ( !_isVisible )
 			{
-				_signalBus.TryFire( new BeaconTypeSelectedSignal() );
+				TryShow();
+			}
+			else
+			{
+				TryHide();
 			}
 
 			return _isVisible;
+		}
+
+		public bool TryShow()
+		{
+			if ( _isVisible )
+			{
+				return false;
+			}
+
+			_isVisible = true;
+
+			_signalBus.TryFire( new ToggleInventorySignal()
+			{
+				IsVisible = true
+			} );
+
+			return true;
+		}
+
+		public bool TryHide()
+		{
+			if ( !_isVisible )
+			{
+				return false;
+			}
+
+			_isVisible = false;
+
+			_signalBus.TryFire( new ToggleInventorySignal()
+			{
+				IsVisible = false
+			} );
+
+			_signalBus.TryFire( new BeaconTypeSelectedSignal() );
+
+			return true;
 		}
 
 		public bool CanCraftBeacon( ResourceType resource )

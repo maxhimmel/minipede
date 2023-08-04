@@ -352,6 +352,22 @@ namespace Minipede.Gameplay.Player
 			return _inventory.ToggleVisibility();
 		}
 
+		public bool TryShowInventory()
+		{
+			if ( IsBeaconEquipped() )
+			{
+				return false;
+			}
+
+			return _inventory.TryShow();
+		}
+
+		public bool TryHideInventory()
+		{
+			return _inventory.TryHide();
+		}
+
+
 		public bool CanBeInteracted()
 		{
 			if ( _isPiloted )

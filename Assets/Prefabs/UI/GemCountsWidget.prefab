@@ -17736,7 +17736,7 @@ MonoBehaviour:
   _promptElement: {fileID: 1132911709258046313}
   _overrideGlyphSize: 0
   _glyphSize: 40
-  _actionId: 8
+  _actionId: 12
   _type: 1
   _axisRange: 0
   _skipDisabledMaps: 0

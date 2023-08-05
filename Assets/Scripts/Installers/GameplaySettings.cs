@@ -3,22 +3,16 @@ using Minipede.Gameplay.Audio;
 using Minipede.Gameplay.Cameras;
 using Minipede.Gameplay.Fx;
 using Minipede.Gameplay.LevelPieces;
-using Minipede.Gameplay.Player;
 using Minipede.Gameplay.StartSequence;
-using Minipede.Gameplay.Treasures;
 using Minipede.Gameplay.Weapons;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Zenject;
 
-using BeaconActor = Minipede.Gameplay.Treasures.Beacon;
-
 namespace Minipede.Installers
 {
 	public class GameplaySettings : MonoInstaller
 	{
-		[SerializeField] private ResourceType[] _resourceTypes;
-		[SerializeField] private Beacon _beaconSettings;
 		[SerializeField] private LevelStartSequenceController.Settings _startGameSettings;
 		[SerializeField] private EndGameController.Settings _endGameSettings;
 		[SerializeField] private Audio _audioSettings;
@@ -49,7 +43,6 @@ namespace Minipede.Installers
 				.WithArguments( _endGameSettings );
 
 			BindCameraSystems();
-			BindTreasure();
 			BindAudio();
 			BindFxPool();
 
@@ -84,19 +77,6 @@ namespace Minipede.Installers
 				.AsSingle();
 		}
 
-		private void BindTreasure()
-		{
-			foreach ( var beaconFactory in _beaconSettings.Factories )
-			{
-				Container.Bind<BeaconActor.Factory>()
-					.AsCached()
-					.WithArguments( beaconFactory.Prefab, beaconFactory.ResourceType );
-			}
-
-			Container.Bind<BeaconFactoryBus>()
-				.AsSingle();
-		}
-
 		private void BindAudio()
 		{
 			Container.Bind<AudioBankLoader>()
@@ -116,29 +96,6 @@ namespace Minipede.Installers
 
 		private void DeclareSignals()
 		{
-			// Treasure ...
-			foreach ( var resource in _resourceTypes )
-			{
-				Container.DeclareSignal<ResourceAmountChangedSignal>()
-					.WithId( resource )
-					.OptionalSubscriber();
-
-				Container.DeclareSignal<BeaconCreationStateChangedSignal>()
-					.WithId( resource )
-					.OptionalSubscriber();
-			}
-
-			Container.DeclareSignal<BeaconEquippedSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<BeaconUnequippedSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<CreateBeaconSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<BeaconTypeSelectedSignal>()
-				.OptionalSubscriber();
-			Container.DeclareSignal<ToggleInventorySignal>()
-				.OptionalSubscriber();
-
 			// Guns ...
 			Container.DeclareSignal<FireRateStateSignal>()
 				.OptionalSubscriber();
@@ -152,13 +109,6 @@ namespace Minipede.Installers
 				.OptionalSubscriber();
 			Container.DeclareSignal<HUDOnlineSignal>()
 				.OptionalSubscriber();
-		}
-
-		[System.Serializable]
-		public class Beacon
-		{
-			[TableList( AlwaysExpanded = true )]
-			public BeaconFactoryBus.Settings[] Factories;
 		}
 
 		[System.Serializable]

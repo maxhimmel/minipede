@@ -49,6 +49,8 @@ MonoBehaviour:
     ExplorerPrefab: {fileID: 6295317173650423721, guid: e0aa3e4d8444a6549b25836ce7001373, type: 3}
     SpawnPointId: PlayerSpawn
     RespawnDelay: 1
+    Ship:
+      CraftingSlomo: 0.05
     Explorer:
       LighthousePrefab: {fileID: 1717750769360294968, guid: dba92f41fcdafff42981a668cf65b33e, type: 3}
     Hauling:

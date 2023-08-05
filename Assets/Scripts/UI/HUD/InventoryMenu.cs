@@ -19,21 +19,27 @@ namespace Minipede.Gameplay.UI
 		[Header( "Animations" )]
 		[SerializeField] private Vector2 _gemSlideCloseAnchorPos;
 
+		private Inventory _inventory;
 		private SignalBus _signalBus;
 
         [Inject]
-        public void Construct( SignalBus signalBus )
+        public void Construct( Inventory inventory,
+			SignalBus signalBus )
 		{
 			if ( !enabled )
 			{
 				return;
 			}
 
+			_inventory = inventory;
             _signalBus = signalBus;
 
 			_createBeaconButton.onClick.AddListener( () =>
 			{
-				_signalBus.TryFire( new CreateBeaconSignal() );
+				_signalBus.TryFire( new CreateBeaconSignal()
+				{
+					Resource = _inventory.Resource
+				} );
 			} );
 		}
 

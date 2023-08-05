@@ -21,7 +21,6 @@ namespace Minipede.Installers
 			BindFactories();
 			BindControllers();
 			BindExplorerModules();
-			BindInventoryManagement();
 			BindEjectModules();
 		}
 
@@ -48,7 +47,8 @@ namespace Minipede.Installers
 				.ByMethod( subContainer =>
 				{
 					subContainer.Bind<ShipController>()
-						.AsSingle();
+						.AsSingle()
+						.WithArguments( _playerSettings.Ship );
 
 					subContainer.BindInterfacesTo<CameraToggler>()
 						.AsSingle()
@@ -100,22 +100,6 @@ namespace Minipede.Installers
 				.WithArguments( _playerSettings.PlantingBeacon );
 		}
 
-		private void BindInventoryManagement()
-		{
-			Container.Bind<Wallet>()
-				.AsSingle()
-				.WhenInjectedInto<Inventory>();
-
-			Container.BindInterfacesAndSelfTo<Inventory>()
-				.AsSingle()
-				.WithArguments( _playerSettings.Inventory );
-
-			/* --- */
-
-			Container.Bind<EquippedGunModel>()
-				.AsSingle();
-		}
-
 		private void BindEjectModules()
 		{
 			Container.Bind<EjectModel>()
@@ -142,6 +126,9 @@ namespace Minipede.Installers
 			[FoldoutGroup( "Spawning" )]
 			public float RespawnDelay;
 
+			[FoldoutGroup( "Ship" ), HideLabel]
+			public ShipController.Settings Ship;
+
 			[FoldoutGroup( "Explorer" ), HideLabel]
 			public MushroomInteractionHandler.Settings Explorer;
 			[FoldoutGroup( "Explorer" ), Space]
@@ -153,9 +140,6 @@ namespace Minipede.Installers
 			public CameraToggler.Settings ShipCamera;
 			[FoldoutGroup( "Camera" ), LabelText( "Explorer" )]
 			public CameraToggler.Settings ExplorerCamera;
-
-			[FoldoutGroup( "Upgrading" )]
-			public Inventory.Settings Inventory;
 
 			[FoldoutGroup( "Eject" ), HideLabel]
 			public EjectModel.Settings Eject;
